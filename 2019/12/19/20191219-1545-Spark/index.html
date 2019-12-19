@@ -14,11 +14,13 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="Spark 配置01. Spark Repo Pointspark-2.0.2-bin-hadoop2.6.tgz  02. 环境配置1. 环境包 rz 至相关路径，分流至其它节点：源码分发12scp -r &#x2F;usr&#x2F;local&#x2F;src&#x2F;spark-2.0.2-bin-hadoop2.6 root@slave1:&#x2F;usr&#x2F;local&#x2F;src&#x2F;scp -r &#x2F;usr&#x2F;local&#x2F;src&#x2F;spark-">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;19&#x2F;20191219-1545-Spark&#x2F;Spark-error_metastore_beeline.png">
 <meta property="article:published_time" content="2019-12-19T08:18:41.000Z">
-<meta property="article:modified_time" content="2019-12-19T13:08:49.495Z">
+<meta property="article:modified_time" content="2019-12-19T13:31:00.704Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Spark">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;19&#x2F;20191219-1545-Spark&#x2F;Spark-error_metastore_beeline.png">
   
     <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -113,22 +115,26 @@
 
 <h5 id="启动-Hive-metastore"><a href="#启动-Hive-metastore" class="headerlink" title="启动 Hive metastore"></a>启动 Hive metastore</h5><p><code>Metedata</code>元数据.<br><code>Metastore</code>Hive客户端连接Metastore元存储服务，Metastore再去连接MySQL来存取 <strong>元数据</strong>。多个客户端连接Hive时，只需要连接Metastore服务即可.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># hive --service metastore</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$HIVE_HOME</span>/bin/</span><br><span class="line">hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动Spark-SQL的shell交互界面</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$SPARK_HOME</span>/bin/</span><br><span class="line">spark-shell --master spark://master:7077</span><br></pre></td></tr></table></figure>
-<h5 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h5><p><code>HiveServer2</code>HS2是一个服务端接口，使远程客户端可以执行对Hive的查询并返回结果，HS2提供了新的CLI：Beeline(基于SQLLine)，可以作为Hive jdbc client端访问HS2.<br><code>HiveServer2</code> 和 <code>Metastore</code>一样同为Thrift Service，区别是否在于前者访问数据，后者访问元数据???</p>
+<h5 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h5><p><code>HiveServer2</code>HS2是一个服务端接口，使远程客户端可以执行对Hive的查询并返回结果，HS2提供了新的CLI：Beeline(基于SQLLine)，可以作为Hive jdbc Client端访问HS2.<br><code>HiveServer2</code> 和 <code>Metastore</code>一样同为Thrift Service，区别是否在于前者访问数据，后者访问元数据？？？</p>
 <ul>
 <li>网上有一部分解释：</li>
 </ul>
 <ol>
-<li>若有在 <code>hive-site.xml</code> 中配置 <code>hive.metastore.uris</code>，则 <code>HiveServer2</code> 启动时会去连接配置好的 Metastore 服务(故需开启Metastore服务，其余jdbc访问也需开启该服务)，这种方式最为常用；</li>
-<li>若未配置，则启动HS2时，会先启动一个 <code>Metastore</code> 服务，然后再启动HS2，便于后续Beeline CLI的连接.</li>
-</ol>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># beeline方式连接Hive，默认端口为10000</span></span><br><span class="line">hive --service hiveserver2</span><br><span class="line">beeline</span><br><span class="line">!connect jdbc:hive2://master:10000 root 123456</span><br><span class="line"></span><br><span class="line">beeline -u jdbc:hive2://master:10000 -n root -p 123456 --color=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<li><p>若有在 <code>hive-site.xml</code> 中配置 <code>hive.metastore.uris</code>，则 <code>HiveServer2</code> 启动时会去连接配置好的 Metastore 服务(故需开启Metastore服务，其余jdbc访问也需开启该服务)，这种方式最为常用；</p>
+</li>
+<li><p>配置情况下未启动 <code>Metastore</code>，本地Beeline Client连接会失败；<img src="Spark-error_metastore_beeline.png" alt="配置MS但未开启时，Beeline报错." title="配置MS但未开启时，Beeline报错."> </p>
+</li>
+<li><p>若未配置，则启动HS2时，会先启动一个 <code>Metastore</code> 服务，然后再启动HS2，便于后续Beeline CLI的连接.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># beeline方式连接Hive，默认端口为10000</span></span><br><span class="line">hive --service hiveserver2</span><br><span class="line"><span class="comment">#beeline</span></span><br><span class="line"><span class="comment">#!connect jdbc:hive2://master:10000 root 123456</span></span><br><span class="line">beeline -u jdbc:hive2://master:10000 -n root -p 123456 --color=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
 
+</li>
+</ol>
 <p><code>Tips</code> 可以单独启动 SPARK 集群，但此时无ResourceManager/NodeManager等进程！！！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4cqsoa20007g8u6ej707lhg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4crk6r50007u8u6dj7xb7hi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li></ul>

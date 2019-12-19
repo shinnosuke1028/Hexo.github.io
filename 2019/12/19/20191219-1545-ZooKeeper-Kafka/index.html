@@ -7,15 +7,15 @@
   
   <title>20191219_1545_ZooKeeper-Kafka | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="ZooKeeper &amp; Kafka 配置01. ZooKeeper Repo Pointkafka_2.11-0.10.2.1.tgzZooKeeper">
+  <meta name="description" content="ZooKeeper &amp; Kafka 配置01. ZooKeeper Repo Pointkafka_2.11-0.10.2.1.tgzZooKeeper  02. 环境配置1. 环境包 rz 至相关路径，分流至其它节点：源码分发12scp -r &#x2F;usr&#x2F;local&#x2F;src&#x2F;spark-2.0.2-bin-hadoop2.6 root@slave1:&#x2F;usr&#x2F;local&#x2F;src&#x2F;scp -">
 <meta property="og:type" content="article">
 <meta property="og:title" content="20191219_1545_ZooKeeper-Kafka">
 <meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;19&#x2F;20191219-1545-ZooKeeper-Kafka&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="ZooKeeper &amp; Kafka 配置01. ZooKeeper Repo Pointkafka_2.11-0.10.2.1.tgzZooKeeper">
+<meta property="og:description" content="ZooKeeper &amp; Kafka 配置01. ZooKeeper Repo Pointkafka_2.11-0.10.2.1.tgzZooKeeper  02. 环境配置1. 环境包 rz 至相关路径，分流至其它节点：源码分发12scp -r &#x2F;usr&#x2F;local&#x2F;src&#x2F;spark-2.0.2-bin-hadoop2.6 root@slave1:&#x2F;usr&#x2F;local&#x2F;src&#x2F;scp -">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2019-12-19T07:47:13.000Z">
-<meta property="article:modified_time" content="2019-12-19T09:00:11.163Z">
+<meta property="article:modified_time" content="2019-12-19T14:02:22.392Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="ZooKeeper Kafka">
 <meta name="twitter:card" content="summary">
@@ -92,11 +92,11 @@
         <h2 id="ZooKeeper-amp-Kafka-配置"><a href="#ZooKeeper-amp-Kafka-配置" class="headerlink" title="ZooKeeper &amp; Kafka 配置"></a>ZooKeeper &amp; Kafka 配置</h2><h3 id="01-ZooKeeper"><a href="#01-ZooKeeper" class="headerlink" title="01. ZooKeeper"></a>01. ZooKeeper</h3><ul>
 <li>Repo Point<br><a href="http://mirrors.tuna.tsinghua.edu.cn/apache/kafka/0.10.2.1/kafka_2.11-0.10.2.1.tgz" target="_blank" rel="noopener">kafka_2.11-0.10.2.1.tgz</a><br><a href="http://archive.apache.org/dist/zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz" target="_blank" rel="noopener">ZooKeeper</a></li>
 </ul>
-
+<h3 id="02-环境配置"><a href="#02-环境配置" class="headerlink" title="02. 环境配置"></a>02. 环境配置</h3><h4 id="1-环境包-rz-至相关路径，分流至其它节点："><a href="#1-环境包-rz-至相关路径，分流至其它节点：" class="headerlink" title="1. 环境包 rz 至相关路径，分流至其它节点："></a>1. 环境包 rz 至相关路径，分流至其它节点：</h4><h5 id="源码分发"><a href="#源码分发" class="headerlink" title="源码分发"></a>源码分发</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp -r /usr/<span class="built_in">local</span>/src/spark-2.0.2-bin-hadoop2.6 root@slave1:/usr/<span class="built_in">local</span>/src/</span><br><span class="line">scp -r /usr/<span class="built_in">local</span>/src/spark-2.0.2-bin-hadoop2.6 root@slave2:/usr/<span class="built_in">local</span>/src/</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4crk6r80008u8u60zi7c4uz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4ctea3l0008w0u62p30gf9x" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>

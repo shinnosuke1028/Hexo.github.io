@@ -64,6 +64,116 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-20191219-2347-Hadoop-2-6-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/19/20191219-2347-Hadoop-2-6-1/" class="article-date">
+  <time datetime="2019-12-19T15:47:55.000Z" itemprop="datePublished">2019-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/19/20191219-2347-Hadoop-2-6-1/">20191219-2347_Hadoop-2.6.1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Hadoop-2-X-配置"><a href="#Hadoop-2-X-配置" class="headerlink" title="Hadoop 2.X 配置"></a>Hadoop 2.X 配置</h2><h3 id="01-Hadoop-2-6-1"><a href="#01-Hadoop-2-6-1" class="headerlink" title="01. Hadoop 2.6.1"></a>01. Hadoop 2.6.1</h3><ul>
+<li>Repo Point<br><a href="http://archive.apache.org/dist/hadoop/common/hadoop-2.6.1/hadoop-2.6.1.tar.gz" target="_blank" rel="noopener">hadoop-2.6.1.tar.gz</a></li>
+</ul>
+<h3 id="02-环境配置"><a href="#02-环境配置" class="headerlink" title="02. 环境配置"></a>02. 环境配置</h3><h4 id="1-环境包-rz-至相关路径，分流至其它节点："><a href="#1-环境包-rz-至相关路径，分流至其它节点：" class="headerlink" title="1. 环境包 rz 至相关路径，分流至其它节点："></a>1. 环境包 rz 至相关路径，分流至其它节点：</h4><h5 id="组件-amp-源码分发"><a href="#组件-amp-源码分发" class="headerlink" title="组件&amp;源码分发"></a>组件&amp;源码分发</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 文件解压：hadoop-2.6.1/etc/hadoop</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/</span><br><span class="line">tar -xvf hadoop-2.6.1.tar.gz</span><br></pre></td></tr></table></figure>
+
+<h5 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line"><span class="comment"># ~/.bashrc</span></span><br><span class="line"><span class="comment"># SET JAVA PATH</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/<span class="built_in">local</span>/src/jdk1.8.0_201</span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre</span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$&#123;JAVA_HOME&#125;</span>/lib:<span class="variable">$&#123;JRE_HOME&#125;</span>/lib</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;JAVA_HOME&#125;</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="comment"># SET HADOOP PATH</span></span><br><span class="line"><span class="built_in">export</span> HADOOP_HOME=/usr/<span class="built_in">local</span>/src/hadoop-2.6.1</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$HADOOP_HOME</span>/bin</span><br><span class="line"><span class="comment"># SET HIVE PATH</span></span><br><span class="line"><span class="built_in">export</span> HIVE_HOME=/usr/<span class="built_in">local</span>/src/apache-hive-1.2.2-bin</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$HIVE_HOME</span>/bin</span><br><span class="line"><span class="comment"># SET SCALA PATH</span></span><br><span class="line"><span class="built_in">export</span> SCALA_HOME=/usr/<span class="built_in">local</span>/src/scala-2.11.8</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$SCALA_HOME</span>/bin</span><br><span class="line"><span class="comment"># SET INI PATH</span></span><br><span class="line"><span class="built_in">export</span> INI_PATH=/usr/<span class="built_in">local</span>/src</span><br><span class="line"><span class="comment"># SET SPARK PATH</span></span><br><span class="line"><span class="built_in">export</span> SPARK_HOME=/usr/<span class="built_in">local</span>/src/spark-2.0.2-bin-hadoop2.6</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$SPARK_HOME</span>/bin:<span class="variable">$SPARK_HOME</span>/sbin</span><br><span class="line"><span class="comment">######</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地生效</span></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br><span class="line">scp ~/.bashrc root@slave1 ~/.bashrc</span><br><span class="line">scp ~/.bashrc root@slave2 ~/.bashrc</span><br><span class="line"><span class="comment"># 节点分发&amp;生效</span></span><br><span class="line">ssh slave1</span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">ssh slave2</span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置文件修改-amp-相关文件夹创建"><a href="#配置文件修改-amp-相关文件夹创建" class="headerlink" title="配置文件修改&amp;相关文件夹创建"></a>配置文件修改&amp;相关文件夹创建</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/hadoop-2.6.1/etc/hadoop</span><br><span class="line">vim hadoop-env.sh</span><br><span class="line"><span class="comment"># hadoop-env.sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment">######</span></span><br><span class="line"></span><br><span class="line">vim yarn-env.sh</span><br><span class="line"><span class="comment"># yarn-env.sh</span></span><br><span class="line"></span><br><span class="line"><span class="comment">######</span></span><br><span class="line"></span><br><span class="line">vim slaves</span><br><span class="line"><span class="comment"># slaves</span></span><br><span class="line"></span><br><span class="line"><span class="comment">######</span></span><br><span class="line"></span><br><span class="line">vim core-site.xml</span><br><span class="line"><span class="comment"># 配置master节点IP及Hadoop临时文件根目录tmp</span></span><br><span class="line"><span class="comment"># core-site.xml</span></span><br><span class="line"></span><br><span class="line"><span class="comment">######</span></span><br><span class="line"></span><br><span class="line">vim hdfs-site.xml</span><br><span class="line"><span class="comment"># 配置namenode/datanode/replication（备份）文件目录</span></span><br><span class="line"><span class="comment"># hdfs-site.xml</span></span><br><span class="line"></span><br><span class="line"><span class="comment">######</span></span><br><span class="line"></span><br><span class="line">vim mapred-site.xml</span><br><span class="line"><span class="comment"># mapred-site.xml</span></span><br><span class="line"></span><br><span class="line"><span class="comment">######</span></span><br><span class="line"></span><br><span class="line">vim yarn-site.xml</span><br><span class="line"><span class="comment"># yarn-site.xml</span></span><br><span class="line"></span><br><span class="line"><span class="comment">######</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建Hadoop临时目录和文件目录</span></span><br><span class="line">mkdir /usr/<span class="built_in">local</span>/src/hadoop-2.6.1/tmp</span><br><span class="line">mkdir -p /usr/<span class="built_in">local</span>/src/hadoop-2.6.1/dfs/name</span><br><span class="line">mkdir -p /usr/<span class="built_in">local</span>/src/hadoop-2.6.1/dfs/data</span><br></pre></td></tr></table></figure>
+
+
+<h5 id="主节点配置好的-Hadoop-源码分发至集群其余节点"><a href="#主节点配置好的-Hadoop-源码分发至集群其余节点" class="headerlink" title="主节点配置好的 Hadoop 源码分发至集群其余节点"></a>主节点配置好的 Hadoop 源码分发至集群其余节点</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp /usr/<span class="built_in">local</span>/src/hadoop-2.6.1 root@slave1:/usr/<span class="built_in">local</span>/src/hadoop-2.6.1</span><br><span class="line">scp /usr/<span class="built_in">local</span>/src/hadoop-2.6.1 root@slave2:/usr/<span class="built_in">local</span>/src/hadoop-2.6.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="03-Hadoop集群初始化-启动-关闭"><a href="#03-Hadoop集群初始化-启动-关闭" class="headerlink" title="03. Hadoop集群初始化/启动/关闭"></a>03. Hadoop集群初始化/启动/关闭</h3><h4 id="集群格式化-集群启动-JAVA进程查看-集群关闭"><a href="#集群格式化-集群启动-JAVA进程查看-集群关闭" class="headerlink" title="集群格式化/集群启动/JAVA进程查看/集群关闭"></a>集群格式化/集群启动/JAVA进程查看/集群关闭</h4><p><code>Tips</code> 初始化只需要做一次！！！</p>
+<h5 id="格式化Hadoop-NN"><a href="#格式化Hadoop-NN" class="headerlink" title="格式化Hadoop(NN)"></a>格式化Hadoop(NN)</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="variable">$HADOOP_HOME</span>/bin</span><br><span class="line">hadoop namenode -format</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$HADOOP_HOME</span>/sbin</span><br><span class="line">./start-all.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭集群</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$HADOOP_HOME</span>/sbin</span><br><span class="line">./stop-all.ssh</span><br></pre></td></tr></table></figure>
+
+<h5 id="jps查看集群状态"><a href="#jps查看集群状态" class="headerlink" title="jps查看集群状态"></a>jps查看集群状态</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@master bin]<span class="comment"># jps</span></span><br><span class="line">2784 NameNode       ⬅ NN</span><br><span class="line">3122 ResourceManager    ⬅ RM</span><br><span class="line">13827 Jps</span><br><span class="line">6853 Master     ⬅ (这个为Spark集群启动标识，Hadoop启动时不包括)</span><br><span class="line">2943 SecondaryNameNode  ⬅ Secondary Bak NN</span><br><span class="line">[root@master bin]<span class="comment"># </span></span><br><span class="line">[root@master bin]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/19/20191219-2347-Hadoop-2-6-1/" data-id="ck4cx7riw000jrou6a7oxekox" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop-2-X/" rel="tag">Hadoop 2.X</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-20191219-2254-Hive-1-x" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/19/20191219-2254-Hive-1-x/" class="article-date">
+  <time datetime="2019-12-19T14:55:20.000Z" itemprop="datePublished">2019-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/19/20191219-2254-Hive-1-x/">20191219-2254_Hive-1.x</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Hive-配置"><a href="#Hive-配置" class="headerlink" title="Hive 配置"></a>Hive 配置</h2><h3 id="01-Hive-1-x"><a href="#01-Hive-1-x" class="headerlink" title="01. Hive 1.x"></a>01. Hive 1.x</h3><ul>
+<li>Repo Point<br><a href="http://mirror.bit.edu.cn/apache/hive/hive-1.2.2/apache-hive-1.2.2-bin.tar.gz" target="_blank" rel="noopener">apache-hive-1.2.2-bin.tar.gz</a><br><a href="https://downloads.mysql.com/archives/get/file/mysql-connector-java-5.1.44.tar.gz" target="_blank" rel="noopener">mysql-connector-java-5.1.44.tar</a></li>
+</ul>
+<h3 id="02-环境配置"><a href="#02-环境配置" class="headerlink" title="02. 环境配置"></a>02. 环境配置</h3><h4 id="1-环境包"><a href="#1-环境包" class="headerlink" title="1. 环境包"></a>1. 环境包</h4><h5 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h5><p><code>Tips</code> 记得安装JDBC连接器mysql-connector-java-5.1.44-bin.jar，并将Hive和Hadoop侧的jline版本同步！！！</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解压并拷贝MySQL-jdbc的jar包至 $Hive/libs下：</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src</span><br><span class="line">tar -zxvf mysql-connector-java-5.1.44.tar</span><br><span class="line">cp /usr/<span class="built_in">local</span>/src/mysql-connector-java-5.1.44/mysql-connector-java-5.1.44-bin.jar <span class="variable">$HIVE_HOME</span>/lib/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入yarn下的lib查看Hadoop-2.6.1自带的jline版本：</span></span><br><span class="line">ll <span class="variable">$HADOOP_HOME</span>/share/hadoop/yarn/lib/*jline*</span><br><span class="line"><span class="comment">#发现Jjline版本过低：jline-0.9.94.jar</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 进入Hive下的lib查看Hive-1.2.2自带的jline版本：</span></span><br><span class="line">ll <span class="variable">$HIVE_HOME</span>/lib/*jline*</span><br><span class="line"><span class="comment"># jline-2.12.jar</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 备份Hadoop侧的jline，用Hive侧的jline替代：</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$HADOOP_HOME</span>/share/hadoop/yarn/lib/</span><br><span class="line">mv jline-0.9.94.jar jline-0.9.94.jar.old</span><br><span class="line"></span><br><span class="line">cp <span class="variable">$HIVE_HOME</span>/lib/jline-2.12.jar <span class="variable">$HADOOP_HOME</span>/share/hadoop/yarn/lib/</span><br><span class="line"><span class="comment"># 替换后检查</span></span><br><span class="line">ll <span class="variable">$HADOOP_HOME</span>/share/hadoop/yarn/lib/jline*</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="配置文件修改-amp-相关文件夹创建"><a href="#配置文件修改-amp-相关文件夹创建" class="headerlink" title="配置文件修改&amp;相关文件夹创建"></a>配置文件修改&amp;相关文件夹创建</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 对应创建Hive配置文件中配置的文件夹：</span></span><br><span class="line">mkdir /usr/<span class="built_in">local</span>/src/apache-hive-1.2.2-bin/warehouse</span><br><span class="line">mkdir /usr/<span class="built_in">local</span>/src/apache-hive-1.2.2-bin/tmp</span><br><span class="line">mkdir /usr/<span class="built_in">local</span>/src/apache-hive-1.2.2-bin/<span class="built_in">log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户环境变量，添加Hive路径：</span></span><br><span class="line">vim ~/.bashrc</span><br><span class="line"><span class="comment"># ~/.bashrc</span></span><br><span class="line"><span class="comment"># SET JAVA PATH</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/<span class="built_in">local</span>/src/jdk1.8.0_201</span><br><span class="line"><span class="built_in">export</span> JRE_HOME=<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre</span><br><span class="line"><span class="built_in">export</span> CLASSPATH=.:<span class="variable">$&#123;JAVA_HOME&#125;</span>/lib:<span class="variable">$&#123;JRE_HOME&#125;</span>/lib</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$&#123;JAVA_HOME&#125;</span>/bin:<span class="variable">$PATH</span></span><br><span class="line"><span class="comment"># SET HADOOP PATH</span></span><br><span class="line"><span class="built_in">export</span> HADOOP_HOME=/usr/<span class="built_in">local</span>/src/hadoop-2.6.1</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$HADOOP_HOME</span>/bin</span><br><span class="line"><span class="comment"># SET HIVE PATH</span></span><br><span class="line"><span class="built_in">export</span> HIVE_HOME=/usr/<span class="built_in">local</span>/src/apache-hive-1.2.2-bin</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$HIVE_HOME</span>/bin</span><br><span class="line"><span class="comment"># SET SCALA PATH</span></span><br><span class="line"><span class="built_in">export</span> SCALA_HOME=/usr/<span class="built_in">local</span>/src/scala-2.11.8</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$SCALA_HOME</span>/bin</span><br><span class="line"><span class="comment"># SET INI PATH</span></span><br><span class="line"><span class="built_in">export</span> INI_PATH=/usr/<span class="built_in">local</span>/src</span><br><span class="line"><span class="comment"># SET SPARK PATH</span></span><br><span class="line"><span class="built_in">export</span> SPARK_HOME=/usr/<span class="built_in">local</span>/src/spark-2.0.2-bin-hadoop2.6</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$SPARK_HOME</span>/bin:<span class="variable">$SPARK_HOME</span>/sbin</span><br><span class="line"><span class="comment">######</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生效</span></span><br><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br><span class="line"></span><br><span class="line"><span class="comment"># Hive log位置配置</span></span><br><span class="line">mv hive-log4j.properties.template hive-log4j.propertie</span><br><span class="line"><span class="comment"># Hive exec-log位置配置(貌似没有任务执行日志生成？？？)</span></span><br><span class="line">mv hive-exec-log4j.properties.template hive-exec-log4j.properties</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加JDK/Hadoop/Hive家目录/Hive配置文件路径 </span></span><br><span class="line">cp hive-env.sh.template hive-env.sh</span><br><span class="line"><span class="comment"># hive-env.sh</span></span><br><span class="line"><span class="comment"># Folder containing extra ibraries required for hive compilation/execution can be controlled by:</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/<span class="built_in">local</span>/src/jdk1.8.0_201</span><br><span class="line"><span class="built_in">export</span> HADOOP_HOME=/usr/<span class="built_in">local</span>/src/hadoop-2.6.1</span><br><span class="line"><span class="built_in">export</span> HIVE_HOME=/usr/<span class="built_in">local</span>/src/apache-hive-1.2.2-bin</span><br><span class="line"><span class="built_in">export</span> HIVE_CONF_DIR=/usr/<span class="built_in">local</span>/src/apache-hive-1.2.2-bin/conf</span><br><span class="line"><span class="comment">######</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="Hive配置的文件需要手动新建，修改MySQL连接信息-amp-更新多组文件夹路径"><a href="#Hive配置的文件需要手动新建，修改MySQL连接信息-amp-更新多组文件夹路径" class="headerlink" title="Hive配置的文件需要手动新建，修改MySQL连接信息&amp;更新多组文件夹路径"></a>Hive配置的文件需要手动新建，修改MySQL连接信息&amp;更新多组文件夹路径</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">touch hive-site.xml </span><br><span class="line"><span class="comment"># hive-site.xml</span></span><br><span class="line"><span class="comment"># 目前仅配置这么多，还有其他配置尚未添加</span></span><br><span class="line"><span class="comment"># javax.jdo.option.ConnectionURL: Hive使用MySQL作为 Metadata 存储时(MySql为5.7.12版本)，需要在连接串中指定是否采用SSL连接</span></span><br><span class="line">Tips：mysql -V	java -version</span><br><span class="line">&lt;configuration&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;javax.jdo.option.ConnectionURL&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;jdbc:mysql://master:3306/hive?createDatabaseIfNotExist=<span class="literal">true</span>&amp;amp;useSSL=<span class="literal">false</span>&lt;/value&gt;</span><br><span class="line">                &lt;description&gt;Warning disabled.&lt;/description&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;javax.jdo.option.ConnectionDriverName&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;com.mysql.jdbc.Driver&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;javax.jdo.option.ConnectionUserName&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;root&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;javax.jdo.option.ConnectionPassword&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;123456&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;hive.metastore.warehouse.dir&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;/usr/<span class="built_in">local</span>/src/apache-hive-1.2.2-bin/warehouse&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;hive.exec.scratchdir&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;/usr/<span class="built_in">local</span>/src/apache-hive-1.2.2-bin/tmp&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line"></span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;hive.querylog.location&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;/usr/<span class="built_in">local</span>/src/apache-hive-1.2.2-bin/<span class="built_in">log</span>&lt;/value&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;hive.cli.print.header&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;<span class="literal">true</span>&lt;/value&gt;</span><br><span class="line">                &lt;description&gt;Whether to <span class="built_in">print</span> the names of the columns <span class="keyword">in</span> query output.&lt;/description&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;hive.cli.print.current.db&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;<span class="literal">true</span>&lt;/value&gt;</span><br><span class="line">                &lt;description&gt;Whether to include the current database <span class="keyword">in</span> the Hive prompt.&lt;/description&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">        &lt;property&gt;</span><br><span class="line">                &lt;name&gt;hive.metastore.uris&lt;/name&gt;</span><br><span class="line">                &lt;value&gt;thrift://master:9083&lt;/value&gt;</span><br><span class="line">                &lt;description&gt;Path <span class="keyword">for</span> Hive metadata.&lt;/description&gt;</span><br><span class="line">        &lt;/property&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+<h5 id="Beeline连接Hive"><a href="#Beeline连接Hive" class="headerlink" title="Beeline连接Hive"></a>Beeline连接Hive</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置了hive.metastore.uris后需开启 Metastore</span></span><br><span class="line"><span class="comment"># 后缀为重定向，需百度解决</span></span><br><span class="line">hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;</span><br><span class="line"><span class="comment"># beeline方式连接Hive，默认端口为10000</span></span><br><span class="line">hive --service hiveserver2</span><br><span class="line"><span class="comment">#beeline</span></span><br><span class="line"><span class="comment">#!connect jdbc:hive2://master:10000 root 123456</span></span><br><span class="line">beeline -u jdbc:hive2://master:10000 -n root -p 123456 --color=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p><code>Tips</code> <strong>退出当前jdbc:</strong> !close    <strong>退出Beeline:</strong> !q  <strong>查询表:</strong>!tables</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/19/20191219-2254-Hive-1-x/" data-id="ck4cx7rh4000brou6etnsgu8j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-20191219-1545-Spark" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/12/19/20191219-1545-Spark/" class="article-date">
@@ -106,30 +216,31 @@
 <h4 id="6-Hive集成Spark-SQL"><a href="#6-Hive集成Spark-SQL" class="headerlink" title="6. Hive集成Spark-SQL"></a>6. Hive集成Spark-SQL</h4><p><code>Tips</code> 这部分集成后的功能暂未进行操作</p>
 <h5 id="hive-site-xml-内新增-Metastore-配置"><a href="#hive-site-xml-内新增-Metastore-配置" class="headerlink" title="hive-site.xml 内新增 Metastore 配置"></a>hive-site.xml 内新增 Metastore 配置</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vim <span class="variable">$HIVE_HOME</span>/conf/hive-site.xml</span><br><span class="line"><span class="comment"># hive-site.xml 新增如下内容：</span></span><br><span class="line">&lt;property&gt;</span><br><span class="line">    &lt;name&gt;hive.metastore.uris&lt;/name&gt;</span><br><span class="line">    &lt;value&gt;thrift://hostname:9083&lt;/value&gt;</span><br><span class="line">&lt;/property&gt;</span><br><span class="line"><span class="comment">######</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 将Hive的配置文件拷贝给SPARK</span></span><br><span class="line">cp <span class="variable">$HIVE_HOME</span>/conf/hive-site.xml <span class="variable">$SPARK_HOME</span>/conf/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将MySQL下的jdbc驱动包拷贝给SPARK</span></span><br><span class="line">cp <span class="variable">$HIVE_HOME</span>/lib/mysql-connector-java-5.1.44.jar  <span class="variable">$SPARK_HOME</span>/jars/</span><br></pre></td></tr></table></figure>
 
-<h4 id="7-启动-关闭-SPARK"><a href="#7-启动-关闭-SPARK" class="headerlink" title="7. 启动/关闭 SPARK"></a>7. 启动/关闭 SPARK</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/spark-2.0.2-bin-hadoop2.6/sbin/</span><br><span class="line">./start-all.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭集群：</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/spark-2.0.2-bin-hadoop2.6/sbin/</span><br><span class="line">./stop-all.sh</span><br></pre></td></tr></table></figure>
+<h4 id="7-SPARK集群启动-关闭"><a href="#7-SPARK集群启动-关闭" class="headerlink" title="7. SPARK集群启动/关闭"></a>7. SPARK集群启动/关闭</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/spark-2.0.2-bin-hadoop2.6/sbin/</span><br><span class="line">./start-all.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭集群：</span></span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/spark-2.0.2-bin-hadoop2.6/sbin/</span><br><span class="line">./stop-all.sh</span><br></pre></td></tr></table></figure>
 
-<h5 id="启动-Hive-metastore"><a href="#启动-Hive-metastore" class="headerlink" title="启动 Hive metastore"></a>启动 Hive metastore</h5><p><code>Metedata</code>元数据.<br><code>Metastore</code>Hive客户端连接Metastore元存储服务，Metastore再去连接MySQL来存取 <strong>元数据</strong>。多个客户端连接Hive时，只需要连接Metastore服务即可.</p>
+<h5 id="启动-Hive-metastore"><a href="#启动-Hive-metastore" class="headerlink" title="启动 Hive metastore"></a>启动 Hive metastore</h5><p><code>Metedata</code>元数据.<br><code>Metastore</code>Hive客户端连接Metastore元存储服务，Metastore再去连接MySQL来存取 <strong>元数据</strong>。多个客户端连接Hive时，只需要连接Metastore服务即可；即启动后可以用Java、Python等调用该jdbc</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># hive --service metastore</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$HIVE_HOME</span>/bin/</span><br><span class="line">hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动Spark-SQL的shell交互界面</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$SPARK_HOME</span>/bin/</span><br><span class="line">spark-shell --master spark://master:7077</span><br></pre></td></tr></table></figure>
-<h5 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h5><p><code>HiveServer2</code>HS2是一个服务端接口，使远程客户端可以执行对Hive的查询并返回结果，HS2提供了新的CLI：Beeline(基于SQLLine)，可以作为Hive jdbc Client端访问HS2.<br><code>HiveServer2</code> 和 <code>Metastore</code>一样同为Thrift Service，区别是否在于前者访问数据，后者访问元数据？？？</p>
+<h5 id="疑问"><a href="#疑问" class="headerlink" title="疑问"></a>疑问</h5><p><code>hiveserver2</code>HS2是一个服务端接口，使远程客户端可以执行对Hive的查询并返回结果，HS2提供了新的CLI：Beeline(基于SQLLine)，可以作为Hive jdbc Client端访问HS2.<br><code>hiveserver2</code> 和 <code>Metastore</code>一样同为Thrift Service，区别是否在于前者访问数据，后者访问元数据？？？</p>
 <ul>
 <li>网上有一部分解释：</li>
 </ul>
 <ol>
-<li><p>若有在 <code>hive-site.xml</code> 中配置 <code>hive.metastore.uris</code>，则 <code>HiveServer2</code> 启动时会去连接配置好的 Metastore 服务(故需开启Metastore服务，其余jdbc访问也需开启该服务)，这种方式最为常用；</p>
+<li><p>若有在 <code>hive-site.xml</code> 中配置 <code>hive.metastore.uris</code>，则 <code>hiveserver2</code> 启动时会去连接配置好的 Metastore 服务(故需开启Metastore服务，其余jdbc访问也需开启该服务)，这种方式最为常用；</p>
 </li>
 <li><p>配置情况下未启动 <code>Metastore</code>，本地Beeline Client连接会失败；<img src="Spark-error_metastore_beeline.png" alt="配置MS但未开启时，Beeline报错." title="配置MS但未开启时，Beeline报错."> </p>
 </li>
 <li><p>若未配置，则启动HS2时，会先启动一个 <code>Metastore</code> 服务，然后再启动HS2，便于后续Beeline CLI的连接.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># beeline方式连接Hive，默认端口为10000</span></span><br><span class="line">hive --service hiveserver2</span><br><span class="line"><span class="comment">#beeline</span></span><br><span class="line"><span class="comment">#!connect jdbc:hive2://master:10000 root 123456</span></span><br><span class="line">beeline -u jdbc:hive2://master:10000 -n root -p 123456 --color=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
-
 </li>
+<li></li>
 </ol>
+<h5 id="回顾下Beeline连接Hive"><a href="#回顾下Beeline连接Hive" class="headerlink" title="回顾下Beeline连接Hive"></a>回顾下Beeline连接Hive</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置了hive.metastore.uris后需开启 Metastore</span></span><br><span class="line"><span class="comment"># 后缀为重定向，需百度解决</span></span><br><span class="line">hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;</span><br><span class="line"><span class="comment"># beeline方式连接Hive，默认端口为10000</span></span><br><span class="line">hive --service hiveserver2</span><br><span class="line"><span class="comment">#beeline</span></span><br><span class="line"><span class="comment">#!connect jdbc:hive2://master:10000 root 123456</span></span><br><span class="line">beeline -u jdbc:hive2://master:10000 -n root -p 123456 --color=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
 <p><code>Tips</code> 可以单独启动 SPARK 集群，但此时无ResourceManager/NodeManager等进程！！！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4ctea0z0003w0u6b4q1c7ay" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4cx7rge0007rou614f2c4hh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li></ul>
@@ -170,7 +281,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4ctea3l0008w0u62p30gf9x" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4cx7rgr0008rou635p7ef5p" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>
@@ -224,7 +335,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191218-2224-MURA-Excel/" data-id="ck4ctea390007w0u6285dc06y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191218-2224-MURA-Excel/" data-id="ck4cx7rg60006rou60lh05vam" class="article-share-link">Share</a>
       
       
     </footer>
@@ -260,7 +371,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191212_1629_MURA/" data-id="ck4cte9tx0000w0u67p057qfb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191212_1629_MURA/" data-id="ck4cx7r9z0000rou6b2jf3vxa" class="article-share-link">Share</a>
       
       
     </footer>
@@ -301,7 +412,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191218-1300-Python3-Monitor/" data-id="ck4ctea2s0006w0u6cr0t9636" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191218-1300-Python3-Monitor/" data-id="ck4cx7rf30003rou6g5sndu0w" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li></ul>
@@ -352,7 +463,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/02/20191202_2329_Hello%20World/" data-id="ck4ctea090001w0u612qobf1d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/02/20191202_2329_Hello%20World/" data-id="ck4cx7reh0001rou6ascj1ogi" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PracticeDemo/" rel="tag">PracticeDemo</a></li></ul>
@@ -377,7 +488,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PracticeDemo/" rel="tag">PracticeDemo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop-2-X/" rel="tag">Hadoop 2.X</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PracticeDemo/" rel="tag">PracticeDemo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>
     </div>
   </div>
 
@@ -387,7 +498,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/PracticeDemo/" style="font-size: 10px;">PracticeDemo</a> <a href="/tags/Python3/" style="font-size: 10px;">Python3</a> <a href="/tags/Spark/" style="font-size: 10px;">Spark</a> <a href="/tags/ZooKeeper-Kafka/" style="font-size: 10px;">ZooKeeper Kafka</a>
+      <a href="/tags/Hadoop-2-X/" style="font-size: 10px;">Hadoop 2.X</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/PracticeDemo/" style="font-size: 10px;">PracticeDemo</a> <a href="/tags/Python3/" style="font-size: 10px;">Python3</a> <a href="/tags/Spark/" style="font-size: 10px;">Spark</a> <a href="/tags/ZooKeeper-Kafka/" style="font-size: 10px;">ZooKeeper Kafka</a>
     </div>
   </div>
 
@@ -409,6 +520,14 @@
       <ul>
         
           <li>
+            <a href="/2019/12/19/20191219-2347-Hadoop-2-6-1/">20191219-2347_Hadoop-2.6.1</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/19/20191219-2254-Hive-1-x/">20191219-2254_Hive-1.x</a>
+          </li>
+        
+          <li>
             <a href="/2019/12/19/20191219-1545-Spark/">20191219_1545_SPARK</a>
           </li>
         
@@ -418,14 +537,6 @@
         
           <li>
             <a href="/2019/12/18/20191218-2224-MURA-Excel/">20191218-2224-MURA-Excel</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/18/20191212_1629_MURA/">20191212_1629_MURA</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/18/20191218-1300-Python3-Monitor/">20191218_1300_Python3-Monitor</a>
           </li>
         
       </ul>

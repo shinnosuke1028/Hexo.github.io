@@ -87,13 +87,32 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="Spark-配置"><a href="#Spark-配置" class="headerlink" title="Spark 配置"></a>Spark 配置</h2><h3 id="01-Spark"><a href="#01-Spark" class="headerlink" title="01. Spark"></a>01. Spark</h3><ul>
-<li>Repo Point<br>spark-2.0.2-bin-hadoop2.6.tgz</li>
+<li>Repo Point<br><a href="http://archive.apache.org/dist/spark/spark-2.0.2/spark-2.0.2-bin-hadoop2.6.tgz" target="_blank" rel="noopener">spark-2.0.2-bin-hadoop2.6.tgz</a></li>
 </ul>
+<p>环境包rz至相关路径，分流至其它节点：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp -r /usr/<span class="built_in">local</span>/src/spark-2.0.2-bin-hadoop2.6 root@slave1:/usr/<span class="built_in">local</span>/src/</span><br><span class="line">scp -r /usr/<span class="built_in">local</span>/src/spark-2.0.2-bin-hadoop2.6 root@slave2:/usr/<span class="built_in">local</span>/src/</span><br></pre></td></tr></table></figure>
+
+<p>修改SPARK环境配置文件、添加集群节点：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/spark-2.0.2-bin-hadoop2.6/conf</span><br><span class="line">mv spark-env.sh.template spark-env.sh</span><br><span class="line">vim spark-env.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># spark-env.sh</span></span><br><span class="line"><span class="built_in">export</span> SCALA_HOME=/usr/<span class="built_in">local</span>/src/scala-2.11.8</span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/usr/<span class="built_in">local</span>/src/jdk1.8.0_201</span><br><span class="line"><span class="built_in">export</span> HADOOP_HOME=/usr/<span class="built_in">local</span>/src/hadoop-2.6.1</span><br><span class="line"><span class="built_in">export</span> HADOOP_CONF_DIR=/usr/<span class="built_in">local</span>/src/hadoop-2.6.1/etc/hadoop</span><br><span class="line">SPARK_MASTER_IP=master</span><br><span class="line">SPARK_LOCAL_DIRS=/usr/<span class="built_in">local</span>/src/spark-2.0.2-bin-hadoop2.6</span><br><span class="line">SPARK_DRIVER_MEMORY=1G</span><br><span class="line"><span class="comment">######</span></span><br><span class="line"></span><br><span class="line">mv slaves.template slaves</span><br><span class="line">vim slaves</span><br><span class="line"><span class="comment"># spark-env.sh 添加集群节点</span></span><br><span class="line">slave1</span><br><span class="line">slave2</span><br><span class="line"><span class="comment">######</span></span><br></pre></td></tr></table></figure>
+
+<p>适配Spark-SQL<br>MySQL相关配置和赋权见相关Blog，此处暂时不进行罗列：<a href="">MySQL配置</a><br>修改 $HIVE_HOME/bin下的hive启动脚本：<br><code>Tips</code> <strong>SPARK2.0</strong>中没有 <strong>${SPARK_HOME}/lib/spark-assembly-*.jar</strong>，<strong>lib</strong>文件中的jar包已经被分成多个小的jar包在放置在 <strong>${SPARK_HOME}/jars/</strong> 下。<br>修改前：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># add Spark assembly jar to the classpath</span></span><br><span class="line"><span class="keyword">if</span> [[ -n <span class="string">"<span class="variable">$SPARK_HOME</span>"</span> ]]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  sparkAssemblyPath=`ls <span class="variable">$&#123;SPARK_HOME&#125;</span>/lib/spark-assembly-*.jar`</span><br><span class="line">  CLASSPATH=<span class="string">"<span class="variable">$&#123;CLASSPATH&#125;</span>:<span class="variable">$&#123;sparkAssemblyPath&#125;</span>"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>SPARK 2.0：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># add Spark assembly jar to the classpath</span></span><br><span class="line"><span class="keyword">if</span> [[ -n <span class="string">"<span class="variable">$SPARK_HOME</span>"</span> ]]</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  sparkAssemblyPath=`ls <span class="variable">$&#123;SPARK_HOME&#125;</span>/jars/*.jar`</span><br><span class="line">  CLASSPATH=<span class="string">"<span class="variable">$&#123;CLASSPATH&#125;</span>:<span class="variable">$&#123;sparkAssemblyPath&#125;</span>"</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<p>更新Hadoop Yarn下的老版 <strong>jline-0.9.94.jar</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Hive内较新版本的jline替换Hadoop内的OLD版本</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$HADOOP_HOME</span>/share/hadoop/yarn/lib/</span><br><span class="line">mv jline-0.9.94.jar jline-0.9.94.jar.old</span><br><span class="line">cp <span class="variable">$HIVE_HOME</span>/lib/jline-2.12.jar <span class="variable">$HADOOP_HOME</span>/share/hadoop/yarn/lib/</span><br></pre></td></tr></table></figure>
+
+<p>启动Spark：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/src/spark-2.0.2-bin-hadoop2.6/sbin/</span><br><span class="line">./start-all.sh</span><br></pre></td></tr></table></figure>
+
+<p>Tips；可以单独启动Spark集群，但此时无ResourceManager/NodeManager等进程！！！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4ch4r7h000d0ku69ccw7lvu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4cixsqi0007m0u60xhdce93" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li></ul>
@@ -128,13 +147,13 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="ZooKeeper-amp-Kafka-配置"><a href="#ZooKeeper-amp-Kafka-配置" class="headerlink" title="ZooKeeper &amp; Kafka 配置"></a>ZooKeeper &amp; Kafka 配置</h2><h3 id="01-ZooKeeper"><a href="#01-ZooKeeper" class="headerlink" title="01. ZooKeeper"></a>01. ZooKeeper</h3><ul>
-<li>Repo Point<br>[kafka_2.11-0.10.2.1.tgz]<br><a href="http://archive.apache.org/dist/zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz" target="_blank" rel="noopener">ZooKeeper</a></li>
+<li>Repo Point<br><a href="http://mirrors.tuna.tsinghua.edu.cn/apache/kafka/0.10.2.1/kafka_2.11-0.10.2.1.tgz" target="_blank" rel="noopener">kafka_2.11-0.10.2.1.tgz</a><br><a href="http://archive.apache.org/dist/zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz" target="_blank" rel="noopener">ZooKeeper</a></li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4ch4r6i00070ku6fckchw8a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4cixsqm0008m0u6c3s9glpq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>
@@ -189,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191218-2224-MURA-Excel/" data-id="ck4ch4r6f00060ku6gnrvfnbc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191218-2224-MURA-Excel/" data-id="ck4cixsqd0006m0u64aekalbi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -225,7 +244,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191212_1629_MURA/" data-id="ck4ch4r3z00000ku63l2y8lcm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191212_1629_MURA/" data-id="ck4cixslq0000m0u63x6k4ekn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -266,7 +285,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191218-1300-Python3-Monitor/" data-id="ck4ch4r5z00030ku6g4dq58xe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191218-1300-Python3-Monitor/" data-id="ck4cixsp50001m0u65dtdh5fk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li></ul>
@@ -317,7 +336,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/02/20191202_2329_Hello%20World/" data-id="ck4ch4r5m00010ku65midegrt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/02/20191202_2329_Hello%20World/" data-id="ck4cixspl0003m0u6hfxq2510" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/PracticeDemo/" rel="tag">PracticeDemo</a></li></ul>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>20191220_1347_ubuntu16.04.2-server-amd64 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Ubuntu Server 配置01. Ubuntu16.04.2-Server-amd64 Repo Pointubuntu-16.04.2-server-amd64.isoTips 最新的版本已到19.01  02. 环境配置1. Ubuntu16.04.2-Server-amd64服务器BOIS启动123# F2、F12或 Del 进BOIS# 部分前置的选项包括语言、键盘语言&amp;布局">
+<meta property="og:type" content="article">
+<meta property="og:title" content="20191220_1347_ubuntu16.04.2-server-amd64">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Ubuntu Server 配置01. Ubuntu16.04.2-Server-amd64 Repo Pointubuntu-16.04.2-server-amd64.isoTips 最新的版本已到19.01  02. 环境配置1. Ubuntu16.04.2-Server-amd64服务器BOIS启动123# F2、F12或 Del 进BOIS# 部分前置的选项包括语言、键盘语言&amp;布局">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;2.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;3.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;4.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;5.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;6.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;7.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;8.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;9.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;10.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;11.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;12.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;13.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;14.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;15.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;16.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;17.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;18.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;19.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;20.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;21.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;22.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;23.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;24.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;25.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;26.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;27.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;28.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;29.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;30.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;31.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;32.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;33.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;34.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;35.png">
+<meta property="article:published_time" content="2019-12-20T05:48:57.000Z">
+<meta property="article:modified_time" content="2019-12-20T10:29:45.090Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="OS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1347-ubuntu16-04-2-server-amd64&#x2F;1.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-20191220-1347-ubuntu16-04-2-server-amd64" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/" class="article-date">
+  <time datetime="2019-12-20T05:48:57.000Z" itemprop="datePublished">2019-12-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      20191220_1347_ubuntu16.04.2-server-amd64
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Ubuntu-Server-配置"><a href="#Ubuntu-Server-配置" class="headerlink" title="Ubuntu Server 配置"></a>Ubuntu Server 配置</h2><h3 id="01-Ubuntu16-04-2-Server-amd64"><a href="#01-Ubuntu16-04-2-Server-amd64" class="headerlink" title="01. Ubuntu16.04.2-Server-amd64"></a>01. Ubuntu16.04.2-Server-amd64</h3><ul>
+<li>Repo Point<br><a href="http://old-releases.ubuntu.com/releases/16.04.2/ubuntu-16.04.2-server-amd64.iso" target="_blank" rel="noopener">ubuntu-16.04.2-server-amd64.iso</a><br><code>Tips</code> <strong>最新的版本已到19.01</strong></li>
+</ul>
+<h3 id="02-环境配置"><a href="#02-环境配置" class="headerlink" title="02. 环境配置"></a>02. 环境配置</h3><h4 id="1-Ubuntu16-04-2-Server-amd64"><a href="#1-Ubuntu16-04-2-Server-amd64" class="headerlink" title="1. Ubuntu16.04.2-Server-amd64"></a>1. Ubuntu16.04.2-Server-amd64</h4><h5 id="服务器BOIS启动"><a href="#服务器BOIS启动" class="headerlink" title="服务器BOIS启动"></a>服务器BOIS启动</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># F2、F12或 Del 进BOIS</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 部分前置的选项包括语言、键盘语言&amp;布局、用户描述、非root用户账密、时区等</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="2-LVM"><a href="#2-LVM" class="headerlink" title="2. LVM"></a>2. LVM</h4><p><code>Tips</code> <a href="https://help.ubuntu.com/lts/serverguide/advanced-installation.html" target="_blank" rel="noopener">https://help.ubuntu.com/lts/serverguide/advanced-installation.html</a></p>
+<h5 id="下面是官方文档步骤，建议使用LVM配置除了-boot外的所有挂载，便于后续LVM扩容"><a href="#下面是官方文档步骤，建议使用LVM配置除了-boot外的所有挂载，便于后续LVM扩容" class="headerlink" title="下面是官方文档步骤，建议使用LVM配置除了/boot外的所有挂载，便于后续LVM扩容."></a>下面是官方文档步骤，建议使用LVM配置除了/boot外的所有挂载，便于后续LVM扩容.</h5><ol>
+<li>Follow the installation steps until you get to the Partition disks step, then: At the “Partition Disks screen choose “Manual”.</li>
+</ol>
+<ul>
+<li>选择分区手动配置.</li>
+</ul>
+<hr>
+<ol start="2">
+<li>Select the hard disk and on the next screen choose “yes” to “Create a new empty partition table on this device”.</li>
+</ol>
+<ul>
+<li>选择在磁盘上创建新的分区.</li>
+</ul>
+<hr>
+<ol start="3">
+<li>Next, create standard /boot, swap, and / partitions with whichever filesystem you prefer.</li>
+</ol>
+<ul>
+<li>先手动建立 <code>/boot</code> 分区，剩余所有大小全部配置为 <code>LVM</code> 逻辑卷.</li>
+</ul>
+<hr>
+<ol start="4">
+<li>For the LVM /srv, create a new Logical partition. Then change “Use as” to “physical volume for LVM” then “Done setting up the partition”.</li>
+</ol>
+<ul>
+<li>LVM内按照自己的需求进行生成和挂载，选择 “physical volume for LVM”.</li>
+</ul>
+<hr>
+<ol start="5">
+<li>Now select “Configure the Logical Volume Manager” at the top, and choose “Yes” to write the changes to disk.</li>
+</ol>
+<ul>
+<li>磁盘分切完后(/boot &amp; LVM)，进入LVM管理配置，开始配置划分后的LVM磁盘.</li>
+</ul>
+<hr>
+<ol start="6">
+<li>For the “LVM configuration action” on the next screen, choose “Create volume group”. Enter a name for the VG such as vg01, or something more descriptive. After entering a name, select the partition configured for LVM, and choose “Continue”.</li>
+</ol>
+<ul>
+<li>顺序：<code>PV(Free physical volumes) → VG → LV</code> 此处应该可以从配置项里看到可用的PV，选择创建命名VG(例如：vg01).</li>
+</ul>
+<hr>
+<ol start="7">
+<li>Back at the “LVM configuration action” screen, select “Create logical volume”. Select the newly created volume group, and enter a name for the new LV, for example srv since that is the intended mount point. Then choose a size, which may be the full partition because it can always be extended later. Choose “Finish” and you should be back at the main “Partition Disks” screen.</li>
+</ol>
+<ul>
+<li>根据自己的需求，将创建好的VG分切至各个LV，并取名(例如：swap、root).</li>
+</ul>
+<hr>
+<ol start="8">
+<li>Now add a filesystem to the new LVM. Select the partition under “LVM VG vg01, LV srv”, or whatever name you have chosen, the choose Use as. Setup a file system as normal selecting /srv as the mount point. Once done, select “Done setting up the partition”.</li>
+</ol>
+<ul>
+<li>到这里，LVM已按照需求划分为不同分区，现在要做的就是挂载到对应的目录下，按照先前的命名，一一对应挂载.</li>
+</ul>
+<hr>
+<ol start="9">
+<li>Finally, select “Finish partitioning and write changes to disk”. Then confirm the changes and continue with the rest of the installation.</li>
+</ol>
+<ul>
+<li>Finish.</li>
+</ul>
+<hr>
+<h5 id="具体磁盘配置步骤"><a href="#具体磁盘配置步骤" class="headerlink" title="具体磁盘配置步骤"></a>具体磁盘配置步骤</h5><img src="1.png" title="01" alt="">
+
+<hr>
+<img src="2.png" title="02" alt="">
+
+<hr>
+<img src="3.png" title="03" alt="">
+
+<hr>
+<img src="4.png" title="单独建立/boot" alt="">
+
+<hr>
+<img src="5.png" title="单独建立/boot" alt="">
+
+<hr>
+<img src="6.png" title="单独建立/boot" alt="">
+
+<hr>
+<img src="7.png" title="单独建立/boot" alt="">
+
+<hr>
+<img src="8.png" title="08" alt="">
+
+<hr>
+<img src="9.png" title="09" alt="">
+
+<hr>
+<img src="10.png" title="10" alt="">
+
+<hr>
+<img src="11.png" title="11" alt="">
+
+<hr>
+<img src="12.png" title="12" alt="">
+
+<hr>
+<img src="13.png" title="13" alt="">
+
+<hr>
+<img src="14.png" title="14" alt="">
+
+<hr>
+<img src="15.png" title="15" alt="">
+
+<hr>
+<img src="16.png" title="16" alt="">
+
+<hr>
+<img src="17.png" title="17" alt="">
+
+<hr>
+<img src="18.png" title="18" alt="">
+
+<hr>
+<img src="19.png" title="19" alt="">
+
+<hr>
+<img src="20.png" title="20" alt="">
+
+<hr>
+<img src="21.png" title="21" alt="">
+
+<hr>
+<img src="22.png" title="配置完成后的挂载" alt="">
+
+<hr>
+<img src="23.png" title="23" alt="">
+
+<hr>
+<img src="24.png" title="24" alt="">
+
+<hr>
+<img src="25.png" title="25" alt="">
+
+<hr>
+<img src="26.png" title="26" alt="">
+
+<hr>
+<img src="27.png" title="27" alt="">
+
+<hr>
+<img src="28.png" title="28" alt="">
+
+<hr>
+<img src="29.png" title="29" alt="">
+
+<hr>
+<img src="30.png" title="不自动更新" alt="">
+
+<hr>
+<img src="31.png" title="31" alt="">
+
+<hr>
+<img src="32.png" title="Install GRUB boot loader" alt="">
+
+<hr>
+<img src="33.png" title="Install GRUB boot loader" alt="">
+
+<hr>
+<img src="34.png" title="Finish!" alt="">
+
+<hr>
+<h5 id="安装过程完成后会自动reboot"><a href="#安装过程完成后会自动reboot" class="headerlink" title="安装过程完成后会自动reboot."></a>安装过程完成后会自动reboot.</h5><img src="35.png" title="Finish!" alt="">
+
+<h4 id="3-静态IP"><a href="#3-静态IP" class="headerlink" title="3. 静态IP"></a>3. 静态IP</h4><h5 id="配置root用户"><a href="#配置root用户" class="headerlink" title="配置root用户"></a>配置root用户</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 配置静态IP</span></span><br><span class="line">ubuntu@ubuntu:~$ sudo vim /etc/network/interfaces</span><br><span class="line">[sudo] password <span class="keyword">for</span> ubuntu: </span><br><span class="line"><span class="comment"># interfaces</span></span><br><span class="line"><span class="comment"># This file describes the network interfaces available on your system</span></span><br><span class="line"><span class="comment"># and how to activate them. For more information, see interfaces(5).</span></span><br><span class="line"><span class="built_in">source</span> /etc/network/interfaces.d/*</span><br><span class="line"><span class="comment"># The loopback network interface</span></span><br><span class="line">auto lo</span><br><span class="line">iface lo inet loopback</span><br><span class="line"><span class="comment"># The primary network interface</span></span><br><span class="line">auto ens33                 ⬅ 网关自启</span><br><span class="line"><span class="comment"># iface ens33 inet dhcp</span></span><br><span class="line">iface ens33 inet static</span><br><span class="line">address 192.168.73.21      ⬅ 内网静态IP</span><br><span class="line">gateway 192.168.73.2       ⬅ 内网网关</span><br><span class="line">netmask 255.255.255.0</span><br><span class="line">network 192.168.73.0       ⬅ 子网IP</span><br><span class="line"><span class="comment">######</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置DNS</span></span><br><span class="line">ubuntu@ubuntu:~$ sudo vim /etc/resolv.conf </span><br><span class="line"><span class="comment"># resolv.conf</span></span><br><span class="line"><span class="comment"># Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)</span></span><br><span class="line"><span class="comment">#     DO NOT EDIT THIS FILE BY HAND -- YOUR CHANGES WILL BE OVERWRITTEN</span></span><br><span class="line"><span class="comment"># nameserver 192.168.73.2</span></span><br><span class="line"><span class="comment"># search localdomain</span></span><br><span class="line">nameserver 202.96.128.86</span><br><span class="line">nameserver 114.114.114.114</span><br><span class="line"><span class="comment">######</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启网络</span></span><br><span class="line">ubuntu@ubuntu:~$ sudo service networking restart</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-上述配置正确，此时就可以用客户端进行连接"><a href="#4-上述配置正确，此时就可以用客户端进行连接" class="headerlink" title="4.上述配置正确，此时就可以用客户端进行连接"></a>4.上述配置正确，此时就可以用客户端进行连接</h5><h5 id="5-root用户激活"><a href="#5-root用户激活" class="headerlink" title="5. root用户激活"></a>5. root用户激活</h5><p><code>Tips</code> 这一步可以放在第3步执行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ubuntu@ubuntu:~$ sudo passwd root</span><br><span class="line">Enter new UNIX password:        ⬅ root </span><br><span class="line">Retype new UNIX password:       ⬅ root</span><br><span class="line">passwd: password updated successfully</span><br><span class="line">ubuntu@ubuntu:~$ su - root</span><br><span class="line">Password:                       ⬅ root</span><br><span class="line">root@ubuntu:~<span class="comment"># </span></span><br><span class="line">root@ubuntu:~<span class="comment"># </span></span><br><span class="line">root@ubuntu:~<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/" data-id="ck4e0jpug000eeou63dmfbjde" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/12/19/20191219-2347-Hadoop-2-6-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">20191219-2347_Hadoop-2.6.1</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop-2-X/" rel="tag">Hadoop 2.X</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/" rel="tag">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PracticeDemo/" rel="tag">PracticeDemo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Hadoop-2-X/" style="font-size: 10px;">Hadoop 2.X</a> <a href="/tags/Hive/" style="font-size: 10px;">Hive</a> <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/PracticeDemo/" style="font-size: 10px;">PracticeDemo</a> <a href="/tags/Python3/" style="font-size: 10px;">Python3</a> <a href="/tags/Spark/" style="font-size: 10px;">Spark</a> <a href="/tags/ZooKeeper-Kafka/" style="font-size: 10px;">ZooKeeper Kafka</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/">20191220_1347_ubuntu16.04.2-server-amd64</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/19/20191219-2347-Hadoop-2-6-1/">20191219-2347_Hadoop-2.6.1</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/19/20191219-2254-Hive-1-x/">20191219-2254_Hive-1.x</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/19/20191219-1545-Spark/">20191219_1545_SPARK</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/19/20191219-1545-ZooKeeper-Kafka/">20191219_1545_ZooKeeper-Kafka</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

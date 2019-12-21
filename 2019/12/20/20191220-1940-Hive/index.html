@@ -15,7 +15,7 @@
 <meta property="og:description" content="移花接木-Hive01. Hive 1.x Repo Pointapache-hive-1.2.2-bin.tar.gzmysql-connector-java-5.1.44.tarapache-hive-1.2.2-src.tar.gz  02. Hive 元素元数据 &amp; 数据 Hive中的表是纯逻辑表，即元数据； 数据存储在HDFS上，元数据与数据存储分离； 数据计算依赖分布式计算框架">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2019-12-20T11:40:20.000Z">
-<meta property="article:modified_time" content="2019-12-20T14:25:03.724Z">
+<meta property="article:modified_time" content="2019-12-21T02:06:17.441Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Hive">
 <meta name="twitter:card" content="summary">
@@ -101,11 +101,11 @@
 </ul>
 <h4 id="Hive-架构"><a href="#Hive-架构" class="headerlink" title="Hive 架构"></a>Hive 架构</h4><p><code>CLI</code> <strong><em>Hive</em></strong> / Metastore → hiveserver2(HS2) → <strong><em>Beeline</em></strong><br><code>JDBC</code> <strong><em>Metastore</em></strong> → Java/Python/C++<br><code>WUI</code> apache-hive-0.13.0-src.tar.gz → <strong><em>hive –service hwi</em></strong></p>
 <h3 id="03-分桶"><a href="#03-分桶" class="headerlink" title="03. 分桶"></a>03. 分桶</h3><h4 id="有点绕的概念"><a href="#有点绕的概念" class="headerlink" title="有点绕的概念"></a>有点绕的概念</h4><p><code>语法</code> tablesample(bucket x out of y on id)</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tablesample()</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TABLESAMPLE (BUCKET x OUT OF y [ON colname])</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/20/20191220-1940-Hive/" data-id="ck4ew95ya000br8u675dbhnau" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/20/20191220-1940-Hive/" data-id="ck4f7i96z000e3gu6hmr8hg34" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li></ul>
@@ -115,6 +115,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/12/21/20191221-1006-Oracle12cR2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          20191221_1006-Oracle12cR2
+        
+      </div>
+    </a>
   
   
     <a href="/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/" id="article-nav-older" class="article-nav-link-wrap">
@@ -138,7 +147,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop-2-X/" rel="tag">Hadoop 2.X</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/" rel="tag">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PracticeDemo/" rel="tag">PracticeDemo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop-2-X/" rel="tag">Hadoop 2.X</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/" rel="tag">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle12c/" rel="tag">Oracle12c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PracticeDemo/" rel="tag">PracticeDemo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>
     </div>
   </div>
 
@@ -148,7 +157,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Hadoop-2-X/" style="font-size: 10px;">Hadoop 2.X</a> <a href="/tags/Hive/" style="font-size: 20px;">Hive</a> <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/PracticeDemo/" style="font-size: 10px;">PracticeDemo</a> <a href="/tags/Python3/" style="font-size: 10px;">Python3</a> <a href="/tags/Spark/" style="font-size: 10px;">Spark</a> <a href="/tags/ZooKeeper-Kafka/" style="font-size: 10px;">ZooKeeper Kafka</a>
+      <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Hadoop-2-X/" style="font-size: 10px;">Hadoop 2.X</a> <a href="/tags/Hive/" style="font-size: 20px;">Hive</a> <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Oracle12c/" style="font-size: 10px;">Oracle12c</a> <a href="/tags/PracticeDemo/" style="font-size: 10px;">PracticeDemo</a> <a href="/tags/Python3/" style="font-size: 10px;">Python3</a> <a href="/tags/Spark/" style="font-size: 10px;">Spark</a> <a href="/tags/ZooKeeper-Kafka/" style="font-size: 10px;">ZooKeeper Kafka</a>
     </div>
   </div>
 
@@ -170,6 +179,10 @@
       <ul>
         
           <li>
+            <a href="/2019/12/21/20191221-1006-Oracle12cR2/">20191221_1006-Oracle12cR2</a>
+          </li>
+        
+          <li>
             <a href="/2019/12/20/20191220-1940-Hive/">20191220-1940_Hive</a>
           </li>
         
@@ -183,10 +196,6 @@
         
           <li>
             <a href="/2019/12/19/20191219-2254-Hive-1-x/">20191219-2254_Hive-1.x</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/19/20191219-1545-Spark/">20191219_1545_SPARK</a>
           </li>
         
       </ul>

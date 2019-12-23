@@ -78,7 +78,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/21/20191221-1006-Oracle12cR2/">20191221_1006-Oracle12cR2</a>
+      <a class="article-title" href="/2019/12/21/20191221-1006-Oracle12cR2/">20191223_2356-Oracle12cR2</a>
     </h1>
   
 
@@ -90,7 +90,8 @@
 <li>Repo Point<br>[&lt;Oracle-12.2&gt;linuxx64_12201_database.zip]（<a href="https://www.oracle.com/downloads/software-license-agreement.html#license-lightbox）" target="_blank" rel="noopener">https://www.oracle.com/downloads/software-license-agreement.html#license-lightbox）</a></li>
 </ul>
 <h3 id="02-runInstaller"><a href="#02-runInstaller" class="headerlink" title="02. runInstaller"></a>02. runInstaller</h3><p><code>To be continued...</code></p>
-<h3 id="03-Oracle12c-架构"><a href="#03-Oracle12c-架构" class="headerlink" title="03. Oracle12c 架构"></a>03. Oracle12c 架构</h3><h4 id="实例和内存结构"><a href="#实例和内存结构" class="headerlink" title="实例和内存结构"></a>实例和内存结构</h4><p><code>Instance</code> 实例其实就是物理内存段的一部分，相当于软件进程.<br><code>内核参数</code> 系统内存4G，下面为对应内核配置大小（出自官方白皮书）<br><img src="Linux内核参数.png" title="Linux内核参数" alt="Linux内核参数"></p>
+<h3 id="03-Oracle12c-架构"><a href="#03-Oracle12c-架构" class="headerlink" title="03. Oracle12c 架构"></a>03. Oracle12c 架构</h3><h4 id="实例和内存结构"><a href="#实例和内存结构" class="headerlink" title="实例和内存结构"></a>实例和内存结构</h4><p><code>Instance</code> 实例其实就是物理内存段的一部分，相当于软件进程.<br><code>kernel.shmall</code> 为共享内存大小，按照192.168.62.103测试库来看，可以配置为 <strong>4294967296</strong> 个page（4KB/page）.<br><code>kernel.shmmax</code> 用于定义单个共享内存段的最大值，<code>kernel.shmmax</code> 设置应该足够大，能在一个共享内存段下容纳下整个的 <code>SGA</code> ，设置的过低可能会导致需要创建多个共享内存段，这样可能导致系统性能的下降，最大值为16GB（在大多数情况下，该值应该比SGA大）.按照192.168.62.103测试库（内存128G）来看，可以配置为 <strong>88719476736</strong>（82GB）.</p>
+<p><code>Ex</code> 内核参数，系统内存4G，下面为对应内核配置大小（出自官方白皮书）<br><img src="Linux内核参数.png" title="Linux内核参数" alt="Linux内核参数"></p>
 <p>实例内存由下面<strong>两组内存参数</strong>动态调整：<br><code>SGA</code>（total_mem × 80%） × 80%，一般不超过物理内存的1/2.<br><code>PGA</code>（total_mem × 80%） × 20%.</p>
 <table>
 <thead>
@@ -188,7 +189,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/21/20191221-1006-Oracle12cR2/" data-id="ck4im8nr9000il4u64roveqoj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/21/20191221-1006-Oracle12cR2/" data-id="ck4imorbo000i04u6dk1q30zh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle12c/" rel="tag">Oracle12c</a></li></ul>
@@ -238,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/20/20191220-1940-Hive/" data-id="ck4im8nr6000gl4u6hexj4pey" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/20/20191220-1940-Hive/" data-id="ck4imorbl000g04u6bdb1hk0n" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li></ul>
@@ -454,7 +455,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/" data-id="ck4im8nr4000el4u68edbaxte" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/" data-id="ck4imorbi000e04u69qiq2isz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
@@ -508,7 +509,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-2347-Hadoop-2-6-1/" data-id="ck4im8nqz000cl4u6bk365g7b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-2347-Hadoop-2-6-1/" data-id="ck4imorb7000b04u6bhdueq6f" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop-2-X/" rel="tag">Hadoop 2.X</a></li></ul>
@@ -562,7 +563,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-2254-Hive-1-x/" data-id="ck4im8nqt000bl4u68gvm1o1q" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-2254-Hive-1-x/" data-id="ck4imorbe000c04u6aa3rdgu5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li></ul>
@@ -640,7 +641,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4im8nqk0007l4u69idhdwvr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4imoran000704u6grz79p08" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li></ul>
@@ -681,7 +682,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4im8nqo0008l4u609cp0i7q" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4imorb2000804u69voz5w06" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>
@@ -738,7 +739,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191218-2224-MURA-Excel/" data-id="ck4im8nqf0006l4u6gsdhg9jd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191218-2224-MURA-Excel/" data-id="ck4imorah000604u6bgh8299s" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li></ul>
@@ -776,7 +777,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191212_1629_MURA/" data-id="ck4im8nof0000l4u66sajaa0p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191212_1629_MURA/" data-id="ck4imor7q000004u6c6jm3pak" class="article-share-link">Share</a>
       
       
     </footer>
@@ -817,7 +818,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191218-1300-Python3-Monitor/" data-id="ck4im8nq40003l4u6a7424ayo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191218-1300-Python3-Monitor/" data-id="ck4imora2000304u66a4g1xuj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li></ul>
@@ -879,7 +880,7 @@
       <ul>
         
           <li>
-            <a href="/2019/12/21/20191221-1006-Oracle12cR2/">20191221_1006-Oracle12cR2</a>
+            <a href="/2019/12/21/20191221-1006-Oracle12cR2/">20191223_2356-Oracle12cR2</a>
           </li>
         
           <li>

@@ -123,6 +123,7 @@
 </tbody></table>
 <img src="RAM.png" title="内存架构" alt="内存架构">
 
+<h4 id="关于SGA和PGA的一点配置总结"><a href="#关于SGA和PGA的一点配置总结" class="headerlink" title="关于SGA和PGA的一点配置总结"></a>关于SGA和PGA的一点配置总结</h4><p><code>Tips</code> 相关总结不一定正确，仍需实验验证.<br><a href="https://blog.csdn.net/fjseryi/article/details/50818843" target="_blank" rel="noopener">相关博客：关于oracle11G的自动内存管理MEMORY_TARGET和MEMORY_MAX_TARGET</a></p>
 <hr>
 <h4 id="SGA下的各种缓冲区"><a href="#SGA下的各种缓冲区" class="headerlink" title="SGA下的各种缓冲区"></a>SGA下的各种缓冲区</h4><ul>
 <li><code>Data Buffer Cache</code> 数据高速缓冲区，又分级为：Dirty Buffer/Free Buffer/Pinned Buffer<br>  → <code>Dirty Buffer</code> 脏缓冲区，当数据库发生 DML（Insert、Update、Delete）操作时，会对缓冲区内容进行修改，这样缓冲区的内容就会和相对应的数据文件不一致，这时，缓冲区标识为“脏缓冲区”.<br>  → <code>Free Buffer</code> 自由缓冲区，当“脏缓冲区”的内容被写入数据文件后，因为该缓冲区与相应数据文件部分内容一致，所以将这些缓冲区称为“自由缓冲区”；当执行 SELECT 语句时，会将对应数据文件部分数据读取到数据高速缓存的相应缓冲区，因为缓冲区与数据块内容完全一致，所以这些缓冲区也被称为“自由缓冲区”.<br>  → <code>Pinned Buffer</code> 忙缓冲区，指服务器进程正在访问的缓冲区.<br>  → 为了防止数据库高速缓冲区空间不够用，Oracle 会将脏缓冲区中的数据写入对应的数据文件中(<code>Redo.log</code>)，以腾出空间给新的数据.</li>
@@ -163,7 +164,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/21/20191221-1006-Oracle12cR2/" data-id="ck4i9af8q000i80u6e5dr2oka" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/21/20191221-1006-Oracle12cR2/" data-id="ck4iix84p000i3ou6b77040p5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle12c/" rel="tag">Oracle12c</a></li></ul>
@@ -213,7 +214,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/20/20191220-1940-Hive/" data-id="ck4i9af98000n80u6ed9acjhz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/20/20191220-1940-Hive/" data-id="ck4iix84l000g3ou67zuu9g3j" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li></ul>
@@ -429,7 +430,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/" data-id="ck4i9af8z000k80u61ej7au6e" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/" data-id="ck4iix84h000e3ou6gxyghxfd" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
@@ -483,7 +484,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-2347-Hadoop-2-6-1/" data-id="ck4i9af8b000d80u6d3dp77g2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-2347-Hadoop-2-6-1/" data-id="ck4iix84a000c3ou67y5u9zdf" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop-2-X/" rel="tag">Hadoop 2.X</a></li></ul>
@@ -537,7 +538,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-2254-Hive-1-x/" data-id="ck4i9af8h000f80u6a9lyhff5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-2254-Hive-1-x/" data-id="ck4iix83r000b3ou6a5oj06if" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li></ul>
@@ -615,7 +616,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4i9af6b000480u69cta3smo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4iix83300073ou6bxm42jec" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li></ul>
@@ -656,7 +657,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4i9af6s000580u6by0a9gmj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4iix83800083ou633yd2vyb" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>
@@ -713,7 +714,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191218-2224-MURA-Excel/" data-id="ck4i9af61000280u69xma5n63" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191218-2224-MURA-Excel/" data-id="ck4iix82x00063ou6g5c53m8v" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li></ul>
@@ -751,7 +752,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191212_1629_MURA/" data-id="ck4i9af4c000080u65qt71dw2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191212_1629_MURA/" data-id="ck4iix80500003ou66zwqbysr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -792,7 +793,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191218-1300-Python3-Monitor/" data-id="ck4i9af8v000j80u6a7m9gtbv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191218-1300-Python3-Monitor/" data-id="ck4iix82m00033ou661pr3699" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li></ul>

@@ -86,12 +86,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="OCP"><a href="#OCP" class="headerlink" title="OCP"></a>OCP</h2><h3 id="01-Oracle12cR2"><a href="#01-Oracle12cR2" class="headerlink" title="01. Oracle12cR2"></a>01. Oracle12cR2</h3><ul>
+        <h2 id="OCP12c"><a href="#OCP12c" class="headerlink" title="OCP12c"></a>OCP12c</h2><h3 id="01-Oracle12cR2"><a href="#01-Oracle12cR2" class="headerlink" title="01. Oracle12cR2"></a>01. Oracle12cR2</h3><ul>
 <li>Repo Point<br><a href="https://www.oracle.com/downloads/software-license-agreement.html#license-lightbox" target="_blank" rel="noopener">&lt;Oracle-12.2&gt;linuxx64_12201_database.zip</a></li>
 </ul>
 <h3 id="02-runInstaller"><a href="#02-runInstaller" class="headerlink" title="02. runInstaller"></a>02. runInstaller</h3><p><code>To be continued...</code></p>
-<h3 id="03-Oracle12c-架构"><a href="#03-Oracle12c-架构" class="headerlink" title="03. Oracle12c 架构"></a>03. Oracle12c 架构</h3><h4 id="实例和内存结构"><a href="#实例和内存结构" class="headerlink" title="实例和内存结构"></a>实例和内存结构</h4><p><code>instanc</code> 物理内存段的一部分.</p>
-<p>实例由下面<strong>两组内存参数</strong>动态调整：<br><code>SGA</code> (total_mem <em>80%)</em>80%，一般不超过内存的1/2.<br><code>PGA</code> (total_mem <em>80%)</em>20%.</p>
+<h3 id="03-Oracle12c-架构"><a href="#03-Oracle12c-架构" class="headerlink" title="03. Oracle12c 架构"></a>03. Oracle12c 架构</h3><h4 id="实例和内存结构"><a href="#实例和内存结构" class="headerlink" title="实例和内存结构"></a>实例和内存结构</h4><p><code>Instance</code> 实例其实就是物理内存段的一部分，相当于软件进程.<br><code>内核参数</code> 系统内存4G，下面为对应内核配置大小(出自官方白皮书)<br><img src="Linux内核参数.png" title="Linux内核参数" alt="Linux内核参数"></p>
+<p>实例内存由下面<strong>两组内存参数</strong>动态调整：<br><code>SGA</code> (total_mem <em>80%)</em>80%，一般不超过内存的1/2.<br><code>PGA</code> (total_mem <em>80%)</em>20%.</p>
 <table>
 <thead>
 <tr>
@@ -115,12 +115,21 @@
 <td><code>SGA_TARGET</code>⬇</td>
 <td><code>PGA_AGGREGATE_TARGET</code>⬇</td>
 </tr>
+<tr>
+<td>X</td>
+<td><code>DB_CACHE</code> <code>SHARED_POOL</code> <code>LARGE_POOL</code> …</td>
+<td></td>
+</tr>
 </tbody></table>
-<h4 id="SGA"><a href="#SGA" class="headerlink" title="SGA"></a>SGA</h4><ul>
+<img src="RAM.png" title="内存架构" alt="内存架构">
+
+<hr>
+<h4 id="SGA下的各种缓冲区"><a href="#SGA下的各种缓冲区" class="headerlink" title="SGA下的各种缓冲区"></a>SGA下的各种缓冲区</h4><ul>
 <li><code>Data Buffer Cache</code> 数据高速缓冲区，又分级为：Dirty Buffer/Free Buffer/Pinned Buffer<br>  → <code>Dirty Buffer</code> 脏缓冲区，当数据库发生 DML（Insert、Update、Delete）操作时，会对缓冲区内容进行修改，这样缓冲区的内容就会和相对应的数据文件不一致，这时，缓冲区标识为“脏缓冲区”.<br>  → <code>Free Buffer</code> 自由缓冲区，当“脏缓冲区”的内容被写入数据文件后，因为该缓冲区与相应数据文件部分内容一致，所以将这些缓冲区称为“自由缓冲区”；当执行 SELECT 语句时，会将对应数据文件部分数据读取到数据高速缓存的相应缓冲区，因为缓冲区与数据块内容完全一致，所以这些缓冲区也被称为“自由缓冲区”.<br>  → <code>Pinned Buffer</code> 忙缓冲区，指服务器进程正在访问的缓冲区.<br>  → 为了防止数据库高速缓冲区空间不够用，Oracle 会将脏缓冲区中的数据写入对应的数据文件中(<code>Redo.log</code>)，以腾出空间给新的数据.</li>
 </ul>
-<p><code>Ex</code> 高速缓冲区的大小管理：</p>
+<p><code>Ex</code> 高速缓冲区的大小管理</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示高速缓冲区的大小</span></span><br><span class="line"><span class="comment"># "0" 表示数据库自动管理，这里表示设置的是最小值。</span></span><br><span class="line">show parameter db_cache_size</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改数据库高速缓冲区大小</span></span><br><span class="line">alter system <span class="built_in">set</span> db_cache_size=500m; </span><br><span class="line"></span><br><span class="line"><span class="comment"># flush缓冲区，生产库慎用</span></span><br><span class="line">alter system flush buffer_cache</span><br></pre></td></tr></table></figure>
+
 <hr>
 <ul>
 <li><code>Redo Log Buffer</code> 重做日志缓冲区(循环文件，redo01.log/redo02.log/redo03.log)，由一条条重做项构成.</li>
@@ -130,27 +139,31 @@
 <ul>
 <li><code>Shared Pool</code> SGA的共享池，内含库缓存、数字字典缓冲区(执行计划的依赖来源))等.<br>  <code>数据字典缓冲区</code> 数据库参考信息(数据库结构/用户等)<br>  <code>库高速缓存</code> 共享SQL区和共享PL/SQL区.</li>
 </ul>
-<p><code>Ex</code> </p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 当用户执行语句时</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> emp <span class="keyword">WHERE</span> empno=<span class="number">7788</span>;</span><br><span class="line"><span class="comment"># Oracle 需要查询数据字典 dba_tables 确定表 emp 是否存在</span></span><br><span class="line"><span class="comment"># 如果该表已经存在，还需要查询数据字典 dba_tab_columns 确定列 empno 在表 emp 中是否存在</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> dba_tab_columns <span class="keyword">WHERE</span> column_name = <span class="string">'EMPNO'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">#然后才能生成执行语句的过程(执行计划)，这些定义在首次查询时存入数据字典高速缓冲区.</span></span><br></pre></td></tr></table></figure>
+<p><code>Ex</code> Shared Pool 展示</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--当用户执行语句时</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> emp <span class="keyword">WHERE</span> empno=<span class="number">7788</span>;</span><br><span class="line"><span class="comment">--Oracle 需要查询数据字典 dba_tables 确定表 emp 是否存在</span></span><br><span class="line"><span class="comment">--如果该表已经存在，还需要查询数据字典 dba_tab_columns 确定列 empno 在表 emp 中是否存在</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> dba_tab_columns <span class="keyword">WHERE</span> column_name = <span class="string">'EMPNO'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--然后才能生成执行语句的过程(执行计划)，这些定义在首次查询时存入数据字典高速缓冲区.</span></span><br></pre></td></tr></table></figure>
 
 <hr>
 <ul>
-<li><code>大型池 Java池 流池</code></li>
+<li><code>大型池 Java池 流池</code><br>主要是大型池的大小影响数据备份效率.</li>
 </ul>
 <hr>
 <h4 id="PGA"><a href="#PGA" class="headerlink" title="PGA"></a>PGA</h4><p><code>PGA</code> 私有SQL、会话内存、SQL工作区.</p>
-<h4 id="In-Memory-Column-Store"><a href="#In-Memory-Column-Store" class="headerlink" title="In-Memory Column Store"></a>In-Memory Column Store</h4><p><code>In-Memory area</code> 适用于：</p>
-<ul>
-<li>资源表中的行非常多，但查询结果行不多.</li>
-<li>资源表中的列很多，但查询结果的列很少.</li>
-<li>查询聚集数据</li>
+<h4 id="In-Memory-Column-Store"><a href="#In-Memory-Column-Store" class="headerlink" title="In-Memory Column Store"></a>In-Memory Column Store</h4><ul>
+<li><code>In-Memory area</code> 适用于：<br>  → 资源表中的行非常多，但查询结果行不多.<br>  → 资源表中的列很多，但查询结果的列很少.<br>  → 查询聚集数据</li>
 </ul>
-<h4 id="各种进程"><a href="#各种进程" class="headerlink" title="各种进程"></a>各种进程</h4><p>用户进程<br>后台进程：<code>LGWR</code> <code>DBWn</code> <code>CKPT</code> <code>SMON</code> <code>PMON</code> </p>
+<h4 id="各种进程"><a href="#各种进程" class="headerlink" title="各种进程"></a>各种进程</h4><ul>
+<li>用户进程<br>  后台进程：<code>LGWR</code> <code>DBWn</code> <code>CKPT</code> <code>SMON</code> <code>PMON</code> </li>
+</ul>
+<h3 id="04-实例管理"><a href="#04-实例管理" class="headerlink" title="04. 实例管理"></a>04. 实例管理</h3><h4 id="实例加载"><a href="#实例加载" class="headerlink" title="实例加载"></a>实例加载</h4><p><code>NOMOUNT</code><br><code>MOUNT</code><br><code>OPEN</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<h4 id="实例关闭"><a href="#实例关闭" class="headerlink" title="实例关闭"></a>实例关闭</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="动态性能视图"><a href="#动态性能视图" class="headerlink" title="动态性能视图"></a>动态性能视图</h4>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/21/20191221-1006-Oracle12cR2/" data-id="ck4f7i974000f3gu6b7p27oss" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/21/20191221-1006-Oracle12cR2/" data-id="ck4i9af8q000i80u6e5dr2oka" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle12c/" rel="tag">Oracle12c</a></li></ul>
@@ -200,7 +213,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/20/20191220-1940-Hive/" data-id="ck4f7i96z000e3gu6hmr8hg34" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/20/20191220-1940-Hive/" data-id="ck4i9af98000n80u6ed9acjhz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li></ul>
@@ -416,7 +429,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/" data-id="ck4f7i96q000b3gu6alopg9rz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/" data-id="ck4i9af8z000k80u61ej7au6e" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
@@ -470,7 +483,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-2347-Hadoop-2-6-1/" data-id="ck4f7i97b000k3gu6c2oegh8l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-2347-Hadoop-2-6-1/" data-id="ck4i9af8b000d80u6d3dp77g2" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop-2-X/" rel="tag">Hadoop 2.X</a></li></ul>
@@ -524,7 +537,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-2254-Hive-1-x/" data-id="ck4f7i96700063gu6amvic2ju" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-2254-Hive-1-x/" data-id="ck4i9af8h000f80u6a9lyhff5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li></ul>
@@ -602,7 +615,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4f7i979000i3gu6feamenqh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4i9af6b000480u69cta3smo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li></ul>
@@ -643,7 +656,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4f7i95v00043gu619ny6e8z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4i9af6s000580u6by0a9gmj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>
@@ -700,7 +713,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191218-2224-MURA-Excel/" data-id="ck4f7i96k000a3gu66bwqd74s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191218-2224-MURA-Excel/" data-id="ck4i9af61000280u69xma5n63" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li></ul>
@@ -738,7 +751,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191212_1629_MURA/" data-id="ck4f7i92f00003gu6753y845p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191212_1629_MURA/" data-id="ck4i9af4c000080u65qt71dw2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -779,7 +792,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191218-1300-Python3-Monitor/" data-id="ck4f7i96g00093gu6dyhv8fgy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191218-1300-Python3-Monitor/" data-id="ck4i9af8v000j80u6a7m9gtbv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li></ul>
@@ -809,7 +822,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop-2-X/" rel="tag">Hadoop 2.X</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/" rel="tag">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle12c/" rel="tag">Oracle12c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PracticeDemo/" rel="tag">PracticeDemo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Demo/" rel="tag">Demo</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hadoop-2-X/" rel="tag">Hadoop 2.X</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OS/" rel="tag">OS</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Oracle12c/" rel="tag">Oracle12c</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>
     </div>
   </div>
 
@@ -819,7 +832,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Hadoop-2-X/" style="font-size: 10px;">Hadoop 2.X</a> <a href="/tags/Hive/" style="font-size: 20px;">Hive</a> <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Oracle12c/" style="font-size: 10px;">Oracle12c</a> <a href="/tags/PracticeDemo/" style="font-size: 10px;">PracticeDemo</a> <a href="/tags/Python3/" style="font-size: 10px;">Python3</a> <a href="/tags/Spark/" style="font-size: 10px;">Spark</a> <a href="/tags/ZooKeeper-Kafka/" style="font-size: 10px;">ZooKeeper Kafka</a>
+      <a href="/tags/Demo/" style="font-size: 10px;">Demo</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Hadoop-2-X/" style="font-size: 10px;">Hadoop 2.X</a> <a href="/tags/Hive/" style="font-size: 20px;">Hive</a> <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Oracle12c/" style="font-size: 10px;">Oracle12c</a> <a href="/tags/Python3/" style="font-size: 10px;">Python3</a> <a href="/tags/Spark/" style="font-size: 10px;">Spark</a> <a href="/tags/ZooKeeper-Kafka/" style="font-size: 10px;">ZooKeeper Kafka</a>
     </div>
   </div>
 

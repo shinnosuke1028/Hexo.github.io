@@ -18,7 +18,7 @@
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;23&#x2F;20191221-1006-Oracle12cR2&#x2F;RAM.png">
 <meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;23&#x2F;20191221-1006-Oracle12cR2&#x2F;用户进程.png">
 <meta property="article:published_time" content="2019-12-23T15:56:17.000Z">
-<meta property="article:modified_time" content="2019-12-23T16:01:56.896Z">
+<meta property="article:modified_time" content="2019-12-24T05:43:29.727Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Oracle12c">
 <meta name="twitter:card" content="summary">
@@ -97,7 +97,7 @@
 <li>Repo Point<br>[&lt;Oracle-12.2&gt;linuxx64_12201_database.zip]（<a href="https://www.oracle.com/downloads/software-license-agreement.html#license-lightbox）" target="_blank" rel="noopener">https://www.oracle.com/downloads/software-license-agreement.html#license-lightbox）</a></li>
 </ul>
 <h3 id="02-runInstaller"><a href="#02-runInstaller" class="headerlink" title="02. runInstaller"></a>02. runInstaller</h3><p><code>To be continued...</code></p>
-<h3 id="03-Oracle12c-架构"><a href="#03-Oracle12c-架构" class="headerlink" title="03. Oracle12c 架构"></a>03. Oracle12c 架构</h3><h4 id="实例和内存结构"><a href="#实例和内存结构" class="headerlink" title="实例和内存结构"></a>实例和内存结构</h4><p><code>Instance</code> 实例其实就是物理内存段的一部分，相当于软件进程.<br><code>kernel.shmall</code> 为共享内存大小，按照192.168.62.103测试库来看，可以配置为 <strong>4294967296</strong> 个page（4KB/page）.<br><code>kernel.shmmax</code> 用于定义单个共享内存段的最大值，<code>kernel.shmmax</code> 设置应该足够大，能在一个共享内存段下容纳下整个的 <code>SGA</code> ，设置的过低可能会导致需要创建多个共享内存段，这样可能导致系统性能的下降，最大值为16GB（在大多数情况下，该值应该比SGA大）.按照192.168.62.103测试库（内存128G）来看，可以配置为 <strong>88719476736</strong>（82GB）.</p>
+<h3 id="03-Oracle12c-架构"><a href="#03-Oracle12c-架构" class="headerlink" title="03. Oracle12c 架构"></a>03. Oracle12c 架构</h3><h4 id="实例和内存结构"><a href="#实例和内存结构" class="headerlink" title="实例和内存结构"></a>实例和内存结构</h4><p><code>Instance</code> 实例其实就是物理内存段的一部分，相当于软件进程.<br><code>kernel.shmall</code> 为共享内存大小，按照192.168.62.103测试库来看，可以配置为 <strong>4294967296</strong> 个page（4KB/page）.<br><code>kernel.shmmax</code> 用于定义单个共享内存段的最大值，<code>kernel.shmmax</code> 设置应该足够大，能在一个共享内存段下容纳下整个的 <code>SGA</code> ，设置的过低可能会导致需要创建多个共享内存段，这样可能导致系统性能的下降，最大值为16GB（在大多数情况下，该值应该比SGA大）.按照192.168.62.103测试库（内存128G）来看，可以配置为 <strong>88719476736</strong>（82GB）.<br>53477376 pages / 219043332096 bytes</p>
 <p><code>Ex</code> 内核参数，系统内存4G，下面为对应内核配置大小（出自官方白皮书）<br><img src="Linux内核参数.png" title="Linux内核参数" alt="Linux内核参数"></p>
 <p>实例内存由下面<strong>两组内存参数</strong>动态调整：<br><code>SGA</code>（total_mem × 80%） × 80%，一般不超过物理内存的1/2.<br><code>PGA</code>（total_mem × 80%） × 20%.</p>
 <table>
@@ -196,7 +196,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/23/20191221-1006-Oracle12cR2/" data-id="ck4impnvz000i3ou6eiia8jg4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/23/20191221-1006-Oracle12cR2/" data-id="ck4jh5846000gjsu67fzn1qx6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle12c/" rel="tag">Oracle12c</a></li></ul>
@@ -206,6 +206,15 @@
   
     
 <nav id="article-nav">
+  
+    <a href="/2019/12/24/20191219-2254-Hive-1-x/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          20191224-1414_Hive-1.x
+        
+      </div>
+    </a>
   
   
     <a href="/2019/12/20/20191220-1940-Hive/" id="article-nav-older" class="article-nav-link-wrap">
@@ -261,6 +270,10 @@
       <ul>
         
           <li>
+            <a href="/2019/12/24/20191219-2254-Hive-1-x/">20191224-1414_Hive-1.x</a>
+          </li>
+        
+          <li>
             <a href="/2019/12/23/20191221-1006-Oracle12cR2/">20191223_2356-Oracle12cR2</a>
           </li>
         
@@ -274,10 +287,6 @@
         
           <li>
             <a href="/2019/12/19/20191219-2347-Hadoop-2-6-1/">20191219-2347_Hadoop-2.6.1</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/19/20191219-2254-Hive-1-x/">20191219-2254_Hive-1.x</a>
           </li>
         
       </ul>

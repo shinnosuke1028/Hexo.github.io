@@ -5,17 +5,17 @@
   
 
   
-  <title>20191220-1940_Hive | Hexo</title>
+  <title>20191224-1220_Hive | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="移花接木-Hive01. Hive 1.x Repo Pointapache-hive-1.2.2-bin.tar.gzmysql-connector-java-5.1.44.tarapache-hive-1.2.2-src.tar.gz  02. Hive 元素元数据 &amp; 数据 Hive中的表是纯逻辑表，即元数据； 数据存储在HDFS上，元数据与数据存储分离； 数据计算依赖分布式计算框架">
 <meta property="og:type" content="article">
-<meta property="og:title" content="20191220-1940_Hive">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;20&#x2F;20191220-1940-Hive&#x2F;index.html">
+<meta property="og:title" content="20191224-1220_Hive">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;24&#x2F;20191220-1940-Hive&#x2F;index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="移花接木-Hive01. Hive 1.x Repo Pointapache-hive-1.2.2-bin.tar.gzmysql-connector-java-5.1.44.tarapache-hive-1.2.2-src.tar.gz  02. Hive 元素元数据 &amp; 数据 Hive中的表是纯逻辑表，即元数据； 数据存储在HDFS上，元数据与数据存储分离； 数据计算依赖分布式计算框架">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2019-12-20T11:40:20.000Z">
-<meta property="article:modified_time" content="2019-12-21T02:06:17.441Z">
+<meta property="article:published_time" content="2019-12-24T04:20:20.000Z">
+<meta property="article:modified_time" content="2019-12-24T06:40:25.217Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Hive">
 <meta name="twitter:card" content="summary">
@@ -69,8 +69,8 @@
       <div class="outer">
         <section id="main"><article id="post-20191220-1940-Hive" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/12/20/20191220-1940-Hive/" class="article-date">
-  <time datetime="2019-12-20T11:40:20.000Z" itemprop="datePublished">2019-12-20</time>
+    <a href="/2019/12/24/20191220-1940-Hive/" class="article-date">
+  <time datetime="2019-12-24T04:20:20.000Z" itemprop="datePublished">2019-12-24</time>
 </a>
     
   </div>
@@ -81,7 +81,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      20191220-1940_Hive
+      20191224-1220_Hive
     </h1>
   
 
@@ -100,12 +100,17 @@
 <li>用户需指定<code>三个属性</code>用来定义数据格式：<br>列分隔符：空格 ‘,’  ‘\t’<br>行分隔符：’\n’<br>读取数据的方法</li>
 </ul>
 <h4 id="Hive-架构"><a href="#Hive-架构" class="headerlink" title="Hive 架构"></a>Hive 架构</h4><p><code>CLI</code> <strong><em>Hive</em></strong> / Metastore → hiveserver2(HS2) → <strong><em>Beeline</em></strong><br><code>JDBC</code> <strong><em>Metastore</em></strong> → Java/Python/C++<br><code>WUI</code> apache-hive-0.13.0-src.tar.gz → <strong><em>hive –service hwi</em></strong></p>
-<h3 id="03-分桶"><a href="#03-分桶" class="headerlink" title="03. 分桶"></a>03. 分桶</h3><h4 id="有点绕的概念"><a href="#有点绕的概念" class="headerlink" title="有点绕的概念"></a>有点绕的概念</h4><p><code>语法</code> tablesample(bucket x out of y on id)</p>
+<h3 id="03-数据入库"><a href="#03-数据入库" class="headerlink" title="03. 数据入库"></a>03. 数据入库</h3><h4 id="3-1-建表"><a href="#3-1-建表" class="headerlink" title="3-1 建表"></a>3-1 建表</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--HQL</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> article(sentence <span class="keyword">string</span>)   <span class="comment">--一句话就是一行</span></span><br><span class="line"><span class="keyword">row</span> <span class="keyword">format</span> <span class="keyword">delimited</span> <span class="keyword">fields</span> <span class="keyword">terminated</span> <span class="keyword">by</span> <span class="string">'\n'</span>;<span class="comment">--每一行的format</span></span><br><span class="line"></span><br><span class="line">desc article; <span class="comment">--查询表结构</span></span><br><span class="line"><span class="comment">--数据导入前，表为空</span></span><br><span class="line"><span class="keyword">select</span> article.sentence <span class="keyword">from</span> article <span class="keyword">limit</span> <span class="number">2</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">--本地数据load（Local Load）</span></span><br><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/data/mr_wc/The_man_of_property.txt'</span></span><br><span class="line"><span class="keyword">into</span> <span class="keyword">table</span> article;</span><br><span class="line"></span><br><span class="line"><span class="comment">--再次查询</span></span><br><span class="line">0: jdbc:hive2://master:10000&gt; select article.sentence from article limit 1;</span><br><span class="line">OK</span><br><span class="line">+<span class="comment">-------------------+--+</span></span><br><span class="line">| article.sentence  |</span><br><span class="line">+<span class="comment">-------------------+--+</span></span><br><span class="line">| Preface           |</span><br><span class="line">+<span class="comment">-------------------+--+</span></span><br><span class="line">1 row selected (0.185 seconds)</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-2-数据清洗"><a href="#3-2-数据清洗" class="headerlink" title="3-2 数据清洗"></a>3-2 数据清洗</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--HQL</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3-分区-分桶（详见04）"><a href="#3-3-分区-分桶（详见04）" class="headerlink" title="3-3 分区/分桶（详见04）"></a>3-3 分区/分桶（详见04）</h4><hr>
+<h3 id="04-分桶"><a href="#04-分桶" class="headerlink" title="04. 分桶"></a>04. 分桶</h3><h4 id="有点绕的概念"><a href="#有点绕的概念" class="headerlink" title="有点绕的概念"></a>有点绕的概念</h4><p><code>语法</code> tablesample(bucket x out of y on id)</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TABLESAMPLE (BUCKET x OUT OF y [ON colname])</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/20/20191220-1940-Hive/" data-id="ck4jh5ufb000e54u61brh82qo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/20191220-1940-Hive/" data-id="ck4kv4eaf000b9su6aj1e0adh" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li></ul>
@@ -116,19 +121,19 @@
     
 <nav id="article-nav">
   
-    <a href="/2019/12/23/20191221-1006-Oracle12cR2/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/12/24/20191219-2254-Hive-1-x/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          20191223_2356-Oracle12cR2
+          20191224-1414_Hive-1.x
         
       </div>
     </a>
   
   
-    <a href="/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/12/23/20191221-1006-Oracle12cR2/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">20191220_1347_ubuntu16.04.2-server-amd64</div>
+      <div class="article-nav-title">20191223_2356-Oracle12cR2</div>
     </a>
   
 </nav>
@@ -157,7 +162,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Demo/" style="font-size: 10px;">Demo</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Hadoop-2-X/" style="font-size: 10px;">Hadoop 2.X</a> <a href="/tags/Hive/" style="font-size: 20px;">Hive</a> <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Oracle12c/" style="font-size: 10px;">Oracle12c</a> <a href="/tags/Python3/" style="font-size: 10px;">Python3</a> <a href="/tags/Spark/" style="font-size: 10px;">Spark</a> <a href="/tags/ZooKeeper-Kafka/" style="font-size: 10px;">ZooKeeper Kafka</a>
+      <a href="/tags/Demo/" style="font-size: 10px;">Demo</a> <a href="/tags/Excel/" style="font-size: 10px;">Excel</a> <a href="/tags/Hadoop-2-X/" style="font-size: 10px;">Hadoop 2.X</a> <a href="/tags/Hive/" style="font-size: 20px;">Hive</a> <a href="/tags/OS/" style="font-size: 10px;">OS</a> <a href="/tags/Oracle12c/" style="font-size: 10px;">Oracle12c</a> <a href="/tags/Python3/" style="font-size: 20px;">Python3</a> <a href="/tags/Spark/" style="font-size: 10px;">Spark</a> <a href="/tags/ZooKeeper-Kafka/" style="font-size: 10px;">ZooKeeper Kafka</a>
     </div>
   </div>
 
@@ -179,7 +184,15 @@
       <ul>
         
           <li>
+            <a href="/2019/12/25/20191225-1309-Python3-FTP-list/">20191225_1309_Python3-FTP-list</a>
+          </li>
+        
+          <li>
             <a href="/2019/12/24/20191219-2254-Hive-1-x/">20191224-1414_Hive-1.x</a>
+          </li>
+        
+          <li>
+            <a href="/2019/12/24/20191220-1940-Hive/">20191224-1220_Hive</a>
           </li>
         
           <li>
@@ -187,15 +200,7 @@
           </li>
         
           <li>
-            <a href="/2019/12/20/20191220-1940-Hive/">20191220-1940_Hive</a>
-          </li>
-        
-          <li>
             <a href="/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/">20191220_1347_ubuntu16.04.2-server-amd64</a>
-          </li>
-        
-          <li>
-            <a href="/2019/12/19/20191219-2347-Hadoop-2-6-1/">20191219-2347_Hadoop-2.6.1</a>
           </li>
         
       </ul>

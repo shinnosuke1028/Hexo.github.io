@@ -87,13 +87,17 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h2 id="Python3-FTP-List-Gather"><a href="#Python3-FTP-List-Gather" class="headerlink" title="Python3 FTP_List_Gather"></a>Python3 FTP_List_Gather</h2><h3 id="01-服务器数据清单采集（暂时不含可视化部分）"><a href="#01-服务器数据清单采集（暂时不含可视化部分）" class="headerlink" title="01. 服务器数据清单采集（暂时不含可视化部分）"></a>01. 服务器数据清单采集（暂时不含可视化部分）</h3><ul>
-<li>Repo Point<br>  ftplib, os, socket, re</li>
+<li>Repo Point<br>  ftplib, os, socket, re<br>  Oracle2File.FileWR（class_email_daily3.py）<br>  func_demo.func_f.date_f</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># tree ftp_monitor/src -L 2</span></span><br><span class="line">-- ftp_monitor</span><br><span class="line">|   |-- env</span><br><span class="line">|   |   |-- Include</span><br><span class="line">|   |   |-- Lib</span><br><span class="line">|   |   |-- Scripts</span><br><span class="line">|   |   |-- cx_Oracle-doc</span><br><span class="line">|   |   `-- tcl</span><br><span class="line">|   |-- requirement.txt</span><br><span class="line">    `-- src</span><br><span class="line">        |-- __init__.py</span><br><span class="line">        |-- __pycache__</span><br><span class="line">        |   |-- __init__.cpython-37.pyc</span><br><span class="line">        |   |-- ftp_wc.cpython-37.pyc</span><br><span class="line">        |   `-- main.cpython-37.pyc</span><br><span class="line">        |-- conf</span><br><span class="line">        |   |-- __init__.py</span><br><span class="line">        |   |-- __pycache__</span><br><span class="line">        |   |-- ftp_conf.py</span><br><span class="line">        |   `-- ftp_conf_bak.py</span><br><span class="line">        |-- data_output</span><br><span class="line">        |   |-- 20191212_FileList.csv</span><br><span class="line">        |   |-- 20191214_FileList.csv</span><br><span class="line">        |   |-- 20191217_FileList.csv</span><br><span class="line">        |   `-- 20191225_86_NSN_CM.csv</span><br><span class="line">        |-- ftp_wc.py</span><br><span class="line">        |-- func_demo</span><br><span class="line">        |   |-- Oracle2File.py</span><br><span class="line">        |   |-- __init__.py</span><br><span class="line">        |   |-- __pycache__</span><br><span class="line">        |   |-- func_f.py</span><br><span class="line">        |   `-- os_f.py</span><br><span class="line">        |-- main.py</span><br><span class="line">        `-- main_re.py</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Author: Shin</span></span><br><span class="line"><span class="comment"># @Date: 2019/12/5 11:48</span></span><br><span class="line"><span class="comment"># @File: main.py</span></span><br><span class="line"><span class="comment"># @Usage: Main</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> src.ftp_wc <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> src.func_demo.os_f <span class="keyword">import</span> file_create</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 测试用文件&amp;文件夹生成，生产环境无需部署以下两步</span></span><br><span class="line">    <span class="comment"># file_create(d_path, 0, d_name)</span></span><br><span class="line">    <span class="comment"># file_create(f_path, 1, *file_name_list)</span></span><br><span class="line"></span><br><span class="line">    ftp_result = []</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">for</span> rn_dict <span class="keyword">in</span> ftp_ip_dict.keys():</span><br><span class="line">            <span class="comment"># 测试Limit</span></span><br><span class="line">            <span class="keyword">if</span> rn_dict == <span class="string">'NSN_CM'</span>:</span><br><span class="line">                <span class="comment"># pprint.pprint(ftp_ip_dict[rs])</span></span><br><span class="line">                print(<span class="string">f'<span class="subst">&#123;rn_dict&#125;</span>: <span class="subst">&#123;ftp_ip_dict[rn_dict]&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> rs <span class="keyword">in</span> ftp_ip_dict[rn_dict]:</span><br><span class="line">                    <span class="comment"># print(rs)  # &lt;class 'dict'&gt;</span></span><br><span class="line">                    <span class="comment"># 这里后续可以引入多线程，同时统计当前采集服务器上的对应的所有IP</span></span><br><span class="line">                    ftp = ftp_connect(host=rs[<span class="string">'host'</span>], port=rs[<span class="string">'port'</span>], usr=rs[<span class="string">'usr'</span>], passwd=rs[<span class="string">'passwd'</span>])</span><br><span class="line">                    <span class="keyword">if</span> ftp == <span class="number">1</span>:</span><br><span class="line">                        <span class="comment"># print(f'FinishStatus: User &#123;rs["usr"]&#125; Exception!', '\n'*2)</span></span><br><span class="line">                        print(<span class="string">f'FinishStatus: Connect Exception!'</span>, <span class="string">'\n'</span> * <span class="number">2</span>)</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        remote_path = rs[<span class="string">'remotePath'</span>]</span><br><span class="line">                        <span class="comment"># print(f'已配置的远程路径: &#123;remote_path&#125;')</span></span><br><span class="line">                        ftp_reply = ftp_nlst(ftp, remote_path=remote_path, re_pattern=rs[<span class="string">'re_pattern'</span>]) <span class="comment"># &lt;class 'list'&gt;</span></span><br><span class="line">                        <span class="keyword">if</span> ftp_reply == <span class="number">1</span>:</span><br><span class="line">                            print(<span class="string">f'FinishStatus: NLST Exception!'</span>, <span class="string">'\n'</span> * <span class="number">2</span>)</span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                            <span class="comment"># print(type(ftp_reply))</span></span><br><span class="line">                            ftp_reply.insert(<span class="number">0</span>, rn_dict)</span><br><span class="line">                            print(<span class="string">f'ftp_reply: <span class="subst">&#123;ftp_reply&#125;</span>'</span>)</span><br><span class="line">                            ftp_result.extend([ftp_reply])</span><br><span class="line">                            print(<span class="string">f'FinishStatus: Succeed!'</span>, <span class="string">'\n'</span> * <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span> (KeyError, Exception) <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">f'FinishStatus: Exception!'</span>, <span class="string">'\n'</span> * <span class="number">2</span>)</span><br><span class="line">        print(<span class="string">'------------------'</span> * <span class="number">2</span>, <span class="string">f'\nError Details:\n<span class="subst">&#123;e&#125;</span>'</span>)</span><br><span class="line">        print(<span class="string">'------------------'</span> * <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 清单采集</span></span><br><span class="line">    <span class="comment"># 这里可以引入多线程，同时统计多个服务器上的采集清单</span></span><br><span class="line">    ftp_nlst_write(ftp_result, local_path=file_nlst_path, file_flag=fileDict[<span class="string">'NSN_CM'</span>][<span class="string">'flag'</span>], file_title=fileDict[<span class="string">'NSN_CM'</span>][<span class="string">'title'</span>])</span><br><span class="line">    print(<span class="string">f'Final List Status: \n<span class="subst">&#123;ftp_result&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 清单处理</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 暂停</span></span><br><span class="line">    <span class="comment"># input_word = input('Input any key to quit: ')</span></span><br></pre></td></tr></table></figure>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/25/20191225-1309-Python3-FTP-list/" data-id="ck4kv4eay000e9su62rjn5h0j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/25/20191225-1309-Python3-FTP-list/" data-id="ck4l521lf000cigu66v561xxj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li></ul>
@@ -147,7 +151,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/20191219-2254-Hive-1-x/" data-id="ck4kv4ea100079su6fov9b5a0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/20191219-2254-Hive-1-x/" data-id="ck4l521la000bigu62tep8tbp" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li></ul>
@@ -202,7 +206,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/24/20191220-1940-Hive/" data-id="ck4kv4eaf000b9su6aj1e0adh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/24/20191220-1940-Hive/" data-id="ck4l521m5000higu69td1b10x" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hive/" rel="tag">Hive</a></li></ul>
@@ -339,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/23/20191221-1006-Oracle12cR2/" data-id="ck4kv4eaj000c9su6gfsg1fhj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/23/20191221-1006-Oracle12cR2/" data-id="ck4l521m9000jigu60pyn030b" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Oracle12c/" rel="tag">Oracle12c</a></li></ul>
@@ -555,7 +559,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/" data-id="ck4kv4eb8000l9su6fd46biqm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/20/20191220-1347-ubuntu16-04-2-server-amd64/" data-id="ck4l521nb000vigu61556cidw" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OS/" rel="tag">OS</a></li></ul>
@@ -609,7 +613,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-2347-Hadoop-2-6-1/" data-id="ck4kv4ea900089su60wjz4zmd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-2347-Hadoop-2-6-1/" data-id="ck4l521ll000figu6enwogj0y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hadoop-2-X/" rel="tag">Hadoop 2.X</a></li></ul>
@@ -687,7 +691,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4kv4eb5000j9su65izf5cpo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-Spark/" data-id="ck4l521kt0008igu63oex1h3y" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Spark/" rel="tag">Spark</a></li></ul>
@@ -728,7 +732,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4kv4eb1000g9su63cqxf30e" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/19/20191219-1545-ZooKeeper-Kafka/" data-id="ck4l521kq0007igu64vuk9l7f" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ZooKeeper-Kafka/" rel="tag">ZooKeeper Kafka</a></li></ul>
@@ -785,7 +789,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191218-2224-MURA-Excel/" data-id="ck4kv4e9i00039su6dp7mf8ui" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191218-2224-MURA-Excel/" data-id="ck4l521ky000aigu61sga94px" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Excel/" rel="tag">Excel</a></li></ul>
@@ -823,7 +827,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/18/20191212_1629_MURA/" data-id="ck4kv4e7500009su6g61b34r4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/12/18/20191212_1629_MURA/" data-id="ck4l521ho0000igu6565547lj" class="article-share-link">Share</a>
       
       
     </footer>

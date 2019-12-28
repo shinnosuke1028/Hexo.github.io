@@ -1,273 +1,792 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
+
+
+
 <head>
-  <meta charset="utf-8" />
-    
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <title>
-    20191226_1309_Python3-FTP-list |  Shinnosuke
-  </title>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
   
-  <link rel="shortcut icon" href="/images/Shinnosuke.jpg" />
-  
-  
-<link rel="stylesheet" href="/css/style.css">
-  
-<script src="/js/pace.min.js"></script>
+  <meta name="description" content="">
+  <meta name="author" content="Shinnosuke Guo">
+  <meta name="keywords" content="">
+  <title>20191226_1309_Python3-FTP-list ~ Shinnosuke</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
 
 
-  
 
-  
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
 
 <meta name="generator" content="Hexo 4.1.1"></head>
 
-</html>
 
 <body>
-  <div id="app">
-    <main class="content">
-      <section class="outer">
-  <article id="post-20191225-1309-Python3-FTP-list" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Shinnosuke</strong>&nbsp;</a>
 
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  20191226_1309_Python3-FTP-list
-</h1>
-  
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
 
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2019/12/26/20191225-1309-Python3-FTP-list/" class="article-date">
-  <time datetime="2019-12-26T05:09:45.000Z" itemprop="datePublished">2019-12-26</time>
-</a>
-      
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
     </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/default.png')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Thursday, December 26th 2019, 1:09 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    1.8k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      10 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
     
-
-    
-    
-    <div class="tocbot"></div>
-
-
-
-
-
-    
-
-    <div class="article-entry" itemprop="articleBody">
       
 
-
-      
-
-      
-      <h2 id="Python3-FTP-List-Gather"><a href="#Python3-FTP-List-Gather" class="headerlink" title="Python3 FTP_List_Gather"></a>Python3 FTP_List_Gather</h2><h3 id="01-服务器数据清单采集（暂时不含可视化部分）"><a href="#01-服务器数据清单采集（暂时不含可视化部分）" class="headerlink" title="01. 服务器数据清单采集（暂时不含可视化部分）"></a>01. 服务器数据清单采集（暂时不含可视化部分）</h3><ul>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h2 id="Python3-FTP-List-Gather"><a href="#Python3-FTP-List-Gather" class="headerlink" title="Python3 FTP_List_Gather"></a>Python3 FTP_List_Gather</h2><h3 id="01-服务器数据清单采集（暂时不含可视化部分）"><a href="#01-服务器数据清单采集（暂时不含可视化部分）" class="headerlink" title="01. 服务器数据清单采集（暂时不含可视化部分）"></a>01. 服务器数据清单采集（暂时不含可视化部分）</h3><ul>
 <li>Repo Point<br>  ftplib, os, socket, re<br>  Oracle2File.FileWR（class_email_daily3.py）<br>  func_demo.func_f.date_f</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># tree ftp_monitor/src -L 2</span></span><br><span class="line">$ tree src -L 3</span><br><span class="line">src</span><br><span class="line">|-- __init__.py</span><br><span class="line">|-- __pycache__</span><br><span class="line">|   `-- __init__.cpython-37.pyc</span><br><span class="line">|-- conf</span><br><span class="line">|   |-- __init__.py</span><br><span class="line">|   `-- ftp_conf_bak.py</span><br><span class="line">|-- data</span><br><span class="line">|-- data_output</span><br><span class="line">|   `-- __init__.py</span><br><span class="line">|-- ftp_wc.py</span><br><span class="line">|-- func_demo</span><br><span class="line">|   |-- Oracle2File.py</span><br><span class="line">|   |-- __init__.py</span><br><span class="line">|   |-- __pycache__</span><br><span class="line">|   |-- func_f.py</span><br><span class="line">|   `-- os_f.py</span><br><span class="line">`-- main.py</span><br></pre></td></tr></table></figure>
-
+<pre><code class="bash"># tree ftp_monitor/src -L 2
+$ tree src -L 3
+src
+|-- __init__.py
+|-- __pycache__
+|   `-- __init__.cpython-37.pyc
+|-- conf
+|   |-- __init__.py
+|   `-- ftp_conf_bak.py
+|-- data
+|-- data_output
+|   `-- __init__.py
+|-- ftp_wc.py
+|-- func_demo
+|   |-- Oracle2File.py
+|   |-- __init__.py
+|   |-- __pycache__
+|   |-- func_f.py
+|   `-- os_f.py
+`-- main.py</code></pre>
 <hr>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Author: Shin</span></span><br><span class="line"><span class="comment"># @Date: 2019/12/5 11:48</span></span><br><span class="line"><span class="comment"># @File: main.py</span></span><br><span class="line"><span class="comment"># @Usage: Main</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Self Repo</span></span><br><span class="line"><span class="keyword">from</span> src.ftp_wc <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> src.func_demo.os_f <span class="keyword">import</span> file_create</span><br><span class="line"><span class="keyword">from</span> concurrent.futures <span class="keyword">import</span> ThreadPoolExecutor, as_completed</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ftp_job</span><span class="params">(flag, local_path, file_flag, file_title )</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string">    :param flag:        采集标签，标签用来区分清单采集的厂家和内容</span></span><br><span class="line"><span class="string">    :param local_path:  清单输出路径</span></span><br><span class="line"><span class="string">    :param file_flag:   hint to distinguish between different flag_lists</span></span><br><span class="line"><span class="string">    :param file_title:  file title</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Ex:</span></span><br><span class="line"><span class="string">        (main_job('HW_CM'), local_path=file_nlst_path, file_flag=fileDict['HW_CM']['flag'], file_title=fileDict['HW_CM']['title'])</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        # 清单标签,和采集清单一一对应</span></span><br><span class="line"><span class="string">        fileDict = &#123;</span></span><br><span class="line"><span class="string">            'LOCAL':&#123;</span></span><br><span class="line"><span class="string">                'title': ('flag', 'LOCAL'),</span></span><br><span class="line"><span class="string">                'flag': 'FileList'</span></span><br><span class="line"><span class="string">            &#125;,</span></span><br><span class="line"><span class="string">            'HW_CM':&#123;</span></span><br><span class="line"><span class="string">                'title': ('flag', '85_HW_CM'),</span></span><br><span class="line"><span class="string">                'flag': '85_HW_CM'</span></span><br><span class="line"><span class="string">            &#125;,</span></span><br><span class="line"><span class="string">            'HW_CM_NSA': &#123;</span></span><br><span class="line"><span class="string">                'title': ('flag', '85_HW_CM_NSA'),</span></span><br><span class="line"><span class="string">                'flag': '85_HW_CM'</span></span><br><span class="line"><span class="string">            &#125;,</span></span><br><span class="line"><span class="string">            'NSN_CM': &#123;</span></span><br><span class="line"><span class="string">                'title': ('flag', '86_NSN_CM'),# '86_NSN_CM',</span></span><br><span class="line"><span class="string">                'flag': '86_NSN_CM'</span></span><br><span class="line"><span class="string">            &#125;,</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :return:    counter: 0 or 1</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    res_list = main_job(flag)</span><br><span class="line">    <span class="comment"># pprint.pprint(res_list)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> len(res_list[<span class="string">"error_list"</span>]):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        ftp_nlst_write(res_list[<span class="string">"ftp_findall"</span>], local_path=local_path, file_flag=file_flag, file_title=file_title)</span><br><span class="line">    <span class="keyword">return</span> res_list[<span class="string">"error_list"</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    <span class="comment"># 测试用文件&amp;文件夹生成，生产环境无需部署以下两步</span></span><br><span class="line">    file_create(d_path, <span class="number">0</span>, d_name)</span><br><span class="line">    file_create(f_path, <span class="number">1</span>, *file_name_list)</span><br><span class="line">    print(<span class="string">'------------------'</span>*<span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">    all_task = []</span><br><span class="line">    <span class="comment"># 方法3 ThreadPoolExecutor</span></span><br><span class="line">    <span class="comment"># 需要打印时替换方法2</span></span><br><span class="line">    executor = ThreadPoolExecutor(max_workers=<span class="number">5</span>)</span><br><span class="line">    <span class="keyword">for</span> rs <span class="keyword">in</span> fileDict.keys():</span><br><span class="line">        <span class="keyword">if</span> rs <span class="keyword">in</span> [<span class="string">'LOCAL'</span>, <span class="string">'HW_CM_NSA'</span>]:</span><br><span class="line">            future = executor.submit(ftp_job, rs, file_nlst_path, fileDict[rs][<span class="string">'flag'</span>], fileDict[rs][<span class="string">'title'</span>])</span><br><span class="line">            all_task.append(future)</span><br><span class="line">            print(<span class="string">f'Future: <span class="subst">&#123;future&#125;</span>\n'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># # 方法2 ThreadPoolExecutor</span></span><br><span class="line">    <span class="comment"># executor = ThreadPoolExecutor(max_workers=5)</span></span><br><span class="line">    <span class="comment"># all_task = [executor.submit(ftp_job, rs, file_nlst_path, fileDict[rs]['flag'], fileDict[rs]['title'])</span></span><br><span class="line">    <span class="comment">#             for rs in fileDict.keys() if rs in ['LOCAL', 'HW_CM_NSA'] ]</span></span><br><span class="line"></span><br><span class="line">    A = <span class="literal">None</span></span><br><span class="line">    <span class="keyword">for</span> future <span class="keyword">in</span> as_completed(all_task):</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> future.result():</span><br><span class="line">            print(<span class="string">f'Future: <span class="subst">&#123;future&#125;</span>, OK'</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">f'Future: <span class="subst">&#123;future&#125;</span>, Error: <span class="subst">&#123;future.result()&#125;</span>'</span>)</span><br></pre></td></tr></table></figure>
+<pre><code class="python"># -*- coding:utf-8 -*-
+# @Author: Shin
+# @Date: 2019/12/5 11:48
+# @File: main.py
+# @Usage: Main
 
+# Self Repo
+from src.ftp_wc import *
+from src.func_demo.os_f import file_create
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
+
+def ftp_job(flag, local_path, file_flag, file_title ):
+    &quot;&quot;&quot;
+    :param flag:        采集标签，标签用来区分清单采集的厂家和内容
+    :param local_path:  清单输出路径
+    :param file_flag:   hint to distinguish between different flag_lists
+    :param file_title:  file title
+
+    Ex:
+        (main_job(&#39;HW_CM&#39;), local_path=file_nlst_path, file_flag=fileDict[&#39;HW_CM&#39;][&#39;flag&#39;], file_title=fileDict[&#39;HW_CM&#39;][&#39;title&#39;])
+
+        # 清单标签,和采集清单一一对应
+        fileDict = {
+            &#39;LOCAL&#39;:{
+                &#39;title&#39;: (&#39;flag&#39;, &#39;LOCAL&#39;),
+                &#39;flag&#39;: &#39;FileList&#39;
+            },
+            &#39;HW_CM&#39;:{
+                &#39;title&#39;: (&#39;flag&#39;, &#39;85_HW_CM&#39;),
+                &#39;flag&#39;: &#39;85_HW_CM&#39;
+            },
+            &#39;HW_CM_NSA&#39;: {
+                &#39;title&#39;: (&#39;flag&#39;, &#39;85_HW_CM_NSA&#39;),
+                &#39;flag&#39;: &#39;85_HW_CM&#39;
+            },
+            &#39;NSN_CM&#39;: {
+                &#39;title&#39;: (&#39;flag&#39;, &#39;86_NSN_CM&#39;),# &#39;86_NSN_CM&#39;,
+                &#39;flag&#39;: &#39;86_NSN_CM&#39;
+            },
+        }
+
+    :return:    counter: 0 or 1
+    &quot;&quot;&quot;
+    res_list = main_job(flag)
+    # pprint.pprint(res_list)
+
+    if len(res_list[&quot;error_list&quot;]):
+        pass
+    else:
+        ftp_nlst_write(res_list[&quot;ftp_findall&quot;], local_path=local_path, file_flag=file_flag, file_title=file_title)
+    return res_list[&quot;error_list&quot;]
+
+
+if __name__ == &#39;__main__&#39;:
+    # 测试用文件&amp;文件夹生成，生产环境无需部署以下两步
+    file_create(d_path, 0, d_name)
+    file_create(f_path, 1, *file_name_list)
+    print(&#39;------------------&#39;*2)
+
+    all_task = []
+    # 方法3 ThreadPoolExecutor
+    # 需要打印时替换方法2
+    executor = ThreadPoolExecutor(max_workers=5)
+    for rs in fileDict.keys():
+        if rs in [&#39;LOCAL&#39;, &#39;HW_CM_NSA&#39;]:
+            future = executor.submit(ftp_job, rs, file_nlst_path, fileDict[rs][&#39;flag&#39;], fileDict[rs][&#39;title&#39;])
+            all_task.append(future)
+            print(f&#39;Future: {future}\n&#39;)
+
+    # # 方法2 ThreadPoolExecutor
+    # executor = ThreadPoolExecutor(max_workers=5)
+    # all_task = [executor.submit(ftp_job, rs, file_nlst_path, fileDict[rs][&#39;flag&#39;], fileDict[rs][&#39;title&#39;])
+    #             for rs in fileDict.keys() if rs in [&#39;LOCAL&#39;, &#39;HW_CM_NSA&#39;] ]
+
+    A = None
+    for future in as_completed(all_task):
+        if not future.result():
+            print(f&#39;Future: {future}, OK&#39;)
+        else:
+            print(f&#39;Future: {future}, Error: {future.result()}&#39;)</code></pre>
 <hr>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="comment"># @Author: Shin</span></span><br><span class="line"><span class="comment"># @Date: 2019/12/5 11:13</span></span><br><span class="line"><span class="comment"># @File: ftp_wc.py</span></span><br><span class="line"><span class="comment"># @Usage: Generation for Remote FTP List</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> ftplib</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="comment"># import sys</span></span><br><span class="line"><span class="comment"># import csv</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Self Repo</span></span><br><span class="line"><span class="comment"># from src.func_demo.func_f import date_f</span></span><br><span class="line"><span class="keyword">from</span> src.conf.ftp_conf_bak <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> src.func_demo.Oracle2File <span class="keyword">import</span> *</span><br><span class="line"><span class="comment"># from src.ftp_wc import *</span></span><br><span class="line"><span class="keyword">from</span> src.func_demo.os_f <span class="keyword">import</span> file_create</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ftp_connect</span><span class="params">(host, usr, passwd, port=<span class="number">21</span>, timeout=<span class="number">5</span>)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param host: remote FTP address</span></span><br><span class="line"><span class="string">    :param usr: username for FTP</span></span><br><span class="line"><span class="string">    :param passwd: password</span></span><br><span class="line"><span class="string">    :param port: port &lt;int&gt;</span></span><br><span class="line"><span class="string">    :param timeout: the timeout to set against the ftp socket(s)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :return: &lt;class 'ftplib.FTP'&gt; or 1&lt;num&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Ex: ftp = ftp_connect(host=rs['host'], port=rs['port'], usr=rs['usr'], passwd=rs['passwd'])</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        print(<span class="string">f'Current Connection Info: <span class="subst">&#123;host&#125;</span>:<span class="subst">&#123;port&#125;</span>/<span class="subst">&#123;usr&#125;</span>'</span>)</span><br><span class="line">        ftp = ftplib.FTP()</span><br><span class="line">        <span class="comment"># ftp.encoding = 'utf-8'</span></span><br><span class="line">        <span class="comment"># print(type(ftp))</span></span><br><span class="line">        ftp.connect(host, port, timeout)</span><br><span class="line">    <span class="keyword">except</span> socket.timeout <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">f'Status: Host&lt;<span class="subst">&#123;host&#125;</span>&gt; timed out during connection.'</span>)</span><br><span class="line">        print(<span class="string">'------------------'</span> * <span class="number">2</span>, <span class="string">f'\nError Details:\n<span class="subst">&#123;e&#125;</span>'</span>)</span><br><span class="line">        print(<span class="string">'------------------'</span> * <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="comment"># raise OSError('FTP connect timed out!')</span></span><br><span class="line">    <span class="keyword">except</span> ConnectionRefusedError <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">'Status: Login failed. Please check whether the remote address is normal.'</span>)</span><br><span class="line">        print(<span class="string">'------------------'</span>*<span class="number">2</span>, <span class="string">f'\nError Details:\n<span class="subst">&#123;e&#125;</span>'</span>)</span><br><span class="line">        print(<span class="string">'------------------'</span>*<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        ftp.set_debuglevel(<span class="number">0</span>)  <span class="comment"># 打开调试级别2，显示详细信息</span></span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            ftp.login(usr, passwd)</span><br><span class="line">            <span class="comment"># print(f'***Welcome Infomation: &#123;ftp.welcome&#125;***')  # 打印出欢迎信息</span></span><br><span class="line">            print(<span class="string">f'Status: FTP User &lt;<span class="subst">&#123;usr&#125;</span>&gt; has connected to &lt;<span class="subst">&#123;host&#125;</span> <span class="subst">&#123;port&#125;</span>&gt;.'</span>)</span><br><span class="line">            <span class="keyword">return</span> ftp</span><br><span class="line">        <span class="keyword">except</span> ftplib.error_perm <span class="keyword">as</span> e:</span><br><span class="line">            print(<span class="string">'Status: Login failed. Please check whether the login information is correct.'</span>)</span><br><span class="line">            print(<span class="string">'------------------'</span>*<span class="number">2</span>, <span class="string">f'\nError Details:\n<span class="subst">&#123;e&#125;</span>'</span>)</span><br><span class="line">            print(<span class="string">'------------------'</span>*<span class="number">2</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        <span class="keyword">except</span> socket.timeout <span class="keyword">as</span> e:</span><br><span class="line">            print(<span class="string">'Status: Time out during login.'</span>)</span><br><span class="line">            print(<span class="string">'------------------'</span>*<span class="number">2</span>, <span class="string">f'\nError Details:\n<span class="subst">&#123;str(e).title()&#125;</span>'</span>)</span><br><span class="line">            print(<span class="string">'------------------'</span>*<span class="number">2</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ftp_nlst</span><span class="params">(ftp, remote_path, re_pattern)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param ftp:         &lt;class 'ftplib.FTP'&gt;</span></span><br><span class="line"><span class="string">    :param remote_path: FTP file path</span></span><br><span class="line"><span class="string">    :param re_pattern:     RE: Regular expression</span></span><br><span class="line"><span class="string">    Ex: ftp_reply = ftp_nlst(ftp, remote_path=remote_path, re_pattern=f'.*.&#123;y&#125;&#123;m&#125;&#123;d&#125;.*.csv$')</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :return: &lt;class 'list'&gt; or Error 1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># ftp = ftplib.FTP()</span></span><br><span class="line">    print(<span class="string">f'***NLST***'</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Local Path</span></span><br><span class="line">    print(<span class="string">f'--Local script path: <span class="subst">&#123;os.getcwd()&#125;</span>'</span>)</span><br><span class="line">    <span class="comment"># Remote Path</span></span><br><span class="line">    print(<span class="string">f'--Remote path: <span class="subst">&#123;remote_path&#125;</span>'</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        n_lst_decode = []</span><br><span class="line">        ftp.cwd(remote_path)</span><br><span class="line">        <span class="comment"># ftp.dir() # &lt;class 'NoneType'&gt;</span></span><br><span class="line">        <span class="comment"># print(f'ftp_dir: &#123;type(ftp_dir)&#125;')</span></span><br><span class="line">        cur = ftp.pwd()</span><br><span class="line">        print(<span class="string">f'Status: Successfully change dirName into <span class="subst">&#123;cur&#125;</span>.'</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            n_lst = ftp.nlst()  <span class="comment"># &lt;class 'list'&gt;</span></span><br><span class="line">            <span class="keyword">for</span> rs <span class="keyword">in</span> n_lst:</span><br><span class="line">                n_lst_decode.append(rs.encode(<span class="string">'iso-8859-1'</span>).decode(<span class="string">'gbk'</span>))  <span class="comment"># 解决Python3中文乱码  latin-1 ---&gt; gbk/gb2312</span></span><br><span class="line">            <span class="comment"># print(f'n_lst_decode: &#123;n_lst_decode&#125;')</span></span><br><span class="line">            <span class="comment"># ftp.retrlines(cmd='LIST', &lt;function&gt;)</span></span><br><span class="line">            match_result = re_match(list_input=n_lst_decode, re_pattern=re_pattern)</span><br><span class="line">            <span class="keyword">return</span> match_result</span><br><span class="line"></span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            print(<span class="string">'Status: Failed to obtain the file lists!'</span>)</span><br><span class="line">            print(<span class="string">'------------------'</span> * <span class="number">2</span>, <span class="string">f'\nError Details:\n<span class="subst">&#123;e&#125;</span>'</span>)</span><br><span class="line">            print(<span class="string">'------------------'</span> * <span class="number">2</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span> ftplib.all_errors <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">'Status: Path switching failed!'</span>)</span><br><span class="line">        print(<span class="string">'------------------'</span> * <span class="number">2</span>, <span class="string">f'\nError Details:\n<span class="subst">&#123;e&#125;</span>'</span>)</span><br><span class="line">        print(<span class="string">'------------------'</span> * <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        ftp.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">re_match</span><span class="params">(list_input, re_pattern)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param list_input:  &lt;class: list&gt;</span></span><br><span class="line"><span class="string">    :param re_pattern:  RE</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :return:    返回正则匹配结果集 re.compile(re_pattern).findall() &lt;class: list&gt;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    print(<span class="string">f'***RE***'</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># # 1</span></span><br><span class="line">        <span class="comment">#     match_result = [rs for rs in list_input if re.match(re_pattern, rs)]</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># # 2</span></span><br><span class="line">        <span class="comment">#     match_result = []</span></span><br><span class="line">        <span class="comment">#     for rs in list_input:</span></span><br><span class="line">        <span class="comment">#         if re.match(re_pattern, rs):</span></span><br><span class="line">        <span class="comment">#             match_result.append(rs)</span></span><br><span class="line">        <span class="comment">#             print(f'Status: File match successfully. Filename: &#123;rs&#125;')</span></span><br><span class="line">        <span class="comment">#         else:</span></span><br><span class="line">        <span class="comment">#             # print(f'Match failed. Filename: &#123;rs&#125;')</span></span><br><span class="line">        <span class="comment">#             print(f'Match failed.')</span></span><br><span class="line">        <span class="comment">#     print(match_result)</span></span><br><span class="line">        <span class="comment">#     return match_result</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 3</span></span><br><span class="line">        <span class="comment">#     match_result = []</span></span><br><span class="line">        <span class="comment">#     p = re.compile(re_pattern)</span></span><br><span class="line">        <span class="comment">#     for rs in list_input:</span></span><br><span class="line">        <span class="comment">#         if p.findall(rs):</span></span><br><span class="line">        <span class="comment">#             match_result.append(rs)</span></span><br><span class="line">        <span class="comment">#             print(rs)</span></span><br><span class="line"></span><br><span class="line">        p = re.compile(re_pattern)</span><br><span class="line">        match_result = [rs <span class="keyword">for</span> rs <span class="keyword">in</span> list_input <span class="keyword">if</span> p.findall(rs)]  <span class="comment"># 别忘了，findall返回的是 &lt;class 'list'&gt;</span></span><br><span class="line">        <span class="comment"># print(match_result)</span></span><br><span class="line">        <span class="keyword">return</span> match_result</span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">'Status: RE failed!'</span>)</span><br><span class="line">        print(<span class="string">'------------------'</span> * <span class="number">2</span>, <span class="string">f'\nError Details:\n<span class="subst">&#123;e&#125;</span>'</span>)</span><br><span class="line">        print(<span class="string">'------------------'</span> * <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main_job</span><span class="params">(key)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param key: 采集标签，标签用来区分清单采集的厂家和内容</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :return: &lt;class: dict&gt;  [ftp_findall, error_counter, error_list]</span></span><br><span class="line"><span class="string">    Ex:</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    ftp_result = []</span><br><span class="line">    ftp_findall = []</span><br><span class="line">    error_list = []</span><br><span class="line">    <span class="comment"># error_counter = 0</span></span><br><span class="line">    <span class="comment"># try:</span></span><br><span class="line">    <span class="keyword">if</span> key <span class="keyword">in</span> ftp_ip_dict.keys():</span><br><span class="line">        print(<span class="string">f'***MAIN***'</span>)</span><br><span class="line">        <span class="keyword">for</span> rn_dict <span class="keyword">in</span> ftp_ip_dict.keys():</span><br><span class="line">            <span class="comment"># 测试Limit</span></span><br><span class="line">            <span class="keyword">if</span> rn_dict == key:  <span class="comment"># 'NSN_CM':</span></span><br><span class="line">                <span class="comment"># pprint.pprint(ftp_ip_dict[rs])</span></span><br><span class="line">                <span class="comment"># print(f'&#123;rn_dict&#125;: &#123;ftp_ip_dict[rn_dict]&#125;')</span></span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span> rs <span class="keyword">in</span> ftp_ip_dict[rn_dict]:</span><br><span class="line">                    <span class="comment"># print(rs)  # &lt;class 'dict'&gt;</span></span><br><span class="line">                    <span class="comment"># 这里后续可以引入多线程，同时统计当前采集服务器上的对应的所有IP</span></span><br><span class="line">                    ftp = ftp_connect(host=rs[<span class="string">'host'</span>], port=rs[<span class="string">'port'</span>], usr=rs[<span class="string">'usr'</span>], passwd=rs[<span class="string">'passwd'</span>])</span><br><span class="line">                    <span class="keyword">if</span> ftp == <span class="number">1</span>:</span><br><span class="line">                        <span class="comment"># print(f'FinishStatus: User &#123;rs["usr"]&#125; Exception!', '\n'*2)</span></span><br><span class="line">                        print(<span class="string">f'FinishStatus: Connect Exception!'</span>, <span class="string">'\n'</span> * <span class="number">2</span>)</span><br><span class="line">                        <span class="comment"># error_counter += 1</span></span><br><span class="line">                        error_list.append(rs[<span class="string">'host'</span>])</span><br><span class="line">                        <span class="keyword">continue</span></span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        remote_path = rs[<span class="string">'remotePath'</span>]</span><br><span class="line">                        <span class="comment"># print(f'已配置的远程路径: &#123;remote_path&#125;')</span></span><br><span class="line">                        ftp_reply = ftp_nlst(ftp, remote_path=remote_path, re_pattern=rs[<span class="string">'re_pattern'</span>]) <span class="comment"># &lt;class 'list'&gt;</span></span><br><span class="line">                        <span class="keyword">if</span> ftp_reply == <span class="number">1</span>:</span><br><span class="line">                            print(<span class="string">f'FinishStatus: NLST Exception!'</span>, <span class="string">'\n'</span> * <span class="number">2</span>)</span><br><span class="line">                            <span class="comment"># error_counter += 1</span></span><br><span class="line">                            error_list.append(rs[<span class="string">'host'</span>])</span><br><span class="line">                            <span class="keyword">continue</span></span><br><span class="line">                        <span class="keyword">else</span>:</span><br><span class="line">                            print(<span class="string">f'ftp_current: <span class="subst">&#123;ftp_reply&#125;</span>'</span>)</span><br><span class="line">                            ftp_result.extend(ftp_reply)</span><br><span class="line">                            <span class="keyword">del</span> ftp_reply</span><br><span class="line">                        print(<span class="string">f'ftp_result: <span class="subst">&#123;ftp_result&#125;</span>'</span>)</span><br><span class="line">                        print(<span class="string">f'FinishStatus: Succeed!\n'</span>)</span><br><span class="line"></span><br><span class="line">                <span class="comment"># Final Result Gather</span></span><br><span class="line">                print(<span class="string">'***FINAL***'</span>)</span><br><span class="line">                <span class="keyword">for</span> rf <span class="keyword">in</span> ftp_result:</span><br><span class="line">                    ftp_findall.append([key, rf])</span><br><span class="line">                print(<span class="string">f'ftp_findall: <span class="subst">&#123;ftp_findall&#125;</span>'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># Results filled in dict</span></span><br><span class="line">        data_dict = dict(ftp_findall=ftp_findall, error_list=error_list)</span><br><span class="line">        <span class="keyword">return</span> data_dict</span><br><span class="line">    <span class="comment"># elif not ftp_findall:</span></span><br><span class="line">    <span class="comment">#     return error_counter</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">f'Error FTP Key in ftp_conf...'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ftp_nlst_write</span><span class="params">(message_date, local_path, file_flag, file_title)</span>:</span></span><br><span class="line">    <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :param message_date: list input</span></span><br><span class="line"><span class="string">    :param local_path:  local file path for out-put</span></span><br><span class="line"><span class="string">    :param file_flag:   hint to distinguish between different flag_lists</span></span><br><span class="line"><span class="string">    :param file_title:  file title</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    :return 0(file output) or 1</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    print(<span class="string">f'***NLST_WRITE***'</span>)</span><br><span class="line">    <span class="comment"># 清单</span></span><br><span class="line">    <span class="comment"># local_path = file_nlst_path</span></span><br><span class="line">    <span class="comment"># file_title = 'LOCAL'    # fileDict['LOCAL']['title']</span></span><br><span class="line">    <span class="comment"># file_flag = fileDict['HW_CM']['flag']</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        file = FileWR(local_file_path=local_path, title=file_title)</span><br><span class="line">        flag = file.file_write_f(message_date=message_date, job_flag=file_flag)</span><br><span class="line">        <span class="keyword">return</span> flag</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 方法2:</span></span><br><span class="line">    <span class="comment"># try:</span></span><br><span class="line">    <span class="comment">#     with open(output_file, 'w', newline='', encoding='UTF-8') as file_1:</span></span><br><span class="line">    <span class="comment">#         writer_csv = csv.writer(file_1)</span></span><br><span class="line">    <span class="comment">#         writer_csv.writerow([file_title])</span></span><br><span class="line">    <span class="comment">#         for row in n_lst:</span></span><br><span class="line">    <span class="comment">#             writer_csv.writerow([row])  # csv提供的写入方法可以按行写入list，无需按照对象一个个写入，效率更高</span></span><br><span class="line">    <span class="comment">#         # writer_csv.writerows([n_lst])</span></span><br><span class="line">    <span class="comment">#     return 0</span></span><br><span class="line">    <span class="comment"># except Exception as e:</span></span><br><span class="line">    <span class="comment">#     print('Status: 文件写入失败!')</span></span><br><span class="line">    <span class="comment">#     print('------------------' * 2, f'\nError Details:\n&#123;e&#125;')</span></span><br><span class="line">    <span class="comment">#     print('------------------' * 2)</span></span><br><span class="line">    <span class="comment">#     return 1</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">except</span> (IOError, OSError, Exception) <span class="keyword">as</span> e:</span><br><span class="line">        print(<span class="string">'Status: File write error!'</span>)</span><br><span class="line">        print(<span class="string">'------------------'</span> * <span class="number">2</span>, <span class="string">f'\nError Details:\n<span class="subst">&#123;e&#125;</span>'</span>)</span><br><span class="line">        print(<span class="string">'------------------'</span> * <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># if __name__ == '__main__':</span></span><br><span class="line"><span class="comment">#     pass</span></span><br></pre></td></tr></table></figure>
+<pre><code class="Python"># -*- coding:utf-8 -*-
+# @Author: Shin
+# @Date: 2019/12/5 11:13
+# @File: ftp_wc.py
+# @Usage: Generation for Remote FTP List
+
+import ftplib
+import os
+import socket
+import re
+# import sys
+# import csv
+
+# Self Repo
+# from src.func_demo.func_f import date_f
+from src.conf.ftp_conf_bak import *
+from src.func_demo.Oracle2File import *
+# from src.ftp_wc import *
+from src.func_demo.os_f import file_create
 
 
-      
-      <!-- 打赏 -->
-      
+def ftp_connect(host, usr, passwd, port=21, timeout=5):
+    &quot;&quot;&quot;
+
+    :param host: remote FTP address
+    :param usr: username for FTP
+    :param passwd: password
+    :param port: port &lt;int&gt;
+    :param timeout: the timeout to set against the ftp socket(s)
+
+    :return: &lt;class &#39;ftplib.FTP&#39;&gt; or 1&lt;num&gt;
+
+    Ex: ftp = ftp_connect(host=rs[&#39;host&#39;], port=rs[&#39;port&#39;], usr=rs[&#39;usr&#39;], passwd=rs[&#39;passwd&#39;])
+
+    &quot;&quot;&quot;
+    try:
+        print(f&#39;Current Connection Info: {host}:{port}/{usr}&#39;)
+        ftp = ftplib.FTP()
+        # ftp.encoding = &#39;utf-8&#39;
+        # print(type(ftp))
+        ftp.connect(host, port, timeout)
+    except socket.timeout as e:
+        print(f&#39;Status: Host&lt;{host}&gt; timed out during connection.&#39;)
+        print(&#39;------------------&#39; * 2, f&#39;\nError Details:\n{e}&#39;)
+        print(&#39;------------------&#39; * 2)
+        return 1
+        # raise OSError(&#39;FTP connect timed out!&#39;)
+    except ConnectionRefusedError as e:
+        print(&#39;Status: Login failed. Please check whether the remote address is normal.&#39;)
+        print(&#39;------------------&#39;*2, f&#39;\nError Details:\n{e}&#39;)
+        print(&#39;------------------&#39;*2)
+        return 1
+    else:
+        ftp.set_debuglevel(0)  # 打开调试级别2，显示详细信息
+        try:
+            ftp.login(usr, passwd)
+            # print(f&#39;***Welcome Infomation: {ftp.welcome}***&#39;)  # 打印出欢迎信息
+            print(f&#39;Status: FTP User &lt;{usr}&gt; has connected to &lt;{host} {port}&gt;.&#39;)
+            return ftp
+        except ftplib.error_perm as e:
+            print(&#39;Status: Login failed. Please check whether the login information is correct.&#39;)
+            print(&#39;------------------&#39;*2, f&#39;\nError Details:\n{e}&#39;)
+            print(&#39;------------------&#39;*2)
+            return 1
+        except socket.timeout as e:
+            print(&#39;Status: Time out during login.&#39;)
+            print(&#39;------------------&#39;*2, f&#39;\nError Details:\n{str(e).title()}&#39;)
+            print(&#39;------------------&#39;*2)
+            return 1
+
+
+def ftp_nlst(ftp, remote_path, re_pattern):
+    &quot;&quot;&quot;
+
+    :param ftp:         &lt;class &#39;ftplib.FTP&#39;&gt;
+    :param remote_path: FTP file path
+    :param re_pattern:     RE: Regular expression
+    Ex: ftp_reply = ftp_nlst(ftp, remote_path=remote_path, re_pattern=f&#39;.*.{y}{m}{d}.*.csv$&#39;)
+
+    :return: &lt;class &#39;list&#39;&gt; or Error 1
+
+    &quot;&quot;&quot;
+
+    # ftp = ftplib.FTP()
+    print(f&#39;***NLST***&#39;)
+
+    # Local Path
+    print(f&#39;--Local script path: {os.getcwd()}&#39;)
+    # Remote Path
+    print(f&#39;--Remote path: {remote_path}&#39;)
+    try:
+        n_lst_decode = []
+        ftp.cwd(remote_path)
+        # ftp.dir() # &lt;class &#39;NoneType&#39;&gt;
+        # print(f&#39;ftp_dir: {type(ftp_dir)}&#39;)
+        cur = ftp.pwd()
+        print(f&#39;Status: Successfully change dirName into {cur}.&#39;)
+        try:
+            n_lst = ftp.nlst()  # &lt;class &#39;list&#39;&gt;
+            for rs in n_lst:
+                n_lst_decode.append(rs.encode(&#39;iso-8859-1&#39;).decode(&#39;gbk&#39;))  # 解决Python3中文乱码  latin-1 ---&gt; gbk/gb2312
+            # print(f&#39;n_lst_decode: {n_lst_decode}&#39;)
+            # ftp.retrlines(cmd=&#39;LIST&#39;, &lt;function&gt;)
+            match_result = re_match(list_input=n_lst_decode, re_pattern=re_pattern)
+            return match_result
+
+        except Exception as e:
+            print(&#39;Status: Failed to obtain the file lists!&#39;)
+            print(&#39;------------------&#39; * 2, f&#39;\nError Details:\n{e}&#39;)
+            print(&#39;------------------&#39; * 2)
+            return 1
+
+    except ftplib.all_errors as e:
+        print(&#39;Status: Path switching failed!&#39;)
+        print(&#39;------------------&#39; * 2, f&#39;\nError Details:\n{e}&#39;)
+        print(&#39;------------------&#39; * 2)
+        return 1
+
+    finally:
+        ftp.close()
+
+
+def re_match(list_input, re_pattern):
+    &quot;&quot;&quot;
+
+    :param list_input:  &lt;class: list&gt;
+    :param re_pattern:  RE
+
+    :return:    返回正则匹配结果集 re.compile(re_pattern).findall() &lt;class: list&gt;
+
+    &quot;&quot;&quot;
+    print(f&#39;***RE***&#39;)
+    try:
+        # # 1
+        #     match_result = [rs for rs in list_input if re.match(re_pattern, rs)]
+
+        # # 2
+        #     match_result = []
+        #     for rs in list_input:
+        #         if re.match(re_pattern, rs):
+        #             match_result.append(rs)
+        #             print(f&#39;Status: File match successfully. Filename: {rs}&#39;)
+        #         else:
+        #             # print(f&#39;Match failed. Filename: {rs}&#39;)
+        #             print(f&#39;Match failed.&#39;)
+        #     print(match_result)
+        #     return match_result
+
+        # 3
+        #     match_result = []
+        #     p = re.compile(re_pattern)
+        #     for rs in list_input:
+        #         if p.findall(rs):
+        #             match_result.append(rs)
+        #             print(rs)
+
+        p = re.compile(re_pattern)
+        match_result = [rs for rs in list_input if p.findall(rs)]  # 别忘了，findall返回的是 &lt;class &#39;list&#39;&gt;
+        # print(match_result)
+        return match_result
+
+    except Exception as e:
+        print(&#39;Status: RE failed!&#39;)
+        print(&#39;------------------&#39; * 2, f&#39;\nError Details:\n{e}&#39;)
+        print(&#39;------------------&#39; * 2)
+        return 1
+
+
+def main_job(key):
+    &quot;&quot;&quot;
+
+    :param key: 采集标签，标签用来区分清单采集的厂家和内容
+
+    :return: &lt;class: dict&gt;  [ftp_findall, error_counter, error_list]
+    Ex:
+
+
+    &quot;&quot;&quot;
+    ftp_result = []
+    ftp_findall = []
+    error_list = []
+    # error_counter = 0
+    # try:
+    if key in ftp_ip_dict.keys():
+        print(f&#39;***MAIN***&#39;)
+        for rn_dict in ftp_ip_dict.keys():
+            # 测试Limit
+            if rn_dict == key:  # &#39;NSN_CM&#39;:
+                # pprint.pprint(ftp_ip_dict[rs])
+                # print(f&#39;{rn_dict}: {ftp_ip_dict[rn_dict]}&#39;)
+
+                for rs in ftp_ip_dict[rn_dict]:
+                    # print(rs)  # &lt;class &#39;dict&#39;&gt;
+                    # 这里后续可以引入多线程，同时统计当前采集服务器上的对应的所有IP
+                    ftp = ftp_connect(host=rs[&#39;host&#39;], port=rs[&#39;port&#39;], usr=rs[&#39;usr&#39;], passwd=rs[&#39;passwd&#39;])
+                    if ftp == 1:
+                        # print(f&#39;FinishStatus: User {rs[&quot;usr&quot;]} Exception!&#39;, &#39;\n&#39;*2)
+                        print(f&#39;FinishStatus: Connect Exception!&#39;, &#39;\n&#39; * 2)
+                        # error_counter += 1
+                        error_list.append(rs[&#39;host&#39;])
+                        continue
+                    else:
+                        remote_path = rs[&#39;remotePath&#39;]
+                        # print(f&#39;已配置的远程路径: {remote_path}&#39;)
+                        ftp_reply = ftp_nlst(ftp, remote_path=remote_path, re_pattern=rs[&#39;re_pattern&#39;]) # &lt;class &#39;list&#39;&gt;
+                        if ftp_reply == 1:
+                            print(f&#39;FinishStatus: NLST Exception!&#39;, &#39;\n&#39; * 2)
+                            # error_counter += 1
+                            error_list.append(rs[&#39;host&#39;])
+                            continue
+                        else:
+                            print(f&#39;ftp_current: {ftp_reply}&#39;)
+                            ftp_result.extend(ftp_reply)
+                            del ftp_reply
+                        print(f&#39;ftp_result: {ftp_result}&#39;)
+                        print(f&#39;FinishStatus: Succeed!\n&#39;)
+
+                # Final Result Gather
+                print(&#39;***FINAL***&#39;)
+                for rf in ftp_result:
+                    ftp_findall.append([key, rf])
+                print(f&#39;ftp_findall: {ftp_findall}&#39;)
+
+        # Results filled in dict
+        data_dict = dict(ftp_findall=ftp_findall, error_list=error_list)
+        return data_dict
+    # elif not ftp_findall:
+    #     return error_counter
+    else:
+        print(f&#39;Error FTP Key in ftp_conf...&#39;)
+
+
+def ftp_nlst_write(message_date, local_path, file_flag, file_title):
+    &quot;&quot;&quot;
+
+    :param message_date: list input
+    :param local_path:  local file path for out-put
+    :param file_flag:   hint to distinguish between different flag_lists
+    :param file_title:  file title
+
+    :return 0(file output) or 1
+
+    &quot;&quot;&quot;
+    print(f&#39;***NLST_WRITE***&#39;)
+    # 清单
+    # local_path = file_nlst_path
+    # file_title = &#39;LOCAL&#39;    # fileDict[&#39;LOCAL&#39;][&#39;title&#39;]
+    # file_flag = fileDict[&#39;HW_CM&#39;][&#39;flag&#39;]
+
+    try:
+        file = FileWR(local_file_path=local_path, title=file_title)
+        flag = file.file_write_f(message_date=message_date, job_flag=file_flag)
+        return flag
+
+    # 方法2:
+    # try:
+    #     with open(output_file, &#39;w&#39;, newline=&#39;&#39;, encoding=&#39;UTF-8&#39;) as file_1:
+    #         writer_csv = csv.writer(file_1)
+    #         writer_csv.writerow([file_title])
+    #         for row in n_lst:
+    #             writer_csv.writerow([row])  # csv提供的写入方法可以按行写入list，无需按照对象一个个写入，效率更高
+    #         # writer_csv.writerows([n_lst])
+    #     return 0
+    # except Exception as e:
+    #     print(&#39;Status: 文件写入失败!&#39;)
+    #     print(&#39;------------------&#39; * 2, f&#39;\nError Details:\n{e}&#39;)
+    #     print(&#39;------------------&#39; * 2)
+    #     return 1
+
+    except (IOError, OSError, Exception) as e:
+        print(&#39;Status: File write error!&#39;)
+        print(&#39;------------------&#39; * 2, f&#39;\nError Details:\n{e}&#39;)
+        print(&#39;------------------&#39; * 2)
+        return 1
+
+
+# if __name__ == &#39;__main__&#39;:
+#     pass
+</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/Python3">Python3</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
     </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/12/26/20191225-1309-Python3-FTP-list/" data-id="ck4nzub4l000k9ou6d5j25kvm"
-        class="article-share-link">Share</a>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python3/" rel="tag">Python3</a></li></ul>
-
-    </footer>
-
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
   </div>
 
-  
-  
-  <nav class="article-nav">
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
     
+  </div>
+</div>
+
     
-      <a href="/2019/12/24/20191219-2254-Hive-1-x/" class="article-nav-link">
-        <strong class="article-nav-caption">POST_NEXT</strong>
-        <div class="article-nav-title">20191224-1414_Hive-1.x</div>
-      </a>
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
     
-  </nav>
-
-
   
-
-  
-
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv">总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次</span>&nbsp;
   
   
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv">总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人</span>&nbsp;
   
+  <br>
 
-</article>
-</section>
-      <footer class="footer">
-  <div class="outer">
-    <ul class="list-inline">
-      <li>
-        &copy;
-        2019
-        Shinnosuke Guo
-      </li>
-      <li>
-        
-        
-        
-        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a> by shenyu
-        
-      </li>
-    </ul>
-    <ul class="list-inline">
-      <li>
-        
-      </li>
-      <li>
-        <!-- cnzz统计 -->
-        
-      </li>
-    </ul>
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
   </div>
 </footer>
-    <div class="to_top">
-        <div class="totop" id="totop">
-  <i class="ri-arrow-up-line"></i>
-</div>
-      </div>
-    </main>
-    
-    <aside class="sidebar">
-      
-        <button class="navbar-toggle"></button>
-<nav class="navbar">
-  
-  <div class="logo">
-    <a href="/"><img src="/images/Shinnosuke.jpg" alt="Shinnosuke"></a>
-  </div>
-  
-  <ul class="nav nav-main">
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/">Main</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/archives">Archives</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="/tags">Tags</a>
-    </li>
-    
-    <li class="nav-item">
-      <a class="nav-item-link" href="https://github.com/shinnosuke1028" target="_blank" rel="noopener">About</a>
-    </li>
-    
-  </ul>
-</nav>
-<nav class="navbar navbar-bottom">
-  <ul class="nav">
-    <li class="nav-item">
-      
-      <a class="nav-item-link nav-item-search"  title="Search">
-        <i class="ri-search-line"></i>
-      </a>
-      
-      
-      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
-        <i class="ri-rss-line"></i>
-      </a>
-      
-    </li>
-  </ul>
-</nav>
-<div class="search-form-wrap">
-  <div class="local-search local-search-plugin">
-  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
-  <div id="local-search-result" class="local-search-result"></div>
-</div>
-</div>
-      </aside>
-      <div id="mask"></div>
 
-<!-- #reward -->
-<div id="reward">
-  <span class="close"><i class="ri-close-line"></i></span>
-  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
-  <div class="reward-box">
-    
-    
-  </div>
-</div>
-      
-<script src="/js/jquery-2.0.3.min.js"></script>
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
 
 
-<script src="/js/jquery.justifiedGallery.min.js"></script>
-
-
-<script src="/js/lazyload.min.js"></script>
-
-
-<script src="/js/busuanzi-2.3.pure.min.js"></script>
-
+  <script src="/js/lazyload.js" ></script>
 
 
 
   
-<script src="/js/tocbot.min.js"></script>
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
 
+
+
+  <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
+
+
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
   <script>
-    // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
-    tocbot.init({
-      tocSelector: '.tocbot',
-      contentSelector: '.article-entry',
-      headingSelector: 'h1, h2, h3, h4, h5, h6',
-      hasInnerContainers: true,
-      scrollSmooth: true,
-      positionFixedSelector: '.tocbot',
-      positionFixedClass: 'is-position-fixed',
-      fixedSidebarOffset: 'auto',
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "20191226_1309_Python3-FTP-list&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
     });
   </script>
 
 
-<script>
-  var ayerConfig = {
-    mathjax: false
-  }
-</script>
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
 
 
-<script src="/js/ayer.js"></script>
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
 
 
 
-<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
-  
-  
-  </div>
+
+
+
+
+
+
+
+
 </body>
-
 </html>

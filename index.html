@@ -374,19 +374,15 @@ Select the hard d</div>
           <div class="index-text mb-1">Hadoop 2.X 配置01. Hadoop 2.6.1
 Repo Pointhadoop-2.6.1.tar.gz
 
-02. 环境配置(部分Linux基础环境配置暂未罗列，如host、jdk等)1. 环境包 rz 至相关路径，分流至其它节点：组件&amp;源码分发# 文件解压：hadoop-2.6.1/etc/hadoop
-cd /usr/local/src/
-tar -xvf hadoop-2.6.1.tar.gz
-当前用户环境变量vim ~/.bashrc
-# ~/.bashrc
-# SET JAVA PATH
-export JAVA_HOME=/usr/local/src/jdk1.8.0_201
-export JRE_HOME=${JAVA_HOME}/jre
-export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
-export PATH=${JAVA_HOME}/bin:$PATH
-# SET HADOOP PATH
-export HADOOP_HOME=/usr/local/src/hadoop-2.6.1
-export </div>
+01. SSH互信（通信基本）# 生成密钥对
+# 当前node为pp-web01！！！
+[root@sh02-oscar-hapomc-pp-web01 ~] ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa):    ⬅ 回车
+Enter passphrase (empty for no passphrase):                 ⬅ 回车
+Enter same passphrase again:                                ⬅ 回车
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_r</div>
         </div>
       </a>
 

@@ -178,6 +178,8 @@
 <h4 id="01-SSH互信（通信基本）"><a href="#01-SSH互信（通信基本）" class="headerlink" title="01. SSH互信（通信基本）"></a>01. SSH互信（通信基本）</h4><pre><code class="bash"># 生成密钥对
 # 当前node为pp-web01！！！
 [root@sh02-oscar-hapomc-pp-web01 ~] ssh-keygen -t rsa
+# 或
+# [root@sh02-oscar-hapomc-pp-web01 ~] ssh-keygen -t rsa -P &quot;&quot; -f ~/.ssh/id_rsa
 Generating public/private rsa key pair.
 Enter file in which to save the key (/root/.ssh/id_rsa):    ⬅ 回车
 Enter passphrase (empty for no passphrase):                 ⬅ 回车

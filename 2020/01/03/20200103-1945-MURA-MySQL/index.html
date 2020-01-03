@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="Shinnosuke Guo">
   <meta name="keywords" content="">
-  <title>20190103-1945-MURA-MySQL ~ Shinnosuke</title>
+  <title>20200103-1945-MURA-MySQL ~ Shinnosuke</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    693 字
+                    715 字
                   </span>&nbsp;
                 
 
@@ -176,7 +176,9 @@
 <li>Repo Point<br><a href="https://www.g.cn" target="_blank" rel="noopener">MySQL</a></li>
 </ul>
 <h3 id="02-环境配置"><a href="#02-环境配置" class="headerlink" title="02. 环境配置"></a>02. 环境配置</h3><ul>
-<li>基本环境配置<pre><code class="bash"># 1 查看并卸载自带的MySQL
+<li>基本环境配置</li>
+</ul>
+<pre><code class="bash"># 1 查看并卸载自带的MySQL
 rpm -qa|grep mysql
 # 2 发现的话就卸载掉
 rpm -e --nodeps mysql...
@@ -185,27 +187,58 @@ rm -rf /usr/lib/mysql
 rm -rf /usr/include/mysql
 rm -rf /etc/my.cnf
 rm -rf /var/lib/mysql
-</code></pre>
-</li>
-</ul>
-<h1 id="4-mysql-5-7-28-1-el7-x86-64-rpm-bundle-tar"><a href="#4-mysql-5-7-28-1-el7-x86-64-rpm-bundle-tar" class="headerlink" title="4 mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar"></a>4 mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar</h1><p>与视频不太一样，需要按顺序安装一些依赖：<br>rpm -ivh mysql-community-common-5.7.28-1.el7.x86_64.rpm<br>rpm -ivh mysql-community-libs-5.7.28-1.el7.x86_64.rpm<br>rpm -ivh mysql-community-client-5.7.28-1.el7.x86_64.rpm<br>rpm -ivh mysql-community-server-5.7.28-1.el7.x86_64.rpm</p>
-<h1 id="5-检查安装结果"><a href="#5-检查安装结果" class="headerlink" title="5 检查安装结果"></a>5 检查安装结果</h1><p>rpm -qa|grep mysql</p>
-<h1 id="6-1-初始密码的位置"><a href="#6-1-初始密码的位置" class="headerlink" title="6-1 初始密码的位置"></a>6-1 初始密码的位置</h1><p>/root/.mysql_secret</p>
-<h1 id="打印瞧瞧："><a href="#打印瞧瞧：" class="headerlink" title="打印瞧瞧："></a>打印瞧瞧：</h1><p>cat /root/.mysql_secret</p>
-<h1 id="这个好像5-7不太一样，需要按如下方式获取："><a href="#这个好像5-7不太一样，需要按如下方式获取：" class="headerlink" title="这个好像5.7不太一样，需要按如下方式获取："></a>这个好像5.7不太一样，需要按如下方式获取：</h1><p>grep ‘temporary password’ /var/log/mysqld.log</p>
-<h1 id="6-2-修改密码策略-amp-重启服务："><a href="#6-2-修改密码策略-amp-重启服务：" class="headerlink" title="6-2 修改密码策略&amp;重启服务："></a>6-2 修改密码策略&amp;重启服务：</h1><p>vim /etc/my.cnf<br>添加如下行：<br>[mysqld]<br>validate_password=off</p>
-<h1 id="7-set-password-password-‘root’"><a href="#7-set-password-password-‘root’" class="headerlink" title="7 set password=password(‘root’);"></a>7 set password=password(‘root’);</h1><p>mysql -uroot -p’root’</p>
-<h1 id="exit下并重新进入。"><a href="#exit下并重新进入。" class="headerlink" title="exit下并重新进入。"></a>exit下并重新进入。</h1><p>exit</p>
-<h1 id="8-查看下端口，可以判断MySQL是否起来了"><a href="#8-查看下端口，可以判断MySQL是否起来了" class="headerlink" title="8 查看下端口，可以判断MySQL是否起来了"></a>8 查看下端口，可以判断MySQL是否起来了</h1><p>netstat -nltp<br>tcp6       0      0 :::3306                 :::*                    LISTEN      978/mysqld</p>
-<h1 id="9-增加远程登录权限"><a href="#9-增加远程登录权限" class="headerlink" title="9 增加远程登录权限"></a>9 增加远程登录权限</h1><p>show grants for root;<br>select user,host from mysql.user;</p>
-<h1 id="查询指定IP对应的连接权限，即-’-’"><a href="#查询指定IP对应的连接权限，即-’-’" class="headerlink" title="查询指定IP对应的连接权限，即@’%’"></a>查询指定IP对应的连接权限，即@’%’</h1><p>GRANT ALL PRIVILEGES ON <em>.</em> TO ‘root’@’%’ IDENTIFIED BY ‘root’ WITH GRANT OPTION;</p>
-<h1 id="JDK-配置"><a href="#JDK-配置" class="headerlink" title="JDK 配置"></a>JDK 配置</h1><p>vim ~/.bashrc</p>
-<h1 id="SET-JAVA-PATH"><a href="#SET-JAVA-PATH" class="headerlink" title="SET JAVA_PATH"></a>SET JAVA_PATH</h1><p>export JAVA_HOME=/usr/local/src/jdk1.8.0_201<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASSPATH=.:${JAVA_HOME}/lib:${JAVA_HOME}/lib<br>export PATH=${JAVA_HOME}/bin:$PATH</p>
-<pre><code>* MySQL 5.7 ERROR 1055 BUG
-    MySQL5.7中默认会开启 `only_full_group_by` 这个模式，可以在配置文件中把它去掉
 
-```bash
-vim /etc/my.ini</code></pre><img src="ERROR-1055.png" srcset="/img/loading.gif" title="ERROR 1055" alt="ERROR 1055">
+# 4 mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar
+与视频不太一样，需要按顺序安装一些依赖：
+rpm -ivh mysql-community-common-5.7.28-1.el7.x86_64.rpm
+rpm -ivh mysql-community-libs-5.7.28-1.el7.x86_64.rpm
+rpm -ivh mysql-community-client-5.7.28-1.el7.x86_64.rpm
+rpm -ivh mysql-community-server-5.7.28-1.el7.x86_64.rpm
+
+# 5 检查安装结果
+rpm -qa|grep mysql
+
+# 6-1 初始密码的位置
+/root/.mysql_secret
+# 打印瞧瞧：
+cat /root/.mysql_secret
+# 这个好像5.7不太一样，需要按如下方式获取：
+grep &#39;temporary password&#39; /var/log/mysqld.log
+
+# 6-2 修改密码策略&amp;重启服务：
+vim /etc/my.cnf
+添加如下行：
+[mysqld]
+validate_password=off
+
+# 7 set password=password(&#39;root&#39;);
+mysql -uroot -p&#39;root&#39;
+# exit下并重新进入。
+exit
+
+# 8 查看下端口，可以判断MySQL是否起来了
+netstat -nltp
+tcp6       0      0 :::3306                 :::*                    LISTEN      978/mysqld
+
+# 9 增加远程登录权限
+show grants for root;
+select user,host from mysql.user;
+# 查询指定IP对应的连接权限，即@&#39;%&#39;
+GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;root&#39; WITH GRANT OPTION;
+
+
+# JDK 配置
+vim ~/.bashrc
+# SET JAVA_PATH
+export JAVA_HOME=/usr/local/src/jdk1.8.0_201
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=.:${JAVA_HOME}/lib:${JAVA_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH</code></pre>
+<ul>
+<li>MySQL 5.7 ERROR 1055 BUG<br>  MySQL5.7中默认会开启 <code>only_full_group_by</code> 这个模式，可以在配置文件中把它去掉</li>
+</ul>
+<pre><code class="bash">vim /etc/my.ini</code></pre>
+<img src="ERROR-1055.png" srcset="/img/loading.gif" title="ERROR 1055" alt="ERROR 1055">
 
 
 <h3 id="03-Common-Operation"><a href="#03-Common-Operation" class="headerlink" title="03. Common Operation"></a>03. Common Operation</h3><ul>
@@ -448,7 +481,7 @@ select 3 &lt;&gt; 2;  --1</code></pre>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "20190103-1945-MURA-MySQL&nbsp;",
+        "20200103-1945-MURA-MySQL&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

@@ -145,8 +145,8 @@
     
     
     <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/03/20190103-1945-MURA-MySQL/">
-        <p class="h4 index-header">20190103-1945-MURA-MySQL</p>
+      <a href="/2020/01/03/20200103-1945-MURA-MySQL/">
+        <p class="h4 index-header">20200103-1945-MURA-MySQL</p>
         
         
           
@@ -156,7 +156,9 @@
 Repo PointMySQL
 
 02. 环境配置
-基本环境配置# 1 查看并卸载自带的MySQL
+基本环境配置
+
+# 1 查看并卸载自带的MySQL
 rpm -qa|grep mysql
 # 2 发现的话就卸载掉
 rpm -e --nodeps mysql...
@@ -166,9 +168,12 @@ rm -rf /usr/include/mysql
 rm -rf /etc/my.cnf
 rm -rf /var/lib/mysql
 
-
-
-4 mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar与视频不太一样，需要按顺序安装一些依赖：rpm -ivh mysql-community-common-5.7.28-1.el7.x86_64.rpmrpm -ivh mysql-community-libs-5.7.28-1.el7.x86_64.rpmrpm -ivh mysql-community-client-5.7.28-1.el7.x86_64.rpmrpm -ivh mysql-community-server-5.7</div>
+# 4 mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar
+与视频不太一样，需要按顺序安装一些依赖：
+rpm -ivh mysql-community-common-5.7.28-1.el7.x86_64.rpm
+rpm -ivh mysql-community-libs-5.7.28-1.el7.x86_64.rpm
+rpm -ivh mysql-community-client-5.7.28-1.el7.x86_64.rpm
+rpm -ivh mysql-community-ser</div>
         </div>
       </a>
 

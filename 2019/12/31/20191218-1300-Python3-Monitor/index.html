@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    3.1k 字
+                    3.2k 字
                   </span>&nbsp;
                 
 
@@ -554,7 +554,29 @@ print(&#39;Thread&#39;, threading.current_thread().getName(), &#39;End. Time: %s
 # # 单线程
 # for rs in sqlConf.keys():
 #     ora_job(sqlConf[rs], filePath, fileTitleJob[rs])
-######################################################</code></pre><pre><code></code></pre>
+######################################################</code></pre><pre><code>
+---
+* main.py
+```python
+# -*- coding:utf-8 -*-
+# @Author: Shin
+# @Date: 2020/1/3 14:48
+# @File: main.py
+# @Usage: Main Drive
+
+# CMD Mode
+from class_email_daily_3 import *
+import threading
+
+
+if __name__ == &#39;__main__&#39;:
+    print(&#39;Thread&#39;, threading.current_thread().getName(), &#39;is Running. Time: %s&#39; % date_f()[2])
+
+    # mail_dict_combine = main_job()
+    demo()
+
+    print(&#39;Thread&#39;, threading.current_thread().getName(), &#39;End. Time: %s&#39; % date_f()[2])
+    key = input(&#39;Put any key to quit...&#39;)</code></pre>
             <hr>
           </div>
           <br>

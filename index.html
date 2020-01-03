@@ -145,6 +145,52 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/03/20190103-1945-MURA-MySQL/">
+        <p class="h4 index-header">20190103-1945-MURA-MySQL</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">MySQL01. MySQL 5.7
+Repo PointMySQL
+
+02. 环境配置
+基本环境配置# 1 查看并卸载自带的MySQL
+rpm -qa|grep mysql
+# 2 发现的话就卸载掉
+rpm -e --nodeps mysql...
+# 3 删除老版本MySQL的开头文件和库
+rm -rf /usr/lib/mysql
+rm -rf /usr/include/mysql
+rm -rf /etc/my.cnf
+rm -rf /var/lib/mysql
+
+
+
+4 mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar与视频不太一样，需要按顺序安装一些依赖：rpm -ivh mysql-community-common-5.7.28-1.el7.x86_64.rpmrpm -ivh mysql-community-libs-5.7.28-1.el7.x86_64.rpmrpm -ivh mysql-community-client-5.7.28-1.el7.x86_64.rpmrpm -ivh mysql-community-server-5.7</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-03&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/MySQL">MySQL</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2019/12/31/20191218-1300-Python3-Monitor/">
         <p class="h4 index-header">20191218_1300_Python3-Monitor（Up to date）</p>
         
@@ -155,6 +201,7 @@
           <div class="index-text mb-1">Python3 Oracle2CSV_Monitor01. 数据库数据采集&amp;监控
 Repo Point  cx_Oracle, csv, smtplib, email  threading
 
+class_email_daily3.py
 # -*- coding:utf-8 -*-
 # @Author: Shin
 # @Date: 2019/11/20 15:14
@@ -165,17 +212,11 @@ import os, re
 # import math
 # from os.path import abspath, join, dirname
 
-import cx_Oracle
-import csv
-import smtplib
-# import numpy as np
-import threading
-# import copy
 
-from email.mime.text import MIMEText
-from email.header import Header
-from email.utils import formataddr
-from </div>
+
+import cx_Oracleimport csvimport smtplib
+import numpy as npimport threading
+import copyfrom email.mime.text import MIMETextfrom email.header import Headerfrom email.utils import for</div>
         </div>
       </a>
 
@@ -525,51 +566,6 @@ scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave2:/usr/local/src/
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/ZooKeeper%20Kafka">ZooKeeper Kafka</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/12/18/20191218-2224-MURA-Excel/">
-        <p class="h4 index-header">20191218-2224-MURA-Excel</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">Execl 数据分析01. 数据验证通过 数据验证 填充数据
-Excel 的 数据验证 选项是在 数据 目录下：
-
-
-
-02. 快速选中&amp;快速填充ctrl + shift + 方向键
-03. 分类统计SUMIF(&lt;条件区域&gt;,&lt;条件值&gt;,&lt;待求和区域&gt;)SUMIFS(&lt;待求和区域&gt;,&lt;条件区域1&gt;,&lt;条件值1&gt;,…,&lt;条件区域n&gt;,&lt;条件值n&gt;)
-04. 函数SUMPRODUCT(A3:A3,B2:B3,C2:C3)
-SUMPRODUCT((A2:A3=&quot;2018&quot;)*(D2:D3=&quot;上海&quot;)*(B2:B3)*(C2:C3))
-0x. 样例分析
-某顶尖外卖平台数据分析师面试题。现有交易数据表user_goods_table如下：user_name    用户名goods_kind   用户订购的的外卖品类
-
-
-现在老板想知道每个用户购买的外卖品类偏好分布，并取出每个用户购买最多的外卖品类是哪个。
-
-输出要求如下：user_name    用户名</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-18&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Excel">Excel</a>&nbsp;
           
         
       </div>

@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="Shinnosuke Guo">
   <meta name="keywords" content="">
-  <title>20191223_2356-Oracle12cR2 ~ Shinnosuke</title>
+  <title>20200104_0956-Oracle12cR2 ~ Shinnosuke</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Saturday, December 28th 2019, 9:15 am
+                  Saturday, January 4th 2020, 9:56 am
                 </p>
               
 
@@ -264,22 +264,26 @@ SELECT * FROM dba_tab_columns WHERE column_name = &#39;EMPNO&#39;;
 <li><p>服务进程：<code>LOCAL</code>进程，连接用户进程和实例</p>
 </li>
 <li><p>后台进程：<code>LGWR</code> <code>DBWn</code> <code>CKPT</code>/ <code>SMON</code> <code>PMON</code> 实例的一部分</p>
-<img src="进程1.png" srcset="/img/loading.gif" title="Origin ➡ Buffer_cache" alt="Buffer_cache">
 </li>
 <li><p>实例：<code>SGA</code> <code>PGA</code> 等</p>
 </li>
 </ul>
 <hr>
+<ul>
+<li><p>Origin ➡ Buffer_cache</p>
+<img src="进程1.png" srcset="/img/loading.gif" title="Origin ➡ Buffer_cache" alt="Buffer_cache">
+</li>
+<li><p>New ➡ Redo_buffer     Redo_buffer ➡ Buffer_cache</p>
 <img src="进程2.png" srcset="/img/loading.gif" title="New ➡ Redo_buffer" alt="Redo_buffer">
-New ➡ Redo_buffer       
-
-<p>Redo_buffer ➡ Buffer_cache</p>
-<hr>
+</li>
+<li><p>Redo_buffer ➡ redo01~03.log       Buffer_cache ➡ Origin &amp;&amp; Update SCN &amp;&amp; 数据库同步</p>
 <img src="进程3.png" srcset="/img/loading.gif" title="Redo_buffer ➡ Buffer_cache" alt="Buffer_cache">
-Redo_buffer ➡ redo01~03.log
 
-<p>Buffer_cache ➡ Origin &amp;&amp; Update SCN &amp;&amp; 数据库同步</p>
-<pre><code class="bash">[oracle@ocp12c prod1]$ ll /u01/app/oracle/oradata/prod1
+
+</li>
+</ul>
+<pre><code class="bash"># redo01~03.log
+[oracle@ocp12c prod1]$ ll /u01/app/oracle/oradata/prod1     # $ORACLE_BASE/oradata/prod1
 total 3607664
 -rw-r----- 1 oracle oinstall   10600448 Dec 28 12:53 control01.ctl
 -rw-r----- 1 oracle oinstall  209715712 Dec 28 12:52 redo01.log
@@ -291,7 +295,7 @@ total 3607664
 -rw-r----- 1 oracle oinstall 1289756672 Dec 28 12:50 undotbs01.dbf
 -rw-r----- 1 oracle oinstall    5251072 Dec 28 11:51 users01.dbf</code></pre>
 <hr>
-<h4 id="数据更新时相关日志的走势"><a href="#数据更新时相关日志的走势" class="headerlink" title="数据更新时相关日志的走势"></a>数据更新时相关日志的走势</h4><p><code>Tips</code> <code>redo.log/undo.data</code>之间的一点关联和解析，需结合上述后台进程进行理解<br><img src="redo_log&undo_data.png" srcset="/img/loading.gif" title="数据更新流程" alt="数据更新流程"></p>
+<h4 id="redo01-redo03-log-VS-undo-data"><a href="#redo01-redo03-log-VS-undo-data" class="headerlink" title="redo01~redo03.log VS undo.data"></a>redo01~redo03.log VS undo.data</h4><p><code>Tips</code> <code>redo.log/undo.data</code>之间的一点关联和解析，需结合上述后台进程进行理解<br><img src="redo_log&undo_data.png" srcset="/img/loading.gif" title="数据更新流程" alt="数据更新流程"></p>
 <hr>
 <h3 id="04-实例管理"><a href="#04-实例管理" class="headerlink" title="04. 实例管理"></a>04. 实例管理</h3><h4 id="实例加载"><a href="#实例加载" class="headerlink" title="实例加载"></a>实例加载</h4><ul>
 <li><p><code>NOMOUNT</code> 进程启动<br>  $ORACLE_HOME/dbs/ 下的 spfile<SID>.ora/init<SID>.ora<br>  打开alter_<SID>.log/trace文件<br>  分配SGA，启动进程</p>
@@ -942,7 +946,7 @@ service_names                 string     prod1,aaa</code></pre>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "20191223_2356-Oracle12cR2&nbsp;",
+        "20200104_0956-Oracle12cR2&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

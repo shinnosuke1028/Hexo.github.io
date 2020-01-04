@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    5.2k 字
+                    5.3k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      23 分钟
+                      24 分钟
                   </span>&nbsp;
                 
 
@@ -622,15 +622,14 @@ alter table te123 shrink space cascade;
 <h3 id="08-数据库网络配置"><a href="#08-数据库网络配置" class="headerlink" title="08. 数据库网络配置"></a>08. 数据库网络配置</h3><h4 id="监听器（后台服务）"><a href="#监听器（后台服务）" class="headerlink" title="监听器（后台服务）"></a>监听器（后台服务）</h4><ul>
 <li><code>监听器</code> 提供数据库对外连接的服务器信息、协议、端口.<br>  主机IP/端口号/全局数据库名/Oracle主目录/SID<br>  全局数据库名：DB_NAME.DB_DOMAIN</li>
 </ul>
-<pre><code class="bash">SYS@prod1&gt; alter system set db_domain=&#39;oracle.com&#39; scope=spfile;
+<pre><code class="bash"># 这部分实验不太理解，先不做解释
+SYS@prod1&gt; alter system set db_domain=&#39;oracle.com&#39; scope=spfile;
 SYS@prod1&gt; shutdown immediate
 SYS@prod1&gt; startup
 # SYS@prod1&gt; alter system set global_name=TRUE;
 
-
 # 网络配置文件位置
-cd $ORACLE_HOME/network/admin/
-</code></pre>
+cd $ORACLE_HOME/network/admin/</code></pre>
 <pre><code class="SQL"># 监听控制
 su - oracle
 lsnrctl status
@@ -639,7 +638,7 @@ lsnrctl start
 </code></pre>
 <p><code>静态监听</code> 配置文件中有 SID_LIST_LISTENER 就是静态监听.<br><code>静态注册</code> 监听程序启动时读取 listener.ora 文件内容中的实例名(SID_NAME)和服务名（GLOBAL_DBNAME）注册.<br>到监听器中<br><code>动态监听</code> 动态注册默认只注册到默认的监听器上（监听器名称是 LISTENER、端口是 1521、协议是 TCP），如果需要向使用其他协议和端口的监听器注册，则要配置 local_listener 参数动态注册发生的时间：数据库实例启动的时候、每隔一分钟动态注册的进程：PMON.<br><code>手动发起注册命令</code> <code>alter system register;</code></p>
 <h4 id="非标准监听配置（LISTENER，port-1522）"><a href="#非标准监听配置（LISTENER，port-1522）" class="headerlink" title="非标准监听配置（LISTENER，port: 1522）"></a>非标准监听配置（LISTENER，port: 1522）</h4><ul>
-<li><code>监听器</code> 提供数据库对外连接的服务器信息、协议、端口.<br>  ➡ 增加监听器 LISTENER1，暂时不增加静态监听到1522端口<br>  ➡ 增加监听tnsname别名 aaa_1</li>
+<li><code>监听器</code> 提供数据库对外连接的服务器信息、协议、端口.<br>  ➡ 增加监听器 LISTENER1，暂时不增加静态监听到1522端口<br>  ➡ 增加监听tnsname别名 aaa_1（等同于别名监听实验）</li>
 </ul>
 <pre><code class="bash"># 增加建
 cd $ORACLE_HOME/network/admin/
@@ -729,23 +728,55 @@ Listening Endpoints Summary...
   (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=ocp12c)(PORT=1522)))
   (DESCRIPTION=(ADDRESS=(PROTOCOL=tcps)(HOST=ocp12c)(PORT=5500))(Security=(my_wallet_directory=/u01/app/oracle/admin/prod1/xdb_wallet))(Presentation=HTTP)(Session=RAW))
 Services Summary...
-Service &quot;prod1&quot; has 1 instance(s).
-  Instance &quot;prod1&quot;, status READY, has 1 handler(s) for this service...
+Service &quot;prod1&quot; has 1 instance(s).  ⬅ 服务名
+  Instance &quot;prod1&quot;, status READY, has 1 handler(s) for this service...  ⬅ 实例名
 Service &quot;prod1XDB&quot; has 1 instance(s).
   Instance &quot;prod1&quot;, status READY, has 1 handler(s) for this service...
 The command completed successfully
 </code></pre>
 <hr>
-<p><code>Tips</code> Oracle12c中修改了 <em>local_listener</em> 后，且未将新端口监听添加至静态监听List的情况下，1521和新增且配置了参数后的非1521端口，均可正常本地监听并完成本地连接.<br><img src="listener.png" srcset="/img/loading.gif" title="local_listener 修改前"></p>
-<pre><code class="SQL">
-SYS@prod1&gt; alter system set local_listener=&#39;aaa_1&#39;;     ⬅ 这里的本地监听器，可以使用listener.ora中的别名.
+<p><code>Tips</code> Oracle12c中修改了 <em>local_listener</em> 后，且未将新端口监听添加至静态监听List的情况下，1521和新增且配置了参数后的非1521端口，均可正常本地监听并完成本地连接.</p>
+<ul>
+<li>修改前</li>
+</ul>
+<img src="listener.png" srcset="/img/loading.gif" title="local_listener 修改前">
+
+<pre><code class="SQL">SYS@prod1&gt; alter system set local_listener=&#39;aaa_1&#39;;     ⬅ 这里的本地监听器，可以使用listener.ora中的别名.
 SYS@prod1&gt; alter system register;   ⬅ 这里的本地监听器，可以使用listener.ora中的别名.
 SYS@prod1&gt; show parameter local
 NAME                     TYPE     VALUE
 ------------------------------------ ----------- ------------------------------
 local_listener                 string     aaa_1
 parallel_force_local             boolean     FALSE</code></pre>
+<ul>
+<li><p>修改后</p>
 <img src="listener2.png" srcset="/img/loading.gif" title="local_listener 修改后，两者可并存">
+</li>
+<li><p>客户端连接测试</p>
+<img src="listener3.png" srcset="/img/loading.gif" title="local_listener 修改后，两者可并存">
+
+</li>
+</ul>
+<hr>
+<ul>
+<li>拓展：增加服务名，用于建立用户与实例的桥梁</li>
+</ul>
+<pre><code class="SQL">SYS@prod1&gt; show parameter service_names
+
+NAME                     TYPE     VALUE
+------------------------------------ ----------- ------------------------------
+service_names                 string     prod1
+
+SYS@prod1&gt; alter system set service_names=&#39;prod1,aaa&#39;;
+SYS@prod1&gt; show parameter service_names
+
+NAME                     TYPE     VALUE
+------------------------------------ ----------- ------------------------------
+service_names                 string     prod1,aaa</code></pre>
+<hr>
+<ul>
+<li>总结：</li>
+</ul>
 
             <hr>
           </div>

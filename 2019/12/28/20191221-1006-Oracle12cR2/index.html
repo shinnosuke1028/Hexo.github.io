@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    4.1k 字
+                    5.2k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      18 分钟
+                      23 分钟
                   </span>&nbsp;
                 
 
@@ -261,9 +261,12 @@ SELECT * FROM dba_tab_columns WHERE column_name = &#39;EMPNO&#39;;
 <li><p>用户进程：用户机器上的进程，在服务端体现为进程状态中的LOCAL和非LOCAL.</p>
 <img src="用户进程.png" srcset="/img/loading.gif" title="用户进程" alt="用户进程">
 </li>
-<li><p>后台进程：<code>LGWR</code> <code>DBWn</code> <code>CKPT</code>/ <code>SMON</code> <code>PMON</code> </p>
+<li><p>服务进程：<code>LOCAL</code>进程，连接用户进程和实例</p>
+</li>
+<li><p>后台进程：<code>LGWR</code> <code>DBWn</code> <code>CKPT</code>/ <code>SMON</code> <code>PMON</code> 实例的一部分</p>
 <img src="进程1.png" srcset="/img/loading.gif" title="Origin ➡ Buffer_cache" alt="Buffer_cache">
-
+</li>
+<li><p>实例：<code>SGA</code> <code>PGA</code> 等</p>
 </li>
 </ul>
 <hr>
@@ -315,6 +318,19 @@ SYS@prod1&gt; shutdown abort   ⬅断电，生产环境应避免使用，数据�
 <li>数据库在MOUNT阶段就激活的功能，因为是动态视图，所以其数值的变化会贯穿整个数据库的启动状态.</li>
 </ul>
 <h4 id="ORACLE-HOME-dbs"><a href="#ORACLE-HOME-dbs" class="headerlink" title="$ORACLE_HOME/dbs"></a>$ORACLE_HOME/dbs</h4><p><code>spfile&lt;sid&gt;.ora/init&lt;sid&gt;.ora</code> 初始化文件，后者为文本可读格式的静态文件，后续有详细介绍.</p>
+<pre><code class="bash">ll $ORACLE_HOME/dbs/
+total 10712
+-rw-rw---- 1 oracle oinstall     1544 Dec 28 19:03 hc_prod1.dat
+-rw-rw---- 1 oracle oinstall     1544 Dec  7 14:22 hc_prodcdb.dat
+-rw-r--r-- 1 oracle oinstall     3079 May 15  2015 init.ora
+-rw-r--r-- 1 oracle oinstall     1225 Dec 28 19:34 initprod1.ora
+-rw-r----- 1 oracle oinstall       24 Nov 13 09:28 lkPROD1
+-rw-r----- 1 oracle oinstall       24 Nov 13 10:27 lkPRODCDB
+-rw-r----- 1 oracle oinstall     3584 Nov 13 10:05 orapwprod1
+-rw-r----- 1 oracle oinstall     3584 Nov 13 11:21 orapwprodcdb
+-rw-r----- 1 oracle oinstall 10928128 Dec 28 18:08 snapcf_prod1.f
+-rw-r----- 1 oracle oinstall     3584 Jan  4 09:40 spfileprod1.ora
+-rw-r----- 1 oracle oinstall     3584 Dec 23 23:11 spfileprodcdb.ora</code></pre>
 <hr>
 <h3 id="05-数据文件详解"><a href="#05-数据文件详解" class="headerlink" title="05. 数据文件详解"></a>05. 数据文件详解</h3><h4 id="控制文件-Control-Files"><a href="#控制文件-Control-Files" class="headerlink" title="控制文件 Control Files"></a>控制文件 Control Files</h4><pre><code class="SQL">-- SYS@prod1&gt; DESC V$DATAFILE;
 -- SYS@prod1&gt; DESC DBA_DATA_FILES;
@@ -398,16 +414,27 @@ ORA-00205: error in identifying control file, check alert log for more info</cod
 <img src="control1_miss2.png" srcset="/img/loading.gif" title="某control文件丢失" alt="某control文件丢失">
 </li>
 <li><p>恢复丢失的控制文件（在数据库实例完全关闭的情况下！！！）</p>
-<pre><code class="BASH">SYS@prod1&gt; shutdown immediate
-ORA-01507: database not mounted
-ORACLE instance shut down.
-</code></pre>
 </li>
 </ul>
-<p>–进入到控制文件所在目录，该目录下也包括一些初始化参数文件/密码文件等<br>cd $ORACLE_BASE/oradata/prod1/<br>–复制未丢失的control文件并重命名至control01.ctl<br>cp control03.ctl control01.ctl<br>–再次重启<br>SYS@prod1&gt; startup mount</p>
-<pre><code>
-&lt;img src=&quot;control1_miss3.png&quot; title=&quot;某control文件丢失后恢复&quot; alt=&quot;某control文件丢失后恢复&quot;&gt;
+<pre><code class="BASH">SYS@prod1&gt; shutdown immediate
+ORA-01507: database not mounted
+ORACLE instance shut down
 
+# 进入到控制文件所在目录，该目录下也包括一些初始化参数文件/密码文件等
+cd $ORACLE_BASE/oradata/prod1/
+--复制未丢失的control文件并重命名至control01.ctl
+cp control03.ctl control01.ctl
+--再次重启
+SYS@prod1&gt; startup mount</code></pre>
+<img src="control1_miss3.png" srcset="/img/loading.gif" title="某control文件丢失恢复" alt="某control文件丢失恢复">
+
+
+<ul>
+<li>全部控制文件丢失<br>```SQL</li>
+</ul>
+<p>–RESETLOGS<br>ALTER DATABASE OPEN RESETLOGS;</p>
+<p>–重新启用临时表空间<br>– Commands to add tempfiles to temporary tablespaces.<br>– Online tempfiles have complete space information.<br>– Other tempfiles may require adjustment.<br>ALTER TABLESPACE TEMP ADD TEMPFILE ‘/u01/app/oracle/oradata/prod1/temp01.dbf’<br>     SIZE 67108864  REUSE AUTOEXTEND ON NEXT 655360  MAXSIZE 32767M;</p>
+<pre><code>
 
 ---
 #### 数据文件 Data Files
@@ -534,7 +561,8 @@ cd /u01/app/oracle/diag/rdbms/prod1/prod1/trace</code></pre>
 <ul>
 <li>两组路径下有不同的.trc文件，有何区别.</li>
 </ul>
-<h3 id="07-数据库逻辑结构"><a href="#07-数据库逻辑结构" class="headerlink" title="07. 数据库逻辑结构"></a>07. 数据库逻辑结构</h3><h4 id="行片段-块-区-段-表空间"><a href="#行片段-块-区-段-表空间" class="headerlink" title="行片段/块/区/段/表空间"></a>行片段/块/区/段/表空间</h4><pre><code class="sql">CREATE TABLESPACE &lt;TBSPACE_NAME&gt; DATAFILE &#39;/u01/app/oracle/oradata/prod1/TBSPACE_NAME01.dbf&#39; size 10M
+<h3 id="07-数据库逻辑结构"><a href="#07-数据库逻辑结构" class="headerlink" title="07. 数据库逻辑结构"></a>07. 数据库逻辑结构</h3><h4 id="行片段-块-区-段-表空间"><a href="#行片段-块-区-段-表空间" class="headerlink" title="行片段/块/区/段/表空间"></a>行片段/块/区/段/表空间</h4><p><code>行链接</code> 单行数据超过单数据库容纳时，产生行链接.<br><code>行迁移</code> 数据发生update时，产生行迁移，更新的原始行rowid不会发生变化，但整行数据会迁移至新的数据块中，旧的块内会保存指向新块的地址.</p>
+<pre><code class="sql">CREATE TABLESPACE &lt;TBSPACE_NAME&gt; DATAFILE &#39;/u01/app/oracle/oradata/prod1/TBSPACE_NAME01.dbf&#39; size 10M
 AUTOEXTEND ON NEXT 10M  ⬅ 是指表空间的数据文件大小自动扩展，最大扩充至32G
 EXTENT MANAGEMENT LOCAL     ⬅ 区的管理是LOCAL
 UNIFORM SIZE 1M             ⬅ 区以后是每次1MB来扩展，即表的实际大小按1MB大小递增
@@ -589,6 +617,133 @@ FROM DBA_TABLES where blocks&gt;100 and (NUM_ROWS*AVG_ROW_LEN/1024/1024/0.9)/(BL
 alter table te123 enable ROW MOVEMENT; --表重建，行迁移
 alter table te123 shrink space cascade;
 --alter database datafile &#39;/u01/app/oracle/oradata/prod1/te123&#39; resize 15M;</code></pre>
+<h3 id="08-数据库网络配置"><a href="#08-数据库网络配置" class="headerlink" title="08. 数据库网络配置"></a>08. 数据库网络配置</h3><h4 id="监听器（后台服务）"><a href="#监听器（后台服务）" class="headerlink" title="监听器（后台服务）"></a>监听器（后台服务）</h4><ul>
+<li><code>监听器</code> 提供数据库对外连接的服务器信息、协议、端口.<br>  主机IP/端口号/全局数据库名/Oracle主目录/SID<br>  全局数据库名：DB_NAME.DB_DOMAIN</li>
+</ul>
+<pre><code class="bash">SYS@prod1&gt; alter system set db_domain=&#39;oracle.com&#39; scope=spfile;
+SYS@prod1&gt; shutdown immediate
+SYS@prod1&gt; startup
+# SYS@prod1&gt; alter system set global_name=TRUE;
+
+
+# 网络配置文件位置
+cd $ORACLE_HOME/network/admin/
+</code></pre>
+<pre><code class="SQL"># 监听控制
+su - oracle
+lsnrctl status
+lsnrctl stop
+lsnrctl start
+</code></pre>
+<p><code>静态监听</code> 配置文件中有 SID_LIST_LISTENER 就是静态监听.<br><code>静态注册</code> 监听程序启动时读取 listener.ora 文件内容中的实例名(SID_NAME)和服务名（GLOBAL_DBNAME）注册.<br>到监听器中<br><code>动态监听</code> 动态注册默认只注册到默认的监听器上（监听器名称是 LISTENER、端口是 1521、协议是 TCP），如果需要向使用其他协议和端口的监听器注册，则要配置 local_listener 参数动态注册发生的时间：数据库实例启动的时候、每隔一分钟动态注册的进程：PMON.<br><code>手动发起注册命令</code> <code>alter system register;</code></p>
+<h4 id="非标准监听配置（LISTENER，port-1522）"><a href="#非标准监听配置（LISTENER，port-1522）" class="headerlink" title="非标准监听配置（LISTENER，port: 1522）"></a>非标准监听配置（LISTENER，port: 1522）</h4><ul>
+<li><code>监听器</code> 提供数据库对外连接的服务器信息、协议、端口.<br>  ➡ 增加监听器 LISTENER1，暂时不增加静态监听到1522端口<br>  ➡ 增加监听tnsname别名 aaa_1</li>
+</ul>
+<pre><code class="bash"># 增加建
+cd $ORACLE_HOME/network/admin/
+vim listener.ora
+# listener.ora
+listener.ora
+# listener.ora Network Configuration File: /u01/app/oracle/product/12.2.0/db_1/network/admin/listener.ora
+# Generated by Oracle configuration tools.
+
+LISTENER =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = ocp12c)(PORT = 1521))
+      (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1521))
+    )
+  )
+
+# 新增的监听器 LISTENER1
+LISTENER1 =
+  (DESCRIPTION_LIST =
+    (DESCRIPTION =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = ocp12c)(PORT = 1522))
+    )
+  )
+
+SID_LIST_LISTENER =
+(SID_LIST =
+  (SID_DESC =
+   (GLOBAL_DBNAME = prod1)
+   (ORACLE_HOME = /u01/app/oracle/product/12.2.0/db_1)
+   (SID_NAME = prod1)
+  )
+  (SID_DESC =
+   (GLOBAL_DBNAME = prodcdb)
+   (ORACLE_HOME = /u01/app/oracle/product/12.2.0/db_1)
+   (SID_NAME = prodcdb)
+  )
+)
+######
+
+vim tnsnames.ora
+# tnsnames.ora
+aaa_1 =
+  (DESCRIPTION =
+    (ADDRESS = (PROTOCOL = TCP)(HOST = ocp12c)(PORT = 1522))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = prod1)
+    )
+  )
+######</code></pre>
+<ul>
+<li>默认的LOCALL监听不会注册至1522端口，故需要我们修改系统参数，修改local_listener参数并手动执行动态注册操作</li>
+</ul>
+<pre><code class="bash">SYS@prod1&gt; alter system set local_listener=&#39;aaa_1&#39;;     ⬅ 这里的本地监听器，可以使用listener.ora中的别名.
+
+System altered.
+
+SYS@prod1&gt; alter system register;   ⬅ 这里的本地监听器，可以使用listener.ora中的别名.
+
+System altered.</code></pre>
+<ul>
+<li>启动新监听（port: 1522）</li>
+</ul>
+<pre><code class="bash">[oracle@ocp12c admin]$ lsnrctl start LISTENER1
+[oracle@ocp12c admin]$ lsnrctl status LISTENER1
+
+LSNRCTL for Linux: Version 12.2.0.1.0 - Production on 04-JAN-2020 11:59:41
+
+Copyright (c) 1991, 2016, Oracle.  All rights reserved.
+
+
+                                                                  ⬇ 这里的监听端口为1522 
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=ocp12c)(PORT=1522))) 
+STATUS of the LISTENER
+------------------------
+Alias                     LISTENER1
+Version                   TNSLSNR for Linux: Version 12.2.0.1.0 - Production
+Start Date                04-JAN-2020 11:57:18
+Uptime                    0 days 0 hr. 2 min. 22 sec
+Trace Level               off
+Security                  ON: Local OS Authentication
+SNMP                      OFF
+Listener Parameter File   /u01/app/oracle/product/12.2.0/db_1/network/admin/listener.ora
+Listener Log File         /u01/app/oracle/diag/tnslsnr/ocp12c/listener1/alert/log.xml
+Listening Endpoints Summary...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=ocp12c)(PORT=1522)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcps)(HOST=ocp12c)(PORT=5500))(Security=(my_wallet_directory=/u01/app/oracle/admin/prod1/xdb_wallet))(Presentation=HTTP)(Session=RAW))
+Services Summary...
+Service &quot;prod1&quot; has 1 instance(s).
+  Instance &quot;prod1&quot;, status READY, has 1 handler(s) for this service...
+Service &quot;prod1XDB&quot; has 1 instance(s).
+  Instance &quot;prod1&quot;, status READY, has 1 handler(s) for this service...
+The command completed successfully
+</code></pre>
+<hr>
+<p><code>Tips</code> Oracle12c中修改了 <em>local_listener</em> 后，且未将新端口监听添加至静态监听List的情况下，1521和新增且配置了参数后的非1521端口，均可正常本地监听并完成本地连接.<br><img src="listener.png" srcset="/img/loading.gif" title="local_listener 修改前"></p>
+<pre><code class="SQL">
+SYS@prod1&gt; alter system set local_listener=&#39;aaa_1&#39;;     ⬅ 这里的本地监听器，可以使用listener.ora中的别名.
+SYS@prod1&gt; alter system register;   ⬅ 这里的本地监听器，可以使用listener.ora中的别名.
+SYS@prod1&gt; show parameter local
+NAME                     TYPE     VALUE
+------------------------------------ ----------- ------------------------------
+local_listener                 string     aaa_1
+parallel_force_local             boolean     FALSE</code></pre>
+<img src="listener2.png" srcset="/img/loading.gif" title="local_listener 修改后，两者可并存">
 
             <hr>
           </div>

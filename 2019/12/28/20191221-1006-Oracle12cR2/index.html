@@ -561,6 +561,7 @@ cd /u01/app/oracle/diag/rdbms/prod1/prod1/trace</code></pre>
 <ul>
 <li>两组路径下有不同的.trc文件，有何区别.</li>
 </ul>
+<hr>
 <h3 id="07-数据库逻辑结构"><a href="#07-数据库逻辑结构" class="headerlink" title="07. 数据库逻辑结构"></a>07. 数据库逻辑结构</h3><h4 id="行片段-块-区-段-表空间"><a href="#行片段-块-区-段-表空间" class="headerlink" title="行片段/块/区/段/表空间"></a>行片段/块/区/段/表空间</h4><p><code>行链接</code> 单行数据超过单数据库容纳时，产生行链接.<br><code>行迁移</code> 数据发生update时，产生行迁移，更新的原始行rowid不会发生变化，但整行数据会迁移至新的数据块中，旧的块内会保存指向新块的地址.</p>
 <pre><code class="sql">CREATE TABLESPACE &lt;TBSPACE_NAME&gt; DATAFILE &#39;/u01/app/oracle/oradata/prod1/TBSPACE_NAME01.dbf&#39; size 10M
 AUTOEXTEND ON NEXT 10M  ⬅ 是指表空间的数据文件大小自动扩展，最大扩充至32G
@@ -617,6 +618,7 @@ FROM DBA_TABLES where blocks&gt;100 and (NUM_ROWS*AVG_ROW_LEN/1024/1024/0.9)/(BL
 alter table te123 enable ROW MOVEMENT; --表重建，行迁移
 alter table te123 shrink space cascade;
 --alter database datafile &#39;/u01/app/oracle/oradata/prod1/te123&#39; resize 15M;</code></pre>
+<hr>
 <h3 id="08-数据库网络配置"><a href="#08-数据库网络配置" class="headerlink" title="08. 数据库网络配置"></a>08. 数据库网络配置</h3><h4 id="监听器（后台服务）"><a href="#监听器（后台服务）" class="headerlink" title="监听器（后台服务）"></a>监听器（后台服务）</h4><ul>
 <li><code>监听器</code> 提供数据库对外连接的服务器信息、协议、端口.<br>  主机IP/端口号/全局数据库名/Oracle主目录/SID<br>  全局数据库名：DB_NAME.DB_DOMAIN</li>
 </ul>

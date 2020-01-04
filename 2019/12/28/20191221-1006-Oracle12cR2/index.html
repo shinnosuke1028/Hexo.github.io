@@ -393,16 +393,20 @@ Variable Size          989856736 bytes
 Database Buffers      553648128 bytes
 Redo Buffers            8155136 bytes
 ORA-00205: error in identifying control file, check alert log for more info</code></pre>
-<p>可以去按照提示，去告警日志里看下原因<br><img src="control1_miss2.png" srcset="/img/loading.gif" title="某control文件丢失" alt="某control文件丢失"></p>
 <ul>
-<li>恢复丢失的控制文件（在数据库实例完全关闭的情况下！！！）<pre><code class="BASH">SYS@prod1&gt; shutdown immediate
+<li><p>可以去按照提示，去告警日志里看下原因</p>
+<img src="control1_miss2.png" srcset="/img/loading.gif" title="某control文件丢失" alt="某control文件丢失">
+</li>
+<li><p>恢复丢失的控制文件（在数据库实例完全关闭的情况下！！！）</p>
+<pre><code class="BASH">SYS@prod1&gt; shutdown immediate
 ORA-01507: database not mounted
 ORACLE instance shut down.
 </code></pre>
 </li>
 </ul>
 <p>–进入到控制文件所在目录，该目录下也包括一些初始化参数文件/密码文件等<br>cd $ORACLE_BASE/oradata/prod1/<br>–复制未丢失的control文件并重命名至control01.ctl<br>cp control03.ctl control01.ctl<br>–再次重启<br>SYS@prod1&gt; startup mount</p>
-<pre><code>&lt;img src=&quot;control1_miss3.png&quot; title=&quot;某control文件丢失后恢复&quot; alt=&quot;某control文件丢失后恢复&quot;&gt;
+<pre><code>
+&lt;img src=&quot;control1_miss3.png&quot; title=&quot;某control文件丢失后恢复&quot; alt=&quot;某control文件丢失后恢复&quot;&gt;
 
 
 ---

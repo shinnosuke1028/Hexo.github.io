@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    5.3k 字
+                    5.8k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      24 分钟
+                      26 分钟
                   </span>&nbsp;
                 
 
@@ -643,7 +643,7 @@ lsnrctl stop
 lsnrctl start
 </code></pre>
 <p><code>静态监听</code> 配置文件中有 SID_LIST_LISTENER 就是静态监听.<br><code>静态注册</code> 监听程序启动时读取 listener.ora 文件内容中的实例名(SID_NAME)和服务名（GLOBAL_DBNAME）注册.<br>到监听器中<br><code>动态监听</code> 动态注册默认只注册到默认的监听器上（监听器名称是 LISTENER、端口是 1521、协议是 TCP），如果需要向使用其他协议和端口的监听器注册，则要配置 local_listener 参数动态注册发生的时间：数据库实例启动的时候、每隔一分钟动态注册的进程：PMON.<br><code>手动发起注册命令</code> <code>alter system register;</code></p>
-<h4 id="非标准监听配置（LISTENER，port-1522）"><a href="#非标准监听配置（LISTENER，port-1522）" class="headerlink" title="非标准监听配置（LISTENER，port: 1522）"></a>非标准监听配置（LISTENER，port: 1522）</h4><ul>
+<h4 id="非标准监听配置（LISTENER，port-1522）-amp-客户端网络服务名（TNS）"><a href="#非标准监听配置（LISTENER，port-1522）-amp-客户端网络服务名（TNS）" class="headerlink" title="非标准监听配置（LISTENER，port: 1522）&amp; 客户端网络服务名（TNS）"></a>非标准监听配置（LISTENER，port: 1522）&amp; 客户端网络服务名（TNS）</h4><ul>
 <li><code>监听器</code> 提供数据库对外连接的服务器信息、协议、端口.<br>  ➡ 增加监听器 LISTENER1，暂时不增加静态监听到1522端口<br>  ➡ 增加监听tnsname别名 aaa_1（等同于别名监听实验）</li>
 </ul>
 <pre><code class="bash"># 增加建
@@ -768,14 +768,12 @@ parallel_force_local             boolean     FALSE</code></pre>
 <li>拓展：增加服务名，用于建立用户与实例的桥梁</li>
 </ul>
 <pre><code class="SQL">SYS@prod1&gt; show parameter service_names
-
 NAME                     TYPE     VALUE
 ------------------------------------ ----------- ------------------------------
 service_names                 string     prod1
 
 SYS@prod1&gt; alter system set service_names=&#39;prod1,aaa&#39;;
 SYS@prod1&gt; show parameter service_names
-
 NAME                     TYPE     VALUE
 ------------------------------------ ----------- ------------------------------
 service_names                 string     prod1,aaa</code></pre>
@@ -783,6 +781,61 @@ service_names                 string     prod1,aaa</code></pre>
 <ul>
 <li>总结：</li>
 </ul>
+<ol>
+<li><code>服务名</code> 服务名的建立连接了用户进程与实例，我们可以给一组实例配置多个服务名，并且动态注册到监听中，用于非本地客户端的连接. 如<code>拓展</code>中所示，我们给实例添加了一组额外的服务名，这时候我们便可以通过这组service_name去连接实例.</li>
+</ol>
+<pre><code class="SQL">SYS@prod1&gt; show parameter service_names
+NAME                     TYPE     VALUE
+------------------------------------ ----------- ------------------------------
+service_names                 string     prod1,aaa
+
+-- 通过新增的aaa连接prod1实例
+sqlplus hr/oracle@192.168.73.101:1521/aaa
+sqlplus hr/oracle@192.168.73.101:1521/prod1
+    --这里的service_name = prod1，       ⬆
+    --碰巧和实例名prod1相同，不要混淆！！！  </code></pre>
+<hr>
+<ol start="2">
+<li>过分麻烦的IP/port/service_name/系统目录等连接信息，会让实例的连接变得繁琐，通过tnsnames.ora中的网络别名配置，有效简化了实例连接. 别名样例详见<code>客户端网络服务名（TNS）</code>.</li>
+</ol>
+<pre><code class="SQL">-- tnsnames.ora
+prod1 =     ⬅ 简单连接命名 = prod1
+  (DESCRIPTION = 
+    (ADDRESS = (PROTOCOL = TCP)(HOST = ocp12c)(PORT = 1521))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = prod1)
+    )
+  )
+
+aaa_1 =     ⬅ 简单连接命名 = aaa_1
+  (DESCRIPTION =                                        ⬇ 这里的监听端口为非标准的1522
+    (ADDRESS = (PROTOCOL = TCP)(HOST = ocp12c)(PORT = 1522))
+    (CONNECT_DATA =
+      (SERVER = DEDICATED)
+      (SERVICE_NAME = aaa)
+                       ⬆ --这里监听的service_name = aaa，
+                         --等同于prod1，因为实例prod1我们配置了两组service_name
+    )
+  )
+------
+
+--通过配置tnsnames.ora，开启别名连接
+sqlplus hr/oracle@192.168.73.101:1521/aaa
+sqlplus hr/oracle@192.168.73.101:1521/prod1
+
+--上述连接方式简化为
+sqlplus hr/oracle@aaa_1
+sqlplus hr/oracle@prod1</code></pre>
+<hr>
+<ol start="3">
+<li>新增监听器<strong>LISTENER1</strong>并且配置<strong>local_listener</strong>，使得非标准端口动态注册成为现实，详见<code>非标准监听配置（LISTENER，port: 1522）</code>. 这里有一个12c可能存在的新特性，配置<strong>local_listener</strong>为 <strong><em>1521</em></strong> 端口下的<strong>aaa_1</strong>（即<strong>LISTENER1</strong>）后，原始 <strong><em>1521</em></strong>端口下的默认监听器<strong>LISTENER</strong>依旧允许用户登入. 详见<code>非标准监听配置（LISTENER，port: 1522）➡ 修改后 &amp; 客户端连接测试</code></li>
+</ol>
+<pre><code class="SQL">sqlplus hr/oracle@192.168.73.101:1521/prod1
+sqlplus hr/oracle@prod1 ⬅ (prod1 ➡ service_name: prod1 ➡ instance:prod1)
+
+sqlplus hr/oracle@192.168.73.101:1522/aaa
+sqlplus hr/oracle@aaa_1 ⬅ (aaa_1 ➡ service_name: aaa   ➡ instance:prod1)</code></pre>
 
             <hr>
           </div>

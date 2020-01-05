@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="Shinnosuke Guo">
   <meta name="keywords" content="">
-  <title>20200103_1238_Python3-Monitor（Up to date） ~ Shinnosuke</title>
+  <title>20200105_1338_Python3-Monitor（Up to date） ~ Shinnosuke</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Friday, January 3rd 2020, 12:38 pm
+                  Sunday, January 5th 2020, 1:38 pm
                 </p>
               
 
@@ -180,19 +180,17 @@
 # @Author: Shin
 # @Date: 2019/11/20 15:14
 # @File: class_email_daily3.py
-import pprint
-import sys
-import os, re
-# import math
-# from os.path import abspath, join, dirname
+
 </code></pre>
 </li>
 </ul>
-<p>import cx_Oracle<br>import csv<br>import smtplib</p>
+<p>import sys<br>import os, re</p>
+<h1 id="import-math"><a href="#import-math" class="headerlink" title="import math"></a>import math</h1><h1 id="from-os-path-import-abspath-join-dirname"><a href="#from-os-path-import-abspath-join-dirname" class="headerlink" title="from os.path import abspath, join, dirname"></a>from os.path import abspath, join, dirname</h1><h1 id="import-pprint"><a href="#import-pprint" class="headerlink" title="import pprint"></a>import pprint</h1><p>import cx_Oracle<br>import csv<br>import smtplib</p>
 <h1 id="import-numpy-as-np"><a href="#import-numpy-as-np" class="headerlink" title="import numpy as np"></a>import numpy as np</h1><p>import threading</p>
 <h1 id="import-copy"><a href="#import-copy" class="headerlink" title="import copy"></a>import copy</h1><p>from email.mime.text import MIMEText<br>from email.header import Header<br>from email.utils import formataddr<br>from email.mime.multipart import MIMEMultipart</p>
-<p>from time import sleep, ctime<br>from tqdm import tqdm</p>
-<h1 id="CMD模式运行配置"><a href="#CMD模式运行配置" class="headerlink" title="CMD模式运行配置"></a>CMD模式运行配置</h1><p>from func_demo.func_f import date_f<br>from conf import bas_insert_conf<br>from conf import bas_mail_conf<br>from conf import sql_conf</p>
+<p>from time import sleep, ctime, time<br>from tqdm import tqdm</p>
+<h1 id="CMD模式运行配置"><a href="#CMD模式运行配置" class="headerlink" title="CMD模式运行配置"></a>CMD模式运行配置</h1><p>from func_test.func_f import date_f</p>
+<h1 id="from-conf-import-bas-insert-conf"><a href="#from-conf-import-bas-insert-conf" class="headerlink" title="from conf import bas_insert_conf"></a>from conf import bas_insert_conf</h1><p>from conf import bas_mail_conf<br>from conf import sql_conf</p>
 <h1 id="非CMD模式运行配置"><a href="#非CMD模式运行配置" class="headerlink" title="非CMD模式运行配置"></a>非CMD模式运行配置</h1><h1 id="from-src-conf-import-bas-mail-conf"><a href="#from-src-conf-import-bas-mail-conf" class="headerlink" title="from src.conf import bas_mail_conf"></a>from src.conf import bas_mail_conf</h1><h1 id="from-src-conf-import-sql-conf"><a href="#from-src-conf-import-sql-conf" class="headerlink" title="from src.conf import sql_conf"></a>from src.conf import sql_conf</h1><h1 id="from-src-conf-import-bas-mail-conf-1"><a href="#from-src-conf-import-bas-mail-conf-1" class="headerlink" title="from src.conf import bas_mail_conf"></a>from src.conf import bas_mail_conf</h1><h1 id="from-src-func-test-func-f-import-date-f"><a href="#from-src-func-test-func-f-import-date-f" class="headerlink" title="from src.func_test.func_f import date_f"></a>from src.func_test.func_f import date_f</h1><h1 id="sys-path-insert-0-join-abspath-dirname-file-‘-func-test-‘"><a href="#sys-path-insert-0-join-abspath-dirname-file-‘-func-test-‘" class="headerlink" title="sys.path.insert(0, join(abspath(dirname(file)), ‘../func_test/‘))"></a>sys.path.insert(0, join(abspath(dirname(<strong>file</strong>)), ‘../func_test/‘))</h1><p>sys.path.append(‘./func_test’)</p>
 <p>class OracleExecution(object):<br>    # def <strong>init</strong>(self, sql=None, connect=None, check_style=None):<br>    def <strong>init</strong>(self):<br>        self.<strong>connect = None<br>        self.</strong>sql = None<br>        self.__check_style = None<br>        # self.message_str = ‘’<br>        self.rs = []<br>        self.message = ‘’<br>        self.message_data = []<br>        self.db = None</p>
 <pre><code># # 装饰器用法1：
@@ -246,13 +244,13 @@ def execute_f(self):
             i = 0
             for r1 in self.rs:
                 if i == 0:
-                    data_flag = r1[1]
+                    data_flag = r1[2]
                     if data_flag != 0:
                         data_flag_bad = r1[0]
                     else:
                         continue
                 elif r1[1] is not None:
-                    data_flag = data_flag + r1[1]
+                    data_flag = data_flag + r1[2]
                     if data_flag != 0:
                         data_flag_bad = data_flag_bad + &#39;,&#39; + r1[0]
                         # 这里也可以直接写成 data_flag_bad = data_flag_bad, r1[0]
@@ -431,6 +429,7 @@ def get_result(self):
 return threading_f</code></pre><p>def email_f(email_flag=’N’):<br>    def mail_post_f(f):<br>        def inner_f(i=0, <em>value):<br>            print(‘Status: 2号装饰器测试开始！’)<br>            if email_flag == ‘Y’:<br>                print(f’Thread {threading.current_thread().getName()} is running. Time: {ctime()}’)<br>                results = f(</em>value)</p>
 <pre><code>            # 获取邮件正文body，这里定位到JOB返回的内容
             body = f&#39;{results[&quot;JOB&quot;][1]}\n{&quot;,&quot;.join(bas_mail_conf.titleDict[&quot;CONF_JOB&quot;])}&#39;
+
             # 中间对象初始化
             body_tmp = None
             i_tmp = None
@@ -527,15 +526,20 @@ for rn in range(len(threads)):
     # 为什么rt.get_result()一口气返回了所有线程的结果，线程返回的是一个生成器？？？
     dict_final[rt.get_result()[rn][0]] = rt.get_result()[rn]  # {&#39;JOB&#39;: (&#39;JOB&#39;,&#39;&#39;,[(),(),()]),... }
 # pprint.pprint(dict_final)
-return dict_final</code></pre><p>def demo():<br>    print(f’This is class demo.’)</p>
-<h1 id="以下是Demo"><a href="#以下是Demo" class="headerlink" title="以下是Demo"></a>以下是Demo</h1><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    print(‘Thread’, threading.current_thread().getName(), ‘is Running. Time: %s’ % date_f()[2])</p>
-<pre><code>mail_dict_combine = main_job()
+return dict_final</code></pre><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    print(‘Thread’, threading.current_thread().getName(), ‘is Running. Time: %s’ % date_f()[2])</p>
+<pre><code>start_time = time()
+
+mail_dict_combine = main_job()
 # print(f&#39;mail_dict_combine_view:{mail_dict_combine[&quot;JOB&quot;][0]}&#39;)
 # print(f&#39;mail_dict_combine_view:{mail_dict_combine[&quot;JOB&quot;][1]}&#39;)
 # print(f&#39;mail_dict_combine_mail_text:{mail_dict_combine[&quot;JOB&quot;][2]}&#39;)
 # print(f&#39;mail_dict_combine:{mail_dict_combine[&quot;PKG&quot;][1]}&#39;)
 
+end_time = time()
+print(str(end_time - start_time))
+
 print(&#39;Thread&#39;, threading.current_thread().getName(), &#39;End. Time: %s&#39; % date_f()[2])
+
 
 # # 下次遍历前初始化字典的写法
 # mail_dict_combine.append(mail_dict)
@@ -741,7 +745,7 @@ if __name__ == &#39;__main__&#39;:
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "20200103_1238_Python3-Monitor（Up to date）&nbsp;",
+        "20200105_1338_Python3-Monitor（Up to date）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

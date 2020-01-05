@@ -321,7 +321,9 @@ SYS@prod1&gt; shutdown abort   ⬅断电，生产环境应避免使用，数据�
 <h4 id="动态性能视图"><a href="#动态性能视图" class="headerlink" title="动态性能视图"></a>动态性能视图</h4><ul>
 <li>数据库在MOUNT阶段就激活的功能，因为是动态视图，所以其数值的变化会贯穿整个数据库的启动状态.</li>
 </ul>
-<h4 id="ORACLE-HOME-dbs"><a href="#ORACLE-HOME-dbs" class="headerlink" title="$ORACLE_HOME/dbs"></a>$ORACLE_HOME/dbs</h4><p><code>spfile&lt;sid&gt;.ora/init&lt;sid&gt;.ora</code> 初始化文件，后者为文本可读格式的静态文件，后续有详细介绍.</p>
+<h4 id="ORACLE-HOME-dbs"><a href="#ORACLE-HOME-dbs" class="headerlink" title="$ORACLE_HOME/dbs"></a>$ORACLE_HOME/dbs</h4><ul>
+<li><code>spfile&lt;sid&gt;.ora/init&lt;sid&gt;.ora</code> 初始化文件，后者为文本可读格式的静态文件，后续有详细介绍.</li>
+</ul>
 <pre><code class="bash">ll $ORACLE_HOME/dbs/
 total 10712
 -rw-rw---- 1 oracle oinstall     1544 Dec 28 19:03 hc_prod1.dat

@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    946 字
+                    913 字
                   </span>&nbsp;
                 
 
@@ -305,38 +305,43 @@ create table `student`(
 );
 --后期修改
 alter table student change sid sid int(11) not null AUTO_INCREMENT;</code></pre><ul>
-<li><p>主键-域完整性（字段准确）：类型约束/非空约束/默认值</p>
-<pre><code class="SQL">create table `person`(
-  sid int(11) primary key auto_increment,
-  pname varchar(20) not null,
-  sex bit(1) default 1
-);</code></pre>
-</li>
-<li><p>外键-引用完整性（参照准确）</p>
-<pre><code class="SQL">create table `classroom`(
-  cid int primary key auto_increment,
-  cname varchar(20) not null
-);
-</code></pre>
-</li>
+<li>主键-域完整性（字段准确）：类型约束/非空约束/默认值</li>
 </ul>
-<p>create table <code>stu</code>(<br>    sid int primary key auto_increment,<br>    sname varchar(20) not null,<br>    cid int<br>);</p>
-<p>alter table stu add constraint FK_CID foreign key(cid)<br>references classroom(cid)</p>
-<pre><code>
-&lt;!-- * 运算
+<pre><code class="SQL">create table `person`(
+    sid int(11) primary key auto_increment,
+    pname varchar(20) not null,
+    sex bit(1) default 1
+);</code></pre>
+<ul>
+<li>外键-引用完整性（参照准确）</li>
+</ul>
+<pre><code class="SQL">create table `classroom`(
+    cid int primary key auto_increment,
+    cname varchar(20) not null
+);
+
+create table `stu`(
+    sid int primary key auto_increment,
+    sname varchar(20) not null,
+    cid int
+);
+
+alter table stu add constraint FK_CID foreign key(cid)
+references classroom(cid)</code></pre>
+<!-- * 运算
 ```SQL
 select 3 / 2;
 select 3 div 2;   --1
 select 3 / 0;   --NULL
 select 5 % 2;   --1
-select 3 &gt; 2;   --1
-select 3 &lt;&gt; 2;  --1
-``` --&gt;
+select 3 > 2;   --1
+select 3 <> 2;  --1
+``` -->
 
-#### DML
-* 增删改查
-```SQL
---与Oracle相同，新表不继承约束和索引信息
+<h4 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h4><ul>
+<li>增删改查</li>
+</ul>
+<pre><code class="SQL">--与Oracle相同，新表不继承约束和索引信息
 create table student_bak as select * from student where 1=2;
 
 -- insert into MURA.student
@@ -351,6 +356,7 @@ create table student_bak as select * from student where 1=2;
 -- )values
 -- (801790, 13921446055, &#39;GHR&#39;, &#39;cardguo1&#39;, &#39;男&#39;, &#39;1992/10/28&#39;, &#39;shinnosuke1028@foxmail.com&#39;),
 -- (801390, 13066951004, &#39;LL&#39;, &#39;cardlll1&#39;, &#39;女&#39;, &#39;1992/12/10&#39;, &#39;lili1004@foxmail.com&#39;);</code></pre>
+
             <hr>
           </div>
           <br>

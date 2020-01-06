@@ -161,16 +161,17 @@
           <div class="index-text mb-1">移花接木-Hive01. Hive 1.x
 Repo Pointapache-hive-1.2.2-bin.tar.gzmysql-connector-java-5.1.44.tarapache-hive-1.2.2-src.tar.gz
 
-02. Hive 元素元数据 &amp; 数据
-Hive中的表是纯逻辑表，即元数据；
-数据存储在HDFS上，元数据与数据存储分离；
-数据计算依赖分布式计算框架 MapReduce；
-Hive读多写少，从HDFS中读，MR计算，并写回HDFS；不支持数据改写&amp;删除；
-用户需指定三个属性用来定义数据格式：列分隔符：空格 ‘,’  ‘\t’行分隔符：’\n’读取数据的方法
+01-1. Beeline连接Hive（Review）
+这里使用的是Hive Metastore ➡ hiveserver2 ➡ beeline的连接方式（启动方式见下方）.
+也可以使用Hive Metastore ➡ hive（CLI）的连接方式
 
-Hive 架构CLI Hive / Metastore → hiveserver2(HS2) → BeelineJDBC Metastore → Java/Python/C++WUI apache-hive-0.13.0-src.tar.gz → hive –service hwi
-03. 数据入库3-1 建表--HQL
-create table article(senten</div>
+# 配置了hive.metastore.uris后需开启 Metastore
+# 后缀为重定向，需百度解决（已解决，详见20191219-2254-Hive-1-x）
+hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;
+# beeline方式连接Hive，默认端口为10000
+hive --service hiveserver2 &amp;
+#beeline
+#!connect jdbc:hive2://master:10000 r</div>
         </div>
       </a>
 

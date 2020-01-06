@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="Shinnosuke Guo">
   <meta name="keywords" content="">
-  <title>20200103_2355_MySQL ~ Shinnosuke</title>
+  <title>20200106_2055_MySQL ~ Shinnosuke</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Friday, January 3rd 2020, 11:55 pm
+                  Monday, January 6th 2020, 8:55 pm
                 </p>
               
 
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    715 字
+                    946 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      3 分钟
+                      4 分钟
                   </span>&nbsp;
                 
 
@@ -207,9 +207,18 @@ grep &#39;temporary password&#39; /var/log/mysqld.log
 
 # 6-2 修改密码策略&amp;重启服务：
 vim /etc/my.cnf
-添加如下行：
+# my.cnf
 [mysqld]
+# 复杂密码策略关闭
 validate_password=off
+# 设置默认编码集
+character-set-server=utf8
+# 回避ERROR 1055 BUG
+sql_mode=&#39;&#39;
+######
+
+# 重启服务
+service mysqld restart
 
 # 7 set password=password(&#39;root&#39;);
 mysql -uroot -p&#39;root&#39;
@@ -218,7 +227,7 @@ exit
 
 # 8 查看下端口，可以判断MySQL是否起来了
 netstat -nltp
-tcp6       0      0 :::3306                 :::*                    LISTEN      978/mysqld
+tcp6       0      0 :::3306     :::*      LISTEN      978/mysqld
 
 # 9 增加远程登录权限
 show grants for root;
@@ -234,30 +243,29 @@ export JAVA_HOME=/usr/local/src/jdk1.8.0_201
 export JRE_HOME=${JAVA_HOME}/jre
 export CLASSPATH=.:${JAVA_HOME}/lib:${JAVA_HOME}/lib
 export PATH=${JAVA_HOME}/bin:$PATH</code></pre>
+<hr>
 <ul>
 <li>MySQL 5.7 ERROR 1055 BUG<br>  MySQL5.7中默认会开启 <code>only_full_group_by</code> 这个模式，可以在配置文件中把它去掉</li>
 </ul>
-<pre><code class="bash">vim /etc/my.ini</code></pre>
+<pre><code class="bash"># Linux为my.cnf，Windows为my.ini
+vim /etc/my.cnf</code></pre>
 <img src="ERROR-1055.png" srcset="/img/loading.gif" title="ERROR 1055" alt="ERROR 1055">
 
 
-<h3 id="03-Common-Operation"><a href="#03-Common-Operation" class="headerlink" title="03. Common Operation"></a>03. Common Operation</h3><ul>
-<li><p>DB Create</p>
-<pre><code class="SQL">create database dbname;
+<h3 id="03-Common-Operation（常规DDL-DML-DQL-DCL）"><a href="#03-Common-Operation（常规DDL-DML-DQL-DCL）" class="headerlink" title="03. Common Operation（常规DDL/DML/DQL/DCL）"></a>03. Common Operation（常规DDL/DML/DQL/DCL）</h3><h4 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h4><pre><code class="SQL">create database dbname;
 drop database dbname;
 use dbname;
 show tables;</code></pre>
-</li>
-<li><p>其余均为常规DDL/DML/DQL/DCL</p>
-</li>
-<li><p>元数据配置，与Oracle不同，新增字段可以指定插入位置<br>```SQL</p>
-</li>
+<ul>
+<li>元数据配置，与Oracle不同，新增字段可以指定插入位置<br>```SQL</li>
 </ul>
 <p>–指定位置插入新字段<br>alter table student add card char(8) after first;<br>alter table student add card char(8) after sname;</p>
 <p>–修改数据类型<br>alter table tname change colname colname colType<br>alter table tname modify colname colType</p>
 <p>–修改字段位置<br>alter table tname modify colname colType after colname2;</p>
 <pre><code>
 * 主键约束/唯一约束（单表可配置多个）
+
+`Tips`字符集，表内若有中文数据，需指定表的字符集.
 ```SQL
 create table `student`(
     sid int(11) primary key,
@@ -265,12 +273,24 @@ create table `student`(
 );
 
 create table `student`(
-    sid int(11) primary key,
+    sid int(11),
     ...,
     primary key(sid, xxx)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
 
---主键
+CREATE TABLE `student` (
+  `sid` int(11) NOT NULL AUTO_INCREMENT,  ⬅ int类型的单位为字节：-2147483648 ~ 2147483647
+  `cid` int(11) DEFAULT NULL,
+  `telephone` char(11) DEFAULT NULL,
+  `sname` varchar(20) DEFAULT NULL,
+  `card` char(8) DEFAULT NULL,
+  `sex` varchar(5) DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `email` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`sid`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+
+--主键约束的增加与删除
 alter table student add constraint PK_SID primary key(sid, xxx, xxx);
 alter table student drop primary key;
 
@@ -283,40 +303,54 @@ create table `student`(
     sid int(11) primary key auto_increment,
     id_card char(18) unique
 );
-</code></pre><ul>
-<li>域完整性（字段准确）：类型约束/非空约束/默认值<pre><code class="SQL">create table `person`(
+--后期修改
+alter table student change sid sid int(11) not null AUTO_INCREMENT;</code></pre><ul>
+<li><p>主键-域完整性（字段准确）：类型约束/非空约束/默认值</p>
+<pre><code class="SQL">create table `person`(
   sid int(11) primary key auto_increment,
   pname varchar(20) not null,
   sex bit(1) default 1
+);</code></pre>
+</li>
+<li><p>外键-引用完整性（参照准确）</p>
+<pre><code class="SQL">create table `classroom`(
+  cid int primary key auto_increment,
+  cname varchar(20) not null
 );
 </code></pre>
 </li>
 </ul>
+<p>create table <code>stu</code>(<br>    sid int primary key auto_increment,<br>    sname varchar(20) not null,<br>    cid int<br>);</p>
+<p>alter table stu add constraint FK_CID foreign key(cid)<br>references classroom(cid)</p>
 <pre><code>
-* 引用完整性（参照准确）
+&lt;!-- * 运算
 ```SQL
-create table `classroom`(
-    cid int primary key auto_increment,
-    cname varchar(20) not null
-);
-
-create table `stu`(
-    sid int primary key auto_increment,
-    sname varchar(20) not null,
-    cid int
-);
-
-alter table stu add constraint FK_CID foreign key(cid)
-references classroom(cid)</code></pre><ul>
-<li>运算<pre><code class="SQL">select 3 / 2;
+select 3 / 2;
 select 3 div 2;   --1
 select 3 / 0;   --NULL
 select 5 % 2;   --1
 select 3 &gt; 2;   --1
-select 3 &lt;&gt; 2;  --1</code></pre>
-</li>
-</ul>
+select 3 &lt;&gt; 2;  --1
+``` --&gt;
 
+#### DML
+* 增删改查
+```SQL
+--与Oracle相同，新表不继承约束和索引信息
+create table student_bak as select * from student where 1=2;
+
+-- insert into MURA.student
+-- (
+-- cid,
+-- telephone,
+-- sname,
+-- card,
+-- sex,
+-- birthday,
+-- email
+-- )values
+-- (801790, 13921446055, &#39;GHR&#39;, &#39;cardguo1&#39;, &#39;男&#39;, &#39;1992/10/28&#39;, &#39;shinnosuke1028@foxmail.com&#39;),
+-- (801390, 13066951004, &#39;LL&#39;, &#39;cardlll1&#39;, &#39;女&#39;, &#39;1992/12/10&#39;, &#39;lili1004@foxmail.com&#39;);</code></pre>
             <hr>
           </div>
           <br>
@@ -481,7 +515,7 @@ select 3 &lt;&gt; 2;  --1</code></pre>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "20200103_2355_MySQL&nbsp;",
+        "20200106_2055_MySQL&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

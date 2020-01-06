@@ -145,6 +145,63 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/01/06/20200103-2355-MySQL/" target="_self">
+          <img src="/img/MySQL.png" srcset="/img/loading.gif" alt="20200106_2055_MySQL" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/06/20200103-2355-MySQL/">
+        <p class="h4 index-header">20200106_2055_MySQL</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">MySQL01. MySQL 5.7
+Repo PointMySQL
+
+02. 环境配置
+基本环境配置
+
+# 1 查看并卸载自带的MySQL
+rpm -qa|grep mysql
+# 2 发现的话就卸载掉
+rpm -e --nodeps mysql...
+# 3 删除老版本MySQL的开头文件和库
+rm -rf /usr/lib/mysql
+rm -rf /usr/include/mysql
+rm -rf /etc/my.cnf
+rm -rf /var/lib/mysql
+
+# 4 mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar
+与视频不太一样，需要按顺序安装一些依赖：
+rpm -ivh mysql-community-common-5.7.28-1.el7.x86_64.rpm
+rpm -ivh mysql-community-libs-5.7.28-1.el7.x86_64.rpm
+rpm -ivh mysql-community-client-5.7.28-1.el7.x86_64.rpm
+rpm -ivh mysql-community-ser</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-06&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/MySQL">MySQL</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/01/06/20191220-1940-Hive/" target="_self">
           <img src="/img/Hive-1.png" srcset="/img/loading.gif" alt="20200106_1620_Hive" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -276,63 +333,6 @@ Ex 内核参数，系统内存4G，下面为对应内核</div>
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/Oracle12c">Oracle12c</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/01/03/20200103-2355-MySQL/" target="_self">
-          <img src="/img/MySQL.png" srcset="/img/loading.gif" alt="20200103_2355_MySQL" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/03/20200103-2355-MySQL/">
-        <p class="h4 index-header">20200103_2355_MySQL</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">MySQL01. MySQL 5.7
-Repo PointMySQL
-
-02. 环境配置
-基本环境配置
-
-# 1 查看并卸载自带的MySQL
-rpm -qa|grep mysql
-# 2 发现的话就卸载掉
-rpm -e --nodeps mysql...
-# 3 删除老版本MySQL的开头文件和库
-rm -rf /usr/lib/mysql
-rm -rf /usr/include/mysql
-rm -rf /etc/my.cnf
-rm -rf /var/lib/mysql
-
-# 4 mysql-5.7.28-1.el7.x86_64.rpm-bundle.tar
-与视频不太一样，需要按顺序安装一些依赖：
-rpm -ivh mysql-community-common-5.7.28-1.el7.x86_64.rpm
-rpm -ivh mysql-community-libs-5.7.28-1.el7.x86_64.rpm
-rpm -ivh mysql-community-client-5.7.28-1.el7.x86_64.rpm
-rpm -ivh mysql-community-ser</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-03&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/MySQL">MySQL</a>&nbsp;
           
         
       </div>

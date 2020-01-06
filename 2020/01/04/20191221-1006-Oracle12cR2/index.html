@@ -657,13 +657,14 @@ GROUP2 TEMPTS2</code></pre>
 <h4 id="段（表-索引-簇等）"><a href="#段（表-索引-簇等）" class="headerlink" title="段（表/索引/簇等）"></a>段（表/索引/簇等）</h4><h4 id="区"><a href="#区" class="headerlink" title="区"></a>区</h4><h4 id="块"><a href="#块" class="headerlink" title="块"></a>块</h4><hr>
 <h4 id="高水位线（-High-Water-Mark-HWM）"><a href="#高水位线（-High-Water-Mark-HWM）" class="headerlink" title="高水位线（(High Water Mark, HWM）"></a>高水位线（(High Water Mark, HWM）</h4><p><code>HWM</code> 原则上HWM只会增大，不会缩小.</p>
 <ul>
-<li><p>相关影响<br>  → 全表扫描通常要读出直到 HWM 标记的所有的属于该表数据库块，即使该表中没有任何数据.<br>  → 即使 HWM 以下有空闲的数据库块，键入在插入数据时使用了 append 关键字，则在插入时使用 HWM 以上的数据块，此时 HWM 会自动增大（插入速度快）.<br>  → HWM会直接影响到相关表空间的大小，即resize表空间时会失败.<br>  → 通常需要我们去优化这些高水位线但实际数据很少的表.</p>
+<li><p>相关影响<br>→ 全表扫描通常要读出直到 HWM 标记的所有的属于该表数据库块，即使该表中没有任何数据.<br>→ 即使 HWM 以下有空闲的数据库块，键入在插入数据时使用了 append 关键字，则在插入时使用 HWM 以上的数据块，此时 HWM 会自动增大（插入速度快）.<br>→ HWM会直接影响到相关表空间的大小，即resize表空间时会失败.<br>→ 通常需要我们去优化这些高水位线但实际数据很少的表.</p>
 </li>
 <li><p><code>HWM</code> 的修正</p>
+<img src="HWM.png" srcset="/img/loading.gif" title="HWM修正" alt="HWM修正">
+
 </li>
 </ul>
-<pre><code class="SQL">&lt;img src=&quot;HWM.png&quot; title=&quot;HWM修正&quot; alt=&quot;HWM修正&quot;&gt;
---实际数据低于高水位线30%的表的查询
+<pre><code class="SQL">--实际数据低于高水位线30%的表的查询
 SELECT TABLE_NAME,(BLOCKS*8192/1024/1024)&quot;理论大小 M&quot;,
 (NUM_ROWS*AVG_ROW_LEN/1024/1024/0.9)&quot;实际大小 M&quot;,
 round((NUM_ROWS*AVG_ROW_LEN/1024/1024/0.9)/(BLOCKS*8192/1024/1024),3)*100||&#39;%&#39; &quot; 实际使用率%&quot;

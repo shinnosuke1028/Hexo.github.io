@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.1k 字
+                    1.2k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      5 分钟
+                      6 分钟
                   </span>&nbsp;
                 
 
@@ -294,8 +294,26 @@ Tips：mysql -V    java -version
                 &lt;description&gt;Path for Hive metadata.&lt;/description&gt;
         &lt;/property&gt;
 &lt;/configuration&gt;</code></pre>
+<h5 id="Hive-Log配置"><a href="#Hive-Log配置" class="headerlink" title="Hive Log配置"></a>Hive Log配置</h5><ul>
+<li>Hive中的日志分为两种:<br><code>系统日志</code>记录了hive的运行情况，错误状况，在<code>hive-log4j.properties</code>文件中记录了Hive日志的存储情况.<br><code>Job日志</code>记录了Hive 中job的执行的历史过程.</li>
+</ul>
+<pre><code class="bash">vim /usr/local/src/apache-hive-1.2.2-bin/conf/hive-log4j.properties
+# hive-log4j.properties 修改相关路径
+# 默认的存储情况：
+hive.root.logger=WARN,DRFA
+hive.log.dir=/tmp/${user.name} # 默认的存储位置
+hive.log.file=hive.log  # 默认的文件名
+
+# 修改
+# hive.log.dir=${java.io.tmpdir}/${user.name}
+# SET Hive log path
+hive.root.logger=WARN,DRFA
+hive.log.dir=/usr/local/src/apache-hive-1.2.2-bin/log
+hive.log.file=hive.log
+######</code></pre>
 <h5 id="Beeline连接Hive"><a href="#Beeline连接Hive" class="headerlink" title="Beeline连接Hive"></a>Beeline连接Hive</h5><ul>
-<li>这里使用的是<code>Hive Metastore ➡ hiveserver2 ➡ beeline</code>的连接方式.<pre><code>  也可以使用`Hive Metastore ➡ hive（CLI）`的连接方式</code></pre></li>
+<li>这里使用的是<code>Hive Metastore ➡ hiveserver2 ➡ beeline</code>的连接方式. </li>
+<li>也可以使用<code>Hive Metastore ➡ hive（CLI）</code>的连接方式</li>
 </ul>
 <pre><code class="bash"># 配置了hive.metastore.uris后需开启 Metastore
 # 后缀为重定向，需百度解决（已解决，详见20191219-2254-Hive-1-x）

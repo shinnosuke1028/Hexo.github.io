@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    5.8k 字
+                    6.3k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      26 分钟
+                      28 分钟
                   </span>&nbsp;
                 
 
@@ -338,7 +338,7 @@ total 10712
 -rw-r----- 1 oracle oinstall     3584 Jan  4 09:40 spfileprod1.ora
 -rw-r----- 1 oracle oinstall     3584 Dec 23 23:11 spfileprodcdb.ora</code></pre>
 <hr>
-<h3 id="05-数据文件详解"><a href="#05-数据文件详解" class="headerlink" title="05. 数据文件详解"></a>05. 数据文件详解</h3><h4 id="控制文件-Control-Files"><a href="#控制文件-Control-Files" class="headerlink" title="控制文件 Control Files"></a>控制文件 Control Files</h4><pre><code class="SQL">-- SYS@prod1&gt; DESC V$DATAFILE;
+<h3 id="05-实例文件详解"><a href="#05-实例文件详解" class="headerlink" title="05. 实例文件详解"></a>05. 实例文件详解</h3><h4 id="控制文件-Control-Files"><a href="#控制文件-Control-Files" class="headerlink" title="控制文件 Control Files"></a>控制文件 Control Files</h4><pre><code class="SQL">-- SYS@prod1&gt; DESC V$DATAFILE;
 -- SYS@prod1&gt; DESC DBA_DATA_FILES;
 --查看控制文件路径及数量
 SYS@prod1&gt; show parameter control
@@ -346,17 +346,18 @@ NAME                     TYPE     VALUE
 ------------------------------------ ----------- ------------------------------
 control_file_record_keep_time        integer     7
 control_files                        string     /u01/app/oracle/oradata/prod1/control01.ctl, /u01/app/oracle/fast_recovery_area/prod1/control02.ctl
-control_management_pack_access        string     DIAGNOSTIC+TUNING
-
---备份
---二进制备份
+control_management_pack_access        string     DIAGNOSTIC+TUNING</code></pre>
+<ul>
+<li>控制/新增文件备份</li>
+</ul>
+<pre><code class="SQL">--二进制备份
 SYS@prod1&gt; ALTER DATABASE BACKUP CONTROLFILE TO &#39;/home/oracle/control.ctl&#39;;
 --文本备份
 SYS@prod1&gt; ALTER DATABASE BACKUP CONTROLFILE TO trace AS &#39;/home/oracle/control.ctl&#39;;
 &lt;img src=&quot;control_ctl.png&quot; title=&quot;数据更新流程&quot; alt=&quot;数据更新流程&quot;&gt;
 
 
---新增控制文件，数据库mount
+--新增控制文件，数据库进入mount
 SYS@prod1&gt; startup mount
 ORACLE instance started.
 Total System Global Area 1560281088 bytes
@@ -365,20 +366,25 @@ Variable Size          989856736 bytes
 Database Buffers      553648128 bytes
 Redo Buffers            8155136 bytes
 Database mounted.
+
+--查看现有控制文件地址及数量
 SYS@prod1&gt; show parameter control
 NAME                     TYPE     VALUE
 ------------------------------------ ----------- ------------------------------
 control_file_record_keep_time         integer     7
 control_files                 string     /u01/app/oracle/oradata/prod1/control01.ctl, /u01/app/oracle/fast_recovery_area/prod1/control02.ctl
 
+--新增控制文件control03.ctl 并关闭实例
 SYS@prod1&gt; alter system set control_files=&#39;/u01/app/oracle/oradata/prod1/control01.ctl&#39;,&#39;/u01/app/oracle/fast_recovery_area/prod1/control02.ctl&#39;,&#39;/u01/app/oracle/oradata/prod1/control03.ctl&#39; scope=spfile;
---关闭实例
 SYS@prod1&gt; shutdown immediate
---赋值control01文件
+
+
+--复制control01文件并rename，和参数中的配置同步
 --记住，赋值的文件需是实例关闭后，同步过SNC号的.ctl文件
 cp /u01/app/oracle/oradata/prod1/control01.ctl /u01/app/oracle/oradata/prod1/control03.ctl
 --重启实例
-SYS@prod1&gt; startup
+[oracle@ocp12c ~]$ sqlplus / as sysdba
+SYS@prod1&gt; startup mount
 ORACLE instance started.
 Total System Global Area 1560281088 bytes
 Fixed Size            8621088 bytes
@@ -386,18 +392,19 @@ Variable Size          989856736 bytes
 Database Buffers      553648128 bytes
 Redo Buffers            8155136 bytes
 Database mounted.
-Database opened.
 --查看新增control文件后的control参数状态
 SYS@prod1&gt; show parameter control
 NAME                     TYPE     VALUE
 ------------------------------------ ----------- ------------------------------
 control_file_record_keep_time         integer     7
-control_files                         string         /u01/app/oracle/oradata/prod1/control01.ctl, /u01/app/oracle/fast_recovery_area/prod1/control02.ctl, /u01/app/oracle/oradata/prod1/control03.ctl</code></pre>
+control_files                         string         /u01/app/oracle/oradata/prod1/control01.ctl, /u01/app/oracle/fast_recovery_area/prod1/control02.ctl, /u01/app/oracle/oradata/prod1/control03.ctl
+
+SYS@prod1&gt; alter database open;</code></pre>
 <hr>
 <ul>
 <li>控制文件部分丢失或完全丢失的情况下重建控制文件<br>  ➡ 关闭实例/删除/启动/查看告警/关闭实例<br>  ➡ 复现：先删除某control文件</li>
 </ul>
-<img src="control1_miss.png" srcset="/img/loading.gif" title="某control文件丢失" alt="某control文件丢失">
+<img src="control1_miss.png" srcset="/img/loading.gif" title="复现某control文件丢失的情况" alt="复现某control文件丢失的情况">
 
 <ul>
 <li>启动到mount即可（mount阶段已开始介入control文件）</li>
@@ -434,18 +441,59 @@ cp control03.ctl control01.ctl
 SYS@prod1&gt; startup mount</code></pre>
 <img src="control1_miss3.png" srcset="/img/loading.gif" title="某control文件丢失恢复" alt="某control文件丢失恢复">
 
-
+<hr>
 <ul>
-<li>全部控制文件丢失<br>```SQL</li>
+<li>全部控制文件丢失，需在nomount状态下恢复控制文件，前提是知道redo.log和相关datafile文件的路径</li>
 </ul>
-<p>–RESETLOGS<br>ALTER DATABASE OPEN RESETLOGS;</p>
-<p>–重新启用临时表空间<br>– Commands to add tempfiles to temporary tablespaces.<br>– Online tempfiles have complete space information.<br>– Other tempfiles may require adjustment.<br>ALTER TABLESPACE TEMP ADD TEMPFILE ‘/u01/app/oracle/oradata/prod1/temp01.dbf’<br>     SIZE 67108864  REUSE AUTOEXTEND ON NEXT 655360  MAXSIZE 32767M;</p>
-<pre><code>
+<pre><code class="SQL">--找到redo.log和相关datafile文件的路径！！！
+SYS@prod1&gt; shutdown immediate;
+SYS@prod1&gt; startup nomount;
+--执行以下语句
+SYS@prod1&gt;
+CREATE CONTROLFILE REUSE DATABASE &quot;PROD1&quot; NORESETLOGS ARCHIVELOG
+ MAXLOGFILES 16
+ MAXLOGMEMBERS 3
+ MAXDATAFILES 100
+ MAXINSTANCES 8
+ MAXLOGHISTORY 292
+LOGFILE
+ GROUP 1 &#39;/u01/app/oracle/oradata/prod1/redo01.log&#39;,
+ GROUP 2 &#39;/u01/app/oracle/oradata/prod1/redo02.log&#39;,
+ GROUP 3 &#39;/u01/app/oracle/oradata/prod1/redo03.log&#39;
+-- STANDBY LOGFILE
+DATAFILE
+ &#39;/u01/app/oracle/oradata/prod1/system01.dbf&#39;,
+ &#39;/u01/app/oracle/oradata/prod1/sysaux01.dbf&#39;,
+ &#39;/u01/app/oracle/oradata/prod1/undotbs01.dbf&#39;,
+ &#39;/u01/app/oracle/oradata/prod1/users01.dbf&#39;
+CHARACTER SET AL32UTF8;
 
----
-#### 数据文件 Data Files
-```SQL
---查看相关数据文件及路径
+--打开数据库
+SYS@prod1&gt; alter database open;
+
+--下面两步可以在备份的control.ctl文件内找到
+--含RESETLOGS参数打开数据库
+--简单来说就是加载联机归档日志并重置其log sequence为1，前提是它们存在的话；不存在则创建.
+SYS@prod1&gt; ALTER DATABASE OPEN RESETLOGS;
+--重新启用临时表空间
+-- Commands to add tempfiles to temporary tablespaces.
+-- Online tempfiles have complete space information.
+-- Other tempfiles may require adjustment.
+SYS@prod1&gt; ALTER TABLESPACE TEMP ADD TEMPFILE &#39;/u01/app/oracle/oradata/prod1/temp01.dbf&#39;
+     SIZE 67108864  REUSE AUTOEXTEND ON NEXT 655360  MAXSIZE 32767M;</code></pre>
+<ul>
+<li><p><code>RESETLOGS</code> The RESETLOGS option is always required after incomplete media recovery or recovery using a backup control file. Resetting the redo log does the following:</p>
+<ol>
+<li><strong>Archives the current online redo logs (if they are accessible) and then erases the contents of the online redo logs and resets the log sequence number to 1.</strong> For example, if the current online redo logs are sequence 1000 and 1001 when you open RESETLOGS, then the database archives logs 1000 and 1001 and then resets the online logs to sequence 1 and 2.</li>
+<li><strong>Creates</strong> the online <strong>redo log files</strong> if they do <strong>not currently exist</strong>.</li>
+<li><strong>Reinitializes</strong> the control file metadata about online redo logs and redo threads.</li>
+<li><strong>Updates all current datafiles and online redo logs</strong> and all subsequent archived redo logs with a new RESETLOGS SCN and time stamp.</li>
+</ol>
+<p>Because the database will not apply an archived log to a datafile unless the RESETLOGS SCN and time stamps match, the RESETLOGS <strong>prevents you from corrupting datafiles</strong> with archived logs that are not from direct parent incarnations of the current incarnation.</p>
+</li>
+</ul>
+<hr>
+<h4 id="数据文件-Data-Files"><a href="#数据文件-Data-Files" class="headerlink" title="数据文件 Data Files"></a>数据文件 Data Files</h4><pre><code class="SQL">--查看相关数据文件及路径
 select T.bytes/1024/1024/1024 &quot;TB/(GB)&quot;, T.* FROM DBA_DATA_FILES t /*where t.tablespace_name like &#39;UNDOTBS1%&#39;*/ ORDER BY 2 desc;
 
 --创建特定属性的表空间，后续也有类似的罗列
@@ -454,7 +502,8 @@ AUTOEXTEND ON NEXT 10M
 EXTENT MANAGEMENT LOCAL
 UNIFORM SIZE 1M 
 SEGMENT SPACE MANAGEMENT MANUAL;    ⬅ 默认是AUTO
-ALTER TABLESPACE SHIN ADD DATAFILE &#39;/u01/app/oracle/oradata/prod1/shin02.dbf&#39; SIZE 10M;</code></pre><hr>
+ALTER TABLESPACE SHIN ADD DATAFILE &#39;/u01/app/oracle/oradata/prod1/shin02.dbf&#39; SIZE 10M;</code></pre>
+<hr>
 <h4 id="联机重做日志文件（归档日志）-redo-log"><a href="#联机重做日志文件（归档日志）-redo-log" class="headerlink" title="联机重做日志文件（归档日志） redo.log"></a>联机重做日志文件（归档日志） redo.log</h4><ul>
 <li>修改归档日志路径</li>
 </ul>

@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    853 字
+                    981 字
                   </span>&nbsp;
                 
 
@@ -260,8 +260,11 @@
 <img src="6.png" srcset="/img/loading.gif" title="单独建立/boot" alt="">
 
 <hr>
-<img src="7.png" srcset="/img/loading.gif" title="单独建立/boot" alt="">
+<ul>
+<li>服务器上的安装存在一些问题！！！<br>  boot分区需要配置为 <strong><code>EFI</code></strong>格式，文件分区会被挂载在<code>/boot/efi</code>下，<strong><code>Use as</code></strong>独立的选项，直接选择即可，无需配置<code>Mount point</code>！！！<br>  服务器上安装选择<code>/boot</code>的话会导致后续引导有问题，进入不了ubuntu系统！！！<br>  虚拟机安装可以按照下图示例配置.<img src="7.png" srcset="/img/loading.gif" title="单独建立/boot" alt="">
 
+</li>
+</ul>
 <hr>
 <img src="8.png" srcset="/img/loading.gif" title="08" alt="">
 
@@ -347,7 +350,13 @@
 <h5 id="安装过程完成后会自动reboot"><a href="#安装过程完成后会自动reboot" class="headerlink" title="安装过程完成后会自动reboot."></a>安装过程完成后会自动reboot.</h5><img src="35.png" srcset="/img/loading.gif" title="Finish!" alt="">
 
 
-<h4 id="3-静态IP"><a href="#3-静态IP" class="headerlink" title="3. 静态IP"></a>3. 静态IP</h4><h5 id="配置root用户"><a href="#配置root用户" class="headerlink" title="配置root用户"></a>配置root用户</h5><pre><code class="bash"># 配置静态IP
+<h4 id="3-静态IP"><a href="#3-静态IP" class="headerlink" title="3. 静态IP"></a>3. 静态IP</h4><h5 id="配置root用户"><a href="#配置root用户" class="headerlink" title="配置root用户"></a>配置root用户</h5><pre><code class="bash"># 查看现有网卡
+ubuntu@ubuntu:~$ ifconfig -a
+# 若网卡未开则手动开启
+ubuntu@ubuntu:~$ ifconfig ens33 on
+# ubuntu@ubuntu:~$ ifconfig ens33 down
+
+# 配置静态IP
 ubuntu@ubuntu:~$ sudo vim /etc/network/interfaces
 [sudo] password for ubuntu: 
 # interfaces

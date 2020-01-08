@@ -368,6 +368,11 @@ select * from
     group by e.deptno
 )A
 where A.dept_avg_sal &gt; 2000;
+
+select e.deptno, round(avg(e.sal), 2) dept_avg_sal from emp e 
+left join dept d on e.deptno = d.deptno           
+group by e.deptno
+having dept_avg_sal &gt; 2000;
 +--------+--------------+
 | deptno | dept_avg_sal |
 +--------+--------------+

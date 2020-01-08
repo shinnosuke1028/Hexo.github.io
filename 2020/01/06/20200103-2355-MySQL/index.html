@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    894 字
+                    1.2k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      4 分钟
+                      6 分钟
                   </span>&nbsp;
                 
 
@@ -366,6 +366,62 @@ email
 (801790, 13921446055, 'GHR', 'cardguo1', '男', '1992/10/28', 'shinnosuke1028@foxmail.com'),
 (801390, 13066951004, 'LL', 'cardlll1', '女', '1992/12/10', 'lili1004@foxmail.com'); -->
 
+
+<h4 id="MySQL函数"><a href="#MySQL函数" class="headerlink" title="MySQL函数"></a>MySQL函数</h4><pre><code class="SQL">--随机数
+select rand();
+select round(13.45 -1); --10</code></pre>
+<ul>
+<li>部分时间函数</li>
+</ul>
+<pre><code class="SQL">--部分时间函数
+--后一个时间-前一个时间，返回天/月/年
+SELECT TIMESTAMPDIFF(DAY,&#39;2012-10-01&#39;,&#39;2013-01-13&#39;);
+SELECT TIMESTAMPDIFF(MONTH,&#39;2012-10-01&#39;,&#39;2013-01-13&#39;);
+SELECT TIMESTAMPDIFF(YEAR,&#39;2012-10-01&#39;,&#39;2013-01-13&#39;);
+
+-- 第一个时间-第二个时间，返回天
+SELECT DATEDIFF(&#39;2013-01-13&#39;,&#39;2012-10-01&#39;);
+
+--时间迁移
+select date_sub(now(),interval 1 day); 获取一天前的今天的日期
+select date_sub(now(),interval 1 week); 获取一年前的今天的日期
+select date_sub(now(),interval 1 month); 获取一年前的今天的日期
+
+--时间格式化
+select date_format(date_sub(last_day(now()), interval 2 day), &#39;%Y-%m-%d&#39;));
+
+--返回一个天数，从0年开始的天数
+select to_days(&#39;2020-01-08&#39;); --xxxxaa
+select FROM_DAYS(xxxxaa); </code></pre>
+<ul>
+<li>部分陌生字符串函数</li>
+</ul>
+<pre><code class="SQL">
+
+
+--连接
+select concat(&#39;aaa&#39;, &#39;bbb&#39;);
+
+select substr(&#39;aaa&#39;, )</code></pre>
+<h4 id="分区表"><a href="#分区表" class="headerlink" title="分区表"></a>分区表</h4><pre><code class="SQL">CREATE TABLE `student_bak`
+(
+    `sdate` date,
+    `sid` int(11) NOT NULL AUTO_INCREMENT,
+    `cid` int(11) DEFAULT NULL,
+    `telephone` char(11) DEFAULT NULL,
+    `sname` varchar(20) DEFAULT NULL,
+    `card` char(8) DEFAULT NULL,
+    `sex` varchar(5) DEFAULT NULL,
+    `birthday` date DEFAULT NULL,
+    `email` varchar(50) DEFAULT NULL,
+    PRIMARY KEY (`sid`,`sdate`)
+) 
+ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+partition by range (to_days(sdate))
+(
+    partition p20200108 values less than (TO_DAYS(&#39;20200109&#39;)),
+    partition p20200109 values less than (TO_DAYS(&#39;20200110&#39;))
+)</code></pre>
 
             <hr>
           </div>

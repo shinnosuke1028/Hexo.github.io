@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    858 字
+                    894 字
                   </span>&nbsp;
                 
 
@@ -178,6 +178,7 @@
 <h3 id="02-环境配置"><a href="#02-环境配置" class="headerlink" title="02. 环境配置"></a>02. 环境配置</h3><ul>
 <li>基本环境配置</li>
 </ul>
+<p><code>Tips</code>MySQL中的<code>utf8</code>并不是常规认知里的<code>UTF-8</code>，而<code>utf8mb4</code>才是真正的<code>UTF-8</code>，切记.</p>
 <pre><code class="bash"># 1 查看并卸载自带的MySQL
 rpm -qa|grep mysql
 # 2 发现的话就卸载掉
@@ -212,13 +213,14 @@ vim /etc/my.cnf
 # 复杂密码策略关闭
 validate_password=off
 # 设置默认编码集
-character-set-server=utf8
+character-set-server=utf8mb4
 # 回避ERROR 1055 BUG
 sql_mode=&#39;&#39;
 ######
 
 # 重启服务
-service mysqld restart
+# service mysqld restart
+systemctl restart mysqld
 
 # 7 set password=password(&#39;root&#39;);
 mysql -uroot -p&#39;root&#39;
@@ -347,7 +349,10 @@ select 3 <> 2;  --1
 <li>增删改查</li>
 </ul>
 <pre><code class="SQL">--与Oracle相同，新表不继承约束和索引信息
-create table student_bak as select * from student where 1=2;</code></pre>
+create table student_bak as select * from student where 1=2;
+
+--
+update student_bak set sname = &#39;dd&#39; where sid = 8;</code></pre>
 <!-- insert into MURA.student
 (
 cid,
@@ -360,6 +365,8 @@ email
 )values
 (801790, 13921446055, 'GHR', 'cardguo1', '男', '1992/10/28', 'shinnosuke1028@foxmail.com'),
 (801390, 13066951004, 'LL', 'cardlll1', '女', '1992/12/10', 'lili1004@foxmail.com'); -->
+
+
             <hr>
           </div>
           <br>

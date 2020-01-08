@@ -164,6 +164,7 @@ Repo PointMySQL
 02. 环境配置
 基本环境配置
 
+TipsMySQL中的utf8并不是常规认知里的UTF-8，而utf8mb4才是真正的UTF-8，切记.
 # 1 查看并卸载自带的MySQL
 rpm -qa|grep mysql
 # 2 发现的话就卸载掉
@@ -178,8 +179,7 @@ rm -rf /var/lib/mysql
 与视频不太一样，需要按顺序安装一些依赖：
 rpm -ivh mysql-community-common-5.7.28-1.el7.x86_64.rpm
 rpm -ivh mysql-community-libs-5.7.28-1.el7.x86_64.rpm
-rpm -ivh mysql-community-client-5.7.28-1.el7.x86_64.rpm
-rpm -ivh mysql-community-ser</div>
+rpm -ivh mysql-community-client</div>
         </div>
       </a>
 

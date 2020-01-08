@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.6k 字
+                    1.8k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      8 分钟
+                      9 分钟
                   </span>&nbsp;
                 
 
@@ -191,7 +191,7 @@ SUMPRODUCT((A2:A3=&quot;2018&quot;)*(D2:D3=&quot;上海&quot;)*(B2:B3)*(C2:C3))<
 </li>
 </ul>
 <hr>
-<h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><pre><code class="SQL">--1.  在emp表中，查询所有的员工信息.
+<h2 id="MySQL01"><a href="#MySQL01" class="headerlink" title="MySQL01"></a>MySQL01</h2><pre><code class="SQL">--1.  在emp表中，查询所有的员工信息.
 mysql&gt; mysql&gt; select * from emp;
 +-------+--------+-----------+------+------------+---------+---------+--------+
 | empno | ename  | job       | mgr  | hiredate   | sal     | comm    | deptno |
@@ -288,6 +288,9 @@ Query OK, 11 rows affected (0.00 sec)
 Rows matched: 11  Changed: 11  Warnings: 0
 
 mysql&gt; select * from emp e;
+
+--或
+select ifnull(comm, 0) + 100 from emp e;
 +-------+--------+-----------+------+------------+---------+---------+--------+
 | empno | ename  | job       | mgr  | hiredate   | sal     | comm    | deptno |
 +-------+--------+-----------+------+------------+---------+---------+--------+
@@ -421,6 +424,15 @@ select * from
 )A
 where A.jug &lt;= 2
 ;</code></pre>
+<hr>
+<h2 id="MySQL01-1"><a href="#MySQL01-1" class="headerlink" title="MySQL01"></a>MySQL01</h2><pre><code class="SQL">--1. 列出员工表中每个部门的员工数（员工数必须大于 3）,和部门名称.
+--2. 找出工资比 jones 多的员工信息。
+--3. 列出所有员工的姓名和其上级的姓名。
+--4. 查询大于30号部门平均工资并且不在30号部门的员工信息和部门名称。
+--5. 查询每个月工资总数最少的那个部门的部门编号，部门名称，部门位置。
+--6. 查询员工编号为7369的员工姓名和所在部门的部门名称。
+--7. 查询超过其所在部门平均工资的员工信息。
+--8. 查询大于30号部门平均工资并且不在30号部门的员工信息</code></pre>
 
             <hr>
           </div>

@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    2.3k 字
+                    2.4k 字
                   </span>&nbsp;
                 
 
@@ -549,8 +549,12 @@ having salary_sum &gt; A.dept_avg_sal;
 +-------+--------+------------+--------------+
 7 rows in set (0.00 sec)
 
---8. 查询大于30号部门平均工资并且不在30号部门的员工信息.
---同题4
+--8. 查询工资&gt;2000的员工所在的部门名称
+--exists:存在 --&gt; 判断主查询的表哪些记录能够匹配子查询中的记录
+select dname from dept d where exists
+(select * from emp e where e.sal &gt; 2000 where e.deptno = d.deptno)
+--1. 先执行主查询，将主查询的关联信息交给子查询，判断是否匹配
+--如果匹配，返回True,然后主查询的当前记录显示在结果集中.
 </code></pre>
 
             <hr>

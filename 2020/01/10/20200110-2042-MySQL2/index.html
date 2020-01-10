@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    16 字
+                    220 字
                   </span>&nbsp;
                 
 
@@ -175,7 +175,41 @@
             <h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><h3 id="01-MySQL-5-7"><a href="#01-MySQL-5-7" class="headerlink" title="01. MySQL 5.7"></a>01. MySQL 5.7</h3><ul>
 <li>Repo Point<br><a href="https://www.g.cn" target="_blank" rel="noopener">MySQL</a></li>
 </ul>
-<h3 id="02-数据库设计（分而治之）"><a href="#02-数据库设计（分而治之）" class="headerlink" title="02. 数据库设计（分而治之）"></a>02. 数据库设计（分而治之）</h3>
+<h3 id="02-数据库设计（分而治之）"><a href="#02-数据库设计（分而治之）" class="headerlink" title="02. 数据库设计（分而治之）"></a>02. 数据库设计（分而治之）</h3><h4 id="三大范式（规范）"><a href="#三大范式（规范）" class="headerlink" title="三大范式（规范）"></a>三大范式（规范）</h4><ul>
+<li><p>1NF: 所有的域是原子性的</p>
+<blockquote>
+<p>表中的每一列字段应该是不可拆分的最小单元，最低要求.</p>
+</blockquote>
+</li>
+<li><p>2NF: 所有的非主键字段必须与主键相关,不能与部分主键相关(联合主键)</p>
+<blockquote>
+<p>每张表中描述和表示一类数据，多种不同的数据需要拆分到多张表中.</p>
+</blockquote>
+</li>
+<li><p>3NF: 所有非主键字段必须与主键直接相关,而不能依赖于其他非主键字段</p>
+<blockquote>
+<p>数据不能具有传递依赖，每个字段与主键的关系是直接的而非间接的.</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h4 id="某东3C产品数据分析"><a href="#某东3C产品数据分析" class="headerlink" title="某东3C产品数据分析"></a>某东3C产品数据分析</h4><h5 id="设计实体及其关系"><a href="#设计实体及其关系" class="headerlink" title="设计实体及其关系"></a>设计实体及其关系</h5><ul>
+<li><p>order_detail<br>  product/order_platform/payment_pattern/users</p>
+</li>
+<li><p>product<br>  product_category/repertory</p>
+</li>
+<li><p>china<br>  repertory/users</p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>统计各个城市销售额的前十名<br><code>pid</code> <code>p_name</code> <code>c_name</code> <code>sales</code> <code>sales_e</code> <code>rank</code></li>
+</ul>
+<!-- | 项目        | 价格   |  数量  |
+| --------   | -----:  | :----:  |
+| 计算机     | $1600 |   5     |
+| 手机        |   \$12   |   12   |
+| 管线        |    \$1    |  234  | -->
             <hr>
           </div>
           <br>

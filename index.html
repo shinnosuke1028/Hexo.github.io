@@ -161,7 +161,37 @@
           <div class="index-text mb-1">MySQL01. MySQL 5.7
 Repo PointMySQL
 
-02. 数据库设计（分而治之）</div>
+02. 数据库设计（分而治之）三大范式（规范）
+1NF: 所有的域是原子性的
+
+表中的每一列字段应该是不可拆分的最小单元，最低要求.
+
+
+2NF: 所有的非主键字段必须与主键相关,不能与部分主键相关(联合主键)
+
+每张表中描述和表示一类数据，多种不同的数据需要拆分到多张表中.
+
+
+3NF: 所有非主键字段必须与主键直接相关,而不能依赖于其他非主键字段
+
+数据不能具有传递依赖，每个字段与主键的关系是直接的而非间接的.
+
+
+
+
+某东3C产品数据分析设计实体及其关系
+order_detail  product/order_platform/payment_pattern/users
+
+product  product_category/repertory
+
+china  repertory/users
+
+
+
+
+统计各个城市销售额的前十名pid p_name c_name sales sales_e rank
+
+</div>
         </div>
       </a>
 

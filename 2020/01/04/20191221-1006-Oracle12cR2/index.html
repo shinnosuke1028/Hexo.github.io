@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    6.3k 字
+                    7.1k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      28 分钟
+                      32 分钟
                   </span>&nbsp;
                 
 
@@ -832,7 +832,7 @@ service_names                 string     prod1,aaa</code></pre>
 <li>总结：</li>
 </ul>
 <ol>
-<li><code>服务名</code> 服务名的建立连接了用户进程与实例，我们可以给一组实例配置多个服务名，并且动态注册到监听中，用于非本地客户端的连接. 如<code>拓展</code>中所示，我们给实例添加了一组额外的服务名，这时候我们便可以通过这组service_name去连接实例.</li>
+<li><code>服务名</code> 服务名的建立连接了用户进程与实例，我们可以给一组实例配置多个服务名，并且动态注册到监听中，用于非本地客户端的连接. 如<code>拓展</code>中所示，我们给实例添加了一组额外的服务名，这时候我们便可以通过这组service_name去连接实例. <code>相当于是这样</code>: 在数据库服务器和客户端之间有一监听程序（Listener），在监听程序中，会记录相应数据库对应的服务名（一个数据库可能对应有多个服务名），当客户端需要连接数据库时，只需要提供服务名，就可以建立客户端和服务器之间的连接.</li>
 </ol>
 <pre><code class="SQL">SYS@prod1&gt; show parameter service_names
 NAME                     TYPE     VALUE
@@ -886,6 +886,162 @@ sqlplus hr/oracle@prod1 ⬅ (prod1 ➡ service_name: prod1 ➡ instance:prod1)
 
 sqlplus hr/oracle@192.168.73.101:1522/aaa
 sqlplus hr/oracle@aaa_1 ⬅ (aaa_1 ➡ service_name: aaa   ➡ instance:prod1)</code></pre>
+<hr>
+<h3 id="09-CDB-PDB"><a href="#09-CDB-PDB" class="headerlink" title="09. CDB/PDB"></a>09. CDB/PDB</h3><h4 id="CDB-VS-PDB"><a href="#CDB-VS-PDB" class="headerlink" title="CDB VS PDB"></a>CDB VS PDB</h4><ul>
+<li>CDB中的PDB文件</li>
+</ul>
+<p>数据文件的共享：12c之前，PDB复用CDB的所有文件，包括redo和control复用CDB的文件，spfile/密码等文件，PDB复用CDB的文件</p>
+<pre><code class="SQL">--PDB复用部分CDB数据文件
+cd /u01/app/oracle/oradata/prodcdb
+
+--spfile/密码等文件，PDB复用CDB的文件
+cd /u01/app/oracle/product/12.2.0/db_1/dbs</code></pre>
+<img src="PDB复用.png" srcset="/img/loading.gif" title="PDB oradata数据文件的复用">
+<img src="PDB复用2.png" srcset="/img/loading.gif" title="PDB 初始化文件的复用">
+
+
+<hr>
+<ul>
+<li>PDB&amp;CDB查看/切换</li>
+</ul>
+<pre><code class="SQL">--查看当前是否为PDB
+--若有PDB$SEED，则说明当前为PRODCDB
+SYS@prodcdb&gt; show pdbs;
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+2 PDB$SEED              READ ONLY  NO
+3 PRODPDB              READ WRITE NO
+SYS@prodcdb&gt; show conn_name;
+CON_NAME
+------------------------------
+CDB$ROOT
+SYS@prodcdb&gt; show con_id;
+CON_ID
+------------------------------
+1
+
+--切换至PDB
+SYS@prodcdb&gt; alter session set container=PRODPDB;
+Session altered.
+--查看，此时只有当前的PDB
+SYS@prodcdb&gt; show pdbs; 
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+3 PRODPDB              READ WRITE NO
+SYS@prodcdb&gt; show conn_name;
+CON_NAME
+------------------------------
+PRODPDB
+SYS@prodcdb&gt; show con_id;
+CON_ID
+------------------------------
+3
+
+--切换回CDB
+SYS@prodcdb&gt; alter session set container=CDB$ROOT;
+Session altered.
+SYS@prodcdb&gt; show pdbs;
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+2 PDB$SEED              READ ONLY  NO
+3 PRODPDB              READ WRITE NO</code></pre>
+<hr>
+<ul>
+<li>新建/删除PDB的service_name</li>
+</ul>
+<pre><code class="SQL">--在容器数据库下可以进行全局的服务名查询
+SYS@prodcdb&gt; select name, pdb from cdb_services;
+SYS@prodcdb&gt; select name, pdb from v$services;
+NAME       PDB
+---------- ----------
+SYS$BACKGR CDB$ROOT
+OUND
+
+SYS$USERS  CDB$ROOT
+prodcdbXDB CDB$ROOT
+prodcdb    CDB$ROOT
+prodpdb    PRODPDB
+shin       PRODPDB
+
+
+--尝试给CDB下的PDB实例新建一个service_name
+--查看创建前PDB对应的service_name
+SYS@prodcdb&gt; alter session set container=PRODPDB;
+Session altered.
+SYS@prodcdb&gt; col name format a10;
+SYS@prodcdb&gt; col pdb format a10;
+SYS@prodcdb&gt; select name, pdb from cdb_services;
+NAME       PDB
+---------- ----------
+prodpdb    PRODPDB
+
+--创建新的PDB服务名
+SYS@prodcdb&gt; exec dbms_service.create_service(&#39;shin&#39;,&#39;shin&#39;);
+PL/SQL procedure successfully completed.
+SYS@prodcdb&gt;  select name,pdb from cdb_services;
+NAME       PDB
+---------- ----------
+prodpdb    PRODPDB
+shin       PRODPDB</code></pre>
+<ul>
+<li>但是此时去查看系统监听，并没有看到服务名shin（Instance：prodpdb）的服务被动态注册到监听中，需要启动新的服务.</li>
+</ul>
+<img src="新建一个PDB的service_name.png" srcset="/img/loading.gif" title="new pdb service_name">
+
+<hr>
+<pre><code class="SQL">--启动新PDB下的服务名
+SYS@prodcdb&gt; exec dbms_service.START_SERVICE(&#39;shin&#39;);
+PL/SQL procedure successfully completed.</code></pre>
+<img src="启动新的PDB的service.png" srcset="/img/loading.gif" title="active new pdb service_name">
+<img src="启动新的PDB的service2.png" srcset="/img/loading.gif" title="active new pdb service_name">
+
+<hr>
+<p><code>Tips</code>先关闭服务，再删除服务.</p>
+<pre><code class="SQL">SQL&gt; alter session set container=prodpdb;
+Session altered.
+SQL&gt; exec dbms_service.stop_service(&#39;shin&#39;);
+PL/SQL procedure successfully completed.
+SQL&gt; exec dbms_service.delete_service(&#39;shin&#39;);</code></pre>
+<ul>
+<li>CDB/PDB下连接各用户</li>
+</ul>
+<pre><code class="SQL">--切换实例环境，目前有该服务器上有两组数据库实例，prod1 &amp; prodcdb
+[oracle@ocp12c ~]$ . oraenv
+ORACLE_SID = [prodpdb] ? prodcdb
+The Oracle base remains unchanged with value /u01/app/oracle
+[oracle@ocp12c ~]$ sqlplus / as sysdba
+
+SQL*Plus: Release 12.2.0.1.0 Production on Sat Jan 11 11:21:32 2020
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.2.0.1.0 - 64bit Production
+
+SYS@prodcdb&gt; 
+
+
+--开始测试连接方式
+--conn usr/pwd@ip:port/service_name
+SYS@prodcdb&gt; conn test/oracle@ocp12c:1521/prodpdb;
+Connected.
+SYS@ocp12c:1521/prodcdb&gt; conn test/oracle@ocp12c:1521/prodpdb;
+Connected.
+TEST@ocp12c:1521/prodpdb&gt; conn test/oracle@ocp12c:1521/shin;
+Connected.
+TEST@ocp12c:1521/shin&gt; conn sys/oracle@ocp12c:1521/prodcdb as sysdba;
+Connected.
+SYS@ocp12c:1521/prodcdb&gt; 
+
+--conn usr/pwd@tns
+SYS@ocp12c:1521/prodcdb&gt; conn test/oracle@prodpdb;
+Connected.
+TEST@prodpdb&gt; conn sys/oracle@prodcdb as sysdba;
+Connected.
+SYS@prodcdb&gt; 
+--PDB PRODPDB 对应的新服务名shin 没有在tnsnames.ora中设置服务名别名，故不能用本方法连接</code></pre>
+<hr>
 
             <hr>
           </div>

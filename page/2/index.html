@@ -145,6 +145,47 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/12/19/20191219-1545-Spark/">
+        <p class="h4 index-header">20191219_1545_SPARK</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Spark 配置01. Spark
+Repo Pointspark-2.0.2-bin-hadoop2.6.tgz
+
+02. 环境配置1. 环境包 rz 至相关路径，分流至其它节点源码分发scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave1:/usr/local/src/
+scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave2:/usr/local/src/
+2. 用户环境变量配置# SET JAVA PATH
+export JAVA_HOME=/usr/local/src/jdk1.8.0_201
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=${JAVA_HOME}/bin:$PATH
+# SET HADOOP PATH
+export HADOOP_HOME=/usr/local/src/hadoop-2.6</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-19&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Spark">Spark</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2019/12/19/20191219-1545-ZooKeeper-Kafka/">
         <p class="h4 index-header">20191219_1545_ZooKeeper-Kafka</p>
         
@@ -170,51 +211,6 @@ scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave2:/usr/local/src/
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/ZooKeeper%20Kafka">ZooKeeper Kafka</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/12/18/20191218-2224-MURA-Homework/">
-        <p class="h4 index-header">20191218_2224_MURA-Homework</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">Execl 数据分析01. 数据验证通过 数据验证 填充数据
-Excel 的 数据验证 选项是在 数据 目录下：
-
-
-
-02. 快速选中&amp;快速填充ctrl + shift + 方向键
-03. 分类统计SUMIF(&lt;条件区域&gt;,&lt;条件值&gt;,&lt;待求和区域&gt;)SUMIFS(&lt;待求和区域&gt;,&lt;条件区域1&gt;,&lt;条件值1&gt;,…,&lt;条件区域n&gt;,&lt;条件值n&gt;)
-04. 函数SUMPRODUCT(A3:A3,B2:B3,C2:C3)
-SUMPRODUCT((A2:A3=&quot;2018&quot;)*(D2:D3=&quot;上海&quot;)*(B2:B3)*(C2:C3))
-0x. 样例分析
-某顶尖外卖平台数据分析师面试题。现有交易数据表user_goods_table如下：user_name    用户名goods_kind   用户订购的的外卖品类
-
-
-现在老板想知道每个用户购买的外卖品类偏好分布，并取出每个用户购买最多的外卖品类是哪个。
-
-输出要求如下：user_name    用户名</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-18&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Homework">Homework</a>&nbsp;
           
         
       </div>

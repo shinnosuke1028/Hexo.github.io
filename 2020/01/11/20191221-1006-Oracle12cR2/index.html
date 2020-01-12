@@ -173,7 +173,10 @@
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
             <h2 id="OCP12c"><a href="#OCP12c" class="headerlink" title="OCP12c"></a>OCP12c</h2><h3 id="01-Oracle12cR2"><a href="#01-Oracle12cR2" class="headerlink" title="01. Oracle12cR2"></a>01. Oracle12cR2</h3><ul>
-<li>Repo Point<br><a href="https://www.oracle.com/downloads/software-license-agreement.html#license-lightbox" target="_blank" rel="noopener">&lt;Oracle-12.2&gt;linuxx64_12201_database.zip</a></li>
+<li>Repo Point<br><a href="https://www.oracle.com/downloads/software-license-agreement.html#license-lightbox" target="_blank" rel="noopener">&lt;Oracle-12.2&gt;linuxx64_12201_database.zip</a><img src="640.gif" srcset="/img/loading.gif" width="300" >
+
+
+</li>
 </ul>
 <h3 id="02-runInstaller"><a href="#02-runInstaller" class="headerlink" title="02. ./runInstaller"></a>02. ./runInstaller</h3><p><code>To be continued...</code></p>
 <h3 id="03-Oracle12c-架构"><a href="#03-Oracle12c-架构" class="headerlink" title="03. Oracle12c 架构"></a>03. Oracle12c 架构</h3><h4 id="实例和内存结构"><a href="#实例和内存结构" class="headerlink" title="实例和内存结构"></a>实例和内存结构</h4><p><code>Instance</code> 实例其实就是物理内存段的一部分，相当于软件进程.<br><code>kernel.shmall</code> 为共享内存大小，按照192.168.62.103测试库来看，可以配置为 <strong>4294967296</strong> 个page（4KB/page）.<br><code>kernel.shmmax</code> 用于定义单个共享内存段的最大值，<code>kernel.shmmax</code> 设置应该足够大，能在一个共享内存段下容纳下整个的 <code>SGA</code> ，设置的过低可能会导致需要创建多个共享内存段，这样可能导致系统性能的下降，最大值为16GB（在大多数情况下，该值应该比SGA大）.按照192.168.62.103测试库（内存128G）来看，可以配置为 <strong>88719476736</strong>（82GB）.<br>53477376 pages / 219043332096 bytes</p>

@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="Shinnosuke Guo">
   <meta name="keywords" content="">
-  <title>20200104_0956-Oracle12cR2 ~ Shinnosuke</title>
+  <title>20200104_0956-Oracle12cR2（持续更新） ~ Shinnosuke</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      32 分钟
+                      33 分钟
                   </span>&nbsp;
                 
 
@@ -1042,6 +1042,18 @@ Connected.
 SYS@prodcdb&gt; 
 --PDB PRODPDB 对应的新服务名shin 没有在tnsnames.ora中设置服务名别名，故不能用本方法连接</code></pre>
 <hr>
+<ul>
+<li>新建CDB</li>
+</ul>
+<p>新子句<br><code>SEED FILE_NAME_CONVERT</code></p>
+<p>新实例参数<br><code>PDB_FILE_NAME_CONVERT</code></p>
+<p>OMF模式，数据实例参数<br><code>DB_CREATE_FILE_DEST</code></p>
+<hr>
+<ul>
+<li>新建PDB<br>从PDB$SEED生成PDB</li>
+</ul>
+<p>位置子句<br><code>FILE_NAME_CONVERT</code><br><code>CREATE_FILE_DEST</code></p>
+<p>非位置子句<br><code>DB_CREATE_FILE_DEST</code><br><code>PDB_FILE_NAME_CONVERT</code></p>
 
             <hr>
           </div>
@@ -1214,7 +1226,7 @@ SYS@prodcdb&gt;
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "20200104_0956-Oracle12cR2&nbsp;",
+        "20200104_0956-Oracle12cR2（持续更新）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

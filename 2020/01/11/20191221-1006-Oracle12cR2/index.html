@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    7.2k 字
+                    7.3k 字
                   </span>&nbsp;
                 
 
@@ -903,7 +903,16 @@ cd /u01/app/oracle/product/12.2.0/db_1/dbs</code></pre>
 <img src="PDB复用2.png" srcset="/img/loading.gif" title="PDB 初始化文件的复用">
 <img src="PDB&CDB.png" srcset="/img/loading.gif" title="多租户容器数据库体系结构">
 
-<p><code>Tips</code>12.2之后的版本，PDB默认有自己的undo表空间，若没有自己的undo，则会share CDB$ROOT中的undo.</p>
+<p><code>Tips</code>12.2之后的版本，PDB默认有自己的undo表空间，若没有自己的undo，则会share CDB$ROOT 中的undo.</p>
+<ul>
+<li><code>小结</code><ol>
+<li>控制文件/联机重做日志/参数文件属于CDB（根：CDB&amp;ROOT），不属于PDB，PDB复用.</li>
+<li>位于根而不在PDB中的文件：RAC数据库所有实例的undo，Oracle提供的元数据，CDB视图，CDB资源管理计划.</li>
+<li>位于PDB而不在根中的文件：PDB系统表空间（含sysaux），PDB临时/用户表空间.</li>
+</ol>
+</li>
+</ul>
+<p><code>疑问</code>PDB的<code>undo</code>应该也是属于各自PDB的（undo这边还有疑问）.</p>
 <hr>
 <ul>
 <li>PDB&amp;CDB查看/切换</li>

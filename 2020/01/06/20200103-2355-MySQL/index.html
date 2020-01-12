@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.3k 字
+                    1.4k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      6 分钟
+                      7 分钟
                   </span>&nbsp;
                 
 
@@ -272,9 +272,15 @@ alter table tname modify colname colType
 --修改字段位置
 alter table tname modify colname colType after colname2;</code></pre>
 <ul>
-<li>主键约束/唯一约束（单表可配置多个）<br><code>Tips</code>字符集，表内若有中文数据，需指定表的字符集.</li>
+<li>字符集<br>```SQL</li>
 </ul>
-<pre><code class="SQL">create table `student`(
+<p>–两个更改表维度字符集的模式好像没什么区别，第一个是影响表，第二个是影响行.<br>ALTER TABLE tname DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE tname CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;<br>ALTER TABLE student CHANGE sex sex VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;</p>
+<pre><code>
+* 主键约束/唯一约束（单表可配置多个）
+`Tips`字符集，表内若有中文数据，需指定表的字符集.
+
+```SQL
+create table `student`(
     sid int(11) primary key,
     ...
 );
@@ -283,7 +289,7 @@ create table `student`(
     sid int(11),
     ...,
     primary key(sid, xxx)
-) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 create table `student` (
   `sid` int(11) not null auto_increment,  ⬅ int类型的单位为字节：-2147483648 ~ 2147483647
@@ -295,7 +301,7 @@ create table `student` (
   `birthday` date default null,
   `email` varchar(20) default null,
   primary key (`sid`)
-) ENGINE=InnoDB DEFAULT CHARSET=UTF8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --主键约束的增加与删除
 alter table student add constraint PK_SID primary key(sid, xxx, xxx);
@@ -311,8 +317,7 @@ create table `student`(
     id_card char(18) unique
 );
 --后期修改
-alter table student change sid sid int(11) not null AUTO_INCREMENT;</code></pre>
-<ul>
+alter table student change sid sid int(11) not null AUTO_INCREMENT;</code></pre><ul>
 <li>主键-域完整性（字段准确）：类型约束/非空约束/默认值</li>
 </ul>
 <pre><code class="SQL">create table `person`(

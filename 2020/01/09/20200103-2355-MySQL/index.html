@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="Shinnosuke Guo">
   <meta name="keywords" content="">
-  <title>20200106_2055_MySQL ~ Shinnosuke</title>
+  <title>20200109_2055_MySQL ~ Shinnosuke</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Monday, January 6th 2020, 8:55 pm
+                  Thursday, January 9th 2020, 8:55 pm
                 </p>
               
 
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.4k 字
+                    1.5k 字
                   </span>&nbsp;
                 
 
@@ -253,7 +253,34 @@ export PATH=${JAVA_HOME}/bin:$PATH</code></pre>
 vim /etc/my.cnf</code></pre>
 <img src="ERROR-1055.png" srcset="/img/loading.gif" title="ERROR 1055" alt="ERROR 1055">
 
+<ul>
+<li>查询相关配置</li>
+</ul>
+<pre><code class="SQL">mysql&gt; show variables;
+mysql&gt; show variables like &#39;%char%&#39; \G
 
+--临时修改参数
+mysql&gt; set xxx=&#39;xxx&#39;;
+
+--永久修改
+--修改上述的my.cnf文件
+--my.cnf
+[client]
+port=3306
+default-character-set=utf8mb4
+
+[mysqld]
+character-set-server=utf8mb4
+collation-server=utf8mb4_general_ci
+validate_password=off
+datadir=/var/lib/mysql
+socket=/var/lib/mysql/mysql.sock
+
+# Disabling symbolic-links is recommended to prevent assorted security risks
+symbolic-links=0
+log-error=/var/log/mysqld.log
+pid-file=/var/run/mysqld/mysqld.pid
+sql_mode=&#39;&#39;</code></pre>
 <h3 id="03-Common-Operation（常规DDL-DML-DQL-DCL）"><a href="#03-Common-Operation（常规DDL-DML-DQL-DCL）" class="headerlink" title="03. Common Operation（常规DDL/DML/DQL/DCL）"></a>03. Common Operation（常规DDL/DML/DQL/DCL）</h3><h4 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h4><pre><code class="SQL">create database dbname;
 drop database dbname;
 use dbname;
@@ -426,6 +453,10 @@ select * from dept d [inner] join emp using(deptno);
 
 select * from dept d left [outer] join emp e on e.deptno = d.deptno;
 select * from dept d left [outer] join emp using(deptno);</code></pre>
+<ul>
+<li>提取<pre><code class="SQL">select </code></pre>
+</li>
+</ul>
 <hr>
 <h4 id="分区表"><a href="#分区表" class="headerlink" title="分区表"></a>分区表</h4><pre><code class="SQL">CREATE TABLE `student_bak`
 (
@@ -618,7 +649,7 @@ partition by range (to_days(sdate))
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "20200106_2055_MySQL&nbsp;",
+        "20200109_2055_MySQL&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

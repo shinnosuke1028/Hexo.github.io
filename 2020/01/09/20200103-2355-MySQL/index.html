@@ -264,8 +264,8 @@ mysql&gt; set xxx=&#39;xxx&#39;;
 
 --永久修改
 --修改上述的my.cnf文件
---my.cnf
-[client]
+--my.cnf</code></pre>
+<pre><code class="bash">[client]
 port=3306
 default-character-set=utf8mb4
 
@@ -280,7 +280,8 @@ socket=/var/lib/mysql/mysql.sock
 symbolic-links=0
 log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
-sql_mode=&#39;&#39;</code></pre>
+sql_mode=&#39;&#39;
+# autocommit=OFF</code></pre>
 <h3 id="03-Common-Operation（常规DDL-DML-DQL-DCL）"><a href="#03-Common-Operation（常规DDL-DML-DQL-DCL）" class="headerlink" title="03. Common Operation（常规DDL/DML/DQL/DCL）"></a>03. Common Operation（常规DDL/DML/DQL/DCL）</h3><h4 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h4><pre><code class="SQL">create database dbname;
 drop database dbname;
 use dbname;

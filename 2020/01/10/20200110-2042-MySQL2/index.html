@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    220 字
+                    491 字
                   </span>&nbsp;
                 
 
@@ -192,6 +192,44 @@
 </blockquote>
 </li>
 </ul>
+<h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><ul>
+<li>常用存储引擎 <ul>
+<li>InnoDB是事务型数据库的首选，执行安全性数据库，行锁定和外键，mysql5.5之后默认使用.</li>
+<li>MyISAM插入速度和查询效率较高，但不支持事务.</li>
+<li>MEMORY将表中的数据存储在内存中，速度较快.</li>
+</ul>
+</li>
+</ul>
+<pre><code class="SQL"># mysql默认开启自动事务提交,将每个dml操作当做一个事务。
+# 如果需要将多个dml操作放在同一事务,需要关闭自动事务提交
+set Autocommit=0;
+
+//开启事务
+start TRANSACTION;
+#一组dml操作
+update user set money = money -100 where userid = 1;
+update user set money = money + 100 where userid = 2;
+...
+
+commit;//提交事务(数据持久化到底层文件中)
+rollback;//回滚事务(数据恢复到开启事务之前的状态)</code></pre>
+<ul>
+<li>存储过程</li>
+</ul>
+<pre><code class="SQL">delimiter //; --设置分隔符
+drop procedure if exists func_name;
+create procedure func_name(eno int, out ename varchar(20))
+begin
+        select * from MURA.emp e where e.empno = eno;
+        select e.ename into ename from MURA.emp e where e.empno = eno;
+end //;
+
+--调用，返回值用@修饰，并单独查询
+call func_name(7028, @x);
+select @x;
+
+--查看PROCEDURE状态
+show procedure status like &#39;func_name&#39;</code></pre>
 <hr>
 <h4 id="某东3C产品数据分析"><a href="#某东3C产品数据分析" class="headerlink" title="某东3C产品数据分析"></a>某东3C产品数据分析</h4><h5 id="设计实体及其关系"><a href="#设计实体及其关系" class="headerlink" title="设计实体及其关系"></a>设计实体及其关系</h5><ul>
 <li><p>order_detail<br>  product/order_platform/payment_pattern/users</p>
@@ -210,6 +248,10 @@
 | 计算机     | $1600 |   5     |
 | 手机        |   \$12   |   12   |
 | 管线        |    \$1    |  234  | -->
+
+
+<hr>
+
             <hr>
           </div>
           <br>

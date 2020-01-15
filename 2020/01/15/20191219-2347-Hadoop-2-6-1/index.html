@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="Shinnosuke Guo">
   <meta name="keywords" content="">
-  <title>20191219_2347_Hadoop-2.6.1 ~ Shinnosuke</title>
+  <title>20201219_2347_Hadoop-2.6.1（持续更新） ~ Shinnosuke</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Thursday, December 19th 2019, 11:47 pm
+                  Wednesday, January 15th 2020, 11:47 pm
                 </p>
               
 
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.4k 字
+                    1.7k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      7 分钟
+                      8 分钟
                   </span>&nbsp;
                 
 
@@ -381,6 +381,14 @@ cd $HADOOP_HOME/sbin
 2943 SecondaryNameNode  ⬅ Secondary Bak NN
 [root@master bin]# 
 [root@master bin]# </code></pre>
+<hr>
+<h3 id="04-HDFS"><a href="#04-HDFS" class="headerlink" title="04. HDFS"></a>04. HDFS</h3><h4 id="HDFS架构"><a href="#HDFS架构" class="headerlink" title="HDFS架构"></a>HDFS架构</h4><p><code>切分</code> 文件切分为block：128Mb.<br><code>NameNode</code> 集群老大，管理文件系统目录树，处理客户端的读写请求，简单来说就是用来记录块数据的存放位置（形似索引）.<br><code>SecondNameNode</code> 不算是NN的备份节点，只是协助NN，分担压力.<br><code>DataNode</code> 整个集群真正的数据块. </p>
+<h4 id="Hadoop-2-x-VS-Hadoop-1-x"><a href="#Hadoop-2-x-VS-Hadoop-1-x" class="headerlink" title="Hadoop 2.x VS Hadoop 1.x"></a>Hadoop 2.x VS Hadoop 1.x</h4><p><code>YARN (RM)</code> Cluster Resource Manager 集群Hadoop1.x中的集群管理器<code>JobTracker</code>的替代者.<br><code>NodeManager (NM)</code> <code>TaskTracker</code>的替代者.<br><code>ApplicationMaster(AM)</code> 一个专用且短暂的<code>JobTracker</code>.</p>
+<h5 id="Tips-传统JobTracker的资源管理-任务协调被分开为两种不同类型的进程来反馈"><a href="#Tips-传统JobTracker的资源管理-任务协调被分开为两种不同类型的进程来反馈" class="headerlink" title="Tips 传统JobTracker的资源管理/任务协调被分开为两种不同类型的进程来反馈."></a><code>Tips</code> 传统<code>JobTracker</code>的<code>资源管理</code>/<code>任务协调</code>被分开为两种不同类型的进程来反馈.</h5><ol>
+<li><u>集群资源管理</u>：也就是ResourceManager（RM/YARN）.</li>
+<li><u>任务协调</u>：对于提交给集群的每个<code>Application</code>（<strong>2.X</strong>中<strong>Job</strong>的概念被<strong>Application</strong>替代），都会启动一个专用且短暂的JobTracker来控制，这类专用且短暂的管理器就是Hadoop 2.x中的<code>ApplicationMaster (App Mstr)</code>，从属节点的AM由各Slaves上的<code>NodeManager</code>（TaskTracker）启动.<img src="HDFS.png" srcset="/img/loading.gif" title="HDFS" alt="HDFS">
+</li>
+</ol>
 
             <hr>
           </div>
@@ -553,7 +561,7 @@ cd $HADOOP_HOME/sbin
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "20191219_2347_Hadoop-2.6.1&nbsp;",
+        "20201219_2347_Hadoop-2.6.1（持续更新）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

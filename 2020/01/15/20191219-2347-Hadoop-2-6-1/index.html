@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.7k 字
+                    2.2k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      8 分钟
+                      11 分钟
                   </span>&nbsp;
                 
 
@@ -284,7 +284,15 @@ nl /etc/yum.repos.d/CentOS-Base.repo</code></pre>
 <h3 id="02-环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）"><a href="#02-环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）" class="headerlink" title="02. 环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）"></a>02. 环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）</h3><h4 id="1-环境包-rz-至相关路径，分流至其它节点："><a href="#1-环境包-rz-至相关路径，分流至其它节点：" class="headerlink" title="1. 环境包 rz 至相关路径，分流至其它节点："></a>1. 环境包 rz 至相关路径，分流至其它节点：</h4><h5 id="组件-amp-源码分发"><a href="#组件-amp-源码分发" class="headerlink" title="组件&amp;源码分发"></a>组件&amp;源码分发</h5><pre><code class="bash"># 文件解压：hadoop-2.6.1/etc/hadoop
 cd /usr/local/src/
 tar -xvf hadoop-2.6.1.tar.gz</code></pre>
-<h5 id="当前用户环境变量"><a href="#当前用户环境变量" class="headerlink" title="当前用户环境变量"></a>当前用户环境变量</h5><pre><code class="bash">vim ~/.bashrc
+<h5 id="当前用户环境变量"><a href="#当前用户环境变量" class="headerlink" title="当前用户环境变量"></a>当前用户环境变量</h5><pre><code class="bash">vim /etc/hosts
+# hosts
+192.168.73.10 master
+192.168.73.11 slave1
+192.168.73.12 slave2
+192.168.73.13 slave3
+######
+
+vim ~/.bashrc
 # ~/.bashrc
 # SET JAVA PATH
 export JAVA_HOME=/usr/local/src/jdk1.8.0_201
@@ -320,44 +328,112 @@ source ~/.bashrc</code></pre>
 <h5 id="配置文件修改-amp-相关文件夹创建"><a href="#配置文件修改-amp-相关文件夹创建" class="headerlink" title="配置文件修改&amp;相关文件夹创建"></a>配置文件修改&amp;相关文件夹创建</h5><pre><code class="bash">cd /usr/local/src/hadoop-2.6.1/etc/hadoop
 vim hadoop-env.sh
 # hadoop-env.sh
-
+export JAVA_HOME=/usr/local/src/jdk1.8.0_201
 ######
 
+# yarn-env.sh貌似我自己没改配置
 vim yarn-env.sh
 # yarn-env.sh
-
+export JAVA_HOME=/usr/local/src/jdk1.8.0_152
 ######
 
 vim slaves
 # 配置节点
 # slaves
-
-######
-
-vim core-site.xml
+slave1
+slave2
+######</code></pre>
+<pre><code class="xml">vim core-site.xml
 # 配置master节点IP及Hadoop临时文件根目录tmp
 # core-site.xml
 
-######
-
-vim hdfs-site.xml
+&lt;configuration&gt;
+     &lt;property&gt;
+          &lt;name&gt;fs.defaultFS&lt;/name&gt;
+          &lt;value&gt;hdfs://master:9000&lt;/value&gt;
+     &lt;/property&gt;
+     &lt;property&gt;
+          &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
+          &lt;value&gt;file:/usr/local/src/hadoop-2.6.1/tmp/&lt;/value&gt;
+     &lt;/property&gt;
+&lt;/configuration&gt;</code></pre>
+<pre><code class="xml">vim hdfs-site.xml
 # 配置namenode/datanode/replication（备份）文件目录
 # hdfs-site.xml
-
-######
-
-vim mapred-site.xml
+&lt;configuration&gt;
+&lt;property&gt;
+     &lt;name&gt;dfs.namenode.secondary.http-address&lt;/name&gt;
+     &lt;value&gt;master:9001&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+     &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;
+     &lt;value&gt;file:/usr/local/src/hadoop-2.6.1/dfs/name&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+     &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt;
+     &lt;value&gt;file:/usr/local/src/hadoop-2.6.1/dfs/data&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+     &lt;name&gt;dfs.replication&lt;/name&gt;
+     &lt;value&gt;1&lt;/value&gt;
+&lt;/property&gt;
+&lt;property&gt;
+     &lt;name&gt;dfs.permissions&lt;/name&gt;
+     &lt;value&gt;false&lt;/value&gt;
+&lt;/property&gt;
+&lt;/configuration&gt;
+######</code></pre>
+<pre><code class="xml">vim mapred-site.xml
 # mapred-site.xml
-
-######
-
-vim yarn-site.xml
+&lt;configuration&gt;
+    &lt;property&gt;
+        &lt;name&gt;mapreduce.framework.name&lt;/name&gt;
+        &lt;value&gt;yarn&lt;/value&gt;
+    &lt;/property&gt;
+     &lt;property&gt;
+         &lt;name&gt;mapreduce.jobhistory.address&lt;/name&gt;
+         &lt;value&gt;http://master:10020&lt;/value&gt;
+     &lt;/property&gt;
+     &lt;property&gt;
+         &lt;name&gt;mapreduce.jobhistory.webapp.address&lt;/name&gt;
+         &lt;value&gt;http://master:19888&lt;/value&gt;
+     &lt;/property&gt;
+&lt;/configuration&gt;
+######</code></pre>
+<pre><code class="xml">vim yarn-site.xml
 # yarn-site.xml
-
-######
-
-
-# 创建Hadoop临时目录和文件目录
+    &lt;property&gt;
+        &lt;name&gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&lt;/name&gt;
+        &lt;value&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.address&lt;/name&gt;
+        &lt;value&gt;master:8032&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.scheduler.address&lt;/name&gt;
+        &lt;value&gt;master:8030&lt;/value&gt;
+    &lt;/property&gt;
+        &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.resource-tracker.address&lt;/name&gt;
+        &lt;value&gt;master:8035&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.admin.address&lt;/name&gt;
+        &lt;value&gt;master:8033&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.resourcemanager.webapp.address&lt;/name&gt;
+        &lt;value&gt;master:8088&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;!-- 关闭虚拟内存检查--&gt;
+    &lt;property&gt;
+        &lt;name&gt;yarn.nodemanager.vmem-check-enabled&lt;/name&gt;
+        &lt;value&gt;false&lt;/value&gt;
+    &lt;/property&gt;
+&lt;/configuration&gt;
+######</code></pre>
+<pre><code class="bash"># 创建Hadoop临时目录和文件目录
 mkdir /usr/local/src/hadoop-2.6.1/tmp
 mkdir -p /usr/local/src/hadoop-2.6.1/dfs/name
 mkdir -p /usr/local/src/hadoop-2.6.1/dfs/data</code></pre>
@@ -387,6 +463,8 @@ cd $HADOOP_HOME/sbin
 <h5 id="Tips-传统JobTracker的资源管理-任务协调被分开为两种不同类型的进程来反馈"><a href="#Tips-传统JobTracker的资源管理-任务协调被分开为两种不同类型的进程来反馈" class="headerlink" title="Tips 传统JobTracker的资源管理/任务协调被分开为两种不同类型的进程来反馈."></a><code>Tips</code> 传统<code>JobTracker</code>的<code>资源管理</code>/<code>任务协调</code>被分开为两种不同类型的进程来反馈.</h5><ol>
 <li><u>集群资源管理</u>：也就是ResourceManager（RM/YARN）.</li>
 <li><u>任务协调</u>：对于提交给集群的每个<code>Application</code>（<strong>2.X</strong>中<strong>Job</strong>的概念被<strong>Application</strong>替代），都会启动一个专用且短暂的JobTracker来控制，这类专用且短暂的管理器就是Hadoop 2.x中的<code>ApplicationMaster (App Mstr)</code>，从属节点的AM由各Slaves上的<code>NodeManager</code>（TaskTracker）启动.<img src="HDFS.png" srcset="/img/loading.gif" title="HDFS" alt="HDFS">
+
+
 </li>
 </ol>
 

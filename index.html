@@ -330,8 +330,16 @@ Repo Point&lt;Oracle-12.2&gt;linuxx64_12201_database.zip
 
 
 02. ./runInstallerTo be continued...
-03. Oracle12c 架构实例和内存结构Instance 实例其实就是物理内存段的一部分，相当于软件进程.kernel.shmall 为共享内存大小，按照192.168.62.103测试库来看，可以配置为 4294967296 个page（4KB/page）.kernel.shmmax 用于定义单个共享内存段的最大值，kernel.shmmax 设置应该足够大，能在一个共享内存段下容纳下整个的 SGA ，设置的过低可能会导致需要创建多个共享内存段，这样可能导致系统性能的下降，最大值为16GB（在大多数情况下，该值应该比SGA大）.按照192.168.62.103测试库（内存128G）来看，可以配置为 88719476736（82GB）.53477376 pages / 219043332096 bytes
-Ex 内核参数，系统内存4G，下面为对</div>
+
+先单独点出一个本地图形化的调用，困扰了好久，按下列指令完成后，会在本地弹出图形化界面，前提是本地的ssh软件需要开启Xserver服务!!!
+
+[root@ocp12c ~]# xhost +
+access control disabled, clients can connect from any HOST   ⬅ 允许客户端访问主机IP的Xserver
+[root@ocp12c ~]# su - oracle
+Last login: Sat Jan 18 00:32:43 CST 2020 on pts/3
+[oracle@ocp12c ~]$ export DISPLAY=192.168.17.1:0.0
+[oracle@ocp12c ~]$ cd /soft/database
+[oracle@ocp12c ~]$ ./runInstalle</div>
         </div>
       </a>
 

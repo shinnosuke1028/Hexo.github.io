@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    7.3k 字
+                    7.4k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      33 分钟
+                      34 分钟
                   </span>&nbsp;
                 
 
@@ -179,6 +179,22 @@
 </li>
 </ul>
 <h3 id="02-runInstaller"><a href="#02-runInstaller" class="headerlink" title="02. ./runInstaller"></a>02. ./runInstaller</h3><p><code>To be continued...</code></p>
+<ul>
+<li>先单独点出一个本地图形化的调用，困扰了好久，按下列指令完成后，会在本地弹出图形化界面，前提是本地的ssh软件需要开启<code>Xserver服务</code>!!!</li>
+</ul>
+<pre><code class="bash">[root@ocp12c ~]# xhost +
+access control disabled, clients can connect from any HOST   ⬅ 允许客户端访问主机IP的Xserver
+[root@ocp12c ~]# su - oracle
+Last login: Sat Jan 18 00:32:43 CST 2020 on pts/3
+[oracle@ocp12c ~]$ export DISPLAY=192.168.17.1:0.0
+[oracle@ocp12c ~]$ cd /soft/database
+[oracle@ocp12c ~]$ ./runInstaller
+Starting Oracle Universal Installer...
+
+Checking Temp space: must be greater than 500 MB.   Actual 146736 MB    Passed
+Checking swap space: must be greater than 150 MB.   Actual 7079 MB    Passed
+Checking monitor: must be configured to display at least 256 colors.    Actual 16777216    Passed
+Preparing to launch Oracle Universal Installer from /tmp/OraInstall2020-01-18_12-37-03AM. Please wait ...</code></pre>
 <h3 id="03-Oracle12c-架构"><a href="#03-Oracle12c-架构" class="headerlink" title="03. Oracle12c 架构"></a>03. Oracle12c 架构</h3><h4 id="实例和内存结构"><a href="#实例和内存结构" class="headerlink" title="实例和内存结构"></a>实例和内存结构</h4><p><code>Instance</code> 实例其实就是物理内存段的一部分，相当于软件进程.<br><code>kernel.shmall</code> 为共享内存大小，按照192.168.62.103测试库来看，可以配置为 <strong>4294967296</strong> 个page（4KB/page）.<br><code>kernel.shmmax</code> 用于定义单个共享内存段的最大值，<code>kernel.shmmax</code> 设置应该足够大，能在一个共享内存段下容纳下整个的 <code>SGA</code> ，设置的过低可能会导致需要创建多个共享内存段，这样可能导致系统性能的下降，最大值为16GB（在大多数情况下，该值应该比SGA大）.按照192.168.62.103测试库（内存128G）来看，可以配置为 <strong>88719476736</strong>（82GB）.<br>53477376 pages / 219043332096 bytes</p>
 <p><code>Ex</code> 内核参数，系统内存4G，下面为对应内核配置大小（出自官方白皮书）<br><img src="Linux内核参数.png" srcset="/img/loading.gif" title="Linux内核参数" alt="Linux内核参数"></p>
 <p>实例内存由下面<strong>两组内存参数</strong>动态调整：<br><code>SGA</code>（total_mem × 80%） × 80%，一般不超过物理内存的1/2.<br><code>PGA</code>（total_mem × 80%） × 20%.</p>

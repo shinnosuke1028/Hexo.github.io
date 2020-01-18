@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    7.4k 字
+                    7.9k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      34 分钟
+                      37 分钟
                   </span>&nbsp;
                 
 
@@ -1078,12 +1078,118 @@ SYS@prodcdb&gt;
 <p>新实例参数<br><code>PDB_FILE_NAME_CONVERT</code></p>
 <p>OMF模式，数据实例参数<br><code>DB_CREATE_FILE_DEST</code></p>
 <hr>
+<p><code>OMF</code>Oracle文件管理，文件名系统生成</p>
 <ul>
 <li>新建PDB<br>从PDB$SEED生成PDB</li>
 </ul>
 <p>位置子句<br><code>FILE_NAME_CONVERT</code><br><code>CREATE_FILE_DEST</code></p>
 <p>非位置子句<br><code>DB_CREATE_FILE_DEST</code><br><code>PDB_FILE_NAME_CONVERT</code></p>
+<ul>
+<li><p>克隆PDB<br>clone from PDB existed</p>
+</li>
+<li><p>位置子句<br>OMF模式：</p>
+<pre><code class="SQL">SYS@prodcdb&gt; create pluggable database PRODPDB6 from PRODPDB CREATE_FILE_DEST = &#39;/u01/app/oracle/oradata&#39;;
+Pluggable database created.
+SYS@prodcdb&gt; show pdbs;
+CON_ID CON_NAME              OPEN MODE  RESTRICTED</code></pre>
+</li>
+</ul>
+<hr>
+<p>2 PDB$SEED              READ ONLY  NO<br>3 PRODPDB              READ WRITE NO<br>4 PRODPDB6              MOUNTED</p>
+<pre><code>
+非OMF模式：
+```SQL
+SYS@prodcdb&gt; create pluggable database prodpdb7 from prodpdb file_name_convert=(&#39;/u01/aprodcdb/prodpdb&#39;,&#39;/u01/app/oracle/oradata/prodcdb/prodpdb7&#39;);
+Pluggable database created.
+SYS@prodcdb&gt; show pdbs;
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+2 PDB$SEED              READ ONLY  NO
+3 PRODPDB              READ WRITE NO
+4 PRODPDB6              READ WRITE NO
+7 PRODPDB7              MOUNTED</code></pre><ul>
+<li>非位置子句</li>
+</ul>
+<p>OMF模式：</p>
+<pre><code class="SQL">SYS@prodcdb&gt; alter pluggable database PRODPDB7 open;     
+Pluggable database altered.
+SYS@prodcdb&gt; show pdbs;
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+2 PDB$SEED              READ ONLY  NO
+3 PRODPDB              READ WRITE NO
+4 PRODPDB6              MOUNTED
+7 PRODPDB7              READ WRITE NO
+SYS@prodcdb&gt; create pluggable database prodpdb8 from prodpdb7;
+Pluggable database created.
+SYS@prodcdb&gt; show pdbs;
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+2 PDB$SEED              READ ONLY  NO
+3 PRODPDB              READ WRITE NO
+4 PRODPDB6              MOUNTED
+5 PRODPDB8              MOUNTED
+7 PRODPDB7              READ WRITE NO
+</code></pre>
+<p>非OMF模式：</p>
+<pre><code class="SQL">SYS@prodcdb&gt; alter session set db_create_file_dest=&#39;&#39;;
 
+Session altered.
+
+SYS@prodcdb&gt; show parameter create;
+
+NAME                     TYPE     VALUE
+------------------------------------ ----------- ------------------------------
+create_bitmap_area_size          integer     8388608
+create_stored_outlines             string
+db_create_file_dest             string
+db_create_online_log_dest_1         string
+db_create_online_log_dest_2         string
+db_create_online_log_dest_3         string
+db_create_online_log_dest_4         string
+db_create_online_log_dest_5         string
+SYS@prodcdb&gt; alter session set pdb_file_name_convert=&#39;/u01/app/oracle/oradata/prodcdb/p/oracle/oradata/prodcdb/prodpdb9&#39;;
+Session altered.
+SYS@prodcdb&gt; show parameter pdb_file_name_convert;
+
+NAME                     TYPE     VALUE
+------------------------------------ ----------- ------------------------------
+pdb_file_name_convert             string     /u01/app/oracle/oradata/prodcdb/prodpdb7, /u01/app/oracle/oradata/prodcdb/prodpdb9
+
+SYS@prodcdb&gt; create pluggable database prodpdb9 from prodpdb7;
+Pluggable database created.
+SYS@prodcdb&gt; show pdbs  
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+2 PDB$SEED              READ ONLY  NO
+3 PRODPDB              READ WRITE NO
+4 PRODPDB6              MOUNTED
+5 PRODPDB8              MOUNTED
+6 PRODPDB9              MOUNTED
+7 PRODPDB7              READ WRITE NO
+SYS@prodcdb&gt; show pdbs;
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+2 PDB$SEED              READ ONLY  NO
+3 PRODPDB              READ WRITE NO
+4 PRODPDB6              MOUNTED
+5 PRODPDB8              MOUNTED
+6 PRODPDB9              MOUNTED
+7 PRODPDB7              READ WRITE NO
+8 PRODPDB10              READ WRITE NO</code></pre>
+<ul>
+<li>删除pdb<pre><code class="SQL">SYS@prodcdb&gt; alter pluggable database prodpdb9 close immediate;
+Pluggable database altered.
+SYS@prodcdb&gt; show pdbs;
+</code></pre>
+</li>
+</ul>
+<p>CON_ID CON_NAME              OPEN MODE  RESTRICTED</p>
+<hr>
+<p>2 PDB$SEED              READ ONLY  NO<br>3 PRODPDB              READ WRITE NO<br>4 PRODPDB6              MOUNTED<br>5 PRODPDB8              MOUNTED<br>6 PRODPDB9              MOUNTED<br>7 PRODPDB7              READ WRITE NO<br>8 PRODPDB10              READ WRITE NO<br>SYS@prodcdb&gt; drop pluggable database prodpdb9 including datafiles;<br>Pluggable database dropped.<br>SYS@prodcdb&gt; show pdbs;<br>CON_ID CON_NAME              OPEN MODE  RESTRICTED</p>
+<hr>
+<p>2 PDB$SEED              READ ONLY  NO<br>3 PRODPDB              READ WRITE NO<br>4 PRODPDB6              MOUNTED<br>5 PRODPDB8              MOUNTED<br>7 PRODPDB7              READ WRITE NO<br>8 PRODPDB10              READ WRITE NO</p>
+<pre><code></code></pre>
             <hr>
           </div>
           <br>

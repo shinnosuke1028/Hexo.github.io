@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    7.9k 字
+                    8.9k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      37 分钟
+                      42 分钟
                   </span>&nbsp;
                 
 
@@ -272,7 +272,9 @@ SELECT * FROM dba_tab_columns WHERE column_name = &#39;EMPNO&#39;;
 <li><code>大型池 Java池 流池</code><br>主要是大型池的大小影响数据备份效率.</li>
 </ul>
 <hr>
-<h4 id="PGA（了解即可）"><a href="#PGA（了解即可）" class="headerlink" title="PGA（了解即可）"></a>PGA（了解即可）</h4><p><code>PGA</code> 私有SQL、会话内存、SQL工作区.</p>
+<h4 id="PGA（了解即可）"><a href="#PGA（了解即可）" class="headerlink" title="PGA（了解即可）"></a>PGA（了解即可）</h4><p><code>PGA</code> 私有SQL、会话内存、SQL工作区.<br><code>PGA_AGGREGATE_LIMIT</code> PGA_AGGREGATE_TARGET 以外的一个PGA参数，用于进行PGA使用率的硬性限制，当超过当前PGA时，Oracle会自动终止会话以保持合适的PGA内存.</p>
+<pre><code class="SQL">ALTER SYSTEM SET PGA_AGGREGATE_LIMIT=2G;
+ALTER SYSTEM SET PGA_AGGREGATE_LIMIT=0; --disables the hard limit</code></pre>
 <h4 id="In-Memory-Column-Store"><a href="#In-Memory-Column-Store" class="headerlink" title="In-Memory Column Store"></a>In-Memory Column Store</h4><ul>
 <li><code>In-Memory area</code> 适用于：<br>  → 资源表中的行非常多，但查询结果行不多.<br>  → 资源表中的列很多，但查询结果的列很少.<br>  → 查询聚集数据</li>
 </ul>
@@ -919,7 +921,7 @@ cd /u01/app/oracle/product/12.2.0/db_1/dbs</code></pre>
 <img src="PDB复用2.png" srcset="/img/loading.gif" title="PDB 初始化文件的复用">
 <img src="PDB&CDB.png" srcset="/img/loading.gif" title="多租户容器数据库体系结构">
 
-<p><code>Tips</code>12.2之后的版本，PDB默认有自己的undo表空间，若没有自己的undo，则会share CDB$ROOT 中的undo.</p>
+<p><code>Tips</code>12.2之后的版本，PDB默认有自己的undo表空间（local undo），若没有自己的undo，则会share CDB$ROOT 中的undo.</p>
 <ul>
 <li><code>小结</code><ol>
 <li>控制文件/联机重做日志/参数文件属于CDB（根：CDB&amp;ROOT），不属于PDB，PDB复用.</li>
@@ -928,8 +930,8 @@ cd /u01/app/oracle/product/12.2.0/db_1/dbs</code></pre>
 </ol>
 </li>
 </ul>
-<p><code>疑问</code>PDB的<code>undo</code>应该也是属于各自PDB的（undo这边还有疑问）.</p>
-<hr>
+<p><code>疑问</code>PDB的<code>undo</code>应该也是属于各自PDB的，12.1中共享，12.2之后各自独立.（解决）</p>
+<h4 id="CDB-PDB（配置-增删）"><a href="#CDB-PDB（配置-增删）" class="headerlink" title="CDB/PDB（配置/增删）"></a>CDB/PDB（配置/增删）</h4><hr>
 <ul>
 <li>PDB&amp;CDB查看/切换</li>
 </ul>
@@ -1052,6 +1054,7 @@ SYS@prodcdb&gt;
 
 
 --开始测试连接方式
+--服务名方式连接
 --conn usr/pwd@ip:port/service_name
 SYS@prodcdb&gt; conn test/oracle@ocp12c:1521/prodpdb;
 Connected.
@@ -1063,6 +1066,7 @@ TEST@ocp12c:1521/shin&gt; conn sys/oracle@ocp12c:1521/prodcdb as sysdba;
 Connected.
 SYS@ocp12c:1521/prodcdb&gt; 
 
+--TNS别名方式连接
 --conn usr/pwd@tns
 SYS@ocp12c:1521/prodcdb&gt; conn test/oracle@prodpdb;
 Connected.
@@ -1072,34 +1076,104 @@ SYS@prodcdb&gt;
 --PDB PRODPDB 对应的新服务名shin 没有在tnsnames.ora中设置服务名别名，故不能用本方法连接</code></pre>
 <hr>
 <ul>
+<li>OMF VS 非OMF<br><code>OMF</code>Oracle文件管理，文件名系统生成，从<code>/u01/app/oracle/oradata</code>后的路径就开始自动生成，不合并到CDB容器路径<code>/u01/app/oracle/oradata/prodcdb</code>下，而是自动生成新的路径<code>/u01/app/oracle/ORADATA/prodcdb</code>），详情看下图.<img src="OMF_PDB_create.png" srcset="/img/loading.gif"  width="300" >
+
+
+</li>
+</ul>
+<hr>
+<ul>
 <li>新建CDB</li>
 </ul>
-<p>新子句<br><code>SEED FILE_NAME_CONVERT</code></p>
-<p>新实例参数<br><code>PDB_FILE_NAME_CONVERT</code></p>
-<p>OMF模式，数据实例参数<br><code>DB_CREATE_FILE_DEST</code></p>
+<p><strong><em>手工方式创建</em></strong><br>新子句 <code>SEED FILE_NAME_CONVERT</code><br>新实例参数 <code>PDB_FILE_NAME_CONVERT</code><br>OMF模式（数据实例参数） <code>DB_CREATE_FILE_DEST</code></p>
+<pre><code class="SQL"></code></pre>
+<p><strong><em>DBCA方式创建</em></strong></p>
+<pre><code class="bash">dbca -silent -createDatabase -templateName General_Purpose.dbc -responseFile NO_VALUE \
+ -gdbname PRODCDB2 -sid PRODCDB2 \  ⬅ 数据库名 &amp; 实例名
+ -createAsContainerDatabase TRUE \  ⬅ 创建为CDB
+ -sysPassword oracle -systemPassword oracle \
+ -datafileDestination &#39;/u01/app/oracle/oradata&#39; \ ⬅ 数据路径配置
+ -recoveryAreaDestination &#39;/u01/app/oracle/flash_recovery_area&#39; \ ⬅ redo.log路径配置，原始路径名为`/u01/app/oracle/fast_recovery_area`
+ -redoLogFileSize 50 \
+ -storageType FS \
+ -characterset ZHS16GBK -nationalCharacterSet AL16UTF16 \
+ -sampleSchema true \
+ -totalMemory 1024 \
+ -databaseType OLTP \
+ -emConfiguration NONE</code></pre>
+<p><strong><em>DBCA方式删除</em></strong></p>
+<pre><code class="bash">dbca -silent -deleteDatabase -sourceDB PRODCDB2 -sysDBAUserName sys -sysDBAPassword oracle -forceArchiveLogDeletion</code></pre>
+<p><strong><em>非DBCA方式创建（老师口述，暂未做实验）</em></strong></p>
+<pre><code class="SQL">ALTER PLUGGABLE DATABASE PRODPDB OPEN RESTRICTED;
+drop database;
+
+</code></pre>
 <hr>
-<p><code>OMF</code>Oracle文件管理，文件名系统生成</p>
 <ul>
-<li>新建PDB<br>从PDB$SEED生成PDB</li>
+<li>新建PDB（从PDB$SEED生成PDB）</li>
 </ul>
-<p>位置子句<br><code>FILE_NAME_CONVERT</code><br><code>CREATE_FILE_DEST</code></p>
-<p>非位置子句<br><code>DB_CREATE_FILE_DEST</code><br><code>PDB_FILE_NAME_CONVERT</code></p>
+<p><strong><em>位置子句</em></strong>  </p>
+<p>OMF模式<code>CREATE_FILE_DEST</code></p>
+<pre><code class="SQL">SYS@PRODCDB2&gt; create pluggable database PRODPDB2 admin user oracle identified by oracle CREATE_FILE_DEST=&#39;/u01/app/oracle/oradata&#39;;</code></pre>
+<img src="OMF_PDB_create3.png" srcset="/img/loading.gif"  width="300" title="PRODPDB2，位置子句下的OMF模式创建">
+
+
+
+<p>非OMF模式<code>FILE_NAME_CONVERT</code></p>
+<pre><code class="SQL">SYS@PRODCDB2&gt; create pluggable database PRODPDB3 admin user oracle identified by oracle roles=(dba) FILE_NAME_CONVERT=(&#39;/u01/app/oracle/oradata/PRODCDB2/pdbseed&#39;,&#39;/u01/app/oracle/oradata/PRODCDB2/prodpdb3&#39;);
+Pluggable database created.
+SYS@PRODCDB2&gt; show pdbs;
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+2 PDB$SEED              READ ONLY  NO
+3 PRODPDB2              MOUNTED
+4 PRODPDB3              MOUNTED   ⬅ </code></pre>
+<p><strong><em>非位置子句</em></strong></p>
+<p>OMF模式 <code>DB_CREATE_FILE_DEST</code></p>
+<pre><code class="SQL">SYS@PRODCDB2&gt; alter session set DB_CREATE_FILE_DEST=&#39;/u01/app/oracle/oradata&#39;;
+Session altered.
+SYS@PRODCDB2&gt; create pluggable database prodpdb4 admin user oracle identified by oracle default tablespace users;
+Pluggable database created.
+
+SYS@PRODCDB2&gt; show pdbs;
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+2 PDB$SEED              READ ONLY  NO
+3 PRODPDB2              MOUNTED
+4 PRODPDB3              MOUNTED
+5 PRODPDB4              MOUNTED   ⬅ </code></pre>
+<img src="OMF_PDB_create2.png" srcset="/img/loading.gif"  width="300" title="PRODPDB4，非位置子句下的OMF模式创建">
+
+
+<p>非OMF模式 <code>PDB_FILE_NAME_CONVERT</code></p>
+<pre><code class="SQL">SYS@prodcdb2&gt; alter session set pdb_file_name_convert=&#39;/u01/app/oracle/oradata/PRODCDB2/pdbseed&#39;,&#39;/u01/app/oracle/oradata//PRODCDB2/prodpdb5&#39;;
+Session altered.
+SYS@prodcdb2&gt; create pluggable database prodpdb5 admin user oracle identified by oracle;
+Pluggable database created.
+SYS@prodcdb2&gt; show pdbs;
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+2 PDB$SEED              READ ONLY  NO
+3 PRODPDB2              MOUNTED
+4 PRODPDB3              MOUNTED
+5 PRODPDB4              MOUNTED
+6 PRODPDB5              MOUNTED</code></pre>
+<hr>
 <ul>
-<li><p>克隆PDB<br>clone from PDB existed</p>
-</li>
-<li><p>位置子句<br>OMF模式：</p>
+<li>克隆PDB（clone from PDB existed）</li>
+</ul>
+<p><strong><em>位置子句</em></strong></p>
+<p>OMF模式：</p>
 <pre><code class="SQL">SYS@prodcdb&gt; create pluggable database PRODPDB6 from PRODPDB CREATE_FILE_DEST = &#39;/u01/app/oracle/oradata&#39;;
 Pluggable database created.
 SYS@prodcdb&gt; show pdbs;
-CON_ID CON_NAME              OPEN MODE  RESTRICTED</code></pre>
-</li>
-</ul>
-<hr>
-<p>2 PDB$SEED              READ ONLY  NO<br>3 PRODPDB              READ WRITE NO<br>4 PRODPDB6              MOUNTED</p>
-<pre><code>
-非OMF模式：
-```SQL
-SYS@prodcdb&gt; create pluggable database prodpdb7 from prodpdb file_name_convert=(&#39;/u01/aprodcdb/prodpdb&#39;,&#39;/u01/app/oracle/oradata/prodcdb/prodpdb7&#39;);
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+2 PDB$SEED              READ ONLY  NO
+3 PRODPDB              READ WRITE NO
+4 PRODPDB6              MOUNTED</code></pre>
+<p>非OMF模式：</p>
+<pre><code class="SQL">SYS@prodcdb&gt; create pluggable database prodpdb7 from prodpdb file_name_convert=(&#39;/u01/app/oracle/prodcdb/prodpdb&#39;,&#39;/u01/app/oracle/oradata/prodcdb/prodpdb7&#39;);
 Pluggable database created.
 SYS@prodcdb&gt; show pdbs;
 CON_ID CON_NAME              OPEN MODE  RESTRICTED
@@ -1107,9 +1181,8 @@ CON_ID CON_NAME              OPEN MODE  RESTRICTED
 2 PDB$SEED              READ ONLY  NO
 3 PRODPDB              READ WRITE NO
 4 PRODPDB6              READ WRITE NO
-7 PRODPDB7              MOUNTED</code></pre><ul>
-<li>非位置子句</li>
-</ul>
+7 PRODPDB7              MOUNTED</code></pre>
+<p><strong><em>非位置子句</em></strong></p>
 <p>OMF模式：</p>
 <pre><code class="SQL">SYS@prodcdb&gt; alter pluggable database PRODPDB7 open;     
 Pluggable database altered.
@@ -1120,7 +1193,9 @@ CON_ID CON_NAME              OPEN MODE  RESTRICTED
 3 PRODPDB              READ WRITE NO
 4 PRODPDB6              MOUNTED
 7 PRODPDB7              READ WRITE NO
-SYS@prodcdb&gt; create pluggable database prodpdb8 from prodpdb7;
+SYS@prodcdb&gt;  alter session set DB_CREATE_FILE_DEST =&#39;/u01/app/oracle/oradata&#39;;
+Session altered.
+SYS@prodcdb&gt;  create pluggable database prodpdb8 from prodpdb7;
 Pluggable database created.
 SYS@prodcdb&gt; show pdbs;
 CON_ID CON_NAME              OPEN MODE  RESTRICTED
@@ -1129,13 +1204,11 @@ CON_ID CON_NAME              OPEN MODE  RESTRICTED
 3 PRODPDB              READ WRITE NO
 4 PRODPDB6              MOUNTED
 5 PRODPDB8              MOUNTED
-7 PRODPDB7              READ WRITE NO
-</code></pre>
+7 PRODPDB7              READ WRITE NO</code></pre>
+<p><code>Tips</code>一个全局PDB启动时，由OMF创建格式带来的BUG<br><img src="OMF_PDB_create_BUG.png" srcset="/img/loading.gif"  width="300" title="一个全局PDB启动时，由OMF创建格式带来的BUG."></p>
 <p>非OMF模式：</p>
-<pre><code class="SQL">SYS@prodcdb&gt; alter session set db_create_file_dest=&#39;&#39;;
-
+<pre><code class="SQL">SYS@prodcdb&gt; alter session set DB_CREATE_FILE_DEST=&#39;&#39;;
 Session altered.
-
 SYS@prodcdb&gt; show parameter create;
 
 NAME                     TYPE     VALUE
@@ -1151,7 +1224,6 @@ db_create_online_log_dest_5         string
 SYS@prodcdb&gt; alter session set pdb_file_name_convert=&#39;/u01/app/oracle/oradata/prodcdb/p/oracle/oradata/prodcdb/prodpdb9&#39;;
 Session altered.
 SYS@prodcdb&gt; show parameter pdb_file_name_convert;
-
 NAME                     TYPE     VALUE
 ------------------------------------ ----------- ------------------------------
 pdb_file_name_convert             string     /u01/app/oracle/oradata/prodcdb/prodpdb7, /u01/app/oracle/oradata/prodcdb/prodpdb9
@@ -1178,18 +1250,113 @@ CON_ID CON_NAME              OPEN MODE  RESTRICTED
 7 PRODPDB7              READ WRITE NO
 8 PRODPDB10              READ WRITE NO</code></pre>
 <ul>
-<li>删除pdb<pre><code class="SQL">SYS@prodcdb&gt; alter pluggable database prodpdb9 close immediate;
+<li>删除PDB</li>
+</ul>
+<pre><code class="SQL">SYS@prodcdb&gt; alter pluggable database prodpdb9 close immediate;
 Pluggable database altered.
 SYS@prodcdb&gt; show pdbs;
-</code></pre>
+
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+2 PDB$SEED              READ ONLY  NO
+3 PRODPDB              READ WRITE NO
+4 PRODPDB6              MOUNTED
+5 PRODPDB8              MOUNTED
+6 PRODPDB9              MOUNTED
+7 PRODPDB7              READ WRITE NO
+8 PRODPDB10              READ WRITE NO
+SYS@prodcdb&gt; drop pluggable database prodpdb9 including datafiles;
+Pluggable database dropped.
+SYS@prodcdb&gt; show pdbs;
+CON_ID CON_NAME              OPEN MODE  RESTRICTED
+---------- ------------------------------ ---------- ----------
+2 PDB$SEED              READ ONLY  NO
+3 PRODPDB              READ WRITE NO
+4 PRODPDB6              MOUNTED
+5 PRODPDB8              MOUNTED
+7 PRODPDB7              READ WRITE NO
+8 PRODPDB10              READ WRITE NO</code></pre>
+<ul>
+<li>12.2热克隆<br>上述克隆方式均为read write模式下的热克隆.</li>
+</ul>
+<hr>
+<h4 id="多租户CDB-PDB的相关管理（配置-增删）"><a href="#多租户CDB-PDB的相关管理（配置-增删）" class="headerlink" title="多租户CDB/PDB的相关管理（配置/增删）"></a>多租户CDB/PDB的相关管理（配置/增删）</h4><ul>
+<li><p>PDB相关拔插实验还未完成</p>
+</li>
+<li><p>CDB关闭与开启（类似于单实例操作）</p>
+</li>
+<li><p>PDB关闭与自启</p>
 </li>
 </ul>
-<p>CON_ID CON_NAME              OPEN MODE  RESTRICTED</p>
+<p><code>SAVE STATE</code>打开<strong>指定PDB</strong>，使用<strong>SAVE STATE</strong>子句保存PDB的最后打开状态.</p>
+<pre><code class="SQL">ALTER PLUGGABLE DATABASE PRODPDB OPEN;
+ALTER PLUGGABLE DATABASE PRODPDB SAVE STATE;
+
+--所有PDB均自启
+ALTER PLUGGABLE DATABASE all OPEN;
+ALTER PLUGGABLE DATABASE all SAVE STATE;
+--还原，不再保存PDB的最后打开状态
+ALTER PLUGGABLE DATABASE all DISCARD STATE;
+
+
+--立即关闭
+alter pluggable database prodpdb close immediate;
+--除去某个PDB外均关闭
+alter pluggable database all except prodpdb close;
+--正常全关闭
+alter pluggable database all close; 
+--断电（PDB不同于CDB，断电后需要恢复介质！！！）
+alter pluggable database prodpdb close abort;
+alter pluggable database prodpdb open;
+recover database --recover datafile
+--或在 rman 里执行：recover pluggable database prodpdb;</code></pre>
+<ul>
+<li>PDB开启模式</li>
+</ul>
+<pre><code class="SQL">--受限模式打开（sys/system用户）
+ALTER PLUGGABLE DATABASE PRODPDB OPEN RESTRICTED;
+--只读
+ALTER PLUGGABLE DATABASE PRODPDB OPEN READ ONLY;
+--读写
+ALTER PLUGGABLE DATABASE PRODPDB OPEN;
+
+--PDB_SPFILE$</code></pre>
+<ul>
+<li>临时还原（不太用）<pre><code class="SQL">ALTER SYSTEM SET TEMP_UNDO_ENABLE=TRUE;</code></pre>
+</li>
+</ul>
 <hr>
-<p>2 PDB$SEED              READ ONLY  NO<br>3 PRODPDB              READ WRITE NO<br>4 PRODPDB6              MOUNTED<br>5 PRODPDB8              MOUNTED<br>6 PRODPDB9              MOUNTED<br>7 PRODPDB7              READ WRITE NO<br>8 PRODPDB10              READ WRITE NO<br>SYS@prodcdb&gt; drop pluggable database prodpdb9 including datafiles;<br>Pluggable database dropped.<br>SYS@prodcdb&gt; show pdbs;<br>CON_ID CON_NAME              OPEN MODE  RESTRICTED</p>
-<hr>
-<p>2 PDB$SEED              READ ONLY  NO<br>3 PRODPDB              READ WRITE NO<br>4 PRODPDB6              MOUNTED<br>5 PRODPDB8              MOUNTED<br>7 PRODPDB7              READ WRITE NO<br>8 PRODPDB10              READ WRITE NO</p>
-<pre><code></code></pre>
+<h3 id="10-安全"><a href="#10-安全" class="headerlink" title="10. 安全"></a>10. 安全</h3><h4 id="Schema-profile"><a href="#Schema-profile" class="headerlink" title="Schema profile"></a>Schema profile</h4><ul>
+<li>常用的两组profile参数修改</li>
+</ul>
+<pre><code class="SQL">alter PROFILE default LIMIT PASSWORD_LIFE_TIME unlimited;
+alter PROFILE default LIMIT FAILED_LOGIN_ATTEMPTS 100;</code></pre>
+<ul>
+<li><p>密码限制</p>
+<img src="schema_profile.png" srcset="/img/loading.gif"  width="300" title="密码限制.">
+</li>
+<li><p>资源限制</p>
+<img src="schema_profile2.png" srcset="/img/loading.gif"  width="300" title="资源限制.">
+
+</li>
+</ul>
+<h4 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h4><p><code>权限分类</code>系统权限/对象权限</p>
+<pre><code class="SQL">grant connect,resource,create view to test</code></pre>
+<ul>
+<li>系统权限</li>
+</ul>
+<p><code>with admin option</code>系统权限转授，即被赋予某权限的用户拥有赋予其它schema相同权限的能力.<br><code>Tips</code>系统权限被收回时，后续级联的权限<strong>不会</strong>被回收！！！</p>
+<pre><code class="SQL">create user test1 identified by oracle;
+create user test2 identified by oracle;
+grant connect,resource,create view to test1 with admin option;
+sqlplus test1/oracle@prod1;
+grant connect,resource,create view to test2;</code></pre>
+<ul>
+<li>对象权限</li>
+</ul>
+<p><code>with grant option</code>对象权限转授，即被赋予某权限的用户拥有赋予其它schema相同权限的能力.<br><code>Tips</code>对象权限被收回时，后续级联的权限<strong>会</strong>被回收！！！</p>
+<h4 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h4><p><code>角色</code>即不同权限的集合体.<br><img src="预定义角色.png" srcset="/img/loading.gif"  width="300" title="预定义角色."></p>
+
             <hr>
           </div>
           <br>

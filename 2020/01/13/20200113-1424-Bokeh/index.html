@@ -246,7 +246,7 @@ if __name__ == &#39;__main__&#39;:
     ######</code></pre>
 <hr>
 <h4 id="visualization-bokeh-py"><a href="#visualization-bokeh-py" class="headerlink" title="visualization_bokeh.py"></a>visualization_bokeh.py</h4><ul>
-<li>bokeh方法封装<br>  <code>visualization_bokeh.df_2_list</code> FTP任务启动/清单文件生成<br>  <code>visualization_bokeh.source_dict</code> 正则匹配<br>  <code>visualization_bokeh.df_preparation</code> 主任务，主要用于相关方法的组合<br>  <code>visualization_bokeh.df_html_bokeh</code> FTP清单遍历    </li>
+<li>bokeh方法封装<br>  <code>visualization_bokeh.df_2_list</code> DataFrame转list，便于后续数据呈现前的装载.<br>  <code>visualization_bokeh.source_dict</code> DataFrame单列转dict？？？<br>  <code>visualization_bokeh.df_preparation</code> 数据源/过滤条件等内容加载.<br>  <code>visualization_bokeh.df_html_bokeh</code> HTML趋势图配置 </li>
 </ul>
 <pre><code class="python"># -*- coding:utf-8 -*-
 # @Author: Shin
@@ -459,7 +459,7 @@ def df_html_bokeh(html_output_path, title, tooltips, source, plot_width=1300, pl
         #     print(&#39;key:{}, value:{}&#39;.format(key, value))
         #     print(f&#39;key:{key}, value:{value}&#39;)
 
-        if &#39;color&#39; not in kwargs_axis.keys():
+        if &#39;color&#39; not in kwargs.keys():
             print(&#39;No color in configuration.&#39;, &#39;\n&#39;)
             p.line(x=&#39;x&#39;, y=&#39;y&#39;,legend=rs.data[&#39;flag&#39;].loc[0], source=rs)
             # p.line(x=kwargs[&#39;x&#39;], y=kwargs[&#39;y&#39;], legend=kwargs[&#39;legend&#39;], line_width=kwargs[&#39;line_width&#39;], source=source)

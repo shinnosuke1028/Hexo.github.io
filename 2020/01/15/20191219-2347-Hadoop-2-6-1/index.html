@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      11 分钟
+                      12 分钟
                   </span>&nbsp;
                 
 
@@ -272,15 +272,27 @@ SHA256:kKlNCwZJ24AKh9DN0tnvn7XdvawYSr9Lf10a1xIG2PA root@sh02-oscar-hapomc-prod-w
 [root@sh02-oscar-hapomc-prod-web01 ~] scp ~/.ssh/authorized_keys root@webpp34:~/.ssh/
 
 # Status: OK</code></pre>
-<h4 id="02-挂载yum源"><a href="#02-挂载yum源" class="headerlink" title="02. 挂载yum源"></a>02. 挂载yum源</h4><pre><code class="bash"># 分发镜像
+<h4 id="02-挂载yum源（非必须）"><a href="#02-挂载yum源（非必须）" class="headerlink" title="02. 挂载yum源（非必须）"></a>02. 挂载yum源（非必须）</h4><pre><code class="bash"># 分发镜像
 [root@sh02-oscar-hapomc-pp-web01 mnt] scp /mnt/CentOS-7-x86_64-DVD-1908.iso root@web25:/mnt
+[root@sh02-oscar-hapomc-pp-web01 mnt] mkdir -p /mnt/cdrom
 [root@sh02-oscar-hapomc-pp-web01 mnt] cp /etc/yum.repo.d/CentOS-Base.repo /etc/yum.repo.d/CentOS-Base.repo.bak
-[root@sh02-oscar-hapomc-pp-web01 mnt] vi /etc/yum.repo.d/CentOS-Base.repo
+[root@sh02-oscar-hapomc-pp-web01 mnt] vim /etc/yum.repo.d/CentOS-Base.repo
 # CentOS-Base.repo
+[CentOS-7]
+name=CentOS
+baseurl=file:///mnt/cdrom
+enabled=1
+gpgcheck=0
+# gpgkey=file:///mnt/cdrom/RPM-GPG-KEY-CentOS-7
+######
+
+mount -o loop -t iso9660 /mnt/CentOS-7-x86_64-DVD-1908.iso /mnt/cdrom/
+
 scp /etc/yum.repos.d/CentOS-Base.repo root@web25:/etc/yum.repos.d/
+# 并在其它节点执行光盘挂载
 # scp /etc/yum.repos.d/CentOS-Base.repo root@web56:/etc/yum.repos.d/
 # 确认分发结果
-nl /etc/yum.repos.d/CentOS-Base.repo</code></pre>
+# nl /etc/yum.repos.d/CentOS-Base.repo</code></pre>
 <h3 id="02-环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）"><a href="#02-环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）" class="headerlink" title="02. 环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）"></a>02. 环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）</h3><h4 id="1-环境包-rz-至相关路径，分流至其它节点："><a href="#1-环境包-rz-至相关路径，分流至其它节点：" class="headerlink" title="1. 环境包 rz 至相关路径，分流至其它节点："></a>1. 环境包 rz 至相关路径，分流至其它节点：</h4><h5 id="组件-amp-源码分发"><a href="#组件-amp-源码分发" class="headerlink" title="组件&amp;源码分发"></a>组件&amp;源码分发</h5><pre><code class="bash"># 文件解压：hadoop-2.6.1/etc/hadoop
 cd /usr/local/src/
 tar -xvf hadoop-2.6.1.tar.gz</code></pre>

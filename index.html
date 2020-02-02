@@ -261,16 +261,27 @@ Treesrc
           <div class="index-text mb-1">Hadoop 2.X 配置01. Hadoop 2.6.1
 Repo Pointhadoop-2.6.1.tar.gz
 
+00. 防火墙service  iptables status
+chkconfig iptables off
+systemctl status firewalld
+systemctl stop firewalld
+
+# 永久关闭
+systemctl disable firewalld
+chkconfig iptables off
+
+# CentOS 6
+# service  iptables status
+# service  iptables stop
+# chkconfig iptables off
+
+# 还有个selinux防御配置要修改，后续更新
+# 关闭selinux
+setenforce 0
+# 永久关闭selinux
+sed -i &#39;s/SELINUX=enforcing/SELINUX=disabled/g&#39; /etc/selinux/config
 01. SSH互信（通信基本）# 生成密钥对
-# 当前node为pp-web01！！！
-[root@sh02-oscar-hapomc-pp-web01 ~] ssh-keygen -t rsa
-# 或
-# [root@sh02-oscar-hapomc-pp-web01 ~] ssh-keygen -t rsa -P &quot;&quot; -f ~/.ssh/id_rsa
-Generating public/private rsa key pair.
-Enter file in which to save the key (/root/.ssh/id_rsa):    ⬅ 回车
-Enter passphrase (empty for no passphrase):                 ⬅ 回车
-Enter same passphrase again:                                ⬅ 回车
-Your identifi</div>
+# 当前node为pp-web01！！！</div>
         </div>
       </a>
 

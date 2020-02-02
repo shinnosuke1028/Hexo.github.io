@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    2.2k 字
+                    2.3k 字
                   </span>&nbsp;
                 
 
@@ -175,6 +175,25 @@
             <h2 id="Hadoop-2-X-配置"><a href="#Hadoop-2-X-配置" class="headerlink" title="Hadoop 2.X 配置"></a>Hadoop 2.X 配置</h2><h3 id="01-Hadoop-2-6-1"><a href="#01-Hadoop-2-6-1" class="headerlink" title="01. Hadoop 2.6.1"></a>01. Hadoop 2.6.1</h3><ul>
 <li>Repo Point<br><a href="http://archive.apache.org/dist/hadoop/common/hadoop-2.6.1/hadoop-2.6.1.tar.gz" target="_blank" rel="noopener">hadoop-2.6.1.tar.gz</a></li>
 </ul>
+<h4 id="00-防火墙"><a href="#00-防火墙" class="headerlink" title="00. 防火墙"></a>00. 防火墙</h4><pre><code class="bash">service  iptables status
+chkconfig iptables off
+systemctl status firewalld
+systemctl stop firewalld
+
+# 永久关闭
+systemctl disable firewalld
+chkconfig iptables off
+
+# CentOS 6
+# service  iptables status
+# service  iptables stop
+# chkconfig iptables off
+
+# 还有个selinux防御配置要修改，后续更新
+# 关闭selinux
+setenforce 0
+# 永久关闭selinux
+sed -i &#39;s/SELINUX=enforcing/SELINUX=disabled/g&#39; /etc/selinux/config</code></pre>
 <h4 id="01-SSH互信（通信基本）"><a href="#01-SSH互信（通信基本）" class="headerlink" title="01. SSH互信（通信基本）"></a>01. SSH互信（通信基本）</h4><pre><code class="bash"># 生成密钥对
 # 当前node为pp-web01！！！
 [root@sh02-oscar-hapomc-pp-web01 ~] ssh-keygen -t rsa

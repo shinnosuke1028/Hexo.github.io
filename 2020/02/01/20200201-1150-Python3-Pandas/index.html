@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    70 字
+                    203 字
                   </span>&nbsp;
                 
 
@@ -186,7 +186,31 @@ print(order_data.head(10))</code></pre>
 <h5 id="2-查询特定列的数据"><a href="#2-查询特定列的数据" class="headerlink" title="2. 查询特定列的数据"></a>2. 查询特定列的数据</h5><p><code>SQL</code></p>
 <pre><code class="sql">select flag from xxx;</code></pre>
 <p><code>Pandas</code></p>
-<pre><code class="python">print(order_data.head[&#39;flag&#39;])</code></pre>
+<pre><code class="python"># 2.1 &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+print(type(order_data[[&#39;flag&#39;, &#39;86_NSN_CM&#39;]]))
+print(order_data[[&#39;flag&#39;, &#39;86_NSN_CM&#39;]], &#39;\n&#39;)
+print(type(order_data[[&#39;86_NSN_CM&#39;]]))
+print(order_data[[&#39;86_NSN_CM&#39;]])
+
+# 2.2 &lt;class &#39;pandas.core.series.Series&#39;&gt;
+print(type(order_data[&#39;86_NSN_CM&#39;]))
+print(order_data[&#39;86_NSN_CM&#39;], &#39;\n&#39;)
+
+# 3 loc: 按字段定位数据
+print(type(order_data.loc[:, [&#39;flag&#39;]]))
+print(order_data.loc[:, [&#39;flag&#39;]])
+
+# 4 iloc: 按索引号索引数据，自0开始
+print(type(order_data.iloc[:, [1]]))
+print(order_data.iloc[:, [1]])</code></pre>
+<h5 id="3-查询特定列去重后的数据"><a href="#3-查询特定列去重后的数据" class="headerlink" title="3. 查询特定列去重后的数据"></a>3. 查询特定列去重后的数据</h5><p><code>SQL</code></p>
+<pre><code class="sql"></code></pre>
+<p><code>Pandas</code></p>
+<pre><code class="python"></code></pre>
+<h5 id="4-单一条件查询特定数据"><a href="#4-单一条件查询特定数据" class="headerlink" title="4. 单一条件查询特定数据"></a>4. 单一条件查询特定数据</h5><p><code>SQL</code></p>
+<pre><code class="sql"></code></pre>
+<p><code>Pandas</code></p>
+<pre><code class="python"></code></pre>
 
             <hr>
           </div>

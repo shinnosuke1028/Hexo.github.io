@@ -165,9 +165,10 @@ Repo Point  pandas
 用法比较1. 选择SQL
 select * from xxx;
 Pandas
-import pandas as pd
-order_data = pd.read_csv(&#39;order.csv&#39;)
-
+data_path = rf&#39;./&#39;
+file_name = f&#39;20200115_86_NSN_CM.csv&#39;
+order_data = pd.read_csv(data_path + file_name, encoding=&#39;GBK&#39;)
+print(order_data.head(10))
 </div>
         </div>
       </a>

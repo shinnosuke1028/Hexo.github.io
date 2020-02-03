@@ -8,7 +8,7 @@
     <link href="/2020/02/01/20200201-1150-Python3-Pandas/"/>
     <url>/2020/02/01/20200201-1150-Python3-Pandas/</url>
     
-    <content type="html"><![CDATA[<h2 id="Pandas-VS-SQL"><a href="#Pandas-VS-SQL" class="headerlink" title="Pandas VS SQL"></a>Pandas VS SQL</h2><h3 id="数据处理Pandas常用模块"><a href="#数据处理Pandas常用模块" class="headerlink" title="数据处理Pandas常用模块"></a>数据处理Pandas常用模块</h3><ul><li><code>Repo Point</code><br>  pandas</li></ul><hr><h4 id="用法比较"><a href="#用法比较" class="headerlink" title="用法比较"></a>用法比较</h4><h5 id="1-选择"><a href="#1-选择" class="headerlink" title="1. 选择"></a>1. 选择</h5><p><code>SQL</code></p><pre><code class="sql">select * from xxx;</code></pre><p><code>Pandas</code></p><pre><code class="python">import pandas as pdorder_data = pd.read_csv(&#39;order.csv&#39;)</code></pre>]]></content>
+    <content type="html"><![CDATA[<h2 id="Pandas-VS-SQL"><a href="#Pandas-VS-SQL" class="headerlink" title="Pandas VS SQL"></a>Pandas VS SQL</h2><h3 id="数据处理Pandas常用模块"><a href="#数据处理Pandas常用模块" class="headerlink" title="数据处理Pandas常用模块"></a>数据处理Pandas常用模块</h3><ul><li><code>Repo Point</code><br>  pandas</li></ul><hr><h4 id="用法比较"><a href="#用法比较" class="headerlink" title="用法比较"></a>用法比较</h4><h5 id="1-选择"><a href="#1-选择" class="headerlink" title="1. 选择"></a>1. 选择</h5><p><code>SQL</code></p><pre><code class="sql">select * from xxx;</code></pre><p><code>Pandas</code></p><pre><code class="python">data_path = rf&#39;./&#39;file_name = f&#39;20200115_86_NSN_CM.csv&#39;order_data = pd.read_csv(data_path + file_name, encoding=&#39;GBK&#39;)print(order_data.head(10))</code></pre>]]></content>
     
     
     

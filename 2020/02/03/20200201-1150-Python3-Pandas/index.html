@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    203 字
+                    281 字
                   </span>&nbsp;
                 
 
@@ -206,11 +206,21 @@ print(order_data.iloc[:, [1]])</code></pre>
 <h5 id="3-查询特定列去重后的数据"><a href="#3-查询特定列去重后的数据" class="headerlink" title="3. 查询特定列去重后的数据"></a>3. 查询特定列去重后的数据</h5><p><code>SQL</code></p>
 <pre><code class="sql"></code></pre>
 <p><code>Pandas</code></p>
-<pre><code class="python"></code></pre>
+<pre><code class="python">print(type(order_data[&#39;flag&#39;].unique()))
+print(order_data[&#39;flag&#39;].unique(), &#39;\n&#39;)</code></pre>
 <h5 id="4-单一条件查询特定数据"><a href="#4-单一条件查询特定数据" class="headerlink" title="4. 单一条件查询特定数据"></a>4. 单一条件查询特定数据</h5><p><code>SQL</code></p>
 <pre><code class="sql"></code></pre>
 <p><code>Pandas</code></p>
-<pre><code class="python"></code></pre>
+<pre><code class="python">print(type(order_data[order_data[&#39;86_NSN_CM&#39;] == &#39;4G_output_20200115.xml.gz&#39;]))
+print(order_data[order_data[&#39;86_NSN_CM&#39;] == &#39;4G_output_20200115.xml.gz&#39;])
+print(order_data[order_data.iloc[:, [1]] == &#39;4G_output_20200115.xml.gz&#39;], &#39;\n&#39;)
+
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+     flag                  86_NSN_CM
+0  NSN_CM  4G_output_20200115.xml.gz
+  flag                  86_NSN_CM
+0  NaN  4G_output_20200115.xml.gz
+1  NaN                        NaN</code></pre>
 
             <hr>
           </div>

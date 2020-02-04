@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    440 字
+                    439 字
                   </span>&nbsp;
                 
 
@@ -228,10 +228,10 @@ print(f&#39;结果2：\n{order_data[order_data.iloc[:, [1]] == &quot;4G_output_2
 <p><code>Pandas</code></p>
 <pre><code class="python"># &amp;
 # print(f&#39;结果1：\n{type(order_data[(order_data[&quot;86_NSN_CM&quot;] == &quot;4G_output_20200115.xml.gz&quot;) &amp; (order_data[&quot;flag&quot;] == &quot;NSN_CM&quot;) ])}&#39;)
-print(f&#39;结果1：\n{order_data[(order_data[&quot;86_NSN_CM&quot;] == &quot;4G_output_20200115.xml.gz&quot;) &amp; (order_data[&quot;flag&quot;] == &quot;NSN_CM&quot;) ]}&#39;)
+print(f&#39;结果 &amp;：\n{order_data[(order_data[&quot;86_NSN_CM&quot;] == &quot;4G_output_20200115.xml.gz&quot;) &amp; (order_data[&quot;flag&quot;] == &quot;NSN_CM&quot;) ]}&#39;)
 
 # |
-print(f&#39;结果1：\n{order_data[(order_data[&quot;flag&quot;] == &quot;NSN_CM1&quot;) | (order_data[&quot;flag&quot;] == &quot;NSN_CM&quot;) ]}&#39;)
+print(f&#39;结果 |：\n{order_data[(order_data[&quot;flag&quot;] == &quot;NSN_CM1&quot;) | (order_data[&quot;flag&quot;] == &quot;NSN_CM&quot;) ]}&#39;)
 
 # SQL模式查询
 print(order_data.query(&#39;flag==&quot;NSN_CM&quot;&#39;))  # 按照类似sql的规则筛选数据</code></pre>

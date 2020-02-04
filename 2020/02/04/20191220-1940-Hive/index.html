@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="Shinnosuke Guo">
   <meta name="keywords" content="">
-  <title>20200106_1620_Hive ~ Shinnosuke</title>
+  <title>20200204_1620_Hive ~ Shinnosuke</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Monday, January 6th 2020, 4:20 pm
+                  Tuesday, February 4th 2020, 4:20 pm
                 </p>
               
 
@@ -196,6 +196,7 @@ beeline -u jdbc:hive2://master:10000 -n root -p 123456 --color=true</code></pre>
 <li>用户需指定<code>三个属性</code>用来定义数据格式：<br>列分隔符：空格 ‘,’  ‘\t’<br>行分隔符：’\n’<br>读取数据的方法</li>
 </ul>
 <h4 id="Hive-架构"><a href="#Hive-架构" class="headerlink" title="Hive 架构"></a>Hive 架构</h4><p><code>CLI</code> <strong><em>Hive Metastore</em></strong> → hiveserver2(HS2) → <strong><em>Beeline</em></strong><br><code>JDBC</code> <strong><em>Metastore</em></strong> → Java/Python/C++<br><code>WUI</code> apache-hive-0.13.0-src.tar.gz → <strong><em>hive –service hwi</em></strong></p>
+<h4 id="Hive-分布式数据存储"><a href="#Hive-分布式数据存储" class="headerlink" title="Hive 分布式数据存储"></a>Hive 分布式数据存储</h4><hr>
 <h3 id="03-数据入库"><a href="#03-数据入库" class="headerlink" title="03. 数据入库"></a>03. 数据入库</h3><h4 id="3-1-建表"><a href="#3-1-建表" class="headerlink" title="3-1 建表"></a>3-1 建表</h4><ul>
 <li>Local数据导入，数据位于Master节点</li>
 </ul>
@@ -529,7 +530,7 @@ limit 100; --加上排序后，Jobs:2  Map: 2  Reduce: 2
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "20200106_1620_Hive&nbsp;",
+        "20200204_1620_Hive&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

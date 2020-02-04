@@ -145,6 +145,55 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/02/04/20191220-1940-Hive/" target="_self">
+          <img src="/img/Hive-1.png" srcset="/img/loading.gif" alt="20200204_1620_Hive" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/04/20191220-1940-Hive/">
+        <p class="h4 index-header">20200204_1620_Hive</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">移花接木-Hive01. Hive 1.x
+Repo Pointapache-hive-1.2.2-bin.tar.gzmysql-connector-java-5.1.44.tarapache-hive-1.2.2-src.tar.gz
+
+01-1. Beeline连接Hive（Review）
+这里使用的是Hive Metastore ➡ hiveserver2 ➡ beeline的连接方式（启动方式见下方）.
+也可以使用Hive Metastore ➡ hive（CLI）的连接方式
+
+# 配置了hive.metastore.uris后需开启 Metastore
+# 后缀为重定向，需百度解决（已解决，详见20191219-2254-Hive-1-x）
+hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;
+# beeline方式连接Hive，默认端口为10000
+hive --service hiveserver2 &amp;
+#beeline
+#!connect jdbc:hive2://master:10000 r</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-04&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Hive">Hive</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/02/03/20200201-1150-Python3-Pandas/" target="_self">
           <img src="/img/Pandas.jpg" srcset="/img/loading.gif" alt="20200203_2323_Python3-Pandas（持续更新）" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -595,55 +644,6 @@ rpm -ivh mysql-community-client</div>
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/MySQL">MySQL</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/01/06/20191220-1940-Hive/" target="_self">
-          <img src="/img/Hive-1.png" srcset="/img/loading.gif" alt="20200106_1620_Hive" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/06/20191220-1940-Hive/">
-        <p class="h4 index-header">20200106_1620_Hive</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">移花接木-Hive01. Hive 1.x
-Repo Pointapache-hive-1.2.2-bin.tar.gzmysql-connector-java-5.1.44.tarapache-hive-1.2.2-src.tar.gz
-
-01-1. Beeline连接Hive（Review）
-这里使用的是Hive Metastore ➡ hiveserver2 ➡ beeline的连接方式（启动方式见下方）.
-也可以使用Hive Metastore ➡ hive（CLI）的连接方式
-
-# 配置了hive.metastore.uris后需开启 Metastore
-# 后缀为重定向，需百度解决（已解决，详见20191219-2254-Hive-1-x）
-hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;
-# beeline方式连接Hive，默认端口为10000
-hive --service hiveserver2 &amp;
-#beeline
-#!connect jdbc:hive2://master:10000 r</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-06&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Hive">Hive</a>&nbsp;
           
         
       </div>

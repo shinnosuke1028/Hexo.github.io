@@ -244,7 +244,7 @@ export HIVE_CONF_DIR=/usr/local/src/apache-hive-1.2.2-bin/conf
 ######</code></pre>
 <h4 id="2-3-Hive配置的文件需要手动新建，修改MySQL连接信息-amp-更新多组文件夹路径"><a href="#2-3-Hive配置的文件需要手动新建，修改MySQL连接信息-amp-更新多组文件夹路径" class="headerlink" title="2-3 Hive配置的文件需要手动新建，修改MySQL连接信息&amp;更新多组文件夹路径"></a>2-3 Hive配置的文件需要手动新建，修改MySQL连接信息&amp;更新多组文件夹路径</h4><pre><code class="bash">touch hive-site.xml 
 # hive-site.xml
-# 目前仅配置这么多，还有其他配置尚未添加
+# 目前仅配置这么多，还有其他优化类的配置尚未添加
 # javax.jdo.option.ConnectionURL: Hive使用MySQL作为 Metadata 存储时(MySql为5.7.12版本)，需要在连接串中指定是否采用SSL连接
 Tips：mysql -V    java -version
 &lt;configuration&gt;

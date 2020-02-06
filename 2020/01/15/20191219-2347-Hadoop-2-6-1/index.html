@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    3.1k 字
+                    3.6k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      15 分钟
+                      17 分钟
                   </span>&nbsp;
                 
 
@@ -398,9 +398,9 @@ slave2
           &lt;value&gt;file:/usr/local/src/hadoop-2.6.1/tmp/&lt;/value&gt;
      &lt;/property&gt;
 &lt;/configuration&gt;</code></pre>
-<pre><code class="xml">vim HDFS-site.xml     ⬅ 配置HDFS相关的参数
+<pre><code class="xml">vim hdfs-site.xml     ⬅ 配置HDFS相关的参数
 # 配置NameNode/DataNode/Replication（备份）文件目录
-# HDFS-site.xml
+# hdfs-site.xml
 &lt;configuration&gt;
 &lt;property&gt;
      &lt;name&gt;dfs.namenode.secondary.http-address&lt;/name&gt;
@@ -492,7 +492,8 @@ cd $HADOOP_HOME/sbin
 # 关闭集群
 cd $HADOOP_HOME/sbin
 ./stop-all.ssh</code></pre>
-<h5 id="3-2-jps查看集群状态"><a href="#3-2-jps查看集群状态" class="headerlink" title="3-2 jps查看集群状态"></a>3-2 jps查看集群状态</h5><pre><code class="bash">[root@master bin]# jps
+<h5 id="3-2-jps查看集群状态"><a href="#3-2-jps查看集群状态" class="headerlink" title="3-2 jps查看集群状态"></a>3-2 jps查看集群状态</h5><pre><code class="bash"># master下
+[root@master bin]# jps
 2784 NameNode       ⬅ NN
 3122 ResourceManager    ⬅ RM
 13827 Jps
@@ -501,15 +502,23 @@ cd $HADOOP_HOME/sbin
 [root@master bin]# 
 [root@master bin]# </code></pre>
 <hr>
-<h3 id="04-HDFS"><a href="#04-HDFS" class="headerlink" title="04. HDFS"></a>04. HDFS</h3><h4 id="HDFS架构及变化"><a href="#HDFS架构及变化" class="headerlink" title="HDFS架构及变化"></a>HDFS架构及变化</h4><h5 id="4-1-HDFS架构"><a href="#4-1-HDFS架构" class="headerlink" title="4-1 HDFS架构"></a>4-1 HDFS架构</h5><p><code>切分</code> 文件切分为block：128Mb.<br><code>NameNode</code> 集群老大，管理文件系统目录树，处理客户端的读写请求，简单来说就是用来记录块数据(Block)的存放位置（形似索引。128M一个Block）.<br><code>SecondNameNode</code> 不算是NN的备份节点，只是协助NN，分担压力.<br><code>DataNode</code> 整个集群真正的数据块. </p>
-<h5 id="4-2-Hadoop-2-x-VS-Hadoop-1-x"><a href="#4-2-Hadoop-2-x-VS-Hadoop-1-x" class="headerlink" title="4-2 Hadoop 2.x VS Hadoop 1.x"></a>4-2 Hadoop 2.x VS Hadoop 1.x</h5><p><code>YARN (RM)</code> Cluster Resource Manager 集群Hadoop1.x中的集群管理器<code>JobTracker</code>的替代者.<br><code>NodeManager (NM)</code> <code>TaskTracker</code>的替代者.<br><code>ApplicationMaster(AM)</code> 一个专用且短暂的<code>JobTracker</code>.</p>
+<h3 id="04-HDFS-amp-YARN"><a href="#04-HDFS-amp-YARN" class="headerlink" title="04. HDFS &amp; YARN"></a>04. HDFS &amp; YARN</h3><h4 id="HDFS架构及变化"><a href="#HDFS架构及变化" class="headerlink" title="HDFS架构及变化"></a>HDFS架构及变化</h4><h5 id="4-1-HDFS架构（分布式存储）"><a href="#4-1-HDFS架构（分布式存储）" class="headerlink" title="4-1 HDFS架构（分布式存储）"></a>4-1 HDFS架构（分布式存储）</h5><p><code>Block</code> Hadoop 2.x中，默认Block大小为：1 Block = 128MB；Hadoop 1.x中默认Block大小为：1 Block = 64MB.<br><code>NameNode</code> 集群老大，处理客户端的读写请求，NN的<strong>内存</strong>元信息中，包含文件路径、副本数、blockid、每个Block所在DataNode的信息，NN主要处理HDFS中的<strong>两个重要关系</strong>：</p>
+<ol>
+<li><strong>元信息持久化</strong>，持久化到物理内存中，也就是命名空间镜像<code>fsimage</code>，但<strong>不包含每个Block的位置信息</strong>（这也就是为什么集群在启动初期会进入安全模式的原因，因为集群启动时，NN读取的<code>fsimage</code>中不包含Block所在DN的具体位置），存放元信息的文件是<code>fsimage</code>，而系统运行期间所有对元信息的<strong>操作</strong>都保存在内存中，并被持久化到另一个文件<code>edits</code>（编辑日志）中.</li>
+<li><strong>（持久化）</strong>管理文件系统目录树，即文件系统目录与数据块的对应关系（持久化到物理内存文件<code>fsimage</code>中），简单来说就是文件路径.</li>
+<li><strong>（非持久化）DN和数据块的对应关系</strong>（不会持久化到物理内存文件中），简单来说就是用来记录块数据（Block）所在DN的具体位置（形似索引）.</li>
+</ol>
+<p><code>SecondNameNode</code> 不算是NN的备份节点，只是协助NN，分担压力，SNN会定时去NN中获取<code>edits</code>，更新至<strong>SNN中的fsimage</strong>中，SNN一旦有了新的fsimage，便会以<code>fsimage.ckpt</code>的形式覆盖NN中的fsimage（合并），便于NN在下次启动时使用，减少重启时间；同理，合并后的fsimage可以用来恢复故障的NN，但由于SNN生成的fsimage本身就具有滞后性，故存在数据丢失的风险.</p>
+<p><code>DataNode</code> 整个集群真正的数据块，负责存储数据块，负责为系统客户端提供数据块的读写服务，负责各个DN间的通信（副本处理，replication）；<code>心跳机制</code>定期报告文件块列表信息至NN，确保DN正常存活.</p>
+<p><strong><code>心跳机制</code></strong></p>
+<h5 id="4-2-YARN-VS-Hadoop-1-x（运算资源调度）"><a href="#4-2-YARN-VS-Hadoop-1-x（运算资源调度）" class="headerlink" title="4-2 YARN VS Hadoop 1.x（运算资源调度）"></a>4-2 YARN VS Hadoop 1.x（运算资源调度）</h5><p><code>YARN (RM)</code> Cluster Resource Manager 集群Hadoop1.x中的集群管理器<code>JobTracker</code>的替代者.<br><code>NodeManager (NM)</code> <code>TaskTracker</code>的替代者，各个节点上的NM与RM通过心跳通信，以确保自身的健康性.<br><code>ApplicationMaster(AM)</code> 一个专用且短暂的<code>JobTracker</code>，RM收集来自NM的状态信息，选择合适的NM启动<code>Container</code>（任务的运行资源&lt;节点/内存/CPU&gt;）并运行AM；而AM会根据实际情况向RM申请更多<code>Container</code>资源，以完成分布式计算.<br><code>Container</code> YARN中资源的抽象封装，包含某个节点上一定量的资源（CPU和内存两类资源）.<br><img src="YARN.png" srcset="/img/loading.gif" title="YARN资源调度过程（八斗教材）"></p>
 <h5 id="4-3-Tips-传统JobTracker的资源管理-任务协调被分开为两种不同类型的进程来反馈"><a href="#4-3-Tips-传统JobTracker的资源管理-任务协调被分开为两种不同类型的进程来反馈" class="headerlink" title="4-3 Tips 传统JobTracker的资源管理/任务协调被分开为两种不同类型的进程来反馈."></a>4-3 <code>Tips</code> 传统<code>JobTracker</code>的<code>资源管理</code>/<code>任务协调</code>被分开为两种不同类型的进程来反馈.</h5><ol>
 <li><u>集群资源管理</u>：也就是ResourceManager（RM/YARN）.</li>
-<li><u>任务协调</u>：对于提交给集群的每个<code>Application</code>（<strong>2.X</strong>中<strong>Job</strong>的概念被<strong>Application</strong>替代），都会启动一个专用且短暂的JobTracker来控制，这类专用且短暂的管理器就是Hadoop 2.x中的<code>ApplicationMaster (App Mstr)</code>，从属节点的AM由各Slaves上的<code>NodeManager</code>（TaskTracker）启动.<img src="HDFS.png" srcset="/img/loading.gif" title="HDFS" alt="HDFS">
-
+<li><u>任务协调</u>：对于提交给集群的每个<code>Application</code>（<strong>2.X</strong>中<strong>Job</strong>的概念被<strong>Application</strong>替代），都会启动一个专用且短暂的JobTracker来控制，这类专用且短暂的管理器就是Hadoop 2.x中的<code>ApplicationMaster (App Mstr)</code>，从属节点的AM由各Slaves上的<code>NodeManager</code>（TaskTracker）启动.<img src="HDFS.png" srcset="/img/loading.gif" title="HDFS（八斗教材）">
 
 </li>
 </ol>
+<hr>
 <h4 id="HDFS基本操作"><a href="#HDFS基本操作" class="headerlink" title="HDFS基本操作"></a>HDFS基本操作</h4><pre><code class="shell"># 常用命令参数介绍
 -help
 # 功能：输出这个命令参数手册

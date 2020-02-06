@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.2k 字
+                    1.3k 字
                   </span>&nbsp;
                 
 
@@ -313,10 +313,11 @@ hive.log.file=hive.log
 ######</code></pre>
 <h4 id="2-5-Beeline连接Hive"><a href="#2-5-Beeline连接Hive" class="headerlink" title="2-5 Beeline连接Hive"></a>2-5 Beeline连接Hive</h4><ul>
 <li>这里使用的是<code>Hive Metastore ➡ hiveserver2 ➡ beeline</code>的连接方式. </li>
-<li>也可以使用<code>Hive Metastore ➡ hive（CLI）</code>的连接方式</li>
+<li>也可以使用<code>Hive Metastore ➡ hive（CLI）</code>的连接方式.</li>
+<li>无Metastore的情况下，纯<code>hive</code>启动，每启动一个Hive窗口，便会加载一个Hive Metastore服务进程，资源占用上升，不推荐.</li>
 </ul>
 <pre><code class="bash"># 配置了hive.metastore.uris后需开启 Metastore
-# 后缀为重定向，需百度解决（已解决，详见20191219-2254-Hive-1-x）
+# 后缀为重定向，需百度解决（已解决，详见20191224_1414_Hive-1.x配置）
 hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;
 # beeline方式连接Hive，默认端口为10000
 hive --service hiveserver2 &amp;

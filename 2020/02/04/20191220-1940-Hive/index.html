@@ -180,7 +180,7 @@
 <li>也可以使用<code>Hive Metastore ➡ hive（CLI）</code>的连接方式</li>
 </ul>
 <pre><code class="bash"># 配置了hive.metastore.uris后需开启 Metastore
-# 后缀为重定向，需百度解决（已解决，详见20191219-2254-Hive-1-x）
+# 后缀为重定向，需百度解决（已解决，详见20191224_1414_Hive-1.x配置）
 hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;
 # beeline方式连接Hive，默认端口为10000
 hive --service hiveserver2 &amp;

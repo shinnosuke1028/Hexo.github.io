@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    2.4k 字
+                    3k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      12 分钟
+                      15 分钟
                   </span>&nbsp;
                 
 
@@ -502,7 +502,7 @@ cd $HADOOP_HOME/sbin
 [root@master bin]# 
 [root@master bin]# </code></pre>
 <hr>
-<h3 id="04-HDFS"><a href="#04-HDFS" class="headerlink" title="04. HDFS"></a>04. HDFS</h3><h4 id="HDFS架构"><a href="#HDFS架构" class="headerlink" title="HDFS架构"></a>HDFS架构</h4><p><code>切分</code> 文件切分为block：128Mb.<br><code>NameNode</code> 集群老大，管理文件系统目录树，处理客户端的读写请求，简单来说就是用来记录块数据的存放位置（形似索引）.<br><code>SecondNameNode</code> 不算是NN的备份节点，只是协助NN，分担压力.<br><code>DataNode</code> 整个集群真正的数据块. </p>
+<h3 id="04-HDFS"><a href="#04-HDFS" class="headerlink" title="04. HDFS"></a>04. HDFS</h3><h4 id="HDFS架构"><a href="#HDFS架构" class="headerlink" title="HDFS架构"></a>HDFS架构</h4><p><code>切分</code> 文件切分为block：128Mb.<br><code>NameNode</code> 集群老大，管理文件系统目录树，处理客户端的读写请求，简单来说就是用来记录块数据(Block)的存放位置（形似索引。128M一个Block）.<br><code>SecondNameNode</code> 不算是NN的备份节点，只是协助NN，分担压力.<br><code>DataNode</code> 整个集群真正的数据块. </p>
 <h4 id="Hadoop-2-x-VS-Hadoop-1-x"><a href="#Hadoop-2-x-VS-Hadoop-1-x" class="headerlink" title="Hadoop 2.x VS Hadoop 1.x"></a>Hadoop 2.x VS Hadoop 1.x</h4><p><code>YARN (RM)</code> Cluster Resource Manager 集群Hadoop1.x中的集群管理器<code>JobTracker</code>的替代者.<br><code>NodeManager (NM)</code> <code>TaskTracker</code>的替代者.<br><code>ApplicationMaster(AM)</code> 一个专用且短暂的<code>JobTracker</code>.</p>
 <h5 id="Tips-传统JobTracker的资源管理-任务协调被分开为两种不同类型的进程来反馈"><a href="#Tips-传统JobTracker的资源管理-任务协调被分开为两种不同类型的进程来反馈" class="headerlink" title="Tips 传统JobTracker的资源管理/任务协调被分开为两种不同类型的进程来反馈."></a><code>Tips</code> 传统<code>JobTracker</code>的<code>资源管理</code>/<code>任务协调</code>被分开为两种不同类型的进程来反馈.</h5><ol>
 <li><u>集群资源管理</u>：也就是ResourceManager（RM/YARN）.</li>
@@ -511,6 +511,110 @@ cd $HADOOP_HOME/sbin
 
 </li>
 </ol>
+<h4 id="HDFS基本操作"><a href="#HDFS基本操作" class="headerlink" title="HDFS基本操作"></a>HDFS基本操作</h4><pre><code class="shell"># 常用命令参数介绍
+-help
+# 功能：输出这个命令参数手册
+[hadoop@hadoop02 ~]$ hadoop -help
+[hadoop@hadoop02 ~]$ hadoop fs -help
+[hadoop@hadoop02 ~]$ hadoop fs -help ls
+
+-ls
+# 功能：显示目录信息
+# 备注：这些参数中，所有的 hdfs 路径都可以简写成 hadoop fs -ls / 等同上条命令的效果
+hadoop fs -ls hdfs://hadoop02:9000/
+
+-mkdir
+# 功能：在 hdfs 上创建目录
+hadoop fs -mkdir -p /aa/bb/cc/dd
+
+-put
+# 功能：等同于 copyFromLocal，进行文件上传
+hadoop fs -put /aaa/jdk.tar.gz /bbb/jdk.tar.gz.2
+
+-get
+# 功能：等同于 copyToLocal，就是从 hdfs 下载文件到本地
+hadoop fs -get /aaa/jdk.tar.gz
+
+-getmerge
+# 功能：合并下载多个文件
+# 例如：getmerge 如 hdfs 的目录 /aaa/下有多个文件:log.1, log.2,log.3,...
+hadoop fs -getmerge /aaa/log.* ./log.sum
+
+-cp
+# 功能：从 hdfs 的一个路径拷贝 hdfs 的另一个路径
+hadoop fs -cp /aaa/jdk.tar.gz /bbb/jdk.tar.gz
+
+-mv
+# 功能：在 hdfs 目录中移动文件
+hadoop fs -mv /aaa/jdk.tar.gz /
+
+-rm
+# 功能：删除文件或文件夹
+hadoop fs -rm -r /aaa/bbb/
+
+-rmdir
+# 功能：删除空目录
+hadoop fs -rmdir /aaa/bbb/ccc
+
+-moveFromLocal
+# 功能：从本地剪切到 hdfs
+hadoop fs - moveFromLocal /home/hadoop/a.txt /aa/bb/cc/dd
+
+-moveToLocal
+# 功能：从 hdfs 剪切到本地
+hadoop fs - moveToLocal /aa/bb/cc/dd /home/hadoop/a.txt
+
+-copyFromLocal
+# 功能：从本地文件系统中拷贝文件到 hdfs 文件系统去
+hadoop fs -copyFromLocal ./jdk.tar.gz /aaa/
+
+-copyToLocal
+# 功能：从 hdfs 拷贝到本地
+hadoop fs -copyToLocal /aaa/jdk.tar.gz
+
+-appendToFile
+# 功能：追加一个文件到已经存在的文件末尾
+hadoop fs -appendToFile ./hello.txt hdfs://hadoop-server01:9000/hello.txt
+可以简写为：
+hadoop fs -appendToFile ./hello.txt /hello.txt
+
+-cat
+# 功能：显示文件内容
+hadoop fs -cat /hello.txt
+
+-tail
+# 功能：显示一个文件的末尾
+hadoop fs -tail /weblog/access_log.1
+
+-text
+# 功能：以字符形式打印一个文件的内容
+hadoop fs -text /weblog/access_log.1
+
+-chgrp
+-chmod
+-chown
+# 功能： linux 文件系统中的用法一样，对文件所属权限
+hadoop fs -chmod 666 /hello.txt
+hadoop fs -chown someuser:somegrp /hello.txt
+
+-df
+# 功能：统计文件系统的可用空间信息
+hadoop fs -df -h /
+
+-du
+# 功能：统计文件夹的大小信息
+hadoop fs -du -s -h /aaa/*
+
+-count
+# 功能：统计一个指定目录下的文件节点数量
+hadoop fs -count /aaa/
+
+-setrep
+# 功能：设置 hdfs 中文件的副本数量
+hadoop fs -setrep 3 /aaa/jdk.tar.gz
+
+补充：查看 dfs 集群工作状态的命令
+hdfs dfsadmin -report</code></pre>
 
             <hr>
           </div>

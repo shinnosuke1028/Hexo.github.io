@@ -175,7 +175,7 @@
             <h2 id="Hive-配置"><a href="#Hive-配置" class="headerlink" title="Hive 配置"></a>Hive 配置</h2><h3 id="01-Hive-1-x"><a href="#01-Hive-1-x" class="headerlink" title="01. Hive 1.x"></a>01. Hive 1.x</h3><ul>
 <li>Repo Point<br><a href="http://mirror.bit.edu.cn/apache/hive/hive-1.2.2/apache-hive-1.2.2-bin.tar.gz" target="_blank" rel="noopener">apache-hive-1.2.2-bin.tar.gz</a><br><a href="https://downloads.mysql.com/archives/get/file/mysql-connector-java-5.1.44.tar.gz" target="_blank" rel="noopener">mysql-connector-java-5.1.44.tar</a></li>
 </ul>
-<h3 id="02-环境配置"><a href="#02-环境配置" class="headerlink" title="02. 环境配置"></a>02. 环境配置</h3><h4 id="1-环境包"><a href="#1-环境包" class="headerlink" title="1. 环境包"></a>1. 环境包</h4><h5 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h5><p><code>Tips</code> 记得安装JDBC连接器mysql-connector-java-5.1.44-bin.jar，并将Hive和Hadoop侧的jline版本同步！！！</p>
+<h3 id="02-环境配置"><a href="#02-环境配置" class="headerlink" title="02. 环境配置"></a>02. 环境配置</h3><h4 id="2-1-组件"><a href="#2-1-组件" class="headerlink" title="2-1 组件"></a>2-1 组件</h4><p><code>Tips</code> 记得安装JDBC连接器mysql-connector-java-5.1.44-bin.jar，并将Hive和Hadoop侧的jline版本同步！！！</p>
 <pre><code class="bash"># 解压并拷贝MySQL-jdbc的jar包至 $Hive/libs下：
 cd /usr/local/src
 tar -zxvf mysql-connector-java-5.1.44.tar
@@ -196,7 +196,7 @@ mv jline-0.9.94.jar jline-0.9.94.jar.old
 cp $HIVE_HOME/lib/jline-2.12.jar $HADOOP_HOME/share/hadoop/yarn/lib/
 # 替换后检查
 ll $HADOOP_HOME/share/hadoop/yarn/lib/jline*</code></pre>
-<h5 id="配置文件修改-amp-相关文件夹创建"><a href="#配置文件修改-amp-相关文件夹创建" class="headerlink" title="配置文件修改&amp;相关文件夹创建"></a>配置文件修改&amp;相关文件夹创建</h5><pre><code class="bash"># 对应创建Hive配置文件中配置的文件夹：
+<h4 id="2-2-配置文件修改-amp-相关文件夹创建"><a href="#2-2-配置文件修改-amp-相关文件夹创建" class="headerlink" title="2-2 配置文件修改&amp;相关文件夹创建"></a>2-2 配置文件修改&amp;相关文件夹创建</h4><pre><code class="bash"># 对应创建Hive配置文件中配置的文件夹：
 mkdir /usr/local/src/apache-hive-1.2.2-bin/warehouse
 mkdir /usr/local/src/apache-hive-1.2.2-bin/tmp
 mkdir /usr/local/src/apache-hive-1.2.2-bin/log
@@ -242,7 +242,7 @@ export HADOOP_HOME=/usr/local/src/hadoop-2.6.1
 export HIVE_HOME=/usr/local/src/apache-hive-1.2.2-bin
 export HIVE_CONF_DIR=/usr/local/src/apache-hive-1.2.2-bin/conf
 ######</code></pre>
-<h5 id="Hive配置的文件需要手动新建，修改MySQL连接信息-amp-更新多组文件夹路径"><a href="#Hive配置的文件需要手动新建，修改MySQL连接信息-amp-更新多组文件夹路径" class="headerlink" title="Hive配置的文件需要手动新建，修改MySQL连接信息&amp;更新多组文件夹路径"></a>Hive配置的文件需要手动新建，修改MySQL连接信息&amp;更新多组文件夹路径</h5><pre><code class="bash">touch hive-site.xml 
+<h4 id="2-3-Hive配置的文件需要手动新建，修改MySQL连接信息-amp-更新多组文件夹路径"><a href="#2-3-Hive配置的文件需要手动新建，修改MySQL连接信息-amp-更新多组文件夹路径" class="headerlink" title="2-3 Hive配置的文件需要手动新建，修改MySQL连接信息&amp;更新多组文件夹路径"></a>2-3 Hive配置的文件需要手动新建，修改MySQL连接信息&amp;更新多组文件夹路径</h4><pre><code class="bash">touch hive-site.xml 
 # hive-site.xml
 # 目前仅配置这么多，还有其他配置尚未添加
 # javax.jdo.option.ConnectionURL: Hive使用MySQL作为 Metadata 存储时(MySql为5.7.12版本)，需要在连接串中指定是否采用SSL连接
@@ -294,7 +294,7 @@ Tips：mysql -V    java -version
                 &lt;description&gt;Path for Hive metadata.&lt;/description&gt;
         &lt;/property&gt;
 &lt;/configuration&gt;</code></pre>
-<h5 id="Hive-Log配置"><a href="#Hive-Log配置" class="headerlink" title="Hive Log配置"></a>Hive Log配置</h5><ul>
+<h4 id="2-4-Hive-Log配置"><a href="#2-4-Hive-Log配置" class="headerlink" title="2-4 Hive Log配置"></a>2-4 Hive Log配置</h4><ul>
 <li>Hive中的日志分为两种:<br><code>系统日志</code>记录了hive的运行情况，错误状况，在<code>hive-log4j.properties</code>文件中记录了Hive日志的存储情况.<br><code>Job日志</code>记录了Hive 中job的执行的历史过程.</li>
 </ul>
 <pre><code class="bash">vim /usr/local/src/apache-hive-1.2.2-bin/conf/hive-log4j.properties
@@ -311,7 +311,7 @@ hive.root.logger=WARN,DRFA
 hive.log.dir=/usr/local/src/apache-hive-1.2.2-bin/log
 hive.log.file=hive.log
 ######</code></pre>
-<h5 id="Beeline连接Hive"><a href="#Beeline连接Hive" class="headerlink" title="Beeline连接Hive"></a>Beeline连接Hive</h5><ul>
+<h4 id="2-5-Beeline连接Hive"><a href="#2-5-Beeline连接Hive" class="headerlink" title="2-5 Beeline连接Hive"></a>2-5 Beeline连接Hive</h4><ul>
 <li>这里使用的是<code>Hive Metastore ➡ hiveserver2 ➡ beeline</code>的连接方式. </li>
 <li>也可以使用<code>Hive Metastore ➡ hive（CLI）</code>的连接方式</li>
 </ul>

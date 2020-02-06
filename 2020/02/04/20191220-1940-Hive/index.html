@@ -175,7 +175,7 @@
             <h2 id="移花接木-Hive"><a href="#移花接木-Hive" class="headerlink" title="移花接木-Hive"></a>移花接木-Hive</h2><h3 id="01-Hive-1-x"><a href="#01-Hive-1-x" class="headerlink" title="01. Hive 1.x"></a>01. Hive 1.x</h3><ul>
 <li>Repo Point<br><a href="http://mirror.bit.edu.cn/apache/hive/hive-1.2.2/apache-hive-1.2.2-bin.tar.gz" target="_blank" rel="noopener">apache-hive-1.2.2-bin.tar.gz</a><br><a href="https://downloads.mysql.com/archives/get/file/mysql-connector-java-5.1.44.tar.gz" target="_blank" rel="noopener">mysql-connector-java-5.1.44.tar</a><br><a href="http://archive.apache.org/dist/hive/hive-1.2.2/apache-hive-1.2.2-src.tar.gz" target="_blank" rel="noopener">apache-hive-1.2.2-src.tar.gz</a></li>
 </ul>
-<h3 id="01-Beeline连接Hive（Review）"><a href="#01-Beeline连接Hive（Review）" class="headerlink" title="01. Beeline连接Hive（Review）"></a>01. Beeline连接Hive（Review）</h3><ul>
+<h3 id="02-Beeline连接Hive（Review）"><a href="#02-Beeline连接Hive（Review）" class="headerlink" title="02. Beeline连接Hive（Review）"></a>02. Beeline连接Hive（Review）</h3><ul>
 <li>这里使用的是<code>Hive Metastore ➡ hiveserver2 ➡ beeline</code>的连接方式（启动方式见下方）.</li>
 <li>也可以使用<code>Hive Metastore ➡ hive（CLI）</code>的连接方式</li>
 </ul>
@@ -188,16 +188,16 @@ hive --service hiveserver2 &amp;
 #!connect jdbc:hive2://master:10000 root 123456
 beeline -u jdbc:hive2://master:10000 -n root -p 123456 --color=true</code></pre>
 <p><code>Tips</code> 仅退出当前beeline: <strong>!close</strong>     彻底退出: <strong>!q</strong>     查询表: <strong>!tables</strong></p>
-<h3 id="02-Hive-元素"><a href="#02-Hive-元素" class="headerlink" title="02. Hive 元素"></a>02. Hive 元素</h3><h4 id="元数据-amp-数据"><a href="#元数据-amp-数据" class="headerlink" title="元数据 &amp; 数据"></a>元数据 &amp; 数据</h4><ul>
+<h3 id="03-Hive-元素"><a href="#03-Hive-元素" class="headerlink" title="03. Hive 元素"></a>03. Hive 元素</h3><h4 id="3-1-元数据-amp-数据"><a href="#3-1-元数据-amp-数据" class="headerlink" title="3-1 元数据 &amp; 数据"></a>3-1 元数据 &amp; 数据</h4><ul>
 <li>Hive中的表是纯逻辑表，即<code>元数据</code>；</li>
 <li>数据存储在<code>HDFS</code>上，元数据与数据存储分离；</li>
 <li>数据计算依赖分布式计算框架 <strong>MapReduce</strong>；</li>
 <li>Hive<code>读多写少</code>，从HDFS中读，MR计算，并写回HDFS；<code>不支持数据改写&amp;删除</code>；</li>
 <li>用户需指定<code>三个属性</code>用来定义数据格式：<br>列分隔符：空格 ‘,’  ‘\t’<br>行分隔符：’\n’<br>读取数据的方法</li>
 </ul>
-<h4 id="Hive-架构"><a href="#Hive-架构" class="headerlink" title="Hive 架构"></a>Hive 架构</h4><p><code>CLI</code> <strong><em>Hive Metastore</em></strong> → hiveserver2(HS2) → <strong><em>Beeline</em></strong><br><code>JDBC</code> <strong><em>Metastore</em></strong> → Java/Python/C++<br><code>WUI</code> apache-hive-0.13.0-src.tar.gz → <strong><em>hive –service hwi</em></strong></p>
-<h4 id="Hive-分布式数据存储"><a href="#Hive-分布式数据存储" class="headerlink" title="Hive 分布式数据存储"></a>Hive 分布式数据存储</h4><hr>
-<h3 id="03-数据入库"><a href="#03-数据入库" class="headerlink" title="03. 数据入库"></a>03. 数据入库</h3><h4 id="3-1-建表"><a href="#3-1-建表" class="headerlink" title="3-1 建表"></a>3-1 建表</h4><ul>
+<h4 id="3-2-Hive-架构"><a href="#3-2-Hive-架构" class="headerlink" title="3-2 Hive 架构"></a>3-2 Hive 架构</h4><p><code>CLI</code> <strong><em>Hive Metastore</em></strong> → hiveserver2(HS2) → <strong><em>Beeline</em></strong><br><code>JDBC</code> <strong><em>Metastore</em></strong> → Java/Python/C++<br><code>WUI</code> apache-hive-0.13.0-src.tar.gz → <strong><em>hive –service hwi</em></strong></p>
+<h4 id="3-3-Hive-HDFS"><a href="#3-3-Hive-HDFS" class="headerlink" title="3-3 Hive HDFS"></a>3-3 Hive HDFS</h4><hr>
+<h3 id="04-数据入库"><a href="#04-数据入库" class="headerlink" title="04. 数据入库"></a>04. 数据入库</h3><h4 id="4-1-建表"><a href="#4-1-建表" class="headerlink" title="4-1 建表"></a>4-1 建表</h4><ul>
 <li>Local数据导入，数据位于Master节点</li>
 </ul>
 <pre><code class="SQL">--databases list
@@ -289,7 +289,7 @@ limit 100;</code></pre>
 <p>iii. 这里涉及了group by，会跑一组MR<br><img src="WC_MR.png" srcset="/img/loading.gif" alt="WC_MR." title="WC_MR."> </p>
 <p><code>Tips</code>HQL内子查询的外侧要起别名，遗漏时会报错<br><img src="子查询别名.png" srcset="/img/loading.gif" alt="HQL子查询别名遗漏报错." title="HQL子查询别名遗漏报错."> </p>
 <hr>
-<h4 id="3-2-数据清洗"><a href="#3-2-数据清洗" class="headerlink" title="3-2 数据清洗"></a>3-2 数据清洗</h4><h5 id="正则过滤"><a href="#正则过滤" class="headerlink" title="正则过滤"></a>正则过滤</h5><pre><code class="SQL">--HQL
+<h4 id="4-2-数据清洗"><a href="#4-2-数据清洗" class="headerlink" title="4-2 数据清洗"></a>4-2 数据清洗</h4><h5 id="正则过滤"><a href="#正则过滤" class="headerlink" title="正则过滤"></a>正则过滤</h5><pre><code class="SQL">--HQL
 select regexp_extract(&#39;(mentioned&#39;, &#39;[[\\w]]+&#39;, 0);
 select regexp_extract(&#39;(mentioned&#39;, &#39;[[0-9a-zA-Z]]+&#39;, 0);
 
@@ -355,8 +355,8 @@ limit 100; --加上排序后，Jobs:2  Map: 2  Reduce: 2
 | at        | 822   |          | for       | 798   |   
 +-----------+-------+--+       +-----------+-------+--+</code></pre>
 <hr>
-<h4 id="3-3-分区-分桶（详见04）"><a href="#3-3-分区-分桶（详见04）" class="headerlink" title="3-3 分区/分桶（详见04）"></a>3-3 分区/分桶（详见04）</h4><hr>
-<h3 id="04-分桶"><a href="#04-分桶" class="headerlink" title="04. 分桶"></a>04. 分桶</h3><h4 id="有点绕的概念"><a href="#有点绕的概念" class="headerlink" title="有点绕的概念"></a>有点绕的概念</h4><p><code>语法</code> tablesample(bucket x out of y on id)</p>
+<h4 id="4-3-分区-分桶（详见04）"><a href="#4-3-分区-分桶（详见04）" class="headerlink" title="4-3 分区/分桶（详见04）"></a>4-3 分区/分桶（详见04）</h4><hr>
+<h3 id="05-分桶"><a href="#05-分桶" class="headerlink" title="05. 分桶"></a>05. 分桶</h3><h4 id="有点绕的概念（还未弄懂）"><a href="#有点绕的概念（还未弄懂）" class="headerlink" title="有点绕的概念（还未弄懂）"></a>有点绕的概念（还未弄懂）</h4><p><code>语法</code> tablesample(bucket x out of y on id)</p>
 <pre><code class="SQL">TABLESAMPLE (BUCKET x OUT OF y [ON colname])</code></pre>
 
             <hr>

@@ -331,14 +331,19 @@ chkconfig iptables off
 # service  iptables stop
 # chkconfig iptables off
 
-# 还有个selinux防御配置要修改，后续更新
-# 关闭selinux
+# 临时关闭内核防火墙
 setenforce 0
-# 永久关闭selinux
-sed -i &#39;s/SELINUX=enforcing/SELINUX=disabled/g&#39; /etc/selinux/config
+# 关闭selinux内核防火墙
+vim /etc/selinux/config
+# config
+SELINUX=disabled
+######
 
 # 修改各主机名
-vim /etc/sysconfig/netw</div>
+vim /etc/sysconfig/network
+# network
+NETWORKING=yes
+HOSTNAME=mas</div>
         </div>
       </a>
 

@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    2.3k 字
+                    2.4k 字
                   </span>&nbsp;
                 
 
@@ -189,14 +189,20 @@ chkconfig iptables off
 # service  iptables stop
 # chkconfig iptables off
 
-# 还有个selinux防御配置要修改，后续更新
-# 关闭selinux
+# 临时关闭内核防火墙
 setenforce 0
-# 永久关闭selinux
-sed -i &#39;s/SELINUX=enforcing/SELINUX=disabled/g&#39; /etc/selinux/config
+# 关闭selinux内核防火墙
+vim /etc/selinux/config
+# config
+SELINUX=disabled
+######
 
 # 修改各主机名
-vim /etc/sysconfig/network</code></pre>
+vim /etc/sysconfig/network
+# network
+NETWORKING=yes
+HOSTNAME=master
+######</code></pre>
 <h4 id="01-SSH互信（通信基本）"><a href="#01-SSH互信（通信基本）" class="headerlink" title="01. SSH互信（通信基本）"></a>01. SSH互信（通信基本）</h4><pre><code class="bash"># 生成密钥对
 # 当前node为pp-web01！！！
 [root@sh02-oscar-hapomc-pp-web01 ~] ssh-keygen -t rsa
@@ -385,6 +391,8 @@ slave2
      &lt;property&gt;
           &lt;name&gt;fs.defaultFS&lt;/name&gt;
           &lt;value&gt;hdfs://master:9000&lt;/value&gt;
+          &lt;description&gt;NN节点位置&amp;对应网络端口&lt;/description&gt;
+
      &lt;/property&gt;
      &lt;property&gt;
           &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;
@@ -398,6 +406,7 @@ slave2
 &lt;property&gt;
      &lt;name&gt;dfs.namenode.secondary.http-address&lt;/name&gt;
      &lt;value&gt;master:9001&lt;/value&gt;
+     &lt;description&gt;NN助理节点位置&amp;对应网络端口&lt;/description&gt;
 &lt;/property&gt;
 &lt;property&gt;
      &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt;
@@ -437,33 +446,34 @@ slave2
 <pre><code class="xml">vim yarn-site.xml
 # yarn-site.xml
     &lt;property&gt;
-        &lt;name&gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&lt;/name&gt;
-        &lt;value&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;/value&gt;
+          &lt;name&gt;yarn.nodemanager.aux-services.mapreduce.shuffle.class&lt;/name&gt;
+          &lt;value&gt;org.apache.hadoop.mapred.ShuffleHandler&lt;/value&gt;
     &lt;/property&gt;
     &lt;property&gt;
-        &lt;name&gt;yarn.resourcemanager.address&lt;/name&gt;
-        &lt;value&gt;master:8032&lt;/value&gt;
+          &lt;name&gt;yarn.resourcemanager.address&lt;/name&gt;
+          &lt;value&gt;master:8032&lt;/value&gt;
+          &lt;description&gt;Yarn(RM)所在节点位置&amp;对应网络端口&lt;/description&gt;
     &lt;/property&gt;
     &lt;property&gt;
-        &lt;name&gt;yarn.resourcemanager.scheduler.address&lt;/name&gt;
-        &lt;value&gt;master:8030&lt;/value&gt;
+          &lt;name&gt;yarn.resourcemanager.scheduler.address&lt;/name&gt;
+          &lt;value&gt;master:8030&lt;/value&gt;
     &lt;/property&gt;
-        &lt;property&gt;
-        &lt;name&gt;yarn.resourcemanager.resource-tracker.address&lt;/name&gt;
-        &lt;value&gt;master:8035&lt;/value&gt;
-    &lt;/property&gt;
-    &lt;property&gt;
-        &lt;name&gt;yarn.resourcemanager.admin.address&lt;/name&gt;
-        &lt;value&gt;master:8033&lt;/value&gt;
+          &lt;property&gt;
+          &lt;name&gt;yarn.resourcemanager.resource-tracker.address&lt;/name&gt;
+          &lt;value&gt;master:8035&lt;/value&gt;
     &lt;/property&gt;
     &lt;property&gt;
-        &lt;name&gt;yarn.resourcemanager.webapp.address&lt;/name&gt;
-        &lt;value&gt;master:8088&lt;/value&gt;
+          &lt;name&gt;yarn.resourcemanager.admin.address&lt;/name&gt;
+          &lt;value&gt;master:8033&lt;/value&gt;
+    &lt;/property&gt;
+    &lt;property&gt;
+          &lt;name&gt;yarn.resourcemanager.webapp.address&lt;/name&gt;
+          &lt;value&gt;master:8088&lt;/value&gt;
     &lt;/property&gt;
     &lt;!-- 关闭虚拟内存检查--&gt;
     &lt;property&gt;
-        &lt;name&gt;yarn.nodemanager.vmem-check-enabled&lt;/name&gt;
-        &lt;value&gt;false&lt;/value&gt;
+          &lt;name&gt;yarn.nodemanager.vmem-check-enabled&lt;/name&gt;
+          &lt;value&gt;false&lt;/value&gt;
     &lt;/property&gt;
 &lt;/configuration&gt;
 ######</code></pre>

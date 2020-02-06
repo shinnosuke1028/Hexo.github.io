@@ -317,7 +317,7 @@ Treesrc
           <div class="index-text mb-1">Hadoop 2.X 配置01. Hadoop 2.6.1
 Repo Pointhadoop-2.6.1.tar.gz
 
-00. 防火墙service  iptables status
+00. 防火墙 &amp; 主机名service  iptables status
 chkconfig iptables off
 systemctl status firewalld
 systemctl stop firewalld
@@ -336,8 +336,9 @@ chkconfig iptables off
 setenforce 0
 # 永久关闭selinux
 sed -i &#39;s/SELINUX=enforcing/SELINUX=disabled/g&#39; /etc/selinux/config
-01. SSH互信（通信基本）# 生成密钥对
-# 当前node为pp-web01！！！</div>
+
+# 修改各主机名
+vim /etc/sysconfig/netw</div>
         </div>
       </a>
 

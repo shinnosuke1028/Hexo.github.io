@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    3.6k 字
+                    3.7k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      17 分钟
+                      18 分钟
                   </span>&nbsp;
                 
 
@@ -502,11 +502,11 @@ cd $HADOOP_HOME/sbin
 [root@master bin]# 
 [root@master bin]# </code></pre>
 <hr>
-<h3 id="04-HDFS-amp-YARN"><a href="#04-HDFS-amp-YARN" class="headerlink" title="04. HDFS &amp; YARN"></a>04. HDFS &amp; YARN</h3><h4 id="HDFS架构及变化"><a href="#HDFS架构及变化" class="headerlink" title="HDFS架构及变化"></a>HDFS架构及变化</h4><h5 id="4-1-HDFS架构（分布式存储）"><a href="#4-1-HDFS架构（分布式存储）" class="headerlink" title="4-1 HDFS架构（分布式存储）"></a>4-1 HDFS架构（分布式存储）</h5><p><code>Block</code> Hadoop 2.x中，默认Block大小为：1 Block = 128MB；Hadoop 1.x中默认Block大小为：1 Block = 64MB.<br><code>NameNode</code> 集群老大，处理客户端的读写请求，NN的<strong>内存</strong>元信息中，包含文件路径、副本数、blockid、每个Block所在DataNode的信息，NN主要处理HDFS中的<strong>两个重要关系</strong>：</p>
+<h3 id="04-HDFS-amp-YARN"><a href="#04-HDFS-amp-YARN" class="headerlink" title="04. HDFS &amp; YARN"></a>04. HDFS &amp; YARN</h3><h4 id="HDFS架构及变化"><a href="#HDFS架构及变化" class="headerlink" title="HDFS架构及变化"></a>HDFS架构及变化</h4><h5 id="4-1-HDFS架构（分布式存储）"><a href="#4-1-HDFS架构（分布式存储）" class="headerlink" title="4-1 HDFS架构（分布式存储）"></a>4-1 HDFS架构（分布式存储）</h5><p><code>Block</code> Hadoop 2.x中，默认Block大小为：1 Block = 128MB；Hadoop 1.x中默认Block大小为：1 Block = 64MB.<br><code>NameNode</code> 集群老大，处理客户端的读写请求，NN的<strong>内存</strong>元信息中，包含文件路径、副本数、blockid、每个Block所在DataNode的信息（动态），NN主要处理HDFS中的<strong>两个重要关系</strong>：</p>
 <ol>
-<li><strong>元信息持久化</strong>，持久化到物理内存中，也就是命名空间镜像<code>fsimage</code>，但<strong>不包含每个Block的位置信息</strong>（这也就是为什么集群在启动初期会进入安全模式的原因，因为集群启动时，NN读取的<code>fsimage</code>中不包含Block所在DN的具体位置），存放元信息的文件是<code>fsimage</code>，而系统运行期间所有对元信息的<strong>操作</strong>都保存在内存中，并被持久化到另一个文件<code>edits</code>（编辑日志）中.</li>
-<li><strong>（持久化）</strong>管理文件系统目录树，即文件系统目录与数据块的对应关系（持久化到物理内存文件<code>fsimage</code>中），简单来说就是文件路径.</li>
-<li><strong>（非持久化）DN和数据块的对应关系</strong>（不会持久化到物理内存文件中），简单来说就是用来记录块数据（Block）所在DN的具体位置（形似索引）.</li>
+<li><strong>元信息持久化</strong>，持久化到物理内存中，也就是命名空间镜像<code>fsimage</code>，但<strong>不包含每个Block的位置信息</strong>（这也就是为什么集群在启动初期会进入安全模式的原因，因为集群启动时，NN读取的<code>fsimage</code>中不包含Block所在DN的具体位置），存放元信息的文件是<code>fsimage</code>，而系统运行期间所有对元信息的<strong>操作</strong>都保存在内存中，并被持久化到另一个文件<code>edits</code>（编辑日志）中，两者合二为一提供了HDFS的<strong>第一重要关系</strong>.</li>
+<li><strong>（持久）</strong>管理文件系统目录树，即文件系统目录与数据块的对应关系（持久化到物理内存文件<code>fsimage</code>中），简单来说就是HDFS目录树/元信息和文件数据块的索引.</li>
+<li><strong>（动态）DN和数据块的对应关系</strong>（不会持久化到物理内存文件中，NN启动时，由DN动态上报而得的<strong>第二个重要关系</strong>），简单来说就是用来记录块数据（Block）所在DN的具体位置（形似索引）；同时NN还可以通过DN获取HDFS整体运行状态的一些信息.</li>
 </ol>
 <p><code>SecondNameNode</code> 不算是NN的备份节点，只是协助NN，分担压力，SNN会定时去NN中获取<code>edits</code>，更新至<strong>SNN中的fsimage</strong>中，SNN一旦有了新的fsimage，便会以<code>fsimage.ckpt</code>的形式覆盖NN中的fsimage（合并），便于NN在下次启动时使用，减少重启时间；同理，合并后的fsimage可以用来恢复故障的NN，但由于SNN生成的fsimage本身就具有滞后性，故存在数据丢失的风险.</p>
 <p><code>DataNode</code> 整个集群真正的数据块，负责存储数据块，负责为系统客户端提供数据块的读写服务，负责各个DN间的通信（副本处理，replication）；<code>心跳机制</code>定期报告文件块列表信息至NN，确保DN正常存活.</p>

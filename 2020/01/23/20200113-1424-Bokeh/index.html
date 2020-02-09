@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.9k 字
+                    2.1k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      10 分钟
+                      12 分钟
                   </span>&nbsp;
                 
 
@@ -177,6 +177,8 @@
 </li>
 <li><p><code>Self Repo</code><br>  func_demo.func_f.date_f<br>  src.conf.bas_mail_conf<br>  src.conf.bokeh_conf</p>
 </li>
+<li><p><code>更新日志</code><br>  修改方法：visualization_bokeh.df_html_bokeh，可进行图例隐藏</p>
+</li>
 </ul>
 <hr>
 <h4 id="Tree"><a href="#Tree" class="headerlink" title="Tree"></a>Tree</h4><pre><code class="bash">src
@@ -196,7 +198,7 @@
 |   |-- __init__.py
 |   |-- ftp_wc.py
 |   `-- func_f.py
-|-- visualization_bokeh_2.py
+|-- visualization_bokeh.py
 `-- main.py</code></pre>
 <hr>
 <h4 id="main-py"><a href="#main-py" class="headerlink" title="main.py"></a>main.py</h4><ul>
@@ -210,7 +212,7 @@
 
 
 # Self Repo
-from src.visualization_bokeh_2 import *
+from src.visualization_bokeh import *
 
 
 if __name__ == &#39;__main__&#39;:
@@ -300,7 +302,7 @@ def df_2_list(data_df, column, value=None):
         print(&#39;Status: File write error!&#39;)
         print(&#39;------------------&#39; * 2, f&#39;\nError Details:\n{e}&#39;)
         print(&#39;------------------&#39; * 2)
-        exit(1)
+        return 1
 
 
 def source_dict(*args):
@@ -349,11 +351,14 @@ def df_preparation(data_input_path, cols, cols_rename_dic, info_filter, index_co
         else:
             data_df_rename = data_df
         del data_df
-        print(&#39;Data load Successfully.&#39;, &#39;\n&#39;)
+        print(&#39;Status: Data load Successfully.&#39;, &#39;\n&#39;)
         # print(f&#39;data_df_rename: {data_df_rename}&#39;)
 
     except IOError as e:
-        print(&#39;Data load failure: %s&#39; % e)
+        # print(&#39;Status: Data load failure: %s&#39; % e)
+        print(&#39;Status: Data load failure...&#39;)
+        print(&#39;------------------&#39; * 2, f&#39;\nError Details:\n{e}&#39;)
+        print(&#39;------------------&#39; * 2)
         exit(1)
 
     else:
@@ -368,6 +373,18 @@ def df_preparation(data_input_path, cols, cols_rename_dic, info_filter, index_co
             # k2 = sorted(info_filter.keys())[1]
             # ...
         # print(k)
+
+        # # 定义筛选列
+        # Ex:
+        # column_flag = &#39;STYLE&#39;
+        # # 定义筛选值
+        # owner_flag = (&#39;NSN_4G_PM&#39;, &#39;HW_4G_PM&lt;OMC1&gt;&#39;, &#39;HW_4G_PM&lt;OMC2&gt;&#39;,
+        #               &#39;NSN_4G_CM&#39;, &#39;HW_4G_CM&lt;OMC1&gt;&#39;, &#39;HW_4G_CM&lt;OMC2&gt;&#39;)
+        # owner_color = (&#39;RED&#39;, &#39;ORANGE&#39;, &#39;SKYBLUE&#39;, &#39;GREEN&#39;, &#39;CHOCOLATE&#39;, &#39;BLUEVIOLET&#39;)
+        # # 数据筛选
+        # df_filter_1 = df_data_frame(data_df=df_rename, column=&#39;STYLE&#39;, loc_flag=owner_flag)     # &lt;class &#39;list&#39;&gt;
+
+        # print(info_filter[k[0]], info_filter[k[1]])
 
         # 过滤
         data_df_filter = df_2_list(data_df=data_df_rename,      # 字段重命名后的Dataframe
@@ -405,62 +422,83 @@ def df_html_bokeh(html_output_path, title, tooltips, source, plot_width=1300, pl
     :param plot_height: 图表高度
     :param kwargs: 其余图形配置参数
 
-    :return: .html
+    :return: 0 or 1
 
     &quot;&quot;&quot;
-    # Output Configuration
-    output_file(html_output_path)
 
-    # Ex:
-    # tools = [
-    #     (&quot;FILE_SIZE&quot;, &quot;@{y}{0.2f}MB&quot;),
-    #     (&quot;HOUR&quot;, &quot;@x&quot;),
-    #     (&quot;FILE_STYLE&quot;, &quot;@flag&quot;)
-    # ]
+    try:
+        # Output Configuration
+        output_file(html_output_path)
 
-    # HTML Figures Display Configuration
-    p = figure(
-        tooltips=tooltips,  # [(&quot;x&quot;, &quot;$x&quot;), (&quot;y&quot;, &quot;$y&quot;)],
-        plot_width=plot_width,
-        plot_height=plot_height,
-        title=title,    # &#39;Gather Glyphs&#39;,
-        x_axis_label=kwargs[&#39;x_axis_label&#39;],    # &#39;HOUR&#39;,
-        y_axis_label=kwargs[&#39;y_axis_label&#39;],    # &#39;FILE_SIZE&#39;,
-    )
-    p.x_range.range_padding = p.y_range.range_padding
-
-    # print(type(source)) # &lt;class &#39;list&#39;&gt;
-    i = 0
-    for rs in source:
         # Ex:
-        # loc:  按索引标签选取
-        # iloc: 按索引位置选取（iloc做法）
-        # 未指定索引字段时，索引编号恰巧和数据索引标签相同(0,1,2,...)，故两者的效果类似，但实质不同
-        # print(f&#39;rs.date[&quot;flag&quot;]: {rs.data[&quot;flag&quot;]}\n&#39;
-        #       f&#39;rs.date[&quot;flag&quot;],loc[0]: {rs.data[&quot;flag&quot;].loc[0]}\n&#39;
-        #       f&#39;rs.date[&quot;flag&quot;],iloc[0]: {rs.data[&quot;flag&quot;].iloc[0]}\n&#39;)
+        # tools = [
+        #     (&quot;FILE_SIZE&quot;, &quot;@{y}{0.2f}MB&quot;),
+        #     (&quot;HOUR&quot;, &quot;@x&quot;),
+        #     (&quot;FILE_STYLE&quot;, &quot;@flag&quot;)
+        # ]
 
-        # for key, value in kwargs_axis.items():
-        #     print(&#39;key:{}, value:{}&#39;.format(key, value))
-        #     print(f&#39;key:{key}, value:{value}&#39;)
+        # HTML Figures Display Configuration
+        p = figure(
+            tooltips=tooltips,  # [(&quot;x&quot;, &quot;$x&quot;), (&quot;y&quot;, &quot;$y&quot;)],
+            plot_width=plot_width,
+            plot_height=plot_height,
+            title=title,    # &#39;Gather Glyphs&#39;,
+            x_axis_label=kwargs[&#39;x_axis_label&#39;],    # &#39;HOUR&#39;,
+            y_axis_label=kwargs[&#39;y_axis_label&#39;],    # &#39;FILE_SIZE&#39;,
+        )
+        p.x_range.range_padding = p.y_range.range_padding
 
-        if &#39;color&#39; not in kwargs.keys():
-            print(&#39;No color in configuration.&#39;, &#39;\n&#39;)
-            p.line(x=&#39;x&#39;, y=&#39;y&#39;,legend=rs.data[&#39;flag&#39;].loc[0], source=rs)
-            # p.line(x=kwargs[&#39;x&#39;], y=kwargs[&#39;y&#39;], legend=kwargs[&#39;legend&#39;], line_width=kwargs[&#39;line_width&#39;], source=source)
-            p.circle(x=&#39;x&#39;, y=&#39;y&#39;,legend=rs.data[&#39;flag&#39;].loc[0], size=10, source=rs)
-            # p.circle(x=kwargs[&#39;x&#39;], y=kwargs[&#39;y&#39;], legend=kwargs[&#39;legend&#39;], size=10, source=source)
-        else:
-            print(&#39;Bokeh figure processing...&#39;, &#39;\n&#39;)
-            p.line(x=&#39;x&#39;, y=&#39;y&#39;, legend=rs.data[&#39;flag&#39;].loc[0], line_width=3,   # kwargs[&#39;line_width&#39;],
-                   color=kwargs[&#39;color&#39;][i], source=rs)
-            p.circle(x=&#39;x&#39;, y=&#39;y&#39;, legend=rs.data[&#39;flag&#39;].loc[0],
-                     size=10,   # kwargs[&#39;size&#39;],
-                     fill_color=kwargs[&#39;color&#39;][i], line_color=kwargs[&#39;color&#39;][i], source=rs)
-        i += 1
-    # HTML结果生成
-    show(p)
 
+        i = 0   # 计数器
+        # print(type(source)) # &lt;class &#39;list&#39;&gt;
+        for rs in source:
+            # Ex:
+            # loc:  按索引标签选取
+            # iloc: 按索引位置选取（iloc做法）
+            # 未指定索引字段时，索引编号恰巧和数据索引标签相同(0,1,2,...)，故两者的效果类似，但实质不同
+            # print(f&#39;rs.date[&quot;flag&quot;]: {rs.data[&quot;flag&quot;]}\n&#39;
+            #       f&#39;rs.date[&quot;flag&quot;],loc[0]: {rs.data[&quot;flag&quot;].loc[0]}\n&#39;
+            #       f&#39;rs.date[&quot;flag&quot;],iloc[0]: {rs.data[&quot;flag&quot;].iloc[0]}\n&#39;)
+
+            # for key, value in kwargs_axis.items():
+            #     print(&#39;key:{}, value:{}&#39;.format(key, value))
+            #     print(f&#39;key:{key}, value:{value}&#39;)
+
+            if &#39;color&#39; not in kwargs.keys():
+                print(&#39;No color in configuration.&#39;, &#39;\n&#39;)
+                p.line(x=&#39;x&#39;, y=&#39;y&#39;,legend=rs.data[&#39;flag&#39;].loc[0], source=rs)
+                # p.line(x=kwargs[&#39;x&#39;], y=kwargs[&#39;y&#39;], legend=kwargs[&#39;legend&#39;], line_width=kwargs[&#39;line_width&#39;], source=source)
+                p.circle(x=&#39;x&#39;, y=&#39;y&#39;,legend=rs.data[&#39;flag&#39;].loc[0], size=10, source=rs)
+
+                p.legend.click_policy = &quot;mute&quot;
+
+                # p.circle(x=kwargs[&#39;x&#39;], y=kwargs[&#39;y&#39;], legend=kwargs[&#39;legend&#39;], size=10, source=source)
+            else:
+                print(f&#39;Bokeh legend-{i} processing...&#39;)
+                p.line(x=&#39;x&#39;, y=&#39;y&#39;, legend=rs.data[&#39;flag&#39;].loc[0], line_width=3,   # kwargs[&#39;line_width&#39;],
+                       color=kwargs[&#39;color&#39;][i], source=rs,
+                       muted_color=kwargs[&#39;color&#39;][i], muted_alpha=0.2)
+
+                p.circle(x=&#39;x&#39;, y=&#39;y&#39;, legend=rs.data[&#39;flag&#39;].loc[0],
+                         size=10,   # kwargs[&#39;size&#39;],
+                         fill_color=kwargs[&#39;color&#39;][i], line_color=kwargs[&#39;color&#39;][i], source=rs,
+                         muted_color=kwargs[&#39;color&#39;][i], muted_alpha=0.2)
+
+                # 图例交互
+                # p.legend.location = &quot;top_left&quot;
+                p.legend.click_policy = &quot;mute&quot;
+
+            i += 1
+
+        # HTML结果自动呈现
+        show(p)
+        return 0
+
+    except Exception as e:
+        print(&#39;Status: Failed to processed HTML file!&#39;)
+        print(&#39;------------------&#39; * 2, f&#39;\nError Details:\n{e}&#39;)
+        print(&#39;------------------&#39; * 2)
+        return 1
 
 # Demo
 # if __name__ == &#39;__main__&#39;:

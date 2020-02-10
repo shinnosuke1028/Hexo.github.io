@@ -225,7 +225,7 @@ OK
 
 --元数据建立
 0: jdbc:hive2://master:10000&gt; create table article(sentence string)   --一句话就是一行
-row format delimited fields terminated by &#39;\n&#39;;--每一行的format
+row format delimited fields terminated by &#39;\n&#39;; -- location /data/xxx --每一行的format
 
 0: jdbc:hive2://master:10000&gt; desc article; --查询表结构
 --数据导入前，表为空

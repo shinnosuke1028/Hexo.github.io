@@ -519,7 +519,14 @@ cd $HADOOP_HOME/sbin
 </li>
 </ol>
 <hr>
-<h4 id="HDFS基本操作"><a href="#HDFS基本操作" class="headerlink" title="HDFS基本操作"></a>HDFS基本操作</h4><pre><code class="shell"># 常用命令参数介绍
+<h4 id="HDFS基本操作"><a href="#HDFS基本操作" class="headerlink" title="HDFS基本操作"></a>HDFS基本操作</h4><h5 id="4-4-命中率较高且暂未练习过的shell命令"><a href="#4-4-命中率较高且暂未练习过的shell命令" class="headerlink" title="4-4 命中率较高且暂未练习过的shell命令"></a>4-4 命中率较高且暂未练习过的shell命令</h5><pre><code class="shell">
+# 功能：设置 HDFS 中文件的副本数量
+hdfs dfs -setrep 3 /aaa/jdk.tar.gz
+# 功能：查看 dfs 集群工作状态的命令
+hdfs dfsadmin -report
+# 安全模式
+hdfs dfsadmin -safemode get/leave/enter/wait</code></pre>
+<pre><code class="shell"># 常用命令参数介绍
 -help
 # 功能：输出这个命令参数手册
 hadoop -help

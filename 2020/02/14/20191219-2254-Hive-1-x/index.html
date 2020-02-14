@@ -300,7 +300,7 @@ Tips：mysql -V    java -version
         &lt;/property&gt;
 &lt;/configuration&gt;</code></pre>
 <h4 id="2-4-Hive-Log配置"><a href="#2-4-Hive-Log配置" class="headerlink" title="2-4 Hive Log配置"></a>2-4 Hive Log配置</h4><ul>
-<li>Hive中的日志分为两种:<br><code>系统日志</code>记录了hive的运行情况，错误状况，在<code>hive-log4j.properties</code>文件中记录了Hive日志的存储情况.<br><code>Job日志</code>记录了Hive 中job的执行的历史过程.</li>
+<li>Hive中的日志分为两种:<br><code>系统日志</code>记录了hive的运行情况，错误状况，在<code>hive-log4j.properties</code>文件中记录了Hive日志的存储情况.<br><code>Job日志</code>记录了Hive 中job的执行的历史过程.<br><code>Tips</code>进入到用户的主目录，使用命令 cat /root/.hivehistory 可以查看到Hive执行的历史命令.</li>
 </ul>
 <pre><code class="bash">vim /usr/local/src/apache-hive-1.2.2-bin/conf/hive-log4j.properties
 # hive-log4j.properties 修改相关路径
@@ -327,8 +327,7 @@ hive.log.file=hive.log
 <li>无Metastore的情况下，纯<code>hive</code>启动，每启动一个Hive窗口，便会加载一个Hive Metastore服务进程，资源占用上升，不推荐.</li>
 </ul>
 <pre><code class="bash"># 配置了hive.metastore.uris后需开启 Metastore
-# 后缀为重定向，需百度解决（已解决，详见20191224_1414_Hive-1.x配置）
-hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;
+hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp; # 正常前台打印重定向进trash，错误重定向至管道1，同样进trash
 # beeline方式连接Hive，默认端口为10000
 hive --service hiveserver2 &amp;
 #beeline

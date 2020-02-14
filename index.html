@@ -212,15 +212,18 @@ Repo Pointapache-hive-1.2.2-bin.tar.gzmysql-connector-java-5.1.44.tarapache-hive
 
 02. Beeline连接Hive（Review）
 这里使用的是Hive Metastore ➡ hiveserver2 ➡ beeline的连接方式（启动方式见下方）.
+
 也可以使用Hive Metastore ➡ hive（CLI）的连接方式
 
+后缀为重定向，需百度解决（已解决，详见 20191224_1414_Hive-1.x配置）
+
+
 # 配置了hive.metastore.uris后需开启 Metastore
-# 后缀为重定向，需百度解决（已解决，详见20191224_1414_Hive-1.x配置）
 hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;
 # beeline方式连接Hive，默认端口为10000
 hive --service hiveserver2 &amp;
 #beeline
-#!connect jdbc:hive2://master:10000 r</div>
+#!connect jdbc:hive2://master:10000</div>
         </div>
       </a>
 

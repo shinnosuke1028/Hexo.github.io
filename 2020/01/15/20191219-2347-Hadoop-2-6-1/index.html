@@ -541,13 +541,18 @@ cd $HADOOP_HOME/sbin
 </li>
 </ol>
 <hr>
-<h4 id="HDFS基本操作"><a href="#HDFS基本操作" class="headerlink" title="HDFS基本操作"></a>HDFS基本操作</h4><h5 id="4-5-命中率较高且暂未练习过的shell命令"><a href="#4-5-命中率较高且暂未练习过的shell命令" class="headerlink" title="4-5 命中率较高且暂未练习过的shell命令"></a>4-5 命中率较高且暂未练习过的shell命令</h5><pre><code class="shell">
-# 功能：设置 HDFS 中文件的副本数量
+<h4 id="HDFS基本操作"><a href="#HDFS基本操作" class="headerlink" title="HDFS基本操作"></a>HDFS基本操作</h4><h5 id="4-5-命中率较高且暂未练习过的shell命令"><a href="#4-5-命中率较高且暂未练习过的shell命令" class="headerlink" title="4-5 命中率较高且暂未练习过的shell命令"></a>4-5 命中率较高且暂未练习过的shell命令</h5><pre><code class="shell"># 功能：设置 HDFS 中文件的副本数量
 hdfs dfs -setrep 3 /aaa/jdk.tar.gz
 # 功能：查看 dfs 集群工作状态的命令
 hdfs dfsadmin -report
 # 安全模式
-hdfs dfsadmin -safemode get/leave/enter/wait</code></pre>
+hdfs dfsadmin -safemode get/leave/enter/wait
+# 上传
+hdfs dfs -put /data/hive/student.txt /bbb/jdk.tar.gz.2
+# Drop
+hdfs dfs -rm /data/hive_hdfs/student.txt
+20/02/14 17:52:02 INFO fs.TrashPolicyDefault: Namenode trash configuration: Deletion interval = 0 minutes, Emptier interval = 0 minutes.
+Deleted /data/hive_hdfs/student.txt</code></pre>
 <pre><code class="shell"># 常用命令参数介绍
 -help
 # 功能：输出这个命令参数手册

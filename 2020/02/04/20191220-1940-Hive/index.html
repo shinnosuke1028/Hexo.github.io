@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.5k 字
+                    1.6k 字
                   </span>&nbsp;
                 
 
@@ -176,11 +176,14 @@
 <li>Repo Point<br><a href="http://mirror.bit.edu.cn/apache/hive/hive-1.2.2/apache-hive-1.2.2-bin.tar.gz" target="_blank" rel="noopener">apache-hive-1.2.2-bin.tar.gz</a><br><a href="https://downloads.mysql.com/archives/get/file/mysql-connector-java-5.1.44.tar.gz" target="_blank" rel="noopener">mysql-connector-java-5.1.44.tar</a><br><a href="http://archive.apache.org/dist/hive/hive-1.2.2/apache-hive-1.2.2-src.tar.gz" target="_blank" rel="noopener">apache-hive-1.2.2-src.tar.gz</a></li>
 </ul>
 <h3 id="02-Beeline连接Hive（Review）"><a href="#02-Beeline连接Hive（Review）" class="headerlink" title="02. Beeline连接Hive（Review）"></a>02. Beeline连接Hive（Review）</h3><ul>
-<li>这里使用的是<code>Hive Metastore ➡ hiveserver2 ➡ beeline</code>的连接方式（启动方式见下方）.</li>
-<li>也可以使用<code>Hive Metastore ➡ hive（CLI）</code>的连接方式</li>
+<li><p>这里使用的是<code>Hive Metastore ➡ hiveserver2 ➡ beeline</code>的连接方式（启动方式见下方）.</p>
+</li>
+<li><p>也可以使用<code>Hive Metastore ➡ hive（CLI）</code>的连接方式</p>
+</li>
+<li><p>后缀为重定向，需百度解决（已解决，详见 <a href="http://localhost:4000/2020/02/14/20191219-2254-Hive-1-x/" target="_blank" rel="noopener">20191224_1414_Hive-1.x配置</a>）</p>
+</li>
 </ul>
 <pre><code class="bash"># 配置了hive.metastore.uris后需开启 Metastore
-# 后缀为重定向，需百度解决（已解决，详见20191224_1414_Hive-1.x配置）
 hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;
 # beeline方式连接Hive，默认端口为10000
 hive --service hiveserver2 &amp;
@@ -195,8 +198,11 @@ beeline -u jdbc:hive2://master:10000 -n root -p 123456 --color=true</code></pre>
 <li>Hive<code>读多写少</code>，从HDFS中读，MR计算，并写回HDFS；<code>不支持数据改写&amp;删除</code>；</li>
 <li>用户需指定<code>三个属性</code>用来定义数据格式：<br>列分隔符：空格 ‘,’  ‘\t’<br>行分隔符：’\n’<br>读取数据的方法</li>
 </ul>
-<h4 id="3-2-Hive-架构"><a href="#3-2-Hive-架构" class="headerlink" title="3-2 Hive 架构"></a>3-2 Hive 架构</h4><p><code>CLI</code> <strong><em>Hive Metastore</em></strong> → hiveserver2(HS2) → <strong><em>Beeline</em></strong><br><code>JDBC</code> <strong><em>Metastore</em></strong> → Java/Python/C++<br><code>WUI</code> apache-hive-0.13.0-src.tar.gz → <strong><em>hive –service hwi</em></strong></p>
-<h4 id="3-3-Hive-HDFS"><a href="#3-3-Hive-HDFS" class="headerlink" title="3-3 Hive HDFS"></a>3-3 Hive HDFS</h4><hr>
+<h4 id="3-2-Hive-连接方式"><a href="#3-2-Hive-连接方式" class="headerlink" title="3-2 Hive 连接方式"></a>3-2 Hive 连接方式</h4><p><code>CLI</code> <strong><em>Hive Metastore</em></strong> → hiveserver2(HS2) → <strong><em>Beeline</em></strong><br><code>JDBC</code> <strong><em>Metastore</em></strong> → Java/Python/C++<br><code>WUI</code> apache-hive-0.13.0-src.tar.gz → <strong><em>hive –service hwi</em></strong></p>
+<h4 id="3-3-Hive-HDFS"><a href="#3-3-Hive-HDFS" class="headerlink" title="3-3 Hive HDFS"></a>3-3 Hive HDFS</h4><ul>
+<li>HDFS部分主要是贮存离线数据，主要就是数据目录或数据的相关操作（详见 <a href="https://shinnosuke1028.github.io/2020/01/15/20191219-2347-Hadoop-2-6-1/" target="_blank" rel="noopener">20201219_2347_Hadoop-2.6.1（持续更新</a>）.</li>
+</ul>
+<hr>
 <h3 id="04-数据入库"><a href="#04-数据入库" class="headerlink" title="04. 数据入库"></a>04. 数据入库</h3><h4 id="4-0-内置函数"><a href="#4-0-内置函数" class="headerlink" title="4-0 内置函数"></a>4-0 内置函数</h4><pre><code class="SQL">--时间戳
 select current_date;    --2020-02-13
 select current_timestamp;   --2020-02-13 18:09:40.666
@@ -214,10 +220,25 @@ select date_sub(&#39;2020-02-13&#39;,4);
 select date_add(&#39;2015-04-09&#39;,4);    --select date_sub(&#39;2020-02-13&#39;,-4);
 year/month/day/hour/minute/second</code></pre>
 <h4 id="4-1-建表"><a href="#4-1-建表" class="headerlink" title="4-1 建表"></a>4-1 建表</h4><ul>
+<li>一张表 是内部表或者外部表， 这两个是二选一的</li>
+<li>一张表可以是分区表</li>
+<li>一张表可以是分桶表</li>
+<li>一张表可以是分区表也可以是分桶表</li>
+<li>第一条和剩余三条可以搭配（内部【外部】分区表 / 内部【外部】分桶表 / 内部【外部】分区分桶表）</li>
+</ul>
+<p><code>内部表</code></p>
+<pre><code class="SQL">create table student_mng(id int, name string, sex string, age int, department string) row format delimited fields terminated by &quot;,&quot; lines terminated by &quot;\n&quot;;</code></pre>
+<p><code>外部表</code></p>
+<pre><code class="SQL">create external table student_ext(id int, name string, sex string, age int, department string) row format delimited fields terminated by &quot;,&quot; lines terminated by &quot;\n&quot; location &#39;/user/hive/warehouse/mytable2&#39;;
+`分区表`
+```SQL</code></pre>
+<p><code>分桶表</code></p>
+<pre><code class="SQL"></code></pre>
+<ul>
 <li>Local数据导入，数据位于Master节点：/data/mr_wc/The_man_of_property.txt</li>
 </ul>
 <pre><code class="SQL">--databases list
-0: jdbc:hive2://master:10000&gt; show databases;
+show databases;
 OK
 +----------------+--+
 | database_name  |
@@ -227,7 +248,7 @@ OK
 +----------------+--+
 
 --查询库路径
-0: jdbc:hive2://master:10000&gt; desc database badou;
+desc database badou;
 OK
 +----------+----------+----------------------------------------------------------------------------+-------------+-------------+-------------+--+
 | db_name  | comment  |                                  location                                  | owner_name  | owner_type  | parameters  |
@@ -236,16 +257,15 @@ OK
 +----------+----------+----------------------------------------------------------------------------+-------------+-------------+-------------+--+
 1 row selected (0.225 seconds)
 
-0: jdbc:hive2://master:10000&gt; use badou;
+use badou;
 OK
 
 --元数据建立
-0: jdbc:hive2://master:10000&gt; create table article(sentence string)   --一句话就是一行
-row format delimited fields terminated by &#39;\n&#39;; -- location /data/xxx --每一行的format
+create table article(sentence string) row format delimited fields terminated by &#39;\n&#39;; -- location /data/xxx --每一行的format
 
-0: jdbc:hive2://master:10000&gt; desc article; --查询表结构
+desc article; --查询表结构
 --数据导入前，表为空
-0: jdbc:hive2://master:10000&gt; select article.sentence from article limit 2; 
+select article.sentence from article limit 2; 
 
 --本地数据load（Local Load）,注意这里是Linux服务器本地数据导入
 load data local inpath &#39;/data/mr_wc/The_man_of_property.txt&#39; into table article;
@@ -254,7 +274,7 @@ load data local inpath &#39;/data/mr_wc/The_man_of_property.txt&#39; into table 
 --load data local inpath &#39;/data/mr_wc/The_man_of_property.txt&#39; into table article; --导入本地数据：
 
 --再次查询
-0: jdbc:hive2://master:10000&gt; select article.sentence from article limit 1;
+select article.sentence from article limit 1;
 OK
 +-------------------+--+
 | article.sentence  |
@@ -275,10 +295,10 @@ Found 1 items
 
 --单词按照空格切分，结果为数组格式，以下是样例演示
 --Hive里很特别，语句不限于SQL模式，可以将HQL的结果按照数据下标提取出来
-0: jdbc:hive2://master:10000&gt; select &#39;the heroic and that there&#39; as origin, 
-0: jdbc:hive2://master:10000&gt; split(&#39;the heroic and that there&#39;,&#39; &#39;) as origin_list, 
-0: jdbc:hive2://master:10000&gt; split(&#39;the heroic and that there&#39;,&#39; &#39;)[0] as word1, 
-0: jdbc:hive2://master:10000&gt; split(&#39;the heroic and that there&#39;,&#39; &#39;)[1] as word2;
+select &#39;the heroic and that there&#39; as origin, 
+split(&#39;the heroic and that there&#39;,&#39; &#39;) as origin_list, 
+split(&#39;the heroic and that there&#39;,&#39; &#39;)[0] as word1, 
+split(&#39;the heroic and that there&#39;,&#39; &#39;)[1] as word2;
 +----------------------------+----------------------------------------+--------+---------+--+
 |           origin           |              origin_list               | word1  |  word2  |
 +----------------------------+----------------------------------------+--------+---------+--+
@@ -286,7 +306,7 @@ Found 1 items
 +----------------------------+----------------------------------------+--------+---------+--+
 
 --单行转多行
-0: jdbc:hive2://master:10000&gt; select explode(split(&#39;the heroic and that there&#39;,&#39; &#39;)) origin_list_row;
+select explode(split(&#39;the heroic and that there&#39;,&#39; &#39;)) origin_list_row;
 OK
 +------------------+--+
 | origin_list_row  |

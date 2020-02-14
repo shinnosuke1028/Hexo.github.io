@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.7k 字
+                    2.2k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      8 分钟
+                      11 分钟
                   </span>&nbsp;
                 
 
@@ -219,12 +219,15 @@ select datediff(&#39;2020-02-13&#39;,&#39;2020-02-15&#39;);
 select date_sub(&#39;2020-02-13&#39;,4);
 select date_add(&#39;2015-04-09&#39;,4);    --select date_sub(&#39;2020-02-13&#39;,-4);
 year/month/day/hour/minute/second</code></pre>
-<h4 id="4-1-建表"><a href="#4-1-建表" class="headerlink" title="4-1 建表"></a>4-1 建表</h4><ul>
+<h4 id="4-1-DML"><a href="#4-1-DML" class="headerlink" title="4-1 DML"></a>4-1 DML</h4><ul>
+<li>表的属性<ol>
 <li>一张表 是内部表或者外部表， 这两个是二选一的</li>
 <li>一张表可以是分区表</li>
 <li>一张表可以是分桶表</li>
 <li>一张表可以是分区表也可以是分桶表</li>
 <li>第一条和剩余三条可以搭配（内部【外部】分区表 / 内部【外部】分桶表 / 内部【外部】分区分桶表）</li>
+</ol>
+</li>
 </ul>
 <p><code>内部表</code></p>
 <pre><code class="SQL">create table hive_student_mng(id int, name string, sex string, age int, department string) row format delimited fields terminated by &quot;,&quot; lines terminated by &quot;\n&quot;;
@@ -235,15 +238,71 @@ row format    格式化关键字
         lines terminated by &quot;\n&quot;;    记录与记录之间的分隔符
     serde   --这个参数忘记用途了    
         ...
-*/</code></pre>
+*/
+--从HDFS内导入
+load data inpath &#39;/data/hive_hdfs/student.txt&#39; into table hive_student_mng;
+--从本地导入
+--load data local inpath &#39;/data/hive/student.txt&#39; into table hive_student_mng;</code></pre>
 <p><code>外部表</code></p>
-<pre><code class="SQL">create external table hive_student_ext(id int, name string, sex string, age int, department string) row format delimited fields terminated by &quot;,&quot; lines terminated by &quot;\n&quot; location &#39;/usr/local/src/apache-hive-1.2.2-bin/warehouse/student_ext&#39;;</code></pre>
+<pre><code class="SQL">create external table hive_student_ext(id int, name string, sex string, age int, department string) row format delimited fields terminated by &quot;,&quot; lines terminated by &quot;\n&quot; location &#39;/usr/local/src/apache-hive-1.2.2-bin/warehouse/hive_student_ext&#39;;
+--从HDFS内导入
+load data inpath &#39;/data/hive_hdfs/student.txt&#39; into table hive_student_ext;
+--从本地导入
+--load data local inpath &#39;/data/hive/student.txt&#39; into table hive_student_mng;</code></pre>
 <p><code>分区表</code></p>
-<pre><code class="SQL"></code></pre>
-<p><code>分桶表</code></p>
-<pre><code class="SQL"></code></pre>
+<pre><code class="SQL">create table hive_student_ptn(id int, name string, sex string) partitioned by (age int, department string) row format delimited fields terminated by &quot;,&quot;;
+
+-- load data local inpath &quot;/home/hadoop/student.txt&quot; into table student_ptn partition(age=17,department=&quot;MA&quot;);
+--多重模式插入数据至分区表
+from hive_student_mng
+insert into table hive_student_ptn partition(age=17,department=&quot;MA&quot;) select id, name, sex where age = 17 and department=&quot;MA&quot;
+insert into table hive_student_ptn partition(age=18,department=&quot;CS&quot;) select id, name, sex where age = 18 and department=&quot;CS&quot;
+insert into table hive_student_ptn partition(age=18,department=&quot;IS&quot;) select id, name, sex where age = 18 and department=&quot;IS&quot;;</code></pre>
+<p><code>CTAS</code></p>
+<pre><code class="SQL">create table hive_student_mng_2 as select * from hive_student_mng;</code></pre>
+<p><code>静态分区表</code></p>
+<pre><code class="SQL">load data local inpath &quot;xx&quot; into table xxx (column=&quot;xx&quot;);</code></pre>
+<p><code>动态分区表</code></p>
 <ul>
-<li>Local数据导入，数据位于Master节点：/data/mr_wc/The_man_of_property.txt</li>
+<li>数据根据分区字段，自动进行分区的创建和数据导入，<code>作为分区的字段在查询中需要按顺序放在最后</code>！</li>
+<li>两个重要参数：<ol>
+<li>set hive.exec.dynamic.partition=true;</li>
+<li>set hive.exec.dynamic.partition.mode=nonstrict;</li>
+</ol>
+</li>
+</ul>
+<pre><code class="SQL">--动态分区表插入数据
+create table hive_student_ptn_2(id int, name string, sex string) partitioned by (age int, department string) row format delimited fields terminated by &quot;,&quot;;
+
+insert into table hive_student_ptn_2 partition(age, department) select id, name, sex, age, department from hive_student_mng; </code></pre>
+<p><code>分桶表</code>（有疑问）</p>
+<pre><code class="SQL">create table hive_student_bucket (id int, name string, sex string, age int, department string) clustered by (age) sorted by(age desc, id asc) into 2 buckets row format delimited fields terminated by &quot;,&quot;;
+
+--虽然创建分桶表的时候指定了分桶字段和排序字段
+--但是数据到底有没有进行分桶和排序是根据插入数据的HQL决定的（这边还是不太理解）
+insert into table hive_student_bucket select id,name,sex,age,department from hive_student_mng;
+
+--distribute by 
+set mapreduce.job.reduces=3;
+insert overwrite local directory &quot;/data/hive/hive_student_bucket/&quot; select * from hive_student_mng distribute by department sorted by department;
+
+--cluster by 
+distribute by age sorted by age == cluster by age</code></pre>
+<hr>
+<h4 id="4-2-DQL"><a href="#4-2-DQL" class="headerlink" title="4-2 DQL"></a>4-2 DQL</h4><h5 id="支持-VS-不支持"><a href="#支持-VS-不支持" class="headerlink" title="支持 VS 不支持"></a>支持 VS 不支持</h5><ul>
+<li>支持union all/ join/like/where/having/各种聚合/json解析</li>
+<li>支持 UDF/UDAF/UDTF</li>
+<li>支持in/exists，但是Hive推荐使用semi join（半连接）</li>
+<li>支持case when</li>
+<li>支持truncate，和Oracle类似，只清数据，不清分区</li>
+<li>不支持update/delete</li>
+<li>不支持or条件</li>
+<li>不支持非等值连接</li>
+</ul>
+<pre><code class="SQL">--半连接
+select a.* from a semi join b on a.id = b.id;</code></pre>
+<ul>
+<li>下面是个字段切割的例子：Local数据导入，数据位于Master节点：/data/mr_wc/The_man_of_property.txt</li>
 </ul>
 <pre><code class="SQL">--databases list
 show databases;
@@ -335,8 +394,7 @@ group by origin_list_row
 limit 100;</code></pre>
 <p>iii. 这里涉及了group by，会跑一组MR<br><img src="WC_MR.png" srcset="/img/loading.gif" alt="WC_MR." title="WC_MR."> </p>
 <p><code>Tips</code>HQL内子查询的外侧要起别名，遗漏时会报错<br><img src="子查询别名.png" srcset="/img/loading.gif" alt="HQL子查询别名遗漏报错." title="HQL子查询别名遗漏报错."> </p>
-<hr>
-<h4 id="4-2-数据清洗"><a href="#4-2-数据清洗" class="headerlink" title="4-2 数据清洗"></a>4-2 数据清洗</h4><h5 id="正则过滤"><a href="#正则过滤" class="headerlink" title="正则过滤"></a>正则过滤</h5><pre><code class="SQL">--HQL
+<h5 id="正则过滤"><a href="#正则过滤" class="headerlink" title="正则过滤"></a>正则过滤</h5><pre><code class="SQL">--HQL
 select regexp_extract(&#39;(mentioned&#39;, &#39;[[\\w]]+&#39;, 0);
 select regexp_extract(&#39;(mentioned&#39;, &#39;[[0-9a-zA-Z]]+&#39;, 0);
 
@@ -402,7 +460,7 @@ limit 100; --加上排序后，Jobs:2  Map: 2  Reduce: 2
 | at        | 822   |          | for       | 798   |   
 +-----------+-------+--+       +-----------+-------+--+</code></pre>
 <hr>
-<h4 id="4-3-分区-分桶（详见04）"><a href="#4-3-分区-分桶（详见04）" class="headerlink" title="4-3 分区/分桶（详见04）"></a>4-3 分区/分桶（详见04）</h4><hr>
+<h4 id="4-3-分区-分桶（4-1中有建立过程，具体分析见05）"><a href="#4-3-分区-分桶（4-1中有建立过程，具体分析见05）" class="headerlink" title="4-3 分区/分桶（4.1中有建立过程，具体分析见05）"></a>4-3 分区/分桶（4.1中有建立过程，具体分析见05）</h4><hr>
 <h3 id="05-分桶"><a href="#05-分桶" class="headerlink" title="05. 分桶"></a>05. 分桶</h3><h4 id="有点绕的概念（还未弄懂）"><a href="#有点绕的概念（还未弄懂）" class="headerlink" title="有点绕的概念（还未弄懂）"></a>有点绕的概念（还未弄懂）</h4><p><code>语法</code> tablesample(bucket x out of y on id)</p>
 <pre><code class="SQL">TABLESAMPLE (BUCKET x OUT OF y [ON colname])</code></pre>
 

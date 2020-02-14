@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.6k 字
+                    1.7k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      7 分钟
+                      8 分钟
                   </span>&nbsp;
                 
 
@@ -227,11 +227,19 @@ year/month/day/hour/minute/second</code></pre>
 <li>第一条和剩余三条可以搭配（内部【外部】分区表 / 内部【外部】分桶表 / 内部【外部】分区分桶表）</li>
 </ul>
 <p><code>内部表</code></p>
-<pre><code class="SQL">create table student_mng(id int, name string, sex string, age int, department string) row format delimited fields terminated by &quot;,&quot; lines terminated by &quot;\n&quot;;</code></pre>
+<pre><code class="SQL">create table hive_student_mng(id int, name string, sex string, age int, department string) row format delimited fields terminated by &quot;,&quot; lines terminated by &quot;\n&quot;;
+/*
+row format    格式化关键字
+    delimited 
+        fields terminated by &quot;,&quot;    字段与字段之间的分隔符
+        lines terminated by &quot;\n&quot;;    记录与记录之间的分隔符
+    serde   --这个参数忘记用途了    
+        ...
+*/</code></pre>
 <p><code>外部表</code></p>
-<pre><code class="SQL">create external table student_ext(id int, name string, sex string, age int, department string) row format delimited fields terminated by &quot;,&quot; lines terminated by &quot;\n&quot; location &#39;/user/hive/warehouse/mytable2&#39;;
-`分区表`
-```SQL</code></pre>
+<pre><code class="SQL">create external table hive_student_ext(id int, name string, sex string, age int, department string) row format delimited fields terminated by &quot;,&quot; lines terminated by &quot;\n&quot; location &#39;/usr/local/src/apache-hive-1.2.2-bin/warehouse/student_ext&#39;;</code></pre>
+<p><code>分区表</code></p>
+<pre><code class="SQL"></code></pre>
 <p><code>分桶表</code></p>
 <pre><code class="SQL"></code></pre>
 <ul>

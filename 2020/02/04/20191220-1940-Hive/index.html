@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.3k 字
+                    1.4k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      6 分钟
+                      7 分钟
                   </span>&nbsp;
                 
 
@@ -197,8 +197,24 @@ beeline -u jdbc:hive2://master:10000 -n root -p 123456 --color=true</code></pre>
 </ul>
 <h4 id="3-2-Hive-架构"><a href="#3-2-Hive-架构" class="headerlink" title="3-2 Hive 架构"></a>3-2 Hive 架构</h4><p><code>CLI</code> <strong><em>Hive Metastore</em></strong> → hiveserver2(HS2) → <strong><em>Beeline</em></strong><br><code>JDBC</code> <strong><em>Metastore</em></strong> → Java/Python/C++<br><code>WUI</code> apache-hive-0.13.0-src.tar.gz → <strong><em>hive –service hwi</em></strong></p>
 <h4 id="3-3-Hive-HDFS"><a href="#3-3-Hive-HDFS" class="headerlink" title="3-3 Hive HDFS"></a>3-3 Hive HDFS</h4><hr>
-<h3 id="04-数据入库"><a href="#04-数据入库" class="headerlink" title="04. 数据入库"></a>04. 数据入库</h3><h4 id="4-1-建表"><a href="#4-1-建表" class="headerlink" title="4-1 建表"></a>4-1 建表</h4><ul>
-<li>Local数据导入，数据位于Master节点</li>
+<h3 id="04-数据入库"><a href="#04-数据入库" class="headerlink" title="04. 数据入库"></a>04. 数据入库</h3><h4 id="4-0-内置函数"><a href="#4-0-内置函数" class="headerlink" title="4-0 内置函数"></a>4-0 内置函数</h4><pre><code class="SQL">--时间戳
+select current_date;    --2020-02-13
+select current_timestamp;   --2020-02-13 18:09:40.666
+--转内核时间格式
+select to_unix_timestamp(&#39;2020-02-13 12:12:12&#39;);    --1581567132
+--内核转当前可读
+select from_unixtime(unix_timestamp()); --2020-02-13 18:09:12
+select from_unixtime(unix_timestamp(), &#39;yyyy-MM-dd HH:mm:ss&#39;);
+--字符串转日期
+select to_date(&#39;2020-02-13 13:34:12&#39;);
+
+--时间戳间隔天数
+select datediff(&#39;2020-02-13&#39;,&#39;2020-02-15&#39;);
+select date_sub(&#39;2020-02-13&#39;,4);
+select date_add(&#39;2015-04-09&#39;,4);    --select date_sub(&#39;2020-02-13&#39;,-4);
+year/month/day/hour/minute/second</code></pre>
+<h4 id="4-1-建表"><a href="#4-1-建表" class="headerlink" title="4-1 建表"></a>4-1 建表</h4><ul>
+<li>Local数据导入，数据位于Master节点：/data/mr_wc/The_man_of_property.txt</li>
 </ul>
 <pre><code class="SQL">--databases list
 0: jdbc:hive2://master:10000&gt; show databases;

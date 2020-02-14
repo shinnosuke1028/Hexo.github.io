@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.3k 字
+                    1.5k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      6 分钟
+                      7 分钟
                   </span>&nbsp;
                 
 
@@ -195,7 +195,12 @@ mv jline-0.9.94.jar jline-0.9.94.jar.old
 
 cp $HIVE_HOME/lib/jline-2.12.jar $HADOOP_HOME/share/hadoop/yarn/lib/
 # 替换后检查
-ll $HADOOP_HOME/share/hadoop/yarn/lib/jline*</code></pre>
+ll $HADOOP_HOME/share/hadoop/yarn/lib/jline*
+
+# 这一步针对如下组合时进行：（Hadoop2.7.x &amp;&amp; Hive2.x）
+# 将Hadoop下的两组配置文件复制至Hive的配置文件目录下
+cd $HADOOP_HOME/etc/hadoop/
+cp core-site.xml hdfs-site.xml $HIVE_HOME/conf</code></pre>
 <h4 id="2-2-配置文件修改-amp-相关文件夹创建"><a href="#2-2-配置文件修改-amp-相关文件夹创建" class="headerlink" title="2-2 配置文件修改&amp;相关文件夹创建"></a>2-2 配置文件修改&amp;相关文件夹创建</h4><pre><code class="bash"># 对应创建Hive配置文件中配置的文件夹：
 mkdir /usr/local/src/apache-hive-1.2.2-bin/warehouse
 mkdir /usr/local/src/apache-hive-1.2.2-bin/tmp
@@ -311,7 +316,12 @@ hive.root.logger=WARN,DRFA
 hive.log.dir=/usr/local/src/apache-hive-1.2.2-bin/log
 hive.log.file=hive.log
 ######</code></pre>
-<h4 id="2-5-Beeline连接Hive"><a href="#2-5-Beeline连接Hive" class="headerlink" title="2-5 Beeline连接Hive"></a>2-5 Beeline连接Hive</h4><ul>
+<h4 id="2-5-Hive适配的MySQL元数据库初始化"><a href="#2-5-Hive适配的MySQL元数据库初始化" class="headerlink" title="2-5 Hive适配的MySQL元数据库初始化"></a>2-5 Hive适配的MySQL元数据库初始化</h4><p><code>Tips</code>这里和之前安装Hive1.x有些区别，当使用的Hive版本 &lt; 2.x 时，不做初始化也是OK的，Hive1.x系列第一次启动的时候会自动进行初始化，只不过不会一开始就生成足够多的元数据库中的表，而是在使用过程中慢慢生成，并在最后进行初始化；当使用的Hive版本 &gt;= 2.x 时，必须手动初始化元数据库.</p>
+<pre><code class="bash">schematool -dbType mysql -initSchema</code></pre>
+<img src="Hive2.x初始化.png" srcset="/img/loading.gif" alt="Hive2.x初始化." title="Hive2.x初始化.">
+
+
+<h4 id="2-6-Beeline连接Hive"><a href="#2-6-Beeline连接Hive" class="headerlink" title="2-6 Beeline连接Hive"></a>2-6 Beeline连接Hive</h4><ul>
 <li>这里使用的是<code>Hive Metastore ➡ hiveserver2 ➡ beeline</code>的连接方式. </li>
 <li>也可以使用<code>Hive Metastore ➡ hive（CLI）</code>的连接方式.</li>
 <li>无Metastore的情况下，纯<code>hive</code>启动，每启动一个Hive窗口，便会加载一个Hive Metastore服务进程，资源占用上升，不推荐.</li>

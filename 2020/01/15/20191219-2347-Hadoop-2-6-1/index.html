@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    3.9k 字
+                    4.1k 字
                   </span>&nbsp;
                 
 
@@ -502,7 +502,8 @@ cd $HADOOP_HOME/sbin
 [root@master bin]# 
 [root@master bin]# </code></pre>
 <hr>
-<h3 id="04-HDFS-amp-YARN"><a href="#04-HDFS-amp-YARN" class="headerlink" title="04. HDFS &amp; YARN"></a>04. HDFS &amp; YARN</h3><h4 id="HDFS架构及变化"><a href="#HDFS架构及变化" class="headerlink" title="HDFS架构及变化"></a>HDFS架构及变化</h4><h5 id="4-1-HDFS架构（分布式存储）"><a href="#4-1-HDFS架构（分布式存储）" class="headerlink" title="4-1 HDFS架构（分布式存储）"></a>4-1 HDFS架构（分布式存储）</h5><p><code>Block</code> Hadoop 2.x中，默认Block大小为：1 Block = 128MB；Hadoop 1.x中默认Block大小为：1 Block = 64MB.<br><code>NameNode</code> 集群老大，处理客户端的读写请求，NN的<strong>内存</strong>元信息中，包含文件路径、文件副本数(根据配置或-setrep来确定副本数)、blockid、每个Block所在DataNode的信息（动态），NN主要处理HDFS中的<strong>两个重要关系</strong>：</p>
+<h3 id="04-HDFS-amp-YARN"><a href="#04-HDFS-amp-YARN" class="headerlink" title="04. HDFS &amp; YARN"></a>04. HDFS &amp; YARN</h3><h4 id="HDFS架构及变化"><a href="#HDFS架构及变化" class="headerlink" title="HDFS架构及变化"></a>HDFS架构及变化</h4><h5 id="4-1-HDFS架构（分布式存储）"><a href="#4-1-HDFS架构（分布式存储）" class="headerlink" title="4-1 HDFS架构（分布式存储）"></a>4-1 HDFS架构（分布式存储）</h5><p><code>狭义Hadoop</code> 也就是指Hadoop2.x下的4个组件，Common（RPC框架）/HDFS/YARN/MapReduce.</p>
+<p><code>Block</code> Hadoop 2.x中，默认Block大小为：1 Block = 128MB；Hadoop 1.x中默认Block大小为：1 Block = 64MB.<br><code>NameNode</code> 集群老大，处理客户端的读写请求，NN的<strong>内存</strong>元信息中，包含文件路径、文件副本数(根据配置或-setrep来确定副本数)、blockid、每个Block所在DataNode的信息（动态），NN主要处理HDFS中的<strong>两个重要关系</strong>：</p>
 <ol>
 <li><strong>元信息持久化</strong>，持久化到物理内存中，也就是命名空间镜像<code>fsimage</code>，但<strong>不包含每个Block的位置信息</strong>（这也就是为什么集群在启动初期会进入安全模式的原因，因为集群启动时，NN读取的<code>fsimage</code>中不包含Block所在DN的具体位置），存放元信息的文件是<code>fsimage</code>，而系统运行期间所有对元信息的<strong>操作</strong>都保存在内存中，并被持久化到另一个文件<code>edits</code>（编辑日志）中，两者合二为一提供了HDFS的<strong>第一重要关系</strong>.</li>
 <li><strong>（持久）</strong>管理文件系统目录树，即文件系统目录与数据块的对应关系（持久化到物理内存文件<code>fsimage</code>中），简单来说就是HDFS目录树/元信息和文件数据块的索引.</li>
@@ -512,11 +513,11 @@ cd $HADOOP_HOME/sbin
 <p><code>DataNode</code> 整个集群真正的数据块，负责存储数据块，负责为系统客户端提供数据块的读写服务，负责各个DN间的通信（副本处理，replication）；<code>心跳机制</code>定期报告文件块列表信息至NN，确保DN正常存活.</p>
 <h5 id="4-2-四个核心机制"><a href="#4-2-四个核心机制" class="headerlink" title="4-2 四个核心机制"></a>4-2 四个核心机制</h5><p><strong><code>心跳机制</code></strong> </p>
 <ol>
-<li>NN启动后，开启IPC(通信方式)</li>
-<li>DN需要连接NN，并在特定间隔时间下(3s)汇报自身的状况给NN</li>
+<li>NN启动后，开启IPC（通信方式）.</li>
+<li>DN需要连接NN，并在特定间隔时间下(3s)汇报自身的状况给NN.</li>
 <li>NN发布命令也是通过心跳发送给DN.</li>
-<li>Namenode 感知到 Datanode 掉线死亡的时长计算：HDFS 默认的超时时间为10分钟+30 秒。</li>
-<li>计算公式为：timeout = 2 * dfs.namenode.heartbeat.recheck-interval + 10 * dfs.heartbeat.interval,</li>
+<li>Namenode 感知到 Datanode 掉线死亡的时长计算：HDFS 默认的超时时间为10分钟+30 秒.</li>
+<li>计算公式为：timeout = 2 * dfs.namenode.heartbeat.recheck-interval + 10 * dfs.heartbeat.interval.</li>
 <li>默认的 <code>heartbeat.recheck.interval</code> 大小为5分钟，<code>dfs.heartbeat.interval</code> 默认的大小为3秒.</li>
 <li>需要注意的是 hdfs-site.xml 配置文件中的heartbeat.recheck-interval的单位为毫秒，dfs.heartbeat.interval 的单位为秒.</li>
 </ol>
@@ -526,6 +527,11 @@ cd $HADOOP_HOME/sbin
 <li></li>
 </ol>
 <p><strong><code>副本存放策略</code></strong></p>
+<ol>
+<li>高可靠：切分+副本；首先是数据按照Block块大小切分，并按照副本配置（dfs.replication = 3）或临时指定（-setrep），生成各自的副本.</li>
+<li></li>
+<li>数据按副本数量进行备份的过程是动态的，什么意思呢，就是说我们定义副本数为3时，则系统会在备份不足3的时候，再新添新的副本数据.</li>
+</ol>
 <p><strong><code>负载均衡</code></strong></p>
 <h5 id="4-3-YARN-VS-Hadoop-1-x（运算资源调度）"><a href="#4-3-YARN-VS-Hadoop-1-x（运算资源调度）" class="headerlink" title="4-3 YARN VS Hadoop 1.x（运算资源调度）"></a>4-3 YARN VS Hadoop 1.x（运算资源调度）</h5><p><code>YARN (RM)</code> Cluster Resource Manager 集群Hadoop1.x中的集群管理器<code>JobTracker</code>的替代者.<br><code>NodeManager (NM)</code> <code>TaskTracker</code>的替代者，各个节点上的NM与RM通过心跳通信，以确保自身的健康性.<br><code>ApplicationMaster(AM)</code> 一个专用且短暂的<code>JobTracker</code>，RM收集来自NM的状态信息，选择合适的NM启动<code>Container</code>（任务的运行资源&lt;节点/内存/CPU&gt;）并运行AM；而AM会根据实际情况向RM申请更多<code>Container</code>资源，以完成分布式计算.<br><code>Container</code> YARN中资源的抽象封装，包含某个节点上一定量的资源（CPU和内存两类资源）.<br><img src="YARN.png" srcset="/img/loading.gif" title="YARN资源调度过程（八斗教材）"></p>
 <h5 id="4-4-Tips-传统JobTracker的资源管理-任务协调被分开为两种不同类型的进程来反馈"><a href="#4-4-Tips-传统JobTracker的资源管理-任务协调被分开为两种不同类型的进程来反馈" class="headerlink" title="4-4 Tips 传统JobTracker的资源管理/任务协调被分开为两种不同类型的进程来反馈."></a>4-4 <code>Tips</code> 传统<code>JobTracker</code>的<code>资源管理</code>/<code>任务协调</code>被分开为两种不同类型的进程来反馈.</h5><ol>

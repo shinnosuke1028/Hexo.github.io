@@ -218,12 +218,12 @@ Repo Pointapache-hive-1.2.2-bin.tar.gzmysql-connector-java-5.1.44.tarapache-hive
 后缀为重定向，需百度解决（已解决，详见 20191224_1414_Hive-1.x配置）
 
 
-# 配置了hive.metastore.uris后需开启 Metastore
+# hive-site.xml中配置了hive.metastore.uris后，无论是HS2或是Hive CLI开启前，都需开启Metastore
 hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;
 # beeline方式连接Hive，默认端口为10000
 hive --service hiveserver2 &amp;
 #beeline
-#!connect jdbc:hive2://master:10000</div>
+</div>
         </div>
       </a>
 

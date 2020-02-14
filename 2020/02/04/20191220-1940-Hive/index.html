@@ -183,7 +183,7 @@
 <li><p>后缀为重定向，需百度解决（已解决，详见 <a href="http://localhost:4000/2020/02/14/20191219-2254-Hive-1-x/" target="_blank" rel="noopener">20191224_1414_Hive-1.x配置</a>）</p>
 </li>
 </ul>
-<pre><code class="bash"># 配置了hive.metastore.uris后需开启 Metastore
+<pre><code class="bash"># hive-site.xml中配置了hive.metastore.uris后，无论是HS2或是Hive CLI开启前，都需开启Metastore
 hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;
 # beeline方式连接Hive，默认端口为10000
 hive --service hiveserver2 &amp;

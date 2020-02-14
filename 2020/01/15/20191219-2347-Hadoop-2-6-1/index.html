@@ -492,15 +492,19 @@ cd $HADOOP_HOME/sbin
 # 关闭集群
 cd $HADOOP_HOME/sbin
 ./stop-all.ssh</code></pre>
-<h5 id="3-2-jps查看集群状态"><a href="#3-2-jps查看集群状态" class="headerlink" title="3-2 jps查看集群状态"></a>3-2 jps查看集群状态</h5><pre><code class="bash"># master下
+<h5 id="3-2-jps查看集群状态"><a href="#3-2-jps查看集群状态" class="headerlink" title="3-2 jps查看集群状态"></a>3-2 jps查看集群状态</h5><pre><code class="bash"># master
 [root@master bin]# jps
 2784 NameNode       ⬅ NN
 3122 ResourceManager    ⬅ RM
 13827 Jps
 6853 Master     ⬅ (这个为Spark集群启动标识，Hadoop启动时不包括)
 2943 SecondaryNameNode  ⬅ Secondary Bak NN
-[root@master bin]# 
-[root@master bin]# </code></pre>
+
+# slave1/2
+[root@slave1 ~]# jps
+17378 nodemanager    ⬅ NM
+17270 DataNode       ⬅ DN
+18122 Jps</code></pre>
 <hr>
 <h3 id="04-HDFS-amp-YARN"><a href="#04-HDFS-amp-YARN" class="headerlink" title="04. HDFS &amp; YARN"></a>04. HDFS &amp; YARN</h3><h4 id="HDFS架构及变化"><a href="#HDFS架构及变化" class="headerlink" title="HDFS架构及变化"></a>HDFS架构及变化</h4><h5 id="4-1-HDFS架构（分布式存储）"><a href="#4-1-HDFS架构（分布式存储）" class="headerlink" title="4-1 HDFS架构（分布式存储）"></a>4-1 HDFS架构（分布式存储）</h5><p><code>狭义Hadoop</code> 也就是指Hadoop2.x下的4个组件，Common（RPC框架）/HDFS/YARN/MapReduce.</p>
 <p><code>Block</code> Hadoop 2.x中，默认Block大小为：1 Block = 128MB；Hadoop 1.x中默认Block大小为：1 Block = 64MB.<br><code>NameNode</code> 集群老大，处理客户端的读写请求，NN的<strong>内存</strong>元信息中，包含文件路径、文件副本数(根据配置或-setrep来确定副本数)、blockid、每个Block所在DataNode的信息（动态），NN主要处理HDFS中的<strong>两个重要关系</strong>：</p>

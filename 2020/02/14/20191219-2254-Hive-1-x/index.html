@@ -330,8 +330,8 @@ hive.log.file=hive.log
 hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp; # 正常前台打印重定向进trash，错误重定向至管道1，同样进trash，metastore开启9083端口
 # 启动hiveserver2服务，beeline方式连接Hive，默认端口为10000
 hive --service hiveserver2 &amp;
-#beeline
-#!connect jdbc:hive2://master:10000 root 123456
+# beeline
+# !connect jdbc:hive2://master:10000 root 123456
 beeline -u jdbc:hive2://master:10000 -n root -p 123456 --color=true</code></pre>
 <img src="metastore&hiveserver2&beeline.png" srcset="/img/loading.gif" title="metastore+hs2+beeline.">
 

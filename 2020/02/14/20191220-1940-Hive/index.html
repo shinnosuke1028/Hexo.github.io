@@ -307,7 +307,7 @@ insert overwrite local directory &quot;/data/hive/hive_student_bucket_4/&quot; s
 
 --cluster by 
 distribute by age sort by age == cluster by age</code></pre>
-<p><code>Tips</code>虽然cluster有简化分桶操作的概念，但是日常操作时还是建议使用<em>distribute by + sort by</em>.<br><code>Tips</code>导出分桶数据有两种方式，但是导出的数据文件状态不同：其一，利用方法1导出，表本身分为3桶（0/1/2），即便设置reduce数量，但仅能导出2个文件，3桶中的0和2被放置在一个文件中；其二，按照正常分桶逻辑，3桶导出3个文件（0/1/2）；其三，对分桶表做分桶导出，和方法2一样，也是导出3文件，但显得很啰嗦.</p>
+<p><code>Tips</code>虽然cluster有简化分桶操作的概念，但是日常操作时还是建议使用<em>distribute by + sort by</em>.<br><code>Tips</code>导出分桶数据有两种方式，但是导出的数据文件状态不同：其一，利用方法1导出，表本身分为3桶（0/1/2），即便设置reduce数量，但仅能导出2个文件，3桶中的0和2被放置在一个文件中；其二，按照正常分桶逻辑，3桶导出3个文件（0/1/2）；其三，对分桶表做分桶导出，和方法2一样，也是导出3文件，但显得很啰嗦.<br><code>Tips</code>导出的文件含有隐藏分隔符^A（\x01，<strong>ctrl+V+A</strong>），需要用tab替换下，便于后续入库：<br>    sed -e ‘s/^A/\t/g’  ⬅查看<br>    sed -i ‘s/^A/\t/g’  ⬅修改</p>
 <hr>
 <h4 id="4-2-DQL"><a href="#4-2-DQL" class="headerlink" title="4-2 DQL"></a>4-2 DQL</h4><h5 id="支持-VS-不支持"><a href="#支持-VS-不支持" class="headerlink" title="支持 VS 不支持"></a>支持 VS 不支持</h5><ul>
 <li>支持union all/ join/like/where/having/各种聚合/json解析</li>

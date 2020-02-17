@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    2.2k 字
+                    2.3k 字
                   </span>&nbsp;
                 
 
@@ -213,11 +213,28 @@
 # @Usage: Main
 
 
-# Self Repo
-from src.visualization_bokeh import *
+import os
 # import MySQLdb
 
+# Self Repo
+from visualization_bokeh_2 import *
+from func_demo.ftp_wc import re_match
+
+
 if __name__ == &#39;__main__&#39;:
+
+    # print(f&#39;***FILE COPY***&#39;)
+    # data_path = None
+    # for path in os.walk(&#39;./data/&#39;):
+    #     print(path[2])
+    #     data_path = path[2]
+    # re_results = re_match(data_path, date_f()[0])
+    # if re_results:
+    #     print(f&#39;Status: File {re_results} already existed...&#39;)
+    # else:
+    #     print(f&#39;Status: Target file [{date_f()[0]}_GATHER.csv] copy from path [{&quot;../../Python_service_daily/src/data_output/&quot;}]\n&#39;)
+    #     file_copy_f(f&#39;../../Python_service_daily/src/data_output/{date_f()[0]}_GATHER.csv&#39;, f&#39;./data/&#39;)
+
     df_list_1 = df_preparation(data_input_path=bokeh_conf.data_source,
                                cols=bokeh_conf.cols,
                                cols_rename_dic=bokeh_conf.cols_rename_dic,
@@ -227,7 +244,8 @@ if __name__ == &#39;__main__&#39;:
     # &lt;class &#39;bokeh.core.property.containers.PropertyValueColumnData&#39;&gt;
     # df_preparation 目前输出的输出格式仅包含：x,y,flag
     # print(f&#39;df_list_1: {df_list_1}&#39;)
-    print(f&#39;\ndf_list_1[0].data: {df_list_1[0].data}\n&#39;)
+
+    # print(f&#39;\ndf_list_1[0].data: {df_list_1[0].data}\n&#39;)
 
     tools = [
         (&quot;FILE_SIZE&quot;, &quot;@{y}{0.2f}MB&quot;),
@@ -239,6 +257,8 @@ if __name__ == &#39;__main__&#39;:
                    &#39;y_axis_label&#39;: &#39;FILE_SIZE&#39;,
                    &#39;color&#39;: bokeh_conf.info_filter[&#39;3&#39;],
                    }
+
+    print(f&#39;Current data source: {bokeh_conf.data_source}\n&#39;)
 
     print(f&#39;Total legend number: {len(df_list_1)}\nProcessing Begin...&#39;)
 

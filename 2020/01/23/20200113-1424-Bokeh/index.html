@@ -192,7 +192,7 @@
 |   `-- sql_conf.py
 |-- data
 |   |-- 20191212_GATHER.csv
-|   `-- 20200116_GATHER.csv
+|   `-- 20200217_GATHER.csv
 |-- data_output
 |   |-- 20200112_log_lines.html
 |   `-- 20200116_log_lines.html
@@ -217,7 +217,7 @@ import os
 # import MySQLdb
 
 # Self Repo
-from visualization_bokeh_2 import *
+from visualization_bokeh import *
 from func_demo.ftp_wc import re_match
 
 
@@ -291,9 +291,9 @@ from sys import exc_info
 
 # Self Repo
 # from src.func_demo.ftp_wc import ftp_connect
-from src.func_demo.func_f import date_f, file_copy_f    # , file_rm_single
+from func_demo.func_f import date_f, file_copy_f    # , file_rm_single
 # from src.conf import bas_mail_conf
-from src.conf import bokeh_conf
+from conf import bokeh_conf
 
 
 def df_2_list(data_df, column, value=None):
@@ -363,6 +363,7 @@ def df_preparation(data_input_path, cols, cols_rename_dic, info_filter, index_co
     :return: DataFrame for HTML Bokeh   &lt;class &#39;bokeh.models.sources.ColumnDataSource&#39;&gt;
 
     &quot;&quot;&quot;
+    print(f&#39;***HTML DATA PRE***&#39;)
     # Initialization
     df_owner = []
 
@@ -450,6 +451,7 @@ def df_html_bokeh(html_output_path, title, tooltips, source, plot_width=1300, pl
 
     &quot;&quot;&quot;
 
+    print(f&#39;***HTML OUTPUT***&#39;)
     try:
         # Output Configuration
         output_file(html_output_path)

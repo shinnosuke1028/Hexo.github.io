@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      19 分钟
+                      20 分钟
                   </span>&nbsp;
                 
 
@@ -556,7 +556,12 @@ hdfs dfs -put /data/hive/student.txt /bbb/jdk.tar.gz.2
 # Drop
 hdfs dfs -rm /data/hive_hdfs/student.txt
 &gt;&gt;20/02/14 17:52:02 INFO fs.TrashPolicyDefault: Namenode trash configuration: Deletion &gt;&gt;interval = 0 minutes, Emptier interval = 0 minutes.
-&gt;&gt;Deleted /data/hive_hdfs/student.txt</code></pre>
+&gt;&gt;Deleted /data/hive_hdfs/student.txt
+# 查询并杀死任务
+hadoop job -list   # version &lt; 2.3.0
+hadoop job -kill $Application-Id
+yarn application -list   # version &gt; 2.3.0
+yarn application -kill $Application-Id</code></pre>
 <pre><code class="shell"># 常用命令参数介绍
 -help
 # 功能：输出这个命令参数手册

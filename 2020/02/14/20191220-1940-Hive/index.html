@@ -270,7 +270,7 @@ insert into table hive_student_ptn partition(age=18,department=&quot;IS&quot;) s
 <pre><code class="SQL">create table hive_student_ptn_static(id int, name string, sex string) partitioned by (dt date) row format delimited fields terminated by &quot;,&quot;;
 --日期直接写程&quot;-&quot;分割的string即可，Hive引擎会自动试别并转换
 alter table hive_student_ptn_static add partition(dt=&#39;2020-02-14&#39;) partition(dt=&#39;2020-02-15&#39;);
-load data local inpath &quot;xx&quot; into table xxx (column=&quot;xx&quot;);</code></pre>
+load data local inpath &quot;xx&quot; into table xxx (column=&quot;xx&quot;) partition(dt=&#39;2020-02-14&#39;)</code></pre>
 <p><code>动态分区表</code></p>
 <ul>
 <li>数据根据分区字段，自动进行分区的创建和数据导入，<code>作为分区的字段在查询中需要按顺序放在最后</code>！</li>
@@ -284,7 +284,7 @@ load data local inpath &quot;xx&quot; into table xxx (column=&quot;xx&quot;);</c
 <pre><code class="SQL">--动态分区表插入数据
 create table hive_student_ptn_2(id int, name string, sex string) partitioned by (age int, department string) row format delimited fields terminated by &quot;,&quot;;
 
-insert into table hive_student_ptn_2 partition(age, department) select id, name, sex, age, department from hive_student_mng; </code></pre>
+insert into table hive_student_ptn_2 partition(department=&#39;xxx&#39;, age) select id, name, sex,  age from hive_student_mng; </code></pre>
 <p><code>分桶表</code>（有疑问）</p>
 <pre><code class="SQL">create table hive_student_bucket (id int, name string, sex string, age int, department string) 
 clustered by (age) sort by (age desc, id asc) into 2 buckets row format delimited fields terminated by &quot;,&quot;;
@@ -311,7 +311,7 @@ distribute by age sort by age == cluster by age</code></pre>
 <hr>
 <h4 id="4-2-DQL"><a href="#4-2-DQL" class="headerlink" title="4-2 DQL"></a>4-2 DQL</h4><h5 id="支持-VS-不支持"><a href="#支持-VS-不支持" class="headerlink" title="支持 VS 不支持"></a>支持 VS 不支持</h5><ul>
 <li>支持union all/ join/like/where/having/各种聚合/json解析</li>
-<li>支持 UDF/UDAF/UDTF</li>
+<li>支持UDF/UDAF/UDTF</li>
 <li>支持in/exists，但是Hive推荐使用semi join（半连接）</li>
 <li>支持case when</li>
 <li>支持truncate，和Oracle类似，只清数据，不清分区</li>
@@ -497,7 +497,7 @@ map keys terminated by &#39;:&#39;;
 
 --查询
 select citys, citys[&#39;yingyu&#39;] from hive_map;</code></pre>
-<h4 id="strunct"><a href="#strunct" class="headerlink" title="strunct"></a>strunct</h4><pre><code class="sql">create table hive_struct(id int, score struct&lt;course:string, value:int&gt;)
+<h4 id="struct"><a href="#struct" class="headerlink" title="struct"></a>struct</h4><pre><code class="sql">create table hive_struct(id int, score struct&lt;course:string, value:int&gt;)
 row format delimited fields terminated by &#39;\t&#39;
 collection items terminated by &#39;,&#39;;
 --数据样式：1 english,90

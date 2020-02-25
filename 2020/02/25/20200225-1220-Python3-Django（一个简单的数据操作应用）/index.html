@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    43 字
+                    904 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      1 分钟
+                      4 分钟
                   </span>&nbsp;
                 
 
@@ -176,11 +176,128 @@
 <li>Repo Point<br><a href="">Python 3.5.2</a><br><a href="">Django 2.0.6</a></li>
 </ul>
 <hr>
-<h3 id="01-Beeline连接Hive（Review）"><a href="#01-Beeline连接Hive（Review）" class="headerlink" title="01. Beeline连接Hive（Review）"></a>01. Beeline连接Hive（Review）</h3><ul>
+<h3 id="01-视图"><a href="#01-视图" class="headerlink" title="01. 视图"></a>01. 视图</h3><ul>
 <li>这里仅搭建和实验最小化的Django应用，测试专用.</li>
 </ul>
 <pre><code class="bash">pip install Django==2.0.6
-cd </code></pre>
+cd $Django_HOME/code/
+django-admin --help     ⬅ 帮助查询
+django-admin startproject mysite
+
+
+python manage.py help     ⬅ 帮助查询
+
+# 服务启动
+python manage.py runserver
+
+# 创建应用
+cd /home/shiyanlou/Code/mysite
+python3 manage.py startapp lib
+
+# 编辑视图
+vim /home/shiyanlou/Code/mysite/lib/views.py
+
+    ```python
+    from django.shortcuts import render
+    from django.http import HttpResponse
+
+    def index(request):
+        return HttpResponse(&quot;Hello, world!&quot;)
+    ```
+
+# 下面这一步我们将应用lib里视图函数与URL映射到了一起.
+vim /home/shiyanlou/Code/mysite/lib/urls.py
+    ```python
+    from django.urls import path
+    from . import views
+
+    urlpatterns = [
+        path(route=&#39;&#39;, view=views.index, name=&#39;index&#39;),
+    ]
+    ```
+
+# 在上面的代码中，route为空意味着我们可以直接用链接http://localhost:8000/lib/访问该视图函数，view=view.index是调用了view.py中的index视图，name为index代表我们可以在模板中用index来引用返回的变量.
+
+vim /home/shiyanlou/Code/mysite/mysite/urls.py
+    ```python
+    from django.contrib import admin
+    from django.urls import include, path
+
+    urlpatterns = [
+        path(&#39;lib/&#39;, include(&#39;lib.urls&#39;)),
+        path(&#39;admin/&#39;, admin.site.urls),
+    ]
+    ```
+
+# 接下来，我们需要向mysite/mysite/urls.py告知使用应用lib的视图.实现的原理就是使用了include()函数，它允许应用其他的URLconfs.
+
+# 比如使用这个地址进行请求时：http://localhost:8000/lib/，首先在mysite/mysite/urls.py中会截断与此项匹配的 URL 部分，也就是lib/，然后将剩余的字符串发送到 URLconf 以供进一步处理.
+
+# 到这里，我们就把index视图添加进了URLconf。</code></pre>
+<img src="mysite_tree.png" srcset="/img/loading.gif" title="Django工程结构">
+
+
+<h3 id="02-模型"><a href="#02-模型" class="headerlink" title="02.模型"></a>02.模型</h3><ul>
+<li>实验分为4步，配置数据、创建模型、激活模型和使用API.</li>
+<li>这里的数据模型感觉像是编辑数据库内的元数据创建语句，激活便是生效语句，最后使用Django API执行查询操作.</li>
+</ul>
+<h4 id="创建模型"><a href="#创建模型" class="headerlink" title="创建模型"></a>创建模型</h4><pre><code class="bash">vim /home/shiyanlou/Code/mysite/mysite/settings.py
+
+TIME_ZONE = &#39;Asia/Shanghai&#39;
+
+
+vim /home/shiyanlou/Code/mysite/lib/models.py
+    ```python
+    from django.db import models
+
+    class Book(models.Model):
+        name = models.CharField(max_length=200)
+        author = models.CharField(max_length=100)
+        pub_house = models.CharField(max_length=200)
+        pub_date = models.DateTimeField(&#39;date published&#39;)
+    ```
+# 从代码可以看出，模型是django.db.models.Model类的子类。每个模型有一些类变量，它们都表示模型里的一个数据库字段.
+
+# 每个字段都是Field类的实例。比如字符字段是CharField，日期字段被表示为DateTImeField。这将告诉Django每个字段要处理的数据类型.</code></pre>
+<h4 id="激活模型"><a href="#激活模型" class="headerlink" title="激活模型"></a>激活模型</h4><ul>
+<li>通过运行<code>makemigrations</code>命令，Django会检测你对模型文件的修改，并且把修改的部分储存为一次<code>迁移</code>.</li>
+</ul>
+<pre><code class="bash">vim /home/shiyanlou/Code/mysite/lib/apps.py
+    ```python
+    INSTALLED_APPS = [
+        &#39;lib.apps.LibConfig&#39;,   ⬅ 追加LibConfig类
+        &#39;django.contrib.admin&#39;,
+        ...
+    ]
+    ```
+
+# 现在项目中会包含lib应用，运行以下命令
+python manage.py makemigrations lib     ⬅ 创建迁移语句
+
+# 运行迁移命令，看会执行哪些SQL
+python manage.py sqlmigrate lib 0001
+
+# 现在运行migrate命令，在数据库里创建新定义的模型的数据表
+python manage.py migrate 
+
+# 使用API
+python manage.py shell
+
+# 类似于Jupyter的shell界面
+&gt;&gt;&gt;from lib.models import Book
+&gt;&gt;&gt;Book.objects.all()   #获取Book所有对象
+&lt;QuerySet []&gt;
+&gt;&gt;&gt;from django.utils import timezone
+&gt;&gt;&gt;b = Book(name=&#39;Business&#39;, author=&#39;Tom&#39;, pub_house=&#39;First Press&#39;, pub_date=timezone.now())    #创建
+&gt;&gt;&gt;b.save() #保存
+&gt;&gt;&gt;b.id
+1
+&gt;&gt;&gt;b.name
+&#39;Business&#39;
+&gt;&gt;&gt;b.pub_date
+datetime.datetime(2018, 7, 4, 2, 29, 7, 578323, tzinfo=&lt;UTC&gt;)
+
+# 使用这个命令而不是简单的使用 &quot;Python&quot; 是因为 manage.py 会设置 DJANGO_SETTINGS_MODULE 环境变量，这个变量会让 Django 根据 mysite/settings.py 文件来设置 Python 包的导入路径.</code></pre>
 
             <hr>
           </div>

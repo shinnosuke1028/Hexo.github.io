@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    3.7k 字
+                    4.1k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      18 分钟
+                      19 分钟
                   </span>&nbsp;
                 
 
@@ -321,6 +321,8 @@ distribute by age sort by age == cluster by age</code></pre>
 </ul>
 <pre><code class="SQL">--半连接
 select a.* from a semi join b on a.id = b.id;</code></pre>
+<img src="semi.png" srcset="/img/loading.gif" title="semi join.">
+
 <hr>
 <ul>
 <li>下面是个字段切割的例子：Local数据导入，数据位于Master节点：/data/mr_wc/The_man_of_property.txt</li>
@@ -416,8 +418,17 @@ limit 100;</code></pre>
 <p>iii. 这里涉及了group by，会跑一组MR<br><img src="WC_MR.png" srcset="/img/loading.gif" alt="WC_MR." title="WC_MR."> </p>
 <p><code>Tips</code>HQL内子查询的外侧要起别名，遗漏时会报错<br><img src="子查询别名.png" srcset="/img/loading.gif" alt="HQL子查询别名遗漏报错." title="HQL子查询别名遗漏报错."> </p>
 <h5 id="正则过滤"><a href="#正则过滤" class="headerlink" title="正则过滤"></a>正则过滤</h5><pre><code class="SQL">--HQL
-select regexp_extract(&#39;(mentioned&#39;, &#39;[[\\w]]+&#39;, 0);
-select regexp_extract(&#39;(mentioned&#39;, &#39;[[0-9a-zA-Z]]+&#39;, 0);
+select regexp_extract(&#39;(mentioned_13^%sa&#39;, &#39;[[\\w]]+&#39;, 0);
+select regexp_extract(&#39;(mentioned_13^%sa&#39;, &#39;[[0-9a-zA-Z]]+&#39;, 0);
+--括号数量和最后一个入口参数idx要匹配，4个括号，最多4个idx，对应各个切分位
+select regexp_extract(&#39;12321&amp;22222&amp;33333&amp;44444&#39;, &#39;(.*?)(&amp;)(.*?)(&amp;)&#39;, 0);
+select regexp_extract(&#39;SHCMCC_SAS_2020022517062233_XXXXX&#39;, &#39;.*?_.*?_(.*?)(_)&#39;, 1);
+select regexp_extract(&#39;SHCMCC_SAS_2020022517062233_XXXXX&#39;, &#39;[\\d]+&#39;, 0);
+
+
+
+hive&gt; select regexp_extract(&#39;中国abc123!&#39;,&#39;[\\u4e00-\\u9fa5]+&#39;,0) from dual; //实用：只匹配中文
+hive&gt; select regexp_replace(&#39;中国abc123&#39;,&#39;[\\u4e00-\\u9fa5]+&#39;,&#39;&#39;) from dual; //实用：去掉中文
 
 --regexp_extract
 select * from
@@ -585,7 +596,50 @@ cookie1,2015-04-16,4</code></pre>
     sum(pv) over(partition by cookieid order by createtime rows between 3 preceding and 1 following) as pv5,    --当前行+往前3行+往后1行
     sum(pv) over(partition by cookieid order by createtime rows between current row and unbounded following) as pv6 --当前行+往后所有行
 from cookie;</code></pre>
-<h3 id="07-explode-amp-LATERAL-VIEW"><a href="#07-explode-amp-LATERAL-VIEW" class="headerlink" title="07. explode &amp; LATERAL VIEW"></a>07. explode &amp; LATERAL VIEW</h3><h4 id="爆炸函数"><a href="#爆炸函数" class="headerlink" title="爆炸函数"></a>爆炸函数</h4><p><code>explode</code>将数组转成多行一列：”a-b-c”；将字典转成多行多列：{name:ghr,score:85}</p>
+<h3 id="07-explode-amp-LATERAL-VIEW"><a href="#07-explode-amp-LATERAL-VIEW" class="headerlink" title="07. explode &amp; LATERAL VIEW"></a>07. explode &amp; LATERAL VIEW</h3><h4 id="爆炸函数"><a href="#爆炸函数" class="headerlink" title="爆炸函数"></a>爆炸函数</h4><p><code>explode</code>将数组转成多行一列：”a-b-c”；将字典转成多行多列：{name:ghr,score:85}<br><code>lateral view</code>虚拟表，主要配合<strong>explode</strong>和<strong>split</strong>，将单列的数组或是字段拆分多行，并能和其余字段关联.</p>
+<pre><code class="sql">--原始数据
+0: jdbc:hive2://master:10000&gt; select * from hive_explode;
++------------------+--------------------+-------------------+----------------------+--+
+| hive_explode.id  | hive_explode.name  | hive_explode.age  | hive_explode.favors  |
++------------------+--------------------+-------------------+----------------------+--+
+| 1                | huangxiaoming      | 45                | a-c-d-f              |
+| 2                | huangzitao         | 36                | b-c-d-e              |
+| 3                | huanglei           | 41                | c-d-e                |
+| 4                | liushishi          | 22                | a-d-e                |
+| 5                | liudehua           | 39                | e-f-d                |
+| 6                | liuyifei           | 35                | a-d-e                |
++------------------+--------------------+-------------------+----------------------+--+
+--爆炸拼接
+0: jdbc:hive2://master:10000&gt; select id, name, favors_new from hive_explode lateral view explode(split(favors,&#39;-&#39;)) e as favors_new
+;
++-----+----------------+-------------+--+
+| id  |      name      | favors_new  |
++-----+----------------+-------------+--+
+| 1   | huangxiaoming  | a           |
+| 1   | huangxiaoming  | c           |
+| 1   | huangxiaoming  | d           |
+| 1   | huangxiaoming  | f           |
+| 2   | huangzitao     | b           |
+| 2   | huangzitao     | c           |
+| 2   | huangzitao     | d           |
+| 2   | huangzitao     | e           |
+| 3   | huanglei       | c           |
+| 3   | huanglei       | d           |
+| 3   | huanglei       | e           |
+| 4   | liushishi      | a           |
+| 4   | liushishi      | d           |
+| 4   | liushishi      | e           |
+| 5   | liudehua       | e           |
+| 5   | liudehua       | f           |
+| 5   | liudehua       | d           |
+| 6   | liuyifei       | a           |
+| 6   | liuyifei       | d           |
+| 6   | liuyifei       | e           |
++-----+----------------+-------------+--+
+20 rows selected (0.174 seconds)
+
+
+</code></pre>
 <hr>
 <h3 id="0x-分桶"><a href="#0x-分桶" class="headerlink" title="0x. 分桶"></a>0x. 分桶</h3><h4 id="有点绕的概念（还未弄懂，单独拎出来操作）"><a href="#有点绕的概念（还未弄懂，单独拎出来操作）" class="headerlink" title="有点绕的概念（还未弄懂，单独拎出来操作）"></a>有点绕的概念（还未弄懂，单独拎出来操作）</h4><p><code>语法</code> tablesample(bucket x out of y on id)</p>
 <pre><code class="SQL">TABLESAMPLE (BUCKET x OUT OF y [ON colname])</code></pre>

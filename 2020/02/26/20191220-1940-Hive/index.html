@@ -599,6 +599,12 @@ cookie1,2015-04-16,4</code></pre>
     sum(pv) over(partition by cookieid order by createtime rows between current row and unbounded following) as pv6 --当前行+往后所有行
 from cookie;</code></pre>
 <h3 id="09-explode-amp-LATERAL-VIEW"><a href="#09-explode-amp-LATERAL-VIEW" class="headerlink" title="09. explode &amp; LATERAL VIEW"></a>09. explode &amp; LATERAL VIEW</h3><h4 id="爆炸函数"><a href="#爆炸函数" class="headerlink" title="爆炸函数"></a>爆炸函数</h4><p><code>explode</code>将数组转成多行一列：”a-b-c”；将字典转成多行多列：{name:ghr,score:85}<br><code>lateral view</code>虚拟表，主要配合<strong>explode</strong>和<strong>split</strong>，将单列的数组或是字段拆分多行，并能和其余字段关联.</p>
+<ul>
+<li>字典的炸裂和数组炸裂的写法还不太一样???</li>
+</ul>
+<ul>
+<li>数组炸裂</li>
+</ul>
 <pre><code class="sql">--原始数据
 0: jdbc:hive2://master:10000&gt; select * from hive_explode;
 +------------------+--------------------+-------------------+----------------------+--+
@@ -608,8 +614,7 @@ from cookie;</code></pre>
 | 6                | liuyifei           | 35                | a-d-e                |
 +------------------+--------------------+-------------------+----------------------+--+
 --爆炸拼接
-0: jdbc:hive2://master:10000&gt; select id, name, favors_new from hive_explode lateral view explode(split(favors,&#39;-&#39;)) e as favors_new
-;
+0: jdbc:hive2://master:10000&gt; select id, name, favors_new from hive_explode lateral view explode(split(favors,&#39;-&#39;)) e as favors_new;
 +-----+----------------+-------------+--+
 | id  |      name      | favors_new  |
 +-----+----------------+-------------+--+
@@ -620,10 +625,17 @@ from cookie;</code></pre>
 | 6   | liuyifei       | d           |
 | 6   | liuyifei       | e           |
 +-----+----------------+-------------+--+
-20 rows selected (0.174 seconds)
+20 rows selected (0.174 seconds)</code></pre>
+<img src="数组炸裂.png" srcset="/img/loading.gif" title="数组炸裂.">
 
 
-</code></pre>
+<ul>
+<li>字典炸裂</li>
+</ul>
+<img src="字典炸裂.png" srcset="/img/loading.gif" title="字典炸裂.">
+<img src="字典炸裂2.png" srcset="/img/loading.gif" title="字典炸裂2.">
+
+
 <hr>
 <h3 id="0x-分桶"><a href="#0x-分桶" class="headerlink" title="0x. 分桶"></a>0x. 分桶</h3><h4 id="有点绕的概念（还未弄懂，单独拎出来操作）"><a href="#有点绕的概念（还未弄懂，单独拎出来操作）" class="headerlink" title="有点绕的概念（还未弄懂，单独拎出来操作）"></a>有点绕的概念（还未弄懂，单独拎出来操作）</h4><p><code>语法</code> tablesample(bucket x out of y on id)</p>
 <pre><code class="SQL">TABLESAMPLE (BUCKET x OUT OF y [ON colname])</code></pre>

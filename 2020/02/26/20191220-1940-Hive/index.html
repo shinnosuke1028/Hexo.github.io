@@ -492,7 +492,8 @@ limit 100; --加上排序后，Jobs:2  Map: 2  Reduce: 2
 | at        | 822   |          | for       | 798   |   
 +-----------+-------+--+       +-----------+-------+--+</code></pre>
 <hr>
-<h4 id="4-3-分区-分桶（4-1中有建立过程，具体分析见0x）"><a href="#4-3-分区-分桶（4-1中有建立过程，具体分析见0x）" class="headerlink" title="4-3 分区/分桶（4.1中有建立过程，具体分析见0x）"></a>4-3 分区/分桶（4.1中有建立过程，具体分析见0x）</h4><h3 id="05-数据类型"><a href="#05-数据类型" class="headerlink" title="05. 数据类型"></a>05. 数据类型</h3><h4 id="array"><a href="#array" class="headerlink" title="array"></a>array</h4><pre><code class="sql">create table hive_array(name string, citys array&lt;string&gt;)
+<h4 id="4-3-分区-分桶（4-1中有建立过程，具体分析见0x）"><a href="#4-3-分区-分桶（4-1中有建立过程，具体分析见0x）" class="headerlink" title="4-3 分区/分桶（4.1中有建立过程，具体分析见0x）"></a>4-3 分区/分桶（4.1中有建立过程，具体分析见0x）</h4><hr>
+<h3 id="05-数据类型"><a href="#05-数据类型" class="headerlink" title="05. 数据类型"></a>05. 数据类型</h3><h4 id="array"><a href="#array" class="headerlink" title="array"></a>array</h4><pre><code class="sql">create table hive_array(name string, citys array&lt;string&gt;)
 row format delimited fields terminated by &#39;\t&#39; collection items terminated by &#39;,&#39;;
 --数据样式：huangbo beijing,shanghai,tianjin,hangzhou
 load data local inpath &quot;/data/hive/array0217.txt&quot; into table hive_array;
@@ -534,6 +535,7 @@ create table hive_ms(id string,name string)
 row format serde &#39;org.apache.hadoop.hive.serde2.RegexSerDe&#39;
 with serdeproperties(&#39;input.regex&#39;=&#39;(.*),,,(.*),,,(.*)&#39;,&#39;output.format.string&#39;=&#39;%1$s %2$s %3$s&#39;)
 stored as textfile;</code></pre>
+<hr>
 <h3 id="07-分析函数"><a href="#07-分析函数" class="headerlink" title="07. 分析函数"></a>07. 分析函数</h3><ul>
 <li>样例数据：年月日+温度</li>
 </ul>
@@ -571,7 +573,7 @@ where t1.seq &lt;=3; --取出TopN</code></pre>
 ) t1 --按照年份划分，比如19年一组，20年一组，每组各自排序
 where t1.seq &lt;=3; --取出TopN</code></pre>
 <hr>
-<h3 id="07-窗口函数"><a href="#07-窗口函数" class="headerlink" title="07. 窗口函数"></a>07. 窗口函数</h3><h4 id="sum-avg-max-min-over-partition-by-…-rows-between-…"><a href="#sum-avg-max-min-over-partition-by-…-rows-between-…" class="headerlink" title="sum/avg/max/min() over(partition by … rows between …)"></a>sum/avg/max/min() over(partition by … rows between …)</h4><ul>
+<h3 id="08-窗口函数"><a href="#08-窗口函数" class="headerlink" title="08. 窗口函数"></a>08. 窗口函数</h3><h4 id="sum-avg-max-min-over-partition-by-…-rows-between-…"><a href="#sum-avg-max-min-over-partition-by-…-rows-between-…" class="headerlink" title="sum/avg/max/min() over(partition by … rows between …)"></a>sum/avg/max/min() over(partition by … rows between …)</h4><ul>
 <li>用户/时间/点击次数</li>
 </ul>
 <pre><code class="bash">cookie1,2015-04-10,1
@@ -596,7 +598,7 @@ cookie1,2015-04-16,4</code></pre>
     sum(pv) over(partition by cookieid order by createtime rows between 3 preceding and 1 following) as pv5,    --当前行+往前3行+往后1行
     sum(pv) over(partition by cookieid order by createtime rows between current row and unbounded following) as pv6 --当前行+往后所有行
 from cookie;</code></pre>
-<h3 id="07-explode-amp-LATERAL-VIEW"><a href="#07-explode-amp-LATERAL-VIEW" class="headerlink" title="07. explode &amp; LATERAL VIEW"></a>07. explode &amp; LATERAL VIEW</h3><h4 id="爆炸函数"><a href="#爆炸函数" class="headerlink" title="爆炸函数"></a>爆炸函数</h4><p><code>explode</code>将数组转成多行一列：”a-b-c”；将字典转成多行多列：{name:ghr,score:85}<br><code>lateral view</code>虚拟表，主要配合<strong>explode</strong>和<strong>split</strong>，将单列的数组或是字段拆分多行，并能和其余字段关联.</p>
+<h3 id="09-explode-amp-LATERAL-VIEW"><a href="#09-explode-amp-LATERAL-VIEW" class="headerlink" title="09. explode &amp; LATERAL VIEW"></a>09. explode &amp; LATERAL VIEW</h3><h4 id="爆炸函数"><a href="#爆炸函数" class="headerlink" title="爆炸函数"></a>爆炸函数</h4><p><code>explode</code>将数组转成多行一列：”a-b-c”；将字典转成多行多列：{name:ghr,score:85}<br><code>lateral view</code>虚拟表，主要配合<strong>explode</strong>和<strong>split</strong>，将单列的数组或是字段拆分多行，并能和其余字段关联.</p>
 <pre><code class="sql">--原始数据
 0: jdbc:hive2://master:10000&gt; select * from hive_explode;
 +------------------+--------------------+-------------------+----------------------+--+

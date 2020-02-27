@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="Shinnosuke Guo">
   <meta name="keywords" content="">
-  <title>Archives ~ Shinnosuke</title>
+  <title>20200227_1831_Hive-数据倾斜（小记） ~ Shinnosuke</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -39,7 +39,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -118,6 +118,41 @@
             </span>
 
             
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Thursday, February 27th 2020, 6:32 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    509 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      2 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
           </div>
 
           
@@ -128,65 +163,87 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">18 posts in total.</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/02/27/20200227-1831-Hive-%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C%EF%BC%88%E5%B0%8F%E8%AE%B0%EF%BC%89/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">20200227_1831_Hive-数据倾斜（小记）</span>
-      <span style="float: right;">02-27</span>
-    </a>
-  
-    
-    <a href="/2020/02/26/20191220-1940-Hive/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">20200226_1638_Hive（持续更新）</span>
-      <span style="float: right;">02-26</span>
-    </a>
-  
-    
-    <a href="/2020/02/25/20200225-1220-Python3-Django%EF%BC%88%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C%E5%BA%94%E7%94%A8%EF%BC%89/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">20200225_1220_Python3-Django（一个简单的数据操作应用）</span>
-      <span style="float: right;">02-25</span>
-    </a>
-  
-    
-    <a href="/2020/02/14/20191219-2347-Hadoop-2-6-1/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">20201219_2347_Hadoop-2.6.1（持续更新）</span>
-      <span style="float: right;">02-14</span>
-    </a>
-  
-    
-    <a href="/2020/02/14/20191219-2254-Hive-1-x/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">20191224_1414_Hive-1.x配置</span>
-      <span style="float: right;">02-14</span>
-    </a>
-  
-    
-    <a href="/2020/02/03/20200201-1150-Python3-Pandas/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">20200203_2323_Python3-Pandas（持续更新）</span>
-      <span style="float: right;">02-03</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h2 id="Hive优化"><a href="#Hive优化" class="headerlink" title="Hive优化"></a>Hive优化</h2><h3 id="01-大小表连接"><a href="#01-大小表连接" class="headerlink" title="01. 大小表连接"></a>01. 大小表连接</h3><ul>
+<li>使用HINT在关联时完成大小表的指定</li>
+</ul>
+<p><code>/*+ STREAMTABLE(bigtable) */</code>join顺序中最后一张表应是大表，小表在前可以读入buffer，在关联时可直接从内存中获取小表的key值与大表的key值关联；下面有两种关联写法，若a是小表，那后续join关联字段始终用a的关联key，原则上是谁小用谁.</p>
+<pre><code class="sql">--
+select /*+ STREAMTABLE(a) */ a.x, b.x from a 
+join b on (a.id = b.id)
+join c on (a.id = c.id);    ⬅ 这边始终用a中的key去关联其余表
 
-              </div>
-            </div>
+--这种写法，a表为大表，不入内存，且生成多个MR
+select /*+ STREAMTABLE(a) */ a.x, b.x from a 
+join b on (a.id = b.id)
+join c on (b.id = c.id);    ⬅ 这边依次用每轮join的左表中的key去关联其余表</code></pre>
+<p><code>/*+ MAPJOIN(smalltable) */</code>MAPJOIN会将小表全部读入内存，并在MAP阶段将另一张表的数据和内存中的数据直接匹配，由于Map-side join过程中会在每次遍历大表数据时，查内存小表内是否有关联的key匹配，并进行join连接，且不存在shuffle洗牌和reduce部分，效率很高. 我在这里将Map这步key关联匹配，理解为Map.Spill溢出写入磁盘前，在buffer内的<strong>Map.Sort</strong>和<strong>Map.Combiner</strong>，即将相同的key进行reduce操作（Combiner其实本质上是reducer函数），从而减少Map输出量，减少后续的shuffle和reduce操作.</p>
+<pre><code class="sql">--这种写法，b表为小表，优先读入内存，
+select /*+ MAPJOIN(o) */ o.order_id, p.product_id from 
+orders o 
+join
+order_products_prior p
+on o.order_id = p.order_id
+limit 500;</code></pre>
+<p><code>Tips</code>到底是key的相同与否影响MR数量，还是同key情况下表连接方式影响MR数量，这一点有待商榷.</p>
+<h3 id="02-各种参数"><a href="#02-各种参数" class="headerlink" title="02. 各种参数"></a>02. 各种参数</h3><p><code>数据倾斜-万能参数</code>hive.groupby.skewindata=true;<br><code>并行执行</code>hive.exec.parallel=true;<br><code>JVM重用</code>mapred.job.reuse.jvm.num.tasks=10;</p>
+<h3 id="03-数据倾斜"><a href="#03-数据倾斜" class="headerlink" title="03. 数据倾斜"></a>03. 数据倾斜</h3><h4 id="key值不均导致"><a href="#key值不均导致" class="headerlink" title="key值不均导致"></a>key值不均导致</h4><h4 id="万能方法"><a href="#万能方法" class="headerlink" title="万能方法"></a>万能方法</h4><h4 id="大小表关联"><a href="#大小表关联" class="headerlink" title="大小表关联"></a>大小表关联</h4><h4 id="聚合操作时存在大量特殊值（NULL）"><a href="#聚合操作时存在大量特殊值（NULL）" class="headerlink" title="聚合操作时存在大量特殊值（NULL）"></a>聚合操作时存在大量特殊值（NULL）</h4><h4 id="空间换时间"><a href="#空间换时间" class="headerlink" title="空间换时间"></a>空间换时间</h4><h3 id="04"><a href="#04" class="headerlink" title="04."></a>04.</h3><h3 id="05"><a href="#05" class="headerlink" title="05."></a>05.</h3>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/Hive">Hive</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -265,6 +322,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -305,7 +367,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Archive&nbsp;",
+        "20200227_1831_Hive-数据倾斜（小记）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

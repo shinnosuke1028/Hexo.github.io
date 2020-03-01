@@ -235,8 +235,8 @@ tcp6       0      0 :::3306     :::*      LISTEN      978/mysqld
 show grants for root;
 select user,host from mysql.user;
 # 查询指定IP对应的连接权限，即@&#39;%&#39;
-GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;root&#39; WITH GRANT OPTION;
-
+GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;master&#39; IDENTIFIED BY &#39;123456&#39; WITH GRANT OPTION;
+FLUSH PRIVILEGES;
 
 # JDK 配置
 vim ~/.bashrc

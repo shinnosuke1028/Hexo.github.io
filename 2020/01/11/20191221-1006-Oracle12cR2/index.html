@@ -959,7 +959,7 @@ SYS@prodcdb&gt; show pdbs;
 CON_ID CON_NAME              OPEN MODE  RESTRICTED
 ---------- ------------------------------ ---------- ----------
 3 PRODPDB              READ WRITE NO
-SYS@prodcdb&gt; show conn_name;
+SYS@prodcdb&gt; show con_name;
 CON_NAME
 ------------------------------
 PRODPDB
@@ -1146,7 +1146,7 @@ CON_ID CON_NAME              OPEN MODE  RESTRICTED
 
 
 <p>非OMF模式 <code>PDB_FILE_NAME_CONVERT</code></p>
-<pre><code class="SQL">SYS@prodcdb2&gt; alter session set pdb_file_name_convert=&#39;/u01/app/oracle/oradata/PRODCDB2/pdbseed&#39;,&#39;/u01/app/oracle/oradata//PRODCDB2/prodpdb5&#39;;
+<pre><code class="SQL">SYS@prodcdb2&gt; alter session set pdb_file_name_convert=&#39;/u01/app/oracle/oradata/PRODCDB2/pdbseed&#39;,&#39;/u01/app/oracle/oradata/PRODCDB2/prodpdb5&#39;;
 Session altered.
 SYS@prodcdb2&gt; create pluggable database prodpdb5 admin user oracle identified by oracle;
 Pluggable database created.

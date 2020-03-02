@@ -646,9 +646,7 @@ UNIFORM SIZE 1M             ⬅ 区以后是每次1MB来扩展，即表的实际
 SEGMENT SPACE MANAGEMENT MANUAL     ⬅ 默认是AUTO
 --TABLESPACE GROUP GROUP_TMP          ⬅ 一半临时表空间可以配置为临时表空间组，回避单临时表空间不足的问题</code></pre>
 <hr>
-<h4 id="表空间和数据文件"><a href="#表空间和数据文件" class="headerlink" title="表空间和数据文件"></a>表空间和数据文件</h4><p><code>SYSTEM</code> 不能脱机 offline / 不能置为只读 read only / 不能重命名 / 不能删除</p>
-<pre><code class="SQL">create tablespace shin datafile &#39;/u01/&#39;</code></pre>
-<p><code>TABLESPACE</code> 常规表空间，建议按需求功能配置不同表空间</p>
+<h4 id="表空间和数据文件"><a href="#表空间和数据文件" class="headerlink" title="表空间和数据文件"></a>表空间和数据文件</h4><p><code>SYSTEM</code> 不能脱机 offline / 不能置为只读 read only / 不能重命名 / 不能删除<br><code>TABLESPACE</code> 常规表空间，建议按需求功能配置不同表空间</p>
 <pre><code class="SQL">CREATE TABLESPACE SHIN DATAFILE &#39;/u01/app/oracle/oradata/prod1/shin01.dbf&#39; SIZE 10M 
 AUTOEXTEND ON NEXT 10M 
 EXTENT MANAGEMENT LOCAL

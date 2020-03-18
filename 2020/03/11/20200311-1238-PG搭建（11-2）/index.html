@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    415 字
+                    418 字
                   </span>&nbsp;
                 
 
@@ -235,14 +235,21 @@ cp postgresql.auto.conf postgresql.auto.conf.bak
 
 
 
-<pre><code class="bash"># 确认服务是否存在
+<pre><code class="bash"># 服务启停
+pg_ctl start -l /db/pgsql/log/pgserver.log  # 不指定log路径时，会从配置文件中读取
+pg_ctl stop -D /db/pgsql/data -m fast
+pg_ctl -D /usr/local/src/pgsql/data status
+
+# 确认服务是否存在
 lsof -i:5432
 netstat -lnutp | grep postgres
 ps -ef | grep postgres</code></pre>
-<h3 id="03-基本启停"><a href="#03-基本启停" class="headerlink" title="03. 基本启停"></a>03. 基本启停</h3><pre><code class="sql">pg_ctl start /usr/local/src/pgsql/log/pgserver.log  # 不指定log路径时，会从配置文件中读取
-pg_ctl stop -D /usr/local/src/pgsql/data -m fast
--- pg_ctl stop -D /home/postgres/pgsql/data -m smart
-pg_ctl -D /home/postgres/pgsql/data status</code></pre>
+<h3 id="03-基本操作"><a href="#03-基本操作" class="headerlink" title="03. 基本操作"></a>03. 基本操作</h3><ul>
+<li>约束<br>```sql</li>
+</ul>
+<p>–主键约束</p>
+<p>–分区表</p>
+<p>```</p>
 
             <hr>
           </div>

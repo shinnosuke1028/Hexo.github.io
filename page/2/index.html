@@ -145,6 +145,77 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/01/10/20200110-2042-MySQL2/" target="_self">
+          <img src="/img/MySQL.png" srcset="/img/loading.gif" alt="20200110_2042_MySQL2" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/10/20200110-2042-MySQL2/">
+        <p class="h4 index-header">20200110_2042_MySQL2</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">MySQL01. MySQL 5.7
+Repo PointMySQL
+
+02. 数据库设计（分而治之）三大范式（规范）
+1NF: 所有的域是原子性的
+
+表中的每一列字段应该是不可拆分的最小单元，最低要求.
+
+
+2NF: 所有的非主键字段必须与主键相关,不能与部分主键相关(联合主键)
+
+每张表中描述和表示一类数据，多种不同的数据需要拆分到多张表中.
+
+
+3NF: 所有非主键字段必须与主键直接相关,而不能依赖于其他非主键字段
+
+数据不能具有传递依赖，每个字段与主键的关系是直接的而非间接的.
+
+
+
+事务
+常用存储引擎 
+InnoDB是事务型数据库的首选，执行安全性数据库，行锁定和外键，mysql5.5之后默认使用.
+MyISAM插入速度和查询效率较高，但不支持事务.
+MEMORY将表中的数据存储在内存中，速度较快.
+
+
+
+# mysql默认开启自动事务提交,将每个dml操作当做一个事务。
+# 如果需要将多个dml操作放在同一事务,需要关闭自动事务提交
+set Autocommit=0;
+
+//开启事务
+start TRANSACTION;
+#一组dml操作
+update user set m</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-10&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/MySQL">MySQL</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/01/09/20191218-2224-MURA-Homework/" target="_self">
           <img src="/img/640.gif" srcset="/img/loading.gif" alt="20200109_2224_MURA-Homework" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>

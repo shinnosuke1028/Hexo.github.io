@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    8.9k 字
+                    9.7k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      42 分钟
+                      46 分钟
                   </span>&nbsp;
                 
 
@@ -175,9 +175,10 @@
             <h2 id="OCP12c"><a href="#OCP12c" class="headerlink" title="OCP12c"></a>OCP12c</h2><h3 id="01-Oracle12cR2"><a href="#01-Oracle12cR2" class="headerlink" title="01. Oracle12cR2"></a>01. Oracle12cR2</h3><ul>
 <li>Repo Point<br><a href="https://www.oracle.com/downloads/software-license-agreement.html#license-lightbox" target="_blank" rel="noopener">&lt;Oracle-12.2&gt;linuxx64_12201_database.zip</a><img src="640.gif" srcset="/img/loading.gif" width="300" >
 
-
 </li>
 </ul>
+<p><code>Tips</code>以下水印截图均转自方力扬老师，仅供学习，特此声明.</p>
+<hr>
 <h3 id="02-runInstaller"><a href="#02-runInstaller" class="headerlink" title="02. ./runInstaller"></a>02. ./runInstaller</h3><p><code>To be continued...</code></p>
 <ul>
 <li>先单独点出一个本地图形化的调用，困扰了好久，按下列指令完成后，会在本地弹出图形化界面，前提是本地的ssh软件需要开启<code>Xserver服务</code>!!!</li>
@@ -195,6 +196,7 @@ Checking Temp space: must be greater than 500 MB.   Actual 146736 MB    Passed
 Checking swap space: must be greater than 150 MB.   Actual 7079 MB    Passed
 Checking monitor: must be configured to display at least 256 colors.    Actual 16777216    Passed
 Preparing to launch Oracle Universal Installer from /tmp/OraInstall2020-01-18_12-37-03AM. Please wait ...</code></pre>
+<hr>
 <h3 id="03-Oracle12c-架构"><a href="#03-Oracle12c-架构" class="headerlink" title="03. Oracle12c 架构"></a>03. Oracle12c 架构</h3><h4 id="实例和内存结构"><a href="#实例和内存结构" class="headerlink" title="实例和内存结构"></a>实例和内存结构</h4><p><code>Instance</code> 实例其实就是物理内存段的一部分，相当于软件进程.<br><code>kernel.shmall</code> 为共享内存大小，按照192.168.62.103测试库来看，可以配置为 <strong>4294967296</strong> 个page（4KB/page）.<br><code>kernel.shmmax</code> 用于定义单个共享内存段的最大值，<code>kernel.shmmax</code> 设置应该足够大，能在一个共享内存段下容纳下整个的 <code>SGA</code> ，设置的过低可能会导致需要创建多个共享内存段，这样可能导致系统性能的下降，最大值为16GB（在大多数情况下，该值应该比SGA大）.按照192.168.62.103测试库（内存128G）来看，可以配置为 <strong>88719476736</strong>（82GB）.<br>53477376 pages / 219043332096 bytes</p>
 <p><code>Ex</code> 内核参数，系统内存4G，下面为对应内核配置大小（出自官方白皮书）<br><img src="Linux内核参数.png" srcset="/img/loading.gif" title="Linux内核参数" alt="Linux内核参数"></p>
 <p>实例内存由下面<strong>两组内存参数</strong>动态调整：<br><code>SGA</code>（total_mem × 80%） × 80%，一般不超过物理内存的1/2.<br><code>PGA</code>（total_mem × 80%） × 20%.</p>
@@ -372,9 +374,9 @@ control_management_pack_access        string     DIAGNOSTIC+TUNING</code></pre>
 <li>控制/新增文件备份</li>
 </ul>
 <pre><code class="SQL">--二进制备份
-SYS@prod1&gt; ALTER DATABASE BACKUP CONTROLFILE TO &#39;/home/oracle/control.ctl&#39;;
+SYS@prod1&gt; ALTER DATABASE BACKUP CONTROLFILE TO &#39;/home/oracle/oracle_bakup/control.ctl&#39;;
 --文本备份
-SYS@prod1&gt; ALTER DATABASE BACKUP CONTROLFILE TO trace AS &#39;/home/oracle/control.ctl&#39;;
+SYS@prod1&gt; ALTER DATABASE BACKUP CONTROLFILE TO trace AS &#39;/home/oracle/oracle_bakup/control.ctl&#39;;
 &lt;img src=&quot;control_ctl.png&quot; title=&quot;数据更新流程&quot; alt=&quot;数据更新流程&quot;&gt;
 
 
@@ -929,8 +931,8 @@ cd /u01/app/oracle/product/12.2.0/db_1/dbs</code></pre>
 </li>
 </ul>
 <p><code>疑问</code>PDB的<code>undo</code>应该也是属于各自PDB的，12.1中共享，12.2之后各自独立.（解决）</p>
-<h4 id="CDB-PDB（配置-增删）"><a href="#CDB-PDB（配置-增删）" class="headerlink" title="CDB/PDB（配置/增删）"></a>CDB/PDB（配置/增删）</h4><hr>
-<ul>
+<hr>
+<h4 id="CDB-PDB（配置-增删）"><a href="#CDB-PDB（配置-增删）" class="headerlink" title="CDB/PDB（配置/增删）"></a>CDB/PDB（配置/增删）</h4><ul>
 <li>PDB&amp;CDB查看/切换</li>
 </ul>
 <pre><code class="SQL">--查看当前是否为PDB
@@ -1180,6 +1182,7 @@ CON_ID CON_NAME              OPEN MODE  RESTRICTED
 3 PRODPDB              READ WRITE NO
 4 PRODPDB6              READ WRITE NO
 7 PRODPDB7              MOUNTED</code></pre>
+<hr>
 <p><strong><em>非位置子句</em></strong></p>
 <p>OMF模式：</p>
 <pre><code class="SQL">SYS@prodcdb&gt; alter pluggable database PRODPDB7 open;     
@@ -1247,6 +1250,7 @@ CON_ID CON_NAME              OPEN MODE  RESTRICTED
 6 PRODPDB9              MOUNTED
 7 PRODPDB7              READ WRITE NO
 8 PRODPDB10              READ WRITE NO</code></pre>
+<hr>
 <ul>
 <li>删除PDB</li>
 </ul>
@@ -1354,6 +1358,120 @@ grant connect,resource,create view to test2;</code></pre>
 </ul>
 <p><code>with grant option</code>对象权限转授，即被赋予某权限的用户拥有赋予其它schema相同权限的能力.<br><code>Tips</code>对象权限被收回时，后续级联的权限<strong>会</strong>被回收！！！</p>
 <h4 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h4><p><code>角色</code>即不同权限的集合体.<br><img src="预定义角色.png" srcset="/img/loading.gif"  width="300" title="预定义角色."></p>
+<h4 id="CDB内的公共用户（C-）"><a href="#CDB内的公共用户（C-）" class="headerlink" title="CDB内的公共用户（C##）"></a>CDB内的公共用户（C##）</h4><ul>
+<li>公共角色</li>
+</ul>
+<img src="公共用户.png" srcset="/img/loading.gif"  width="300" title="公共用户.">
+
+<ul>
+<li>公共权限</li>
+</ul>
+<pre><code class="SQL">3.Create the following users:
+i.  Create a user,USER1 with the following specifications:
+(1)    USER1 should have the same identity in PDBPROD1,PDBPROD2,PDBPROD3,PDBPROD4,and PDBPROD5.
+(2)    USER1 should also have the same identity in any future PDB in PRODCDB.
+
+.oraenv
+PRODCDB
+sqlplus / as sysdba
+create user c##user1 identified by oracle container=ALL;
+
+ii. Create user USER2 that is defined only in the PDBPROD1 database.
+
+sqlplus sys/oracle@pdbprod1 as sysdba
+create user user2 identified by oracle;
+
+
+4.Create the following roles:
+i.  Create a role named ROLE1 with the following specifications:
+(1)    It should be granted to users in all pluggable databases in the  PRODCDB container database.
+(2)    ROLE1 should also exist in any future PDB in PRODCDB.
+
+. oraenv
+PRODCDB
+sqlplus / as sysdba
+create role C##ROLE1 container=ALL;
+
+ii. Create a role named ROLE2 that can be granted to users only in the PDBPROD1 pluggable database in the PRODCDB container database.
+
+sqlplus sys/oracle@pdbprod1 as sysdba
+create role role2;
+
+5.Grant privileges and roles to users and roles.Use the following specifications:
+i.  Grant the USER1 user the privilege to connect to all current and future containers in the PRODCDB container database.Grant no other privileges.
+
+. oraenv
+PRODCDB
+sqlplus / as sysdba
+grant create session to c##user1 container=ALL;
+revoke unlimited tablespace from c##user1 container=ALL;  --默认没有无限表空间权限
+
+
+ii. Grant the USER2 user the privilege to connect only to the PDBPROD1 container in the PRODCDB container database.Grant no other privileges.
+
+sqlplus sys/oracle@pdbprod1 as sysdba
+grant create session to user2 container=current;
+
+
+iii.  Grant the ROLE1 role the privilege to create procedures so that the privilege can be granted to users in all pluggable databases in the PRODCDB container database.
+
+sqlplus / as sysdba
+grant create procedure to c##role1 container=ALL;
+
+iiii. Grant the USER2 user the privilege to create triggers such that the privilege can be used by USER2 only in the PDBPROD1 pluggable database in the PRODCDB container database.
+
+sqlplus sys/oracle@pdbprod1 as sysdba
+grant create trigger to user2 container=current;</code></pre>
+<hr>
+<h3 id="11-数据泵-闪回-RMAN"><a href="#11-数据泵-闪回-RMAN" class="headerlink" title="11. 数据泵/闪回/RMAN"></a>11. 数据泵/闪回/RMAN</h3><h4 id="EXPDP-IMPDP"><a href="#EXPDP-IMPDP" class="headerlink" title="EXPDP/IMPDP"></a>EXPDP/IMPDP</h4><ul>
+<li>设置bakdump目录</li>
+</ul>
+<pre><code class="sql">--查询目录名称和对应的路径
+select * from dba_directories;
+--用于设置导入导出文件所在或存放的位置
+create directory dump_scott as &#39;/home/oracle/dump/scott&#39;;
+--可以通过 dba_directories 来查看系统中已创建的目录
+select * from dba_directories;
+--对于创建的目录必须授予用户读写目录的权限
+grant read,write on directory dump_scott to scott;</code></pre>
+<hr>
+<ul>
+<li>EXPDP</li>
+</ul>
+<p><code>expdp</code>配合众多参数，完成多种维度的数据快速导出.<br><code>DUMPFILE</code><br><code>SCHEMAS</code><br><code>TABLES</code><br><code>TABLESOACES</code><br><code>CONTENT</code><br><code>ESTIMATE</code>expdp dp/dp estimate_only=y full=y logfile=n<br><code>LOGFILE</code><br><code>PARALLEL</code><br><code>VERSION</code>主要用在高版本至低版本时迁移时使用，例：从12c导出时，指定目标数据库的版本（11g），才可顺利导入.</p>
+<pre><code class="sql">--按照schema导出
+expdp system/oracle@prod1 directionary=xxx dumpfile=xxx.dump schemas=hr</code></pre>
+<hr>
+<ul>
+<li>IMPDP</li>
+</ul>
+<p><code>impdp</code>配合众多参数，完成多种维度的数据快速导入.<br><code>TABLE_EXISTS_ACTION</code><br><code>PARALLEL</code><br><code>TRANSFORM</code>impdp dp/dp directory=dp_dir dumpfile=hrc.dmp transform=disable_archive_logging:Y<br><code>REMAP_SCHEMA</code></p>
+<pre><code class="sql">--只把全库中的 hr 这个 schema 下的对象导入到 hr2 这个 schema 下，hr2 这个用户会在导入过程中自动建立好，密码和权限和 hr 一样
+impdp system/oracle directory=DATA_PUMP_DIR dumpfile=expdpfulldb.dat logfile=impdpfull.log SCHEMAS=hr remap_schmas=hr:hr2 </code></pre>
+<ul>
+<li>Ex：</li>
+</ul>
+<pre><code class="sql">sqlplus / as sysdba
+conn sys/oracle@prodpdb as sysdba
+
+col OWNER format a15
+col DIRECTORY_NAME format a25
+col DIRECTORY_PATH format a60
+
+
+create or replace directory bakdump as &#39;/home/oracle/oracle_bakup/bak_dump&#39;;
+select * from dba_directories;
+grant read, write on directory bakdump to system;
+
+expdp system/oracle@prodpdb directory=DUMP_SYSTEM dumpfile=20200314_prodpdb_schema_test_expdp.dmp logfile=20200314_prodpdb_schema_test_expdp.log parallel=2 schemas=test 
+
+impdp system/oracle@prodpdb directory=DUMP_SYSTEM dumpfile=20200314_prodpdb_schema_test_expdp.dmp logfile=20200314_prodpdb_schema_test_impdp.log parallel=2 table_exists_action=replace remap_schema=test:shin
+</code></pre>
+<ul>
+<li>Emp快速迁移表空间</li>
+</ul>
+<p><code>Tips</code>expdp/exp使用sysdba用户的写法.</p>
+<pre><code class="sql">exp \&#39;&#39;system/&quot;oracle&quot;&#39;@prodpdb as sysdba\&#39; file=$ORACLE_BAK_HOME/data/20200314_prodpdb_tbspace_test_exp.dmp  transport_tablespace=y tablespaces=test</code></pre>
 
             <hr>
           </div>

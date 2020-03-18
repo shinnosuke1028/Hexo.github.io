@@ -144,6 +144,59 @@
   <div class="row mb-4 mx-auto">
     
     
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/03/11/20200311-1238-PG%E6%90%AD%E5%BB%BA%EF%BC%8811-2%EF%BC%89/">
+        <p class="h4 index-header">20200311_1238_PG搭建（11.2）</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">PG01. PG 11.2
+Repo PointPostgresql
+
+02. 环境配置
+软件源码/几个基本底层组件包&amp;离线环境rpm安装
+
+/db/install_pg/postgresql-11.2.tar.gz
+yum install ncurses* readline* zlib* -y
+
+源码编译&amp;安装
+
+# 归属路径创建
+mkdir -p /db/pgsql
+mkdir -p /db/pgsql/data
+mkdir -p /db/pgsql/log
+mkdir -p /db/install_pg
+
+# 用户创建（用户编号&lt;1102&gt;视情况而定）
+useradd -u 1102 -g postgres -d /homr/postgres -c &quot;postgres.&quot; -m -s /bin/bash postgres 
+chown -R postgres:postgres /db/install_pg
+su - postgres 
+chmod -R 755 /db/install_pg
+
+# 切回root，创建postgres用</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-03-11&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/PG">PG</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
       <div class="col-12 col-md-4 m-auto">
         <a href="/2020/02/27/20200227-1831-Hive-%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C%EF%BC%88%E5%B0%8F%E8%AE%B0%EF%BC%89/" target="_self">
           <img src="/img/Hive-1.png" srcset="/img/loading.gif" alt="20200227_1831_Hive-数据倾斜（小记）" class="img-fluid rounded z-depth-3 index-thumbnails">
@@ -613,6 +666,7 @@ Repo Point&lt;Oracle-12.2&gt;linuxx64_12201_database.zip
 
 
 
+Tips以下水印截图均转自方力扬老师，仅供学习，特此声明.
 
 02. ./runInstallerTo be continued...
 
@@ -624,7 +678,7 @@ access control disabled, clients can connect from any HOST   ⬅ 允许客户端
 Last login: Sat Jan 18 00:32:43 CST 2020 on pts/3
 [oracle@ocp12c ~]$ export DISPLAY=192.168.17.1:0.0
 [oracle@ocp12c ~]$ cd /soft/database
-[oracle@ocp12c ~]$ ./runInstalle</div>
+[o</div>
         </div>
       </a>
 
@@ -637,77 +691,6 @@ Last login: Sat Jan 18 00:32:43 CST 2020 on pts/3
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/Oracle12c">Oracle12c</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/01/10/20200110-2042-MySQL2/" target="_self">
-          <img src="/img/MySQL.png" srcset="/img/loading.gif" alt="20200110_2042_MySQL2" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/10/20200110-2042-MySQL2/">
-        <p class="h4 index-header">20200110_2042_MySQL2</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">MySQL01. MySQL 5.7
-Repo PointMySQL
-
-02. 数据库设计（分而治之）三大范式（规范）
-1NF: 所有的域是原子性的
-
-表中的每一列字段应该是不可拆分的最小单元，最低要求.
-
-
-2NF: 所有的非主键字段必须与主键相关,不能与部分主键相关(联合主键)
-
-每张表中描述和表示一类数据，多种不同的数据需要拆分到多张表中.
-
-
-3NF: 所有非主键字段必须与主键直接相关,而不能依赖于其他非主键字段
-
-数据不能具有传递依赖，每个字段与主键的关系是直接的而非间接的.
-
-
-
-事务
-常用存储引擎 
-InnoDB是事务型数据库的首选，执行安全性数据库，行锁定和外键，mysql5.5之后默认使用.
-MyISAM插入速度和查询效率较高，但不支持事务.
-MEMORY将表中的数据存储在内存中，速度较快.
-
-
-
-# mysql默认开启自动事务提交,将每个dml操作当做一个事务。
-# 如果需要将多个dml操作放在同一事务,需要关闭自动事务提交
-set Autocommit=0;
-
-//开启事务
-start TRANSACTION;
-#一组dml操作
-update user set m</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-10&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/MySQL">MySQL</a>&nbsp;
           
         
       </div>

@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    9.7k 字
+                    11.7k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      46 分钟
+                      57 分钟
                   </span>&nbsp;
                 
 
@@ -376,11 +376,10 @@ control_management_pack_access        string     DIAGNOSTIC+TUNING</code></pre>
 <pre><code class="SQL">--二进制备份
 SYS@prod1&gt; ALTER DATABASE BACKUP CONTROLFILE TO &#39;/home/oracle/oracle_bakup/control.ctl&#39;;
 --文本备份
-SYS@prod1&gt; ALTER DATABASE BACKUP CONTROLFILE TO trace AS &#39;/home/oracle/oracle_bakup/control.ctl&#39;;
-&lt;img src=&quot;control_ctl.png&quot; title=&quot;数据更新流程&quot; alt=&quot;数据更新流程&quot;&gt;
+SYS@prod1&gt; ALTER DATABASE BACKUP CONTROLFILE TO trace AS &#39;/home/oracle/oracle_bakup/control.ctl&#39;;</code></pre>
+<img src="control_ctl.png" srcset="/img/loading.gif" title="数据更新流程" alt="数据更新流程">
 
-
---新增控制文件，数据库进入mount
+<pre><code class="SQL">--新增控制文件，数据库进入mount
 SYS@prod1&gt; startup mount
 ORACLE instance started.
 Total System Global Area 1560281088 bytes
@@ -403,7 +402,7 @@ SYS@prod1&gt; shutdown immediate
 
 
 --复制control01文件并rename，和参数中的配置同步
---记住，赋值的文件需是实例关闭后，同步过SNC号的.ctl文件
+--记住，复制的.ctl文件需是实例关闭后，同步过SNC号的.ctl文件
 cp /u01/app/oracle/oradata/prod1/control01.ctl /u01/app/oracle/oradata/prod1/control03.ctl
 --重启实例
 [oracle@ocp12c ~]$ sqlplus / as sysdba
@@ -531,7 +530,7 @@ ALTER TABLESPACE SHIN ADD DATAFILE &#39;/u01/app/oracle/oradata/prod1/shin02.dbf
 <li>修改归档日志路径</li>
 </ul>
 <pre><code class="SQL">mkdir /u01/app/oracle/archivelog
-SYS@prod1&gt; alter system set log_archive_dest_1=&#39;location=/u01/app/oracle/archivelog&#39; socpe=spfile;
+SYS@prod1&gt; alter system set log_archive_dest_1=&#39;location=/u01/app/oracle/archivelog&#39; scope=spfile;
 SYS@prod1&gt; alter system switch logfile; ⬅手动切换下日志试试，看看新路径下会不会有指定格式的归档日志
 
 SYS@prod1&gt; show parameter log_archive_dest_1;
@@ -590,7 +589,14 @@ SYS@prod1&gt; alter database drop logfile group 4;</code></pre>
 
 </li>
 </ul>
-<h4 id="口令文件"><a href="#口令文件" class="headerlink" title="口令文件"></a>口令文件</h4><h4 id="归档文件"><a href="#归档文件" class="headerlink" title="归档文件"></a>归档文件</h4><pre><code class="SQL">--归档路径查询，这里的log_archive_dest_n为自己配置的路径，一般配置log_archive_dest_1即可
+<h4 id="口令文件"><a href="#口令文件" class="headerlink" title="口令文件"></a>口令文件</h4><h4 id="归档文件"><a href="#归档文件" class="headerlink" title="归档文件"></a>归档文件</h4><pre><code class="SQL">--查看归档模式，PDB数据库共享CDB归档日志，故需在CDB级别操作
+sqlplus / as sysdba
+archive log list
+alter database archivelog;
+--关闭归档
+alter database noarchivelog;
+
+--归档路径查询，这里的log_archive_dest_n为自己配置的路径，一般配置log_archive_dest_1即可
 SYS@prod1&gt; show parameter archive
 NAME                            TYPE        VALUE
 -----------------------------   ----------- ------------------------------
@@ -1468,10 +1474,259 @@ expdp system/oracle@prodpdb directory=DUMP_SYSTEM dumpfile=20200314_prodpdb_sche
 impdp system/oracle@prodpdb directory=DUMP_SYSTEM dumpfile=20200314_prodpdb_schema_test_expdp.dmp logfile=20200314_prodpdb_schema_test_impdp.log parallel=2 table_exists_action=replace remap_schema=test:shin
 </code></pre>
 <ul>
-<li>Emp快速迁移表空间</li>
+<li>EXPDP快速迁移表空间</li>
 </ul>
-<p><code>Tips</code>expdp/exp使用sysdba用户的写法.</p>
-<pre><code class="sql">exp \&#39;&#39;system/&quot;oracle&quot;&#39;@prodpdb as sysdba\&#39; file=$ORACLE_BAK_HOME/data/20200314_prodpdb_tbspace_test_exp.dmp  transport_tablespace=y tablespaces=test</code></pre>
+<p><code>Tips</code>expdp的使用可以有效回避sysdba用户的权限索取.</p>
+<pre><code class="SQL">expdp system/oralce@prodpdb dumpfile=$ORACLE_BAK_HOME/data/20200314_prodpdb_tbspace_test_exp.dmp logfile=20200314_prodpdb_schema_test_impdp.log parallel=2 tablespaces=test
+
+--后续data文件迁移
+...
+</code></pre>
+<h4 id="闪回（暂未更新）"><a href="#闪回（暂未更新）" class="headerlink" title="闪回（暂未更新）"></a>闪回（暂未更新）</h4><ul>
+<li>SCN详解</li>
+</ul>
+<p><code>SCN</code></p>
+<pre><code class="SQL">--查询当前SCN号
+select current_scn from v$database;</code></pre>
+<h4 id="RMAN"><a href="#RMAN" class="headerlink" title="RMAN"></a>RMAN</h4><ul>
+<li>RMAN查看/备份</li>
+</ul>
+<p><code>Tips</code>记得记录下RMAN CLI打印的数据库实例DBID，测试环境下：DBID=3022297241.</p>
+<pre><code class="SQL">--打印RMAN配置
+SHOW ALL;
+using target database control file instead of recovery catalog
+RMAN configuration parameters for database with db_unique_name PROD1 are:
+CONFIGURE RETENTION POLICY TO REDUNDANCY 1; # default
+CONFIGURE BACKUP OPTIMIZATION OFF; # default
+CONFIGURE DEFAULT DEVICE TYPE TO DISK; # default
+CONFIGURE CONTROLFILE AUTOBACKUP ON; # default
+CONFIGURE CONTROLFILE AUTOBACKUP FORMAT FOR DEVICE TYPE DISK TO &#39;%F&#39;; # default
+CONFIGURE DEVICE TYPE DISK PARALLELISM 1 BACKUP TYPE TO BACKUPSET; # default
+CONFIGURE DATAFILE BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE ARCHIVELOG BACKUP COPIES FOR DEVICE TYPE DISK TO 1; # default
+CONFIGURE MAXSETSIZE TO UNLIMITED; # default
+CONFIGURE ENCRYPTION FOR DATABASE OFF; # default
+CONFIGURE ENCRYPTION ALGORITHM &#39;AES128&#39;; # default
+CONFIGURE COMPRESSION ALGORITHM &#39;BASIC&#39; AS OF RELEASE &#39;DEFAULT&#39; OPTIMIZE FOR LOAD TRUE ; # default
+CONFIGURE RMAN OUTPUT TO KEEP FOR 7 DAYS; # default
+CONFIGURE ARCHIVELOG DELETION POLICY TO NONE; # default
+CONFIGURE SNAPSHOT CONTROLFILE NAME TO &#39;/u01/app/oracle/product/12.2.0/db_1/dbs/snapcf_prod1.f&#39;; # default
+
+--修改并行度
+--指定在以后的备份与恢复中，将采用并行度为2，同时开启2个通道进行备份与恢复，当然也可以在run中指定通道来决定备份与恢复的并行程度. 默认情况下，自动分配通道的并行度为1，如果你通过设置PARALLELISM设置了并行通道为2，那么在run块中，如果你没有单独通过ALLOCATE CHANNEL 命令指定通道，它会默认使用2条并行通道，如果你在run 命令块中指定了数个ALLOCATE CHANNEL，那么rman在执行备份命令时会以你设置的channel为准，而忽略configure中的配置.
+CONFIGURE DEVICE TYPE DISK PARALLELISM 2;
+
+--开启备份优化
+CONFIGURE BACKUP OPTIMIZATION ON;
+
+--修改FORMAT
+CONFIGURE CHANNEL DEVICE TYPE DISK FORMAT &#39;/home/oracle/oracle_bakup/rman_bakup/data/%U&#39;;
+
+--备份策略
+CONFIGURE RETENTION POLICY TO REDUNDANCY 1; -- 基于冗余数量
+CONFIGURE RETENTION POLICY TO RECOVERY WINDOW OF n DAYS; --基于时间，n天前
+
+--开始备份（含归档日志，不开归档的数据库也可以在RMAN备份时单独归档）
+BACKUP DATABASE PLUS ARCHIVELOG;
+BACKUP DATABASE PLUS ARCHIVELOG DELETE ALL INPUT;
+-- BACKUP DATABASE FORMAT &#39;/home/oracle/oracle_bakup/rman_bakup/data/%U&#39; PLUS ARCHIVELOG FORMAT &#39;/home/oracle/oracle_bakup/rman_bakup/data/arch%U&#39; DELETE ALL INPUT;
+---备份打印的日志
+Starting backup at 21-MAR-20
+current log archived
+allocated channel: ORA_DISK_1
+channel ORA_DISK_1: SID=282 device type=DISK
+channel ORA_DISK_1: starting archived log backup set
+channel ORA_DISK_1: specifying archived log(s) in backup set
+input archived log thread=1 sequence=1 RECID=4 STAMP=1028214027
+input archived log thread=1 sequence=2 RECID=5 STAMP=1028215012
+input archived log thread=1 sequence=3 RECID=6 STAMP=1028215025
+input archived log thread=1 sequence=4 RECID=7 STAMP=1028215044
+input archived log thread=1 sequence=5 RECID=8 STAMP=1029412585
+input archived log thread=1 sequence=6 RECID=9 STAMP=1030013412
+input archived log thread=1 sequence=7 RECID=10 STAMP=1034028291
+input archived log thread=1 sequence=8 RECID=11 STAMP=1035639753
+channel ORA_DISK_1: starting piece 1 at 21-MAR-20
+channel ORA_DISK_1: finished piece 1 at 21-MAR-20
+piece handle=/home/oracle/oracle_bakup/rman_bakup/data/05url6ua_1_1 tag=TAG20200321T134234 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:36
+channel ORA_DISK_1: starting archived log backup set
+channel ORA_DISK_1: specifying archived log(s) in backup set
+input archived log thread=1 sequence=26 RECID=2 STAMP=1028213737
+input archived log thread=1 sequence=27 RECID=3 STAMP=1028213738
+input archived log thread=1 sequence=28 RECID=1 STAMP=1028213728
+channel ORA_DISK_1: starting piece 1 at 21-MAR-20
+channel ORA_DISK_1: finished piece 1 at 21-MAR-20
+piece handle=/home/oracle/oracle_bakup/rman_bakup/data/06url6ve_1_1 tag=TAG20200321T134234 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:15
+Finished backup at 21-MAR-20
+
+Starting backup at 21-MAR-20
+using channel ORA_DISK_1
+channel ORA_DISK_1: starting full datafile backup set
+channel ORA_DISK_1: specifying datafile(s) in backup set
+input datafile file number=00003 name=/u01/app/oracle/oradata/prod1/undotbs01.dbf
+input datafile file number=00001 name=/u01/app/oracle/oradata/prod1/system01.dbf
+input datafile file number=00002 name=/u01/app/oracle/oradata/prod1/sysaux01.dbf
+input datafile file number=00005 name=/u01/app/oracle/oradata/prod1/shin01.dbf
+input datafile file number=00006 name=/u01/app/oracle/oradata/prod1/shin03.dbf
+input datafile file number=00004 name=/u01/app/oracle/oradata/prod1/users01.dbf
+channel ORA_DISK_1: starting piece 1 at 21-MAR-20
+channel ORA_DISK_1: finished piece 1 at 21-MAR-20
+piece handle=/home/oracle/oracle_bakup/rman_bakup/data/07url6vu_1_1 tag=TAG20200321T134326 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:01:36
+Finished backup at 21-MAR-20
+
+Starting backup at 21-MAR-20
+current log archived
+using channel ORA_DISK_1
+channel ORA_DISK_1: starting archived log backup set
+channel ORA_DISK_1: specifying archived log(s) in backup set
+input archived log thread=1 sequence=9 RECID=12 STAMP=1035639903
+channel ORA_DISK_1: starting piece 1 at 21-MAR-20
+channel ORA_DISK_1: finished piece 1 at 21-MAR-20
+piece handle=/home/oracle/oracle_bakup/rman_bakup/data/08url730_1_1 tag=TAG20200321T134504 comment=NONE
+channel ORA_DISK_1: backup set complete, elapsed time: 00:00:01
+Finished backup at 21-MAR-20
+
+Starting Control File and SPFILE Autobackup at 21-MAR-20
+piece handle=/u01/app/oracle/fast_recovery_area/prod1/PROD1/autobackup/2020_03_21/o1_mf_s_1035639905_h7cbh2vn_.bkp comment=NONE
+Finished Control File and SPFILE Autobackup at 21-MAR-20
+
+--查看备份集
+LIST BACKUPSET;
+
+List of Backup Sets
+===================
+
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+1       Full    10.50M     DISK        00:00:01     28-DEC-19      
+        BP Key: 1   Status: AVAILABLE  Compressed: NO  Tag: TAG20191228T145606
+        Piece Name: /u01/app/oracle/fast_recovery_area/prod1/PROD1/autobackup/2019_12_28/o1_mf_s_1028213766_h0fz46yf_.bkp
+  SPFILE Included: Modification time: 28-DEC-19
+  SPFILE db_unique_name: PROD1
+  Control File Included: Ckp SCN: 1015657      Ckp time: 28-DEC-19
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+2       Full    10.50M     DISK        00:00:00     28-DEC-19      
+        BP Key: 2   Status: AVAILABLE  Compressed: NO  Tag: TAG20191228T150553
+        Piece Name: /u01/app/oracle/fast_recovery_area/prod1/PROD1/autobackup/2019_12_28/o1_mf_s_1028214353_h0fzpkq5_.bkp
+  SPFILE Included: Modification time: 28-DEC-19
+  SPFILE db_unique_name: PROD1
+  Control File Included: Ckp SCN: 1016724      Ckp time: 28-DEC-19
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+3       Full    10.50M     DISK        00:00:00     28-DEC-19      
+        BP Key: 3   Status: AVAILABLE  Compressed: NO  Tag: TAG20191228T153057
+        Piece Name: /u01/app/oracle/fast_recovery_area/prod1/PROD1/autobackup/2019_12_28/o1_mf_s_1028215857_h0g15k7x_.bkp
+  SPFILE Included: Modification time: 28-DEC-19
+  SPFILE db_unique_name: PROD1
+  Control File Included: Ckp SCN: 1017948      Ckp time: 28-DEC-19
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+4       Full    10.50M     DISK        00:00:01     28-DEC-19      
+        BP Key: 4   Status: AVAILABLE  Compressed: NO  Tag: TAG20191228T180801
+        Piece Name: /u01/app/oracle/fast_recovery_area/prod1/PROD1/autobackup/2019_12_28/o1_mf_s_1028225281_h0gbd244_.bkp
+  SPFILE Included: Modification time: 28-DEC-19
+  SPFILE db_unique_name: PROD1
+  Control File Included: Ckp SCN: 1019243      Ckp time: 28-DEC-19
+
+BS Key  Size       Device Type Elapsed Time Completion Time
+------- ---------- ----------- ------------ ---------------
+5       665.06M    DISK        00:00:32     21-MAR-20      
+        BP Key: 5   Status: AVAILABLE  Compressed: NO  Tag: TAG20200321T134234
+        Piece Name: /home/oracle/oracle_bakup/rman_bakup/data/05url6ua_1_1
+
+  List of Archived Logs in backup set 5
+  Thrd Seq     Low SCN    Low Time  Next SCN   Next Time
+  ---- ------- ---------- --------- ---------- ---------
+  1    1       1015561    28-DEC-19 1016395    28-DEC-19
+  1    2       1016395    28-DEC-19 1017178    28-DEC-19
+  1    3       1017178    28-DEC-19 1017186    28-DEC-19
+  1    4       1017186    28-DEC-19 1017195    28-DEC-19
+  1    5       1017195    28-DEC-19 1064037    11-JAN-20
+  1    6       1064037    11-JAN-20 1102736    18-JAN-20
+  1    7       1102736    18-JAN-20 1126791    02-MAR-20
+  1    8       1126791    02-MAR-20 1162833    21-MAR-20
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+7       Full    1.35G      DISK        00:01:26     21-MAR-20      
+        BP Key: 7   Status: AVAILABLE  Compressed: NO  Tag: TAG20200321T134326
+        Piece Name: /home/oracle/oracle_bakup/rman_bakup/data/07url6vu_1_1
+  List of Datafiles in backup set 7
+  File LV Type Ckp SCN    Ckp Time  Abs Fuz SCN Sparse Name
+  ---- -- ---- ---------- --------- ----------- ------ ----
+  1       Full 1162864    21-MAR-20              NO    /u01/app/oracle/oradata/prod1/system01.dbf
+  2       Full 1162864    21-MAR-20              NO    /u01/app/oracle/oradata/prod1/sysaux01.dbf
+  3       Full 1162864    21-MAR-20              NO    /u01/app/oracle/oradata/prod1/undotbs01.dbf
+  4       Full 1162864    21-MAR-20              NO    /u01/app/oracle/oradata/prod1/users01.dbf
+  5       Full 1162864    21-MAR-20              NO    /u01/app/oracle/oradata/prod1/shin01.dbf
+  6       Full 1162864    21-MAR-20              NO    /u01/app/oracle/oradata/prod1/shin03.dbf
+
+BS Key  Size       Device Type Elapsed Time Completion Time
+------- ---------- ----------- ------------ ---------------
+8       18.00K     DISK        00:00:00     21-MAR-20      
+        BP Key: 8   Status: AVAILABLE  Compressed: NO  Tag: TAG20200321T134504
+        Piece Name: /home/oracle/oracle_bakup/rman_bakup/data/08url730_1_1
+
+  List of Archived Logs in backup set 8
+  Thrd Seq     Low SCN    Low Time  Next SCN   Next Time
+  ---- ------- ---------- --------- ---------- ---------
+  1    9       1162833    21-MAR-20 1162910    21-MAR-20
+
+BS Key  Type LV Size       Device Type Elapsed Time Completion Time
+------- ---- -- ---------- ----------- ------------ ---------------
+9       Full    10.50M     DISK        00:00:01     21-MAR-20      
+        BP Key: 9   Status: AVAILABLE  Compressed: NO  Tag: TAG20200321T134505
+        Piece Name: /u01/app/oracle/fast_recovery_area/prod1/PROD1/autobackup/2020_03_21/o1_mf_s_1035639905_h7cbh2vn_.bkp
+  SPFILE Included: Modification time: 14-MAR-20
+  SPFILE db_unique_name: PROD1
+  Control File Included: Ckp SCN: 1162919      Ckp time: 21-MAR-20
+
+--查看并删除冗余备份集
+REPORT OBSOLETE;
+DELETE OBSOLETE;
+
+--删除失效或损坏的备份集
+DELETE EXPIRED BACKUP
+
+--交叉校验备份集
+CROSSCHECK BACKUP;
+
+--删除特定备份集
+DELETE BACKUPSET n;
+
+--删除所有备份
+DELETE BACKUP;</code></pre>
+<ul>
+<li>非归档模式下的RMAN备份与恢复（被备份的源库实例需启动，可以mount不可open）</li>
+</ul>
+<pre><code class="SQL">--非归档模式下的BACKUP备份与恢复
+RMAN&gt; SHUTDOWN IMMEDIATE
+RMAN&gt; STARTUP MOUNTED
+RESTORE DATABASE;
+RECOVER DATABASE; 
+ALTER DATABASE OPEN RESETLOGS;</code></pre>
+<ul>
+<li>归档模式下的RMAN备份与恢复（被备份的源库实例需启动，可以mount或open）</li>
+</ul>
+<pre><code class="SQL">--非归档模式下的BACKUP备份与恢复
+RESTORE DATABASE;
+RECOVER DATABASE; 
+ALTER DATABASE OPEN RESETLOGS;</code></pre>
+<ul>
+<li><p>RMAN备份控制文件和SPFILE</p>
+<pre><code class="SQL">BACKUP CURRENT CONTROLFILE;</code></pre>
+</li>
+<li><p>RMAN恢复控制文件和SPFILE</p>
+<img src="RMAN_CONTROL_SPFILE.png" srcset="/img/loading.gif"  width="300" title="RMAN恢复控制文件和SPFILE">
+</li>
+</ul>
 
             <hr>
           </div>

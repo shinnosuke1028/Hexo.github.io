@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    75 字
+                    271 字
                   </span>&nbsp;
                 
 
@@ -177,6 +177,40 @@
 </ul>
 <h3 id="02-环境配置"><a href="#02-环境配置" class="headerlink" title="02. 环境配置"></a>02. 环境配置</h3><h4 id="1-环境包-rz-至相关路径，分流至其它节点："><a href="#1-环境包-rz-至相关路径，分流至其它节点：" class="headerlink" title="1. 环境包 rz 至相关路径，分流至其它节点："></a>1. 环境包 rz 至相关路径，分流至其它节点：</h4><h5 id="源码分发"><a href="#源码分发" class="headerlink" title="源码分发"></a>源码分发</h5><pre><code class="bash">scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave1:/usr/local/src/
 scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave2:/usr/local/src/</code></pre>
+<h4 id="2-Topic"><a href="#2-Topic" class="headerlink" title="2. Topic"></a>2. Topic</h4><ul>
+<li>创建第一个Topic，并查看</li>
+</ul>
+<pre><code class="bash">kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+# --replication-factor 2 // 复制两份
+# --partitions 1 // 创建1个分区
+# --topic // 主题为my-topic
+# --zookeeper // 此处为为zookeeper监听的地址
+
+
+kafka-topics.sh --list --zookeeper localhost:2181
+# 查看Topic状态
+kafka-topics.sh --describe --zookeeper localhost:2181 --topic test</code></pre>
+<img src="Topic.png" srcset="/img/loading.gif"  width="300" title="Topic test状态.">
+
+<ul>
+<li>删除第一个Topic</li>
+</ul>
+<pre><code class="bash">kafka-topics.sh --zookeeper localhost:2181 --delete --topic test</code></pre>
+<ul>
+<li>创建第一个Consumer</li>
+</ul>
+<pre><code class="bash">kafka-console-consumer.sh --zookeeper master:2181 --topic test --from-beginning
+# Using the ConsoleConsumer with old consumer is deprecated and will be removed in a future major release. Consider using the new consumer by passing [bootstrap-server] instead of [zookeeper].
+
+# --zookeeper参数在后续版本会被取消，这里使用下面的命令替代
+kafka-console-consumer.sh --bootstrap-server master:9092 --topic test --from-beginning</code></pre>
+<ul>
+<li>创建第一个Producer</li>
+</ul>
+<pre><code class="bash">kafka-console-producer.sh --broker-list master:9092 --topic test</code></pre>
+<ul>
+<li>删除第一个Topic</li>
+</ul>
 
             <hr>
           </div>

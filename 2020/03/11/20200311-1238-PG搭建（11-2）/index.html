@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    425 字
+                    423 字
                   </span>&nbsp;
                 
 
@@ -236,9 +236,9 @@ cp postgresql.auto.conf postgresql.auto.conf.bak
 
 
 <pre><code class="bash"># 服务启停
-pg_ctl start -l /db/pgsql/log/pgserver.log  # 不指定log路径时，会从配置文件中读取
+pg_ctl start -l /db/pgsql/log/pg_server.log  # 不指定log路径时，会从配置文件中读取
 pg_ctl stop -D /db/pgsql/data -m fast
-pg_ctl -D /usr/local/src/pgsql/data status
+pg_ctl -D /db/pgsql/data status
 
 # 确认服务是否存在
 lsof -i:5432

@@ -539,7 +539,14 @@ Repo Pointkafka_2.11-0.10.2.1.tgzZooKeeper
 
 02. 环境配置1. 环境包 rz 至相关路径，分流至其它节点：源码分发scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave1:/usr/local/src/
 scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave2:/usr/local/src/
-</div>
+2. Topic
+创建第一个Topic，并查看
+
+kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+# --replication-factor 2 // 复制两份
+# --partitions 1 // 创建1个分区
+# --topic // 主题为my-topic
+# --zookeeper // </div>
         </div>
       </a>
 

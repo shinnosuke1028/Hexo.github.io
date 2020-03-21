@@ -1444,14 +1444,14 @@ grant read,write on directory dump_scott to scott;</code></pre>
 <ul>
 <li>EXPDP</li>
 </ul>
-<p><code>expdp</code>配合众多参数，完成多种维度的数据快速导出.<br><code>DUMPFILE</code><br><code>SCHEMAS</code><br><code>TABLES</code><br><code>TABLESOACES</code><br><code>CONTENT</code><br><code>ESTIMATE</code>expdp dp/dp estimate_only=y full=y logfile=n<br><code>LOGFILE</code><br><code>PARALLEL</code><br><code>VERSION</code>主要用在高版本至低版本时迁移时使用，例：从12c导出时，指定目标数据库的版本（11g），才可顺利导入.</p>
+<p><code>EXPDP</code>配合众多参数，完成多种维度的数据快速导出.<br><code>DUMPFILE</code><br><code>SCHEMAS</code><br><code>TABLES</code><br><code>TABLESOACES</code><br><code>CONTENT</code><br><code>ESTIMATE</code>expdp dp/dp estimate_only=y full=y logfile=n<br><code>LOGFILE</code><br><code>PARALLEL</code><br><code>VERSION</code>主要用在高版本至低版本时迁移时使用，例：从12c导出时，指定目标数据库的版本（11g），才可顺利导入.</p>
 <pre><code class="sql">--按照schema导出
 expdp system/oracle@prod1 directionary=xxx dumpfile=xxx.dump schemas=hr</code></pre>
 <hr>
 <ul>
 <li>IMPDP</li>
 </ul>
-<p><code>impdp</code>配合众多参数，完成多种维度的数据快速导入.<br><code>TABLE_EXISTS_ACTION</code><br><code>PARALLEL</code><br><code>TRANSFORM</code>impdp dp/dp directory=dp_dir dumpfile=hrc.dmp transform=disable_archive_logging:Y<br><code>REMAP_SCHEMA</code></p>
+<p><code>IMPDP</code>配合众多参数，完成多种维度的数据快速导入.<br><code>TABLE_EXISTS_ACTION</code><br><code>PARALLEL</code><br><code>TRANSFORM</code>impdp dp/dp directory=dp_dir dumpfile=hrc.dmp transform=disable_archive_logging:Y<br><code>REMAP_SCHEMA</code></p>
 <pre><code class="sql">--只把全库中的 hr 这个 schema 下的对象导入到 hr2 这个 schema 下，hr2 这个用户会在导入过程中自动建立好，密码和权限和 hr 一样
 impdp system/oracle directory=DATA_PUMP_DIR dumpfile=expdpfulldb.dat logfile=impdpfull.log SCHEMAS=hr remap_schmas=hr:hr2 </code></pre>
 <ul>

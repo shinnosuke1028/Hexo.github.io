@@ -145,6 +145,59 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/01/11/20191221-1006-Oracle12cR2/" target="_self">
+          <img src="/img/Oracle.jpg" srcset="/img/loading.gif" alt="20200104_0956-Oracle12cR2（持续更新）" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/11/20191221-1006-Oracle12cR2/">
+        <p class="h4 index-header">20200104_0956-Oracle12cR2（持续更新）</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">OCP12c01. Oracle12cR2
+Repo Point&lt;Oracle-12.2&gt;linuxx64_12201_database.zip
+
+
+
+Tips以下水印截图均转自方力扬老师，仅供学习，特此声明.
+
+02. ./runInstallerTo be continued...
+
+先单独点出一个本地图形化的调用，困扰了好久，按下列指令完成后，会在本地弹出图形化界面，前提是本地的ssh软件需要开启Xserver服务!!!
+
+[root@ocp12c ~]# xhost +
+access control disabled, clients can connect from any HOST   ⬅ 允许客户端访问主机IP的Xserver
+[root@ocp12c ~]# su - oracle
+Last login: Sat Jan 18 00:32:43 CST 2020 on pts/3
+[oracle@ocp12c ~]$ export DISPLAY=192.168.17.1:0.0
+[oracle@ocp12c ~]$ cd /soft/database
+[o</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-11&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Oracle12c">Oracle12c</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/01/10/20200110-2042-MySQL2/" target="_self">
           <img src="/img/MySQL.png" srcset="/img/loading.gif" alt="20200110_2042_MySQL2" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -517,48 +570,6 @@ export HADOOP_HOME=/usr/local/src/hadoop-2.6</div>
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/Spark">Spark</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/12/19/20191219-1545-ZooKeeper-Kafka/">
-        <p class="h4 index-header">20191219_1545_ZooKeeper-Kafka</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">ZooKeeper &amp; Kafka 配置01. ZooKeeper
-Repo Pointkafka_2.11-0.10.2.1.tgzZooKeeper
-
-02. 环境配置1. 环境包 rz 至相关路径，分流至其它节点：源码分发scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave1:/usr/local/src/
-scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave2:/usr/local/src/
-2. Topic
-创建第一个Topic，并查看
-
-kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
-# --replication-factor 2 // 复制两份
-# --partitions 1 // 创建1个分区
-# --topic // 主题为my-topic
-# --zookeeper // </div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-19&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/ZooKeeper%20Kafka">ZooKeeper Kafka</a>&nbsp;
           
         
       </div>

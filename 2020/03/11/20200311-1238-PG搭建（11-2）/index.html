@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    423 字
+                    553 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      1 分钟
+                      2 分钟
                   </span>&nbsp;
                 
 
@@ -257,7 +257,20 @@ ps -ef | grep postgres</code></pre>
 
 
 </code></pre>
-<h3 id="04-利用psql备份"><a href="#04-利用psql备份" class="headerlink" title="04. 利用psql备份"></a>04. 利用psql备份</h3><h3 id="04-pg-dump-pg-restore"><a href="#04-pg-dump-pg-restore" class="headerlink" title="04. pg_dump/pg_restore"></a>04. pg_dump/pg_restore</h3>
+<h3 id="04-利用psql备份"><a href="#04-利用psql备份" class="headerlink" title="04. 利用psql备份"></a>04. 利用psql备份</h3><pre><code class="bash">--恢复postgres初始库基本流程
+psql -c &quot;DROP DATABASE IF EXISTS INIT&quot;;
+psql -P&quot;border&quot; -c &quot;CREATE DATABASE init OWNER postgres&quot;;
+pg_dump -c -C --if-exists -Upostgres -dpostgres -f./postgres.dump
+psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname =&#39;postgres&#39;&quot;;
+
+--注意，由于导出时
+-- psql -dinit -P&quot;border&quot; -c &quot;DROP DATABASE IF EXISTS postgres&quot;;
+-- psql -ddb_shin -P&quot;border&quot; -c &quot;CREATE DATABASE postgres OWNER postgres&quot;;
+psql -dinit -f./postgres.dump -L ./log/20200320.log</code></pre>
+<h3 id="04-pg-dump-pg-restore"><a href="#04-pg-dump-pg-restore" class="headerlink" title="04. pg_dump/pg_restore"></a>04. pg_dump/pg_restore</h3><pre><code class="bash">echo -e &quot;\n`date`&quot; &gt;&gt; ./log/20200320.log 
+psql -dinit -f./data/postgres.dump -L ./log/20200320.log
+cat ./log/20200320.log</code></pre>
+
             <hr>
           </div>
           <br>

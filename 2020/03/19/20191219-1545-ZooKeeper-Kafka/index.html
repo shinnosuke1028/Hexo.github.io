@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    265 字
+                    526 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      1 分钟
+                      2 分钟
                   </span>&nbsp;
                 
 
@@ -177,6 +177,78 @@
 </ul>
 <h3 id="02-环境配置"><a href="#02-环境配置" class="headerlink" title="02. 环境配置"></a>02. 环境配置</h3><h4 id="1-环境包-rz-至相关路径，分流至其它节点："><a href="#1-环境包-rz-至相关路径，分流至其它节点：" class="headerlink" title="1. 环境包 rz 至相关路径，分流至其它节点："></a>1. 环境包 rz 至相关路径，分流至其它节点：</h4><h5 id="源码分发"><a href="#源码分发" class="headerlink" title="源码分发"></a>源码分发</h5><pre><code class="bash">scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave1:/usr/local/src/
 scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave2:/usr/local/src/</code></pre>
+<h5 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h5><ul>
+<li>后续补充</li>
+</ul>
+<h5 id="启动Zookeeper"><a href="#启动Zookeeper" class="headerlink" title="启动Zookeeper"></a>启动Zookeeper</h5><pre><code class="bash">zkServer.sh start
+zkServer.sh stop
+zkServer.sh status</code></pre>
+<p><code>Tips</code>Zookeeper启停需在所有节点执行，可以自定义</p>
+<pre><code class="bash">(base) [root@master bin]# cat zkServer_start_all.sh
+# zkServer_start_all.sh
+zkServer.sh start
+ssh slave1 &lt;&lt;EOF
+    zkServer.sh start
+    exit
+EOF
+ssh slave2 &lt;&lt;EOF
+        zkServer.sh start
+    exit
+EOF
+sleep 3s
+zkServer.sh status
+######
+
+(base) [root@master bin]# cat zkServer_stop_all.sh 
+# zkServer_stop_all.sh
+zkServer.sh stop
+ssh slave1 &lt;&lt;EOF
+    zkServer.sh stop
+    exit
+EOF
+ssh slave2 &lt;&lt;EOF
+        zkServer.sh stop
+    exit
+EOF
+######</code></pre>
+<h5 id="启动Kafka"><a href="#启动Kafka" class="headerlink" title="启动Kafka"></a>启动Kafka</h5><pre><code class="bash">kafka-server-start.sh -daemon /usr/local/src/kafka_2.11-0.10.2.1/config/server.properties
+kafka-server-stop.sh
+jps</code></pre>
+<p><code>Tips</code>Kafka启停需在所有节点执行，可以自定义</p>
+<pre><code class="bash"># 首先是节点Kafka启动脚本
+# start-kafka.sh
+/usr/local/src/kafka_2.11-0.10.2.1/bin/kafka-server-start.sh -daemon /usr/local/src/kafka_2.11-0.10.2.1/config/server.properties
+######
+
+(base) [root@master bin]# cat kafka_start-all.sh 
+# kafka_start-all.sh
+start-kafka.sh
+ssh slave1 &lt;&lt;EOF
+    start-kafka.sh
+    exit
+EOF
+ssh slave2 &lt;&lt;EOF
+        start-kafka.sh
+        exit
+EOF
+sleep 2s
+jps
+######
+
+(base) [root@master bin]# cat kafka_stop-all.sh 
+# kafka_stop-all.sh 
+kafka-server-stop.sh
+ssh slave1 &lt;&lt;EOF
+    kafka-server-stop.sh
+    exit
+EOF
+ssh slave2 &lt;&lt;EOF
+    kafka-server-stop.sh
+        exit
+EOF
+sleep 2s
+jps
+######</code></pre>
 <h4 id="2-Topic"><a href="#2-Topic" class="headerlink" title="2. Topic"></a>2. Topic</h4><ul>
 <li>创建第一个Topic，并查看</li>
 </ul>

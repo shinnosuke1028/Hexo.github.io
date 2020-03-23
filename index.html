@@ -145,6 +145,57 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/03/23/20200323-1205-Python3-Kafka-Producer/" target="_self">
+          <img src="/img/kafka_img.png" srcset="/img/loading.gif" alt="20200323_1205_Python3-Kafka-Producer" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/03/23/20200323-1205-Python3-Kafka-Producer/">
+        <p class="h4 index-header">20200323_1205_Python3-Kafka-Producer</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Python3 KafkaProducer_with_PostgreSQL01. 数据库数据采集&amp;监控
+Repo Point  kafka-python  psycopg2
+
+class_Kafka_producer.py
+# -*- coding:utf-8 -*-
+# @Author: Shin
+# @Date: 20/3/23 10:13
+# @File: class_Kafka_producer.py
+# @Usage: Kafka producer for kafka_2.11-0.10.2.1
+
+
+
+
+from kafka import KafkaProducerimport json
+Self Repofrom src.func_demo import func_f
+</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-03-23&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Kafka%20Python3%20PG">Kafka Python3 PG</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/03/20/20191221-1006-Oracle12cR2/" target="_self">
           <img src="/img/Oracle.jpg" srcset="/img/loading.gif" alt="20200104_0956-Oracle12cR2（持续更新）" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -216,14 +267,18 @@ Repo Pointkafka_2.11-0.10.2.1.tgzZooKeeper
 
 02. 环境配置1. 环境包 rz 至相关路径，分流至其它节点：源码分发scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave1:/usr/local/src/
 scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave2:/usr/local/src/
-2. Topic
-创建第一个Topic，并查看
+环境配置
+后续补充
 
-kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
-# --replication-factor 2 // 复制两份
-# --partitions 1 // 创建1个分区
-# --topic // 主题为my-topic
-# --zookeeper // </div>
+启动ZookeeperzkServer.sh start
+zkServer.sh stop
+zkServer.sh status
+TipsZookeeper启停需在所有节点执行，可以自定义
+(base) [root@master bin]# cat zkServer_start_all.sh
+# zkServer_start_all.sh
+zkServer.sh start
+ssh slave1 &lt;&lt;EOF
+    zkS</div>
         </div>
       </a>
 
@@ -419,7 +474,7 @@ hive --service hiveserver2 &amp;
           
         
         <div class="index-excerpt" >
-          <div class="index-text mb-1">Django-2.0.6
+          <div class="index-text mb-1">Python3 Django-2.0.6
 Repo PointPython 3.5.2Django 2.0.6
 
 
@@ -448,7 +503,7 @@ vim /home/shiyanlou/Code/mysite/lib/views.py
     from django.shortcuts import render
     from django.http import HttpResponse
 
-    def index</div>
+    d</div>
         </div>
       </a>
 
@@ -621,61 +676,6 @@ print(order_data[[&#39;flag&#39;, &#39;86_NSN_CM&#39;]], &#39;\n&#39</div>
       <div>
         
           <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-03&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Python3">Python3</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/01/23/20200113-1424-Bokeh/" target="_self">
-          <img src="/img/bokeh.jpg" srcset="/img/loading.gif" alt="20200123_2103_Python3-Bokeh（0.13.0）" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/23/20200113-1424-Bokeh/">
-        <p class="h4 index-header">20200123_2103_Python3-Bokeh（0.13.0）</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">Python3 visualization_bokeh服务器数据清单可视化Tips这里的bokeh模块版本为0.13.0，最新的1.4.0始终过不了cmd调试.
-
-Repo Point  pandas, shutil, sys,  bokeh.plotting.output_file  bokeh.plotting.figure  bokeh.plotting.show  bokeh.models.ColumnDataSource
-
-
-Self Repo  func_demo.func_f.date_f  src.conf.bas_mail_conf  src.conf.bokeh_conf
-
-更新日志  修改方法：visualization_bokeh.df_html_bokeh，可进行图例隐藏
-
-
-
-Treesrc
-|-- __init__.py
-|-- conf
-|   |-- bas_insert_conf.py
-|   |-- bas_mail_conf.py
-|   |-- bokeh_conf.py
-|   `-- sql_conf.py
-|-- data
-|   |--</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-23&nbsp;&nbsp;
         
         
         

@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.5k 字
+                    1.7k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      7 分钟
+                      8 分钟
                   </span>&nbsp;
                 
 
@@ -347,7 +347,18 @@ create table `student`(
     id_card char(18) unique
 );
 --后期修改
-alter table student change sid sid int(11) not null AUTO_INCREMENT;</code></pre>
+alter table student change sid sid int(11) not null AUTO_INCREMENT;
+
+
+--新增加表时：
+CREATE TABLE TABLE_1 
+(
+    ID INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT, --ID列为无符号整型，该列值不可以为空，并不可以重复，而且自增
+    NAME VARCHAR(5) NOT NULL 
+) AUTO_INCREMENT = 100;--（ID列从100开始自增）
+
+--创建表格后，设置：
+alter table users AUTO_INCREMENT=10000;</code></pre>
 <ul>
 <li>主键-域完整性（字段准确）：类型约束/非空约束/默认值</li>
 </ul>
@@ -402,7 +413,23 @@ email
 (801790, 13921446055, 'GHR', 'cardguo1', '男', '1992/10/28', 'shinnosuke1028@foxmail.com'),
 (801390, 13066951004, 'LL', 'cardlll1', '女', '1992/12/10', 'lili1004@foxmail.com'); -->
 
+<pre><code class="SQL">--MySQL table
+create table MURA.`t_pm_alarm_tst` (
+`res_type` int(11) not null,
+`res_key` varchar(20) default null,
+`kpi_id` BIGINT not null AUTO_INCREMENT,
+`time` date default null,
+`value` int(5) default null,
+`vendor` varchar(5) default null,
+`city` varchar(5) default null,
+primary key (`kpi_id`)
+)AUTO_INCREMENT = 5000200010001 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+insert into MURA.t_pm_alarm_tst (res_type, res_key, time, value, vendor, city)
+values(&#39;1&#39;, &#39;10001&#39;, now() + 0, &#39;60&#39;, &#39;华为&#39;, &#39;531&#39;),
+(&#39;1&#39;, &#39;10001&#39;, now() + 0, &#39;60&#39;, &#39;华为&#39;, &#39;531&#39;),
+(&#39;1&#39;, &#39;10001&#39;, now() + 0, &#39;61&#39;, &#39;诺基亚&#39;, &#39;531&#39;),
+(&#39;2&#39;, &#39;10001&#39;, now() + 100000, &#39;62&#39;, &#39;华为&#39;, &#39;531&#39;);</code></pre>
 <h4 id="MySQL函数"><a href="#MySQL函数" class="headerlink" title="MySQL函数"></a>MySQL函数</h4><pre><code class="SQL">--随机数
 select rand();
 select round(13.45 -1); --10</code></pre>

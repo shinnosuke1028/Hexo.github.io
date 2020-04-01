@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Monday, February 3rd 2020, 11:23 pm
+                  Monday, March 30th 2020, 11:23 pm
                 </p>
               
 
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.4k 字
+                    1.6k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      7 分钟
+                      8 分钟
                   </span>&nbsp;
                 
 
@@ -273,6 +273,27 @@ df2 = pd.DataFrame([[1, 2, 4], [3, 4, 6], [10, 11, 12]], columns=[0, 1, 3])
 # display(df1, df2)
 df3 = df1.merge(df2)
 print(df3)</code></pre>
+<h5 id="7-分组聚合"><a href="#7-分组聚合" class="headerlink" title="7. 分组聚合"></a>7. 分组聚合</h5><pre><code class="SQL">SELECT Column1, Column2, mean(Column3), sum(Column4)
+FROM SomeTable
+WHERE Condition 1
+GROUP BY Column1, Column2
+HAVING Condition2</code></pre>
+<pre><code class="python">df[Condition1].groupby([Column1, Column2], as_index=False).agg({Column3: &quot;mean&quot;, Column4:&quot;sum&quot;}).filter(Condition2)</code></pre>
+<h4 id="数据处理"><a href="#数据处理" class="headerlink" title="数据处理"></a>数据处理</h4><h5 id="8-列-lt-—-gt-行索引"><a href="#8-列-lt-—-gt-行索引" class="headerlink" title="8. 列&lt;—&gt;行索引"></a>8. 列&lt;—&gt;行索引</h5><pre><code class="python">df3_mutiidx = pd.DataFrame(np.random.randint(100,1000,size=(4,4)), 
+                  index=[[&quot;上半年&quot;,&quot;上半年&quot;,&quot;下半年&quot;,&quot;下半年&quot;], [&quot;第一季度&quot;,&quot;第二季度&quot;,&quot;第三季度&quot;, &quot;第四季度&quot;]],
+                  columns=[&quot;芯片&quot;, &quot;药品&quot;, &quot;粮食&quot;, &quot;石油&quot;])
+# display(df3_mutiidx, df3_mutiidx.index, df3_mutiidx.loc[&quot;上半年&quot;])
+
+df3_mutiidx[&quot;idx&quot;] = df3_mutiidx.index
+df3_mutiidx[&quot;idx2&quot;] = df3_mutiidx.index.get_level_values(level=0)
+display(df3_mutiidx, df3_mutiidx)
+
+# 1/2级索引交换
+df3_mutiidx.reset_index(level=0, inplace=True)
+df3_mutiidx
+# df3_mutiidx.info()</code></pre>
+<h5 id="9-类型变更"><a href="#9-类型变更" class="headerlink" title="9. 类型变更"></a>9. 类型变更</h5><pre><code class="python">df[&quot;x&quot;] = df[&quot;x&quot;].astype(&quot;int64&quot;)</code></pre>
+<h5 id="10-字段增删"><a href="#10-字段增删" class="headerlink" title="10. 字段增删"></a>10. 字段增删</h5><pre><code class="python">df1= df.drop([&quot;test&quot;], axis=1, inplace=False)</code></pre>
 <hr>
 <h4 id="numpy"><a href="#numpy" class="headerlink" title="numpy"></a>numpy</h4><h5 id="广播运算"><a href="#广播运算" class="headerlink" title="广播运算"></a>广播运算</h5><p><code>Tips</code>不同维度，低维度的列数必须与高纬度的相同，且高维度的行数必须是低维度的整数倍. (2,3,4) — (4)/(3,4)/(2,3,4) 或(2,3,4) — (3,1)</p>
 <pre><code class="python"># 原生Python处理数组

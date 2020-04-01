@@ -145,6 +145,117 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/04/02/20200311-1238-PG%E6%90%AD%E5%BB%BA%EF%BC%8811-2%EF%BC%89/" target="_self">
+          <img src="/img/pg.png" srcset="/img/loading.gif" alt="20200311_1238_PG搭建（11.2）" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/04/02/20200311-1238-PG%E6%90%AD%E5%BB%BA%EF%BC%8811-2%EF%BC%89/">
+        <p class="h4 index-header">20200311_1238_PG搭建（11.2）</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">PG01. PG 11.2
+Repo PointPostgresql
+
+02. 环境配置
+软件源码/几个基本底层组件包&amp;离线环境rpm安装
+
+/db/install_pg/postgresql-11.2.tar.gz
+yum install ncurses* readline* zlib* -y
+
+源码编译&amp;安装
+
+# 归属路径创建
+mkdir -p /db/pgsql
+mkdir -p /db/pgsql/data
+mkdir -p /db/pgsql/log
+mkdir -p /db/install_pg
+
+# 用户创建（用户编号&lt;1102&gt;视情况而定）
+useradd -u 1102 -g postgres -d /homr/postgres -c &quot;postgres.&quot; -m -s /bin/bash postgres 
+chown -R postgres:postgres /db/install_pg
+su - postgres 
+chmod -R 755 /db/install_pg
+
+# 切回root，创建postgres用</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-02&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/PG">PG</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/03/30/20200201-1150-Python3-Pandas/" target="_self">
+          <img src="/img/Pandas.jpg" srcset="/img/loading.gif" alt="20200203_2323_Python3-Pandas（持续更新）" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/03/30/20200201-1150-Python3-Pandas/">
+        <p class="h4 index-header">20200203_2323_Python3-Pandas（持续更新）</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Pandas VS SQL数据处理Pandas常用模块
+Repo Point  pandas  numpy
+
+
+用法比较1. 选择SQL
+select * from xxx;
+Pandas
+data_path = rf&#39;./&#39;
+file_name = f&#39;20200115_86_NSN_CM.csv&#39;
+order_data = pd.read_csv(data_path + file_name, encoding=&#39;GBK&#39;)
+print(order_data.head(10))
+2. 查询特定列的数据SQL
+select flag from xxx;
+Pandas
+# 2.1 &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+print(type(order_data[[&#39;flag&#39;, &#39;86_NSN_CM&#39;]]))
+print(order_data[[&#39;flag&#39;, &#39;86_NSN_CM&#39;]], &#39;\n&#39</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-03-30&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Python3">Python3</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/03/23/20200323-1205-Python3-Kafka-Producer/" target="_self">
           <img src="/img/kafka_img.png" srcset="/img/loading.gif" alt="20200323_1205_Python3-Kafka-Producer" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -291,65 +402,6 @@ ssh slave1 &lt;&lt;EOF
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/ZooKeeper%20Kafka">ZooKeeper Kafka</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/03/11/20200311-1238-PG%E6%90%AD%E5%BB%BA%EF%BC%8811-2%EF%BC%89/" target="_self">
-          <img src="/img/pg.png" srcset="/img/loading.gif" alt="20200311_1238_PG搭建（11.2）" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/03/11/20200311-1238-PG%E6%90%AD%E5%BB%BA%EF%BC%8811-2%EF%BC%89/">
-        <p class="h4 index-header">20200311_1238_PG搭建（11.2）</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">PG01. PG 11.2
-Repo PointPostgresql
-
-02. 环境配置
-软件源码/几个基本底层组件包&amp;离线环境rpm安装
-
-/db/install_pg/postgresql-11.2.tar.gz
-yum install ncurses* readline* zlib* -y
-
-源码编译&amp;安装
-
-# 归属路径创建
-mkdir -p /db/pgsql
-mkdir -p /db/pgsql/data
-mkdir -p /db/pgsql/log
-mkdir -p /db/install_pg
-
-# 用户创建（用户编号&lt;1102&gt;视情况而定）
-useradd -u 1102 -g postgres -d /homr/postgres -c &quot;postgres.&quot; -m -s /bin/bash postgres 
-chown -R postgres:postgres /db/install_pg
-su - postgres 
-chmod -R 755 /db/install_pg
-
-# 切回root，创建postgres用</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-03-11&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/PG">PG</a>&nbsp;
           
         
       </div>
@@ -630,58 +682,6 @@ ll $HADOOP_HOME/share/hadoop/yarn/lib/*jline*
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/Hive">Hive</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/02/03/20200201-1150-Python3-Pandas/" target="_self">
-          <img src="/img/Pandas.jpg" srcset="/img/loading.gif" alt="20200203_2323_Python3-Pandas（持续更新）" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/03/20200201-1150-Python3-Pandas/">
-        <p class="h4 index-header">20200203_2323_Python3-Pandas（持续更新）</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">Pandas VS SQL数据处理Pandas常用模块
-Repo Point  pandas  numpy
-
-
-用法比较1. 选择SQL
-select * from xxx;
-Pandas
-data_path = rf&#39;./&#39;
-file_name = f&#39;20200115_86_NSN_CM.csv&#39;
-order_data = pd.read_csv(data_path + file_name, encoding=&#39;GBK&#39;)
-print(order_data.head(10))
-2. 查询特定列的数据SQL
-select flag from xxx;
-Pandas
-# 2.1 &lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
-print(type(order_data[[&#39;flag&#39;, &#39;86_NSN_CM&#39;]]))
-print(order_data[[&#39;flag&#39;, &#39;86_NSN_CM&#39;]], &#39;\n&#39</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-03&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Python3">Python3</a>&nbsp;
           
         
       </div>

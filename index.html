@@ -257,7 +257,7 @@ print(order_data[[&#39;flag&#39;, &#39;86_NSN_CM&#39;]], &#39;\n&#39</div>
     
       <div class="col-12 col-md-4 m-auto">
         <a href="/2020/03/23/20200323-1205-Python3-Kafka-Producer/" target="_self">
-          <img src="/img/kafka_img.png" srcset="/img/loading.gif" alt="20200323_1205_Python3-Kafka-Producer" class="img-fluid rounded z-depth-3 index-thumbnails">
+          <img src="/img/kafka-python.png" srcset="/img/loading.gif" alt="20200323_1205_Python3-Kafka-Producer" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
       </div>
     
@@ -578,6 +578,55 @@ vim /home/shiyanlou/Code/mysite/lib/views.py
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/02/14/20191219-2254-Hive-1-x/" target="_self">
+          <img src="/img/Hive.png" srcset="/img/loading.gif" alt="20191224_1414_Hive-1.x配置" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/14/20191219-2254-Hive-1-x/">
+        <p class="h4 index-header">20191224_1414_Hive-1.x配置</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Hive 配置01. Hive 1.x
+Repo Pointapache-hive-1.2.2-bin.tar.gzmysql-connector-java-5.1.44.tar
+
+02. 环境配置2-1 组件Tips 记得安装JDBC连接器mysql-connector-java-5.1.44-bin.jar，并将Hive和Hadoop侧的jline版本同步！！！
+# 解压并拷贝MySQL-jdbc的jar包至 $Hive/libs下：
+cd /usr/local/src
+tar -zxvf mysql-connector-java-5.1.44.tar
+cp /usr/local/src/mysql-connector-java-5.1.44/mysql-connector-java-5.1.44-bin.jar $HIVE_HOME/lib/
+
+# 进入yarn下的lib查看Hadoop-2.6.1自带的jline版本：
+ll $HADOOP_HOME/share/hadoop/yarn/lib/*jline*
+#发现Jjline版本过低：jline-0.9.94.jar
+
+# </div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-14&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Hive">Hive</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/02/14/20191219-2347-Hadoop-2-6-1/" target="_self">
           <img src="/img/Hadoop.png" srcset="/img/loading.gif" alt="20201219_2347_Hadoop-2.6.1（持续更新）" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -633,55 +682,6 @@ HOS</div>
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/Hadoop%202-X">Hadoop 2.X</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/02/14/20191219-2254-Hive-1-x/" target="_self">
-          <img src="/img/Hive.png" srcset="/img/loading.gif" alt="20191224_1414_Hive-1.x配置" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/14/20191219-2254-Hive-1-x/">
-        <p class="h4 index-header">20191224_1414_Hive-1.x配置</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">Hive 配置01. Hive 1.x
-Repo Pointapache-hive-1.2.2-bin.tar.gzmysql-connector-java-5.1.44.tar
-
-02. 环境配置2-1 组件Tips 记得安装JDBC连接器mysql-connector-java-5.1.44-bin.jar，并将Hive和Hadoop侧的jline版本同步！！！
-# 解压并拷贝MySQL-jdbc的jar包至 $Hive/libs下：
-cd /usr/local/src
-tar -zxvf mysql-connector-java-5.1.44.tar
-cp /usr/local/src/mysql-connector-java-5.1.44/mysql-connector-java-5.1.44-bin.jar $HIVE_HOME/lib/
-
-# 进入yarn下的lib查看Hadoop-2.6.1自带的jline版本：
-ll $HADOOP_HOME/share/hadoop/yarn/lib/*jline*
-#发现Jjline版本过低：jline-0.9.94.jar
-
-# </div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-14&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Hive">Hive</a>&nbsp;
           
         
       </div>

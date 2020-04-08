@@ -429,7 +429,7 @@ psql -P&quot;border&quot; -c &quot;CREATE DATABASE init OWNER postgres&quot;;
 pg_dump -c -C --if-exists -Upostgres -dpostgres -f./postgres.dump
 psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname =&#39;postgres&#39;&quot;;
 psql -dinit -f./postgres.dump -L ./log/20200320.log</code></pre>
-<h3 id="04-pg-dump-pg-restore"><a href="#04-pg-dump-pg-restore" class="headerlink" title="04. pg_dump/pg_restore"></a>04. pg_dump/pg_restore</h3><p><code>Tips</code>pg_dump拥有多种模式，搭配pg_restore可以快速重建数据库，但是部分模式的导出，不包含索引信息，这部分使用<strong>存疑！！</strong></p>
+<h3 id="05-利用pg-dump-pg-restore备份"><a href="#05-利用pg-dump-pg-restore备份" class="headerlink" title="05. 利用pg_dump/pg_restore备份"></a>05. 利用pg_dump/pg_restore备份</h3><p><code>Tips</code>pg_dump拥有多种模式，搭配pg_restore可以快速重建数据库，但是部分模式的导出，不包含索引信息，这部分使用<code>**存疑！！**</code></p>
 <pre><code class="bash">echo -e &quot;\n`date`&quot; &gt;&gt; ./log/20200320.log 
 psql -dinit -f./data/postgres.dump -L ./log/20200320.log
 cat ./log/20200320.log</code></pre>

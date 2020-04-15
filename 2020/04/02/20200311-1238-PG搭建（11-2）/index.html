@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    2.2k 字
+                    2.4k 字
                   </span>&nbsp;
                 
 
@@ -433,6 +433,7 @@ psql -dinit -f./postgres.dump -L ./log/20200320.log</code></pre>
 <pre><code class="bash">echo -e &quot;\n`date`&quot; &gt;&gt; ./log/20200320.log 
 psql -dinit -f./data/postgres.dump -L ./log/20200320.log
 cat ./log/20200320.log</code></pre>
+<h3 id="06-分区参数优化"><a href="#06-分区参数优化" class="headerlink" title="06. 分区参数优化"></a>06. 分区参数优化</h3><p><code>enable_partitionwise_join</code>如果两个表是兼容的分区，并且连接在分区列上，那么我们可以分别连接每对分区。 即一个大连接被分解成一堆小连接，从而提高了效率。兼容的分区指：相同的分区模式，子分区数目、表定义、分区键字段类型.<br><code>enable_partitionwise_aggregate</code>它允许对为每个分区分别进行分组或聚合。 如果GROUPBY子句不包括分区键，则只能在每个分区的基础上执行部分聚合.</p>
 
             <hr>
           </div>

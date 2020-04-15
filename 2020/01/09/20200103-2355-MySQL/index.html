@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.7k 字
+                    1.8k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      8 分钟
+                      9 分钟
                   </span>&nbsp;
                 
 
@@ -223,7 +223,7 @@ sql_mode=&#39;&#39;
 systemctl restart mysqld
 
 # 7 set password=password(&#39;root&#39;);
-mysql -uroot -p&#39;root&#39;
+mysql -uroot -p&#39;root&#39; --auto-rehash
 # exit下并重新进入。
 exit
 
@@ -235,6 +235,7 @@ tcp6       0      0 :::3306     :::*      LISTEN      978/mysqld
 show grants for root;
 select user,host from mysql.user;
 # 查询指定IP对应的连接权限，即@&#39;%&#39;
+GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39; WITH GRANT OPTION;
 GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;master&#39; IDENTIFIED BY &#39;123456&#39; WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
@@ -282,7 +283,11 @@ log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
 sql_mode=&#39;&#39;
 # autocommit=OFF</code></pre>
-<h3 id="03-Common-Operation（常规DDL-DML-DQL-DCL）"><a href="#03-Common-Operation（常规DDL-DML-DQL-DCL）" class="headerlink" title="03. Common Operation（常规DDL/DML/DQL/DCL）"></a>03. Common Operation（常规DDL/DML/DQL/DCL）</h3><h4 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h4><pre><code class="SQL">create database dbname;
+<h3 id="03-命令行自动化"><a href="#03-命令行自动化" class="headerlink" title="03. 命令行自动化"></a>03. 命令行自动化</h3><ul>
+<li>最简单的执行方式</li>
+</ul>
+<pre><code class="SQL">mysql -u&lt;user&gt; -p&lt;password&gt;  -D&lt;db_name&gt; -e &quot;show tables; drop table if exists student_bak; show tables;&quot; --auto-rehash</code></pre>
+<h3 id="04-Common-Operation（常规DDL-DML-DQL-DCL）"><a href="#04-Common-Operation（常规DDL-DML-DQL-DCL）" class="headerlink" title="04. Common Operation（常规DDL/DML/DQL/DCL）"></a>04. Common Operation（常规DDL/DML/DQL/DCL）</h3><h4 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h4><pre><code class="SQL">create database dbname;
 drop database dbname;
 use dbname;
 show tables;</code></pre>

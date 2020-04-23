@@ -145,6 +145,65 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/04/24/20200311-1238-PG%E6%90%AD%E5%BB%BA%EF%BC%8811-2%EF%BC%89/" target="_self">
+          <img src="/img/pg.png" srcset="/img/loading.gif" alt="20200424_0242_PG搭建（11.2）" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/04/24/20200311-1238-PG%E6%90%AD%E5%BB%BA%EF%BC%8811-2%EF%BC%89/">
+        <p class="h4 index-header">20200424_0242_PG搭建（11.2）</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">PG01. PG 11.2
+Repo PointPostgresql
+
+02. 环境配置
+软件源码/几个基本底层组件包&amp;离线环境rpm安装
+
+/db/install_pg/postgresql-11.2.tar.gz
+yum install ncurses* readline* zlib* -y
+
+源码编译&amp;安装
+
+# 归属路径创建
+mkdir -p /db/pgsql
+mkdir -p /db/pgsql/data
+mkdir -p /db/pgsql/log
+mkdir -p /db/install_pg
+
+# 用户创建（用户编号&lt;1102&gt;视情况而定）
+useradd -u 1102 -g postgres -d /homr/postgres -c &quot;postgres.&quot; -m -s /bin/bash postgres 
+chown -R postgres:postgres /db/install_pg
+su - postgres 
+chmod -R 755 /db/install_pg
+
+# 切回root，创建postgres用</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-24&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/PG">PG</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/04/08/20200323-1205-Python3-Kafka-Producer/" target="_self">
           <img src="/img/kafka-python.png" srcset="/img/loading.gif" alt="20200323_1205_Python3-Kafka-Producer" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -235,65 +294,6 @@ ll $HADOOP_HOME/share/hadoop/yarn/lib/*jline*
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/Hive">Hive</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/04/02/20200311-1238-PG%E6%90%AD%E5%BB%BA%EF%BC%8811-2%EF%BC%89/" target="_self">
-          <img src="/img/pg.png" srcset="/img/loading.gif" alt="20200311_1238_PG搭建（11.2）" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/04/02/20200311-1238-PG%E6%90%AD%E5%BB%BA%EF%BC%8811-2%EF%BC%89/">
-        <p class="h4 index-header">20200311_1238_PG搭建（11.2）</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">PG01. PG 11.2
-Repo PointPostgresql
-
-02. 环境配置
-软件源码/几个基本底层组件包&amp;离线环境rpm安装
-
-/db/install_pg/postgresql-11.2.tar.gz
-yum install ncurses* readline* zlib* -y
-
-源码编译&amp;安装
-
-# 归属路径创建
-mkdir -p /db/pgsql
-mkdir -p /db/pgsql/data
-mkdir -p /db/pgsql/log
-mkdir -p /db/install_pg
-
-# 用户创建（用户编号&lt;1102&gt;视情况而定）
-useradd -u 1102 -g postgres -d /homr/postgres -c &quot;postgres.&quot; -m -s /bin/bash postgres 
-chown -R postgres:postgres /db/install_pg
-su - postgres 
-chmod -R 755 /db/install_pg
-
-# 切回root，创建postgres用</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-02&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/PG">PG</a>&nbsp;
           
         
       </div>

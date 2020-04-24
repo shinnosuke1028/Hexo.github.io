@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    3.3k 字
+                    3.4k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      16 分钟
+                      17 分钟
                   </span>&nbsp;
                 
 
@@ -200,7 +200,7 @@ exit
 passwd postgres
 
 
-# 源码编译&amp;安装（中途视编译情况，解决报错，基本上都是缺环境包）
+# 源码编译&amp;安装（中途视编译情况，解决报错，基本上都是缺上面的三类环境包）
 cd /db/install_pg/
 tar -xvf postgresql-11.2.tar.gz
 cd ./postgresql-11.2
@@ -214,7 +214,7 @@ chown -R postgres:postgres /db/pgsql
 
 # 切换至postgres用户，初始化数据库
 su - postgres
-initdb /home/postgres/pgsql/data
+initdb /db/pgsql/data
 
 # 相关参数配置（PG的初始参数都比较保守，更新log和实例内存即可满足大部分需求）
 cd /db/pgsql/data
@@ -243,7 +243,24 @@ pg_ctl -D /db/pgsql/data status
 # 确认服务是否存在
 lsof -i:5432
 netstat -lnutp | grep postgres
-ps -ef | grep postgres</code></pre>
+ps -ef | grep postgres
+
+
+# 一般都是在测试环境配置一个debugger
+# install pldebugger extension
+tar zxvf pldebugger.tar.gz
+make &amp;&amp; make install 
+
+# 之前遇到过一次报错，尝试使用下面的参数编译安装
+USE_PGXS=1 make clean
+USE_PGXS=1 make 
+USE_PGXS=1 make install 
+
+# Edit your postgresql.conf file, and modify the shared_preload_libraries config
+shared_preload_libraries = &#39;/db/pgsql/lib/plugin_debugger.so&#39;
+
+# 激活
+psql -c &#39;CREATE EXTENSION pldbgapi&#39;;</code></pre>
 <h3 id="03-基本操作"><a href="#03-基本操作" class="headerlink" title="03. 基本操作"></a>03. 基本操作</h3><ul>
 <li>约束</li>
 </ul>

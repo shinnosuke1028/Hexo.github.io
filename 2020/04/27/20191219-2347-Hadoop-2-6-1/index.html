@@ -330,7 +330,7 @@ scp /etc/yum.repos.d/CentOS-Base.repo root@web25:/etc/yum.repos.d/
 <p><code>Tips</code>若没有lvm相关命令，可以挂载对应系统磁盘，yum -y install lvm2</p>
 <pre><code class="bash"># 查看磁盘情况
 fdisk -l</code></pre>
-<p><a href="https://blog.51cto.com/qicheng0211/1620171" target="_blank" rel="noopener">转:LVM扩容</a></p>
+<p><a href="https://blog.51cto.com/qicheng0211/1620171" target="_blank" rel="noopener">转</a></p>
 <img src="lvm.jpg" srcset="/img/loading.gif" title="LVM">
 
 
@@ -343,12 +343,12 @@ lvdisplay
 pvcreate /dev/vdb1
 pvdisplay
 # 基于PV新建VG，有多个的话就直接加在后面
-vgcreate -n vg1 -L 10G  /dev/vdb1 /dev/vdb2
+vgcreate vg1 /dev/vdb1 /dev/vdb2
 # 扩展现有VG
 vgextend vg1 /dev/vdb1
 
 # 基于VG创建逻辑卷LV
-lvcreate -L 10G -n lv1 vg1
+lvcreate -n lv1 -L 10G vg1
 
 # 格式化并挂载 
 mkfs.xfs /dev/vg1/lv1

@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Friday, February 14th 2020, 12:13 pm
+                  Monday, April 27th 2020, 4:57 pm
                 </p>
               
 
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    4.2k 字
+                    4.3k 字
                   </span>&nbsp;
                 
 
@@ -333,13 +333,31 @@ fdisk -l</code></pre>
 <img src="lvm.jpg" srcset="/img/loading.gif" title="LVM">
 
 
-<pre><code class="bash"># 查看逻辑卷组/物理卷/逻辑卷情况
-vgdisplay
+<pre><code class="bash"># 查看物理卷/逻辑卷组/逻辑卷情况
 pvdisplay
+vgdisplay
 lvdisplay
 
-# 创建逻辑卷组
-vgcreate </code></pre>
+# 创建逻辑卷组PV，假设这里的磁盘叫/dev/vdb1
+pvcreate /dev/vdb1
+pvdisplay
+# 基于PV新建VG，有多个的话就直接加在后面
+vgcreate -n vg1 -L 10G  /dev/vdb1 /dev/vdb2
+# 扩展现有VG
+vgextend vg1 /dev/vdb1
+
+# 基于VG创建逻辑卷LV
+lvcreate -L 10G -n lv1 vg1
+
+# 格式化并挂载 
+mkfs.xfs /dev/vg1/lv1
+mkdir /lvm     # 确认lvm为新的空路径，不可用非空路径
+mount /dev/vg1/lv1 /lvm
+
+# 设置开机挂载
+vim /etc/fstab
+/dev/vg1/lv1 /lvm xfs    defaults  0 0</code></pre>
+<p><code>Tips</code>CentOS 7：mkfs.xfs      CentOS6：mkfs.ext4</p>
 <h3 id="02-环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）"><a href="#02-环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）" class="headerlink" title="02. 环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）"></a>02. 环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）</h3><h4 id="环境包-rz-至相关路径，分流至其它节点："><a href="#环境包-rz-至相关路径，分流至其它节点：" class="headerlink" title="环境包 rz 至相关路径，分流至其它节点："></a>环境包 rz 至相关路径，分流至其它节点：</h4><h5 id="2-1-组件-amp-源码分发"><a href="#2-1-组件-amp-源码分发" class="headerlink" title="2-1 组件&amp;源码分发"></a>2-1 组件&amp;源码分发</h5><pre><code class="bash"># 文件解压：hadoop-2.6.1/etc/hadoop
 cd /usr/local/src/
 tar -xvf hadoop-2.6.1.tar.gz</code></pre>

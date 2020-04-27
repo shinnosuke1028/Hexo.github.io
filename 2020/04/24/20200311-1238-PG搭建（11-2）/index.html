@@ -500,7 +500,7 @@ psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM 
 psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname =&#39;postgres&#39;&quot;; pg_restore -dinit -C -c --if-exists -L db_C.list postgres_Fd_C.dump</code></pre>
 <hr>
 <h4 id="with-data"><a href="#with-data" class="headerlink" title="with data"></a>with data</h4><ul>
-<li>含数据</li>
+<li>含数据（暂未测试）</li>
 </ul>
 <pre><code class="bash">pg_dump --if-exists -c --create -Fd -j4 -Upostgres -dpostgres -tpublic.t_pm_o_self_monitor -f./t_pm_o_self_monitor_Fd.dump &amp;&amp; pg_restore -l t_pm_o_self_monitor_Fd.dump &gt; db.list
 pg_restore -dinit -c --if-exists -L db.list t_pm_o_self_monitor_Fd.dump

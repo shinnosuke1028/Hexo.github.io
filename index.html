@@ -145,6 +145,71 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/04/27/20191219-2347-Hadoop-2-6-1/" target="_self">
+          <img src="/img/Hadoop.png" srcset="/img/loading.gif" alt="20201219_2347_Hadoop-2.6.1（持续更新）" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/04/27/20191219-2347-Hadoop-2-6-1/">
+        <p class="h4 index-header">20201219_2347_Hadoop-2.6.1（持续更新）</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Hadoop 2.X 配置01. Hadoop 2.6.1
+Repo Pointhadoop-2.6.1.tar.gz
+
+Linux环境配置1-1 防火墙 &amp; 主机名service  iptables status
+chkconfig iptables off
+systemctl status firewalld
+systemctl stop firewalld
+
+# 永久关闭
+systemctl disable firewalld
+chkconfig iptables off
+
+# CentOS 6
+# service  iptables status
+# service  iptables stop
+# chkconfig iptables off
+
+# 临时关闭内核防火墙
+setenforce 0
+# 关闭selinux内核防火墙
+vim /etc/selinux/config
+# config
+SELINUX=disabled
+######
+
+# 修改各主机名
+vim /etc/sysconfig/network
+# network
+NETWORKING=yes
+HOS</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-27&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Hadoop%202-X">Hadoop 2.X</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/04/24/20200311-1238-PG%E6%90%AD%E5%BB%BA%EF%BC%8811-2%EF%BC%89/" target="_self">
           <img src="/img/pg.png" srcset="/img/loading.gif" alt="20200424_0242_PG搭建（11.2）" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -616,71 +681,6 @@ vim /home/shiyanlou/Code/mysite/lib/views.py
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/Django">Django</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/02/14/20191219-2347-Hadoop-2-6-1/" target="_self">
-          <img src="/img/Hadoop.png" srcset="/img/loading.gif" alt="20201219_2347_Hadoop-2.6.1（持续更新）" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/14/20191219-2347-Hadoop-2-6-1/">
-        <p class="h4 index-header">20201219_2347_Hadoop-2.6.1（持续更新）</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">Hadoop 2.X 配置01. Hadoop 2.6.1
-Repo Pointhadoop-2.6.1.tar.gz
-
-Linux环境配置1-1 防火墙 &amp; 主机名service  iptables status
-chkconfig iptables off
-systemctl status firewalld
-systemctl stop firewalld
-
-# 永久关闭
-systemctl disable firewalld
-chkconfig iptables off
-
-# CentOS 6
-# service  iptables status
-# service  iptables stop
-# chkconfig iptables off
-
-# 临时关闭内核防火墙
-setenforce 0
-# 关闭selinux内核防火墙
-vim /etc/selinux/config
-# config
-SELINUX=disabled
-######
-
-# 修改各主机名
-vim /etc/sysconfig/network
-# network
-NETWORKING=yes
-HOS</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-14&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Hadoop%202-X">Hadoop 2.X</a>&nbsp;
           
         
       </div>

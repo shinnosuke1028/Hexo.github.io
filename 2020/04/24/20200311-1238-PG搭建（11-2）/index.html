@@ -466,7 +466,7 @@ pg_dump -c -C --if-exists -Upostgres -dpostgres -f./postgres.dump
 # 3 还原前清理数据库连接 &amp; 还原
 psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname =&#39;postgres&#39;&quot;; psql -dinit -f./postgres.dump -L ./log/20200320.log</code></pre>
 <ul>
-<li>一些BUG：实际生产环境还原时，发现运行至上述第4步还原时发现，如果第3步清理连接不干净（多个进程连接未能释放，导致已释放的连接又重新还原），还原会失败，若出现失败，可以多次尝试下列手动操作，临时删除初始数据库后，再还原</li>
+<li>一些BUG：实际生产环境还原时，发现运行至上述第4步还原时发现，如果第3步清理连接不干净（多个进程连接未能释放，导致已释放的连接又重新还原），还原会失败，若出现失败，可以多次尝试下列手动操作，临时删除初始数据库后，再还原.<br><code>Tips</code>这种还原的最大不好就是进行了删库再恢复，生产环境频繁使用，不够友好.</li>
 </ul>
 <pre><code class="bash"># 手动还原metedata
 psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname =&#39;postgres&#39;&quot;; psql -dinit -P&quot;border&quot; -c &quot;DROP DATABASE IF EXISTS postgres&quot;; psql -dinit -P&quot;border&quot; -c &quot;CREATE DATABASE postgres OWNER postgres&quot;;
@@ -487,14 +487,14 @@ psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM 
 </ul>
 <pre><code class="bash"># -Fd归档路径模式转储，并生成列出归档内容的表格，这个操作的输出能被用作-L选项的输入
 pg_dump -Upostgres -dpostgres -C -c --if-exists -s -Fd -j4 -f./postgres_Fd.dump &amp;&amp; pg_restore -l postgres_Fd.dump &gt; db.list
-# 按照归档表格的顺序和指定内容进行恢复，表格内可以进行修
+# 按照归档list的顺序和指定内容进行恢复，归档list内的内容可以进行修改
 # 目标库存在时，选择目标库作为跳板库，在不删除源库的情况下进行对象重建
 psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname =&#39;postgres&#39;&quot;; pg_restore -dpostgres -c --if-exists -j4 -L db.list postgres_Fd.dump</code></pre>
 <ul>
 <li>删库重建</li>
 </ul>
 <pre><code class="bash">pg_dump -Upostgres -dpostgres -C -c --if-exists -s -Fd -j4 -f./postgres_Fd_C.dump &amp;&amp; pg_restore -l postgres_Fd.dump &gt; db_C.list
-# 删除，再选择跳板库重建目标库
+# 删除目标库，再选择跳板库重建目标库
 psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname =&#39;postgres&#39;&quot;; pg_restore -dinit -C -c --if-exists postgres_Fd_C.dump
 # 或
 psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname =&#39;postgres&#39;&quot;; pg_restore -dinit -C -c --if-exists -L db_C.list postgres_Fd_C.dump</code></pre>

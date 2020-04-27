@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    4.1k 字
+                    4.2k 字
                   </span>&nbsp;
                 
 
@@ -327,7 +327,19 @@ scp /etc/yum.repos.d/CentOS-Base.repo root@web25:/etc/yum.repos.d/
 <ul>
 <li>LVM</li>
 </ul>
-<pre><code class="bash"></code></pre>
+<p><code>Tips</code>若没有lvm相关命令，可以挂载对应系统磁盘，yum -y install lvm2</p>
+<pre><code class="bash"># 查看磁盘情况
+fdisk -l</code></pre>
+<img src="lvm.jpg" srcset="/img/loading.gif" title="LVM">
+
+
+<pre><code class="bash"># 查看逻辑卷组/物理卷/逻辑卷情况
+vgdisplay
+pvdisplay
+lvdisplay
+
+# 创建逻辑卷组
+vgcreate </code></pre>
 <h3 id="02-环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）"><a href="#02-环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）" class="headerlink" title="02. 环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）"></a>02. 环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）</h3><h4 id="环境包-rz-至相关路径，分流至其它节点："><a href="#环境包-rz-至相关路径，分流至其它节点：" class="headerlink" title="环境包 rz 至相关路径，分流至其它节点："></a>环境包 rz 至相关路径，分流至其它节点：</h4><h5 id="2-1-组件-amp-源码分发"><a href="#2-1-组件-amp-源码分发" class="headerlink" title="2-1 组件&amp;源码分发"></a>2-1 组件&amp;源码分发</h5><pre><code class="bash"># 文件解压：hadoop-2.6.1/etc/hadoop
 cd /usr/local/src/
 tar -xvf hadoop-2.6.1.tar.gz</code></pre>

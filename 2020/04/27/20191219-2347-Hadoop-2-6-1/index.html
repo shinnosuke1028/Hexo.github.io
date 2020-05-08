@@ -358,7 +358,7 @@ mount /dev/vg1/lv1 /lvm
 # 设置开机挂载
 vim /etc/fstab
 /dev/vg1/lv1 /lvm xfs    defaults  0 0</code></pre>
-<p><code>Tips</code>CentOS 7：mkfs.xfs      CentOS6：mkfs.ext4</p>
+<p><code>Tips</code>CentOS 7：mkfs.xfs      CentOS6：mkfs.ext4（resize2fs）</p>
 <h3 id="02-环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）"><a href="#02-环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）" class="headerlink" title="02. 环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）"></a>02. 环境配置（部分Linux基础环境配置暂未罗列，如host、jdk等）</h3><h4 id="环境包-rz-至相关路径，分流至其它节点："><a href="#环境包-rz-至相关路径，分流至其它节点：" class="headerlink" title="环境包 rz 至相关路径，分流至其它节点："></a>环境包 rz 至相关路径，分流至其它节点：</h4><h5 id="2-1-组件-amp-源码分发"><a href="#2-1-组件-amp-源码分发" class="headerlink" title="2-1 组件&amp;源码分发"></a>2-1 组件&amp;源码分发</h5><pre><code class="bash"># 文件解压：hadoop-2.6.1/etc/hadoop
 cd /usr/local/src/
 tar -xvf hadoop-2.6.1.tar.gz</code></pre>

@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    4.1k 字
+                    4.9k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      19 分钟
+                      23 分钟
                   </span>&nbsp;
                 
 
@@ -232,20 +232,51 @@ year/month/day/hour/minute/second</code></pre>
 </li>
 </ul>
 <p><code>内部表</code></p>
-<pre><code class="SQL">create table hive_student_mng(id int, name string, sex string, age int, department string) row format delimited fields terminated by &quot;,&quot; lines terminated by &quot;\n&quot;;
-/*
+<pre><code class="SQL">-- create table hive_student_mng(id int, name string, sex string, age int, department string) 
+-- row format delimited 
+-- fields terminated by &quot;,&quot; lines terminated by &quot;\n&quot;;
+
+--建表常用参数
+create table if not exists init_partition(uuid string, viewnt INT comment &#39;view cnt&#39;)
+comment &#39;This is table init&#39;
+tblproperties(&#39;creator&#39;=&#39;Shin&#39;, &#39;created_at&#39;=&#39;2020-04-29 15:17:00&#39;, ...)
+partitioned by (dt sting, country string)   --分区字段不可出现在元数据内!!!
+--clustered by(uuid) sorted by(viewcnt) into XX buckets --分桶
+
+
 row format    格式化关键字
     delimited 
-        fields terminated by &quot;,&quot;    字段与字段之间的分隔符
-        lines terminated by &quot;\n&quot;;    记录与记录之间的分隔符
+        fields terminated by &quot;,&quot;    --字段与字段之间的分隔符：列
+        collection items terminated by &quot;,&quot;  --集合元素之间的分隔符：array(&#39;a&#39;,&#39;b&#39;)
+        map keys terminated by &#39;:&#39;  --map键值对之间分隔符：map(&#39;dt&#39;:&#39;2020-04-29&#39;, &#39;cnt&#39;:)
+        lines terminated by &quot;\n&quot;    --记录与记录之间的分隔符：行
+
+
     serde   --这个参数忘记用途了    
         ...
-*/
+
+location &#39;/usr/local/src/apache-hive-1.2.2-bin/warehouse/init_partition&#39;;
+
+--查询表属性
+show tblproperties init_partition;
+describe init_partition;
+describe extended init_partition;
+--可读性更强、内容更详细的表属性
+describe formatted init_partition;
+
+--修改表属性
+alter table init_partition set TBLPROPERTIES(&#39;creator&#39;=&#39;Shin2&#39;);
+
+
+
 --从HDFS内导入
 load data inpath &#39;/data/hive_hdfs/student.txt&#39; into table hive_student_mng;
 --从本地导入
 load data local inpath &#39;/data/hive/student.txt&#39; into table hive_student_mng;</code></pre>
 <p><code>Tips</code>从HDFS导入数据相当于mv，从local导入数据相当于cp </p>
+<ul>
+<li>管理表，即内部表，在数据共享方面表现的不够优异，即数据与元数据进行了捆绑，这其实是一种<strong>所有权</strong>的表现，为了削弱这种耦合性，我们可以使用<strong>外部表</strong>，即建立元数据，再指定数据所在位置，但并不”拥有”数据. 这样，Hive可以在这份数据上执行一些查询聚合，且数据的<strong>所有权</strong>不归于Hive所有.</li>
+</ul>
 <hr>
 <p><code>外部表</code></p>
 <pre><code class="SQL">create external table hive_student_ext(id int, name string, sex string, age int, department string) row format delimited fields terminated by &quot;,&quot; lines terminated by &quot;\n&quot; location &#39;/usr/local/src/apache-hive-1.2.2-bin/warehouse/hive_student_ext&#39;;
@@ -253,9 +284,36 @@ load data local inpath &#39;/data/hive/student.txt&#39; into table hive_student_
 load data inpath &#39;/data/hive_hdfs/student.txt&#39; into table hive_student_ext;
 --从本地导入
 --load data local inpath &#39;/data/hive/student.txt&#39; into table hive_student_mng;</code></pre>
-<p><code>CTAS</code></p>
-<pre><code class="SQL">--类Oracle
-create table hive_student_mng_2 as select * from hive_student_mng;</code></pre>
+<p><code>内外转换</code></p>
+<pre><code class="SQL">--内部转外部
+alter table hive_student_ext set TBLPROPERTIES(&#39;EXTERNAL&#39;=&#39;false&#39;);
+--外部转内部
+alter table hive_student_ext set TBLPROPERTIES(&#39;EXTERNAL&#39;=&#39;true&#39;);</code></pre>
+<ul>
+<li>一个由内外表转换引发的数据错乱问题（<strong>在默认未指定location的情况下</strong>，外部表在修改表名后，HDFS内的location名也不会随之变更，所以后续建立的同名同结构外部表，会重复使用这份数据，但是后续建立的如果是同名不同结构的外部表，则会报错）</li>
+</ul>
+<pre><code class="SQL">--外部表创建，且不指定外部表的路径，采用默认warehouse默认路径
+create external table tb1(id int, name string);
+insert into tb1 values(1, &#39;2&#39;);
+--此时，我们切换外部表表名
+alter table tb1 rename to tb2;
+select * from tb2;  --此时是可以获取数据的
+--再次建立同名同结构外部表
+create external table tb1(id int, name string);
+select * from tb1;  --这里一样可以获取，出现了数据复用，但是这种模式会有一些&quot;BUG&quot;
+--出现了数据共用的状态，</code></pre>
+<p><code>明明首次建表却报错</code>如果重新建立的tb1结构发生变化，切未指定新的外部表路径，就会出现这种报错.</p>
+<ul>
+<li>回避这种问题的方法是，在重命名之前，先切换表的属性<br>```SQL<br>create external table tb1(id int, name string);<br>insert into tb1 values(1, ‘2’);</li>
+</ul>
+<p>–此时，我们切换外部表表名<br>alter table tb1 set TBLPROPERTIES(‘EXTERNAL’=’false’)<br>alter table tb1 rename to tb1_bak;<br>–这里的数据路径是否发生下下列变化，有待确认???<br>–/usr/local/src/apache-hive-1.2.2-bin/warehouse/tb1 -&gt; /usr/local/src/apache-hive-1.2.2-bin/warehouse/tb1_bak<br>select * from tb1_bak;  –这里是可以获取数据的！！！</p>
+<p>–再次建立同名同结构外部表，一样，不指定location，使用默认的warehouse路径<br>create external table tb1(id int, name string);<br>select * from tb1;  –这里已经获取不到原先的数据了，因为原先的tb1再更名前，已转换为内部表，对应数据的路径名也随之更改</p>
+<pre><code>
+---
+`CTAS`
+```SQL
+--类Oracle
+create table hive_student_mng_2 as select * from hive_student_mng;</code></pre><hr>
 <p><code>分区表</code></p>
 <pre><code class="SQL">create table hive_student_ptn(id int, name string, sex string) partitioned by (age int, department string) row format delimited fields terminated by &quot;,&quot;;
 

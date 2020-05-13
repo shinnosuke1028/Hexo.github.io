@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    581 字
+                    587 字
                   </span>&nbsp;
                 
 
@@ -252,7 +252,7 @@ jps
 <h4 id="2-Topic"><a href="#2-Topic" class="headerlink" title="2. Topic"></a>2. Topic</h4><ul>
 <li>创建第一个Topic，并查看</li>
 </ul>
-<pre><code class="bash">kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic test
+<pre><code class="bash">kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic PREDATA
 # --replication-factor 2 // 复制两份
 # --partitions 1 // 创建1个分区
 # --topic // 主题为my-topic
@@ -261,7 +261,7 @@ jps
 
 kafka-topics.sh --list --zookeeper localhost:2181
 # 查看Topic状态
-kafka-topics.sh --describe --zookeeper localhost:2181 --topic test</code></pre>
+kafka-topics.sh --describe --zookeeper localhost:2181 --topic PREDATA</code></pre>
 <img src="Topic.png" srcset="/img/loading.gif"  width="300" title="Topic test状态.">
 
 <ul>
@@ -275,10 +275,10 @@ kafka-topics.sh --describe --zookeeper localhost:2181 --topic test</code></pre>
 # Using the ConsoleConsumer with old consumer is deprecated and will be removed in a future major release. Consider using the new consumer by passing [bootstrap-server] instead of [zookeeper].
 
 # --zookeeper参数在后续版本会被取消，这里使用下面的命令替代
-kafka-console-consumer.sh --bootstrap-server master:9092 --topic test --from-beginning
+kafka-console-consumer.sh --bootstrap-server 10.72.8.46:9092 --topic test --from-beginning
 
 # 从最新的offset开始消费
-kafka-console-consumer.sh --bootstrap-server master:9092 --topic test
+kafka-console-consumer.sh --bootstrap-server 10.72.8.46:9092 --topic PREDATA
 
 # 从指定的offset开始消费，且指定偏移量时，需指定partition
 kafka-console-consumer.sh --bootstrap-server master:9092 --topic test --offset 523 --partition 0</code></pre>

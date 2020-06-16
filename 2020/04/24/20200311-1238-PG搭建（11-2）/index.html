@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    3.4k 字
+                    3.6k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      17 分钟
+                      18 分钟
                   </span>&nbsp;
                 
 
@@ -262,9 +262,17 @@ shared_preload_libraries = &#39;/db/pgsql/lib/plugin_debugger.so&#39;
 # 激活
 psql -c &#39;CREATE EXTENSION pldbgapi&#39;;</code></pre>
 <h3 id="03-基本操作"><a href="#03-基本操作" class="headerlink" title="03. 基本操作"></a>03. 基本操作</h3><ul>
+<li>修改属性</li>
+</ul>
+<pre><code class="sql">ALTER TABLE &lt;old_tbname&gt; RENAME TO &lt;new_tbname&gt;;
+ALTER TABLE &lt;old_tbname&gt; RENAME &lt;old_colname&gt; TO &lt;new_tbname&gt;;
+ALTER INDEX IF EXISTS &lt;old_name&gt; RENAME TO &lt;new_index_name&gt;;
+ALTER TABLE NAME RENAME CONSTRAINT &lt;constraint_name&gt; TO &lt;new_constraint_name&gt;;</code></pre>
+<ul>
 <li>约束</li>
 </ul>
-<pre><code class="sql">--主键约束</code></pre>
+<pre><code class="sql">--主键约束
+ALTER TABLE XXX ADD PRIMARY KEY (column1, column2);</code></pre>
 <ul>
 <li>分区约束</li>
 </ul>
@@ -418,9 +426,16 @@ ALTER TABLE postgres.t_pm_o_self_monitor DETACH PARTITION postgres.t_pm_o_self_m
 ALTER TABLE postgres.t_pm_o_self_monitor ATTACH PARTITION postgres.t_pm_o_self_monitor_par_202101 FOR VALUES FROM (&#39;2021-01-01&#39;) TO (&#39;2021-02-01&#39;);
 </code></pre>
 <ul>
-<li>各种时间戳</li>
+<li>锁<br>```sql<br>SELECT * FROM PG_STAT_ACTIVITY;<br>SELECT PG_TERMINATE_BACKEND(PID);</li>
 </ul>
-<pre><code class="sql">--时间戳
+<p>–杀死所有IDLE进程<br>SELECT PG_TERMINATE_BACKEND(PID) FROM PG_STAT_ACTIVITY WHERE STATE = ‘IDLE’;</p>
+<pre><code>
+
+
+* 各种时间戳
+
+```sql
+--时间戳
 select to_char(clock_timestamp(), &#39;YYYY-MM-DD hh24:MI:SS&#39;);
 select now()::timestamp(0)without time zone;    --::timestamp(x)    cast as timestamp and keep x bit accuracy
 
@@ -450,11 +465,15 @@ date_trunc(&#39;month&#39;, now()),     --2020-04-01 00:00:00
 date_trunc(&#39;year&#39;, now()),        --2020-01-01 00:00:00    
 date_part(&#39;year&#39;, now()),        --2020
 to_char(current_date, &#39;YYYY-MM-DD HH24:MI:SS&#39;),        --2020-04-21 00:00:00
-to_char(current_date, &#39;YYYYMMDD&#39;)    --20200421</code></pre>
-<ul>
+to_char(current_date, &#39;YYYYMMDD&#39;)    --20200421</code></pre><ul>
 <li>行列转换</li>
 </ul>
 <pre><code class="sql"></code></pre>
+<ul>
+<li>注释</li>
+</ul>
+<pre><code class="sql">COMMENT ON COLUMN public.sys_manage_cfg.relkind IS &#39;r = 普通表, i = 索引, p = 分区表, I = 分区索引, v = 视图, m = 物化视图, S = 序列, t = TOAST表, m = 物化视图, c = 组合类型, f = 外部表&#39;
+COMMENT ON TABLE public.sys_manage_cfg IS &#39;系统管理表&#39;</code></pre>
 <h3 id="04-利用psql备份"><a href="#04-利用psql备份" class="headerlink" title="04. 利用psql备份"></a>04. 利用psql备份</h3><ul>
 <li>恢复postgres初始库基本流程</li>
 </ul>
@@ -476,7 +495,8 @@ psql -dinit -f ./postgres.dump</code></pre>
 <li>无库重建</li>
 </ul>
 <pre><code class="bash"># -Fd归档路径模式转储，并生成列出归档内容的表格，这个操作的输出能被用作-L选项的输入
-pg_dump -Upostgres -dpostgres -C -c --if-exists -s -Fd -j4 -f./postgres_Fd.dump &amp;&amp; pg_restore -l postgres_Fd.dump &gt; db.list
+# pg_dump -Upostgres -dpostgres -C -c --if-exists -s -Fd -j4 -f./postgres_Fd_j4.dump &amp;&amp; pg_restore -l postgres_Fd.dump &gt; postgres.list
+pg_dump -Upostgres -dpostgres -C -c --if-exists -Fd -j2 -f./postgres_Fd_j2.dump &amp;&amp; pg_restore -l postgres_Fd_j2.dump &gt; postgres.list
 # 按照归档表格的顺序和指定内容进行恢复，表格内可以进行修改
 # 选择一个已存在的数据库作为跳板库
 psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname =&#39;postgres&#39;&quot;; pg_restore -dinit -C postgres_Fd.dump
@@ -486,14 +506,14 @@ psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM 
 <li>伪增量重建（？），不删库仅重建对象</li>
 </ul>
 <pre><code class="bash"># -Fd归档路径模式转储，并生成列出归档内容的表格，这个操作的输出能被用作-L选项的输入
-pg_dump -Upostgres -dpostgres -C -c --if-exists -s -Fd -j4 -f./postgres_Fd.dump &amp;&amp; pg_restore -l postgres_Fd.dump &gt; db.list
+pg_dump -Upostgres -dpostgres -C -c --if-exists -Fd -j4 -f./postgres_Fd_j4.dump &amp;&amp; pg_restore -l postgres_Fd_j4.dump &gt; postgres.list
 # 按照归档list的顺序和指定内容进行恢复，归档list内的内容可以进行修改
 # 目标库存在时，选择目标库作为跳板库，在不删除源库的情况下进行对象重建
 psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname =&#39;postgres&#39;&quot;; pg_restore -dpostgres -c --if-exists -j4 -L db.list postgres_Fd.dump</code></pre>
 <ul>
 <li>删库重建</li>
 </ul>
-<pre><code class="bash">pg_dump -Upostgres -dpostgres -C -c --if-exists -s -Fd -j4 -f./postgres_Fd_C.dump &amp;&amp; pg_restore -l postgres_Fd.dump &gt; db_C.list
+<pre><code class="bash">pg_dump -Upostgres -dpostgres -C -c --if-exists -s -Fd -j4 -f./postgres_Fd_C.dump &amp;&amp; pg_restore -l postgres_Fd_C.dump &gt; db_C.list
 # 删除目标库，再选择跳板库重建目标库
 psql -dinit -P&quot;border&quot; -c &quot;SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname =&#39;postgres&#39;&quot;; pg_restore -dinit -C -c --if-exists postgres_Fd_C.dump
 # 或

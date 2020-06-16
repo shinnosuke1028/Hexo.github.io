@@ -353,7 +353,7 @@ lvcreate -n lv1 -L 10G vg1
 # 格式化并挂载 
 mkfs.xfs /dev/vg1/lv1
 mkdir /lvm     # 确认lvm为新的空路径，不可用非空路径
-mount /dev/vg1/lv1 /lvm
+mount /dev/vg1/lv1 /u1
 
 # 设置开机挂载
 vim /etc/fstab

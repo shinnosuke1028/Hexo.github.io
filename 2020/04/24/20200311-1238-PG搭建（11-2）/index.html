@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    2.9k 字
+                    3.3k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      14 分钟
+                      15 分钟
                   </span>&nbsp;
                 
 
@@ -496,6 +496,68 @@ psql -c &quot;VACUUM (VERBOSE, ANALYZE) postgres.rms.hap_info&quot;;
 
 --表分析，收集表的统计信息
 ANALYZE postgres.rms.hap_info;</code></pre>
+<hr>
+<h3 id="07-pgAgent"><a href="#07-pgAgent" class="headerlink" title="07. pgAgent"></a>07. pgAgent</h3><ul>
+<li>Repo Point (3个必要组件)<br><a href="http://cmake.org/download/" target="_blank" rel="noopener">cmake-3.18.0.tar.gz</a><br><a href="https://github.com/wxWidgets/wxWidgets/releases/tag/v3.1.4" target="_blank" rel="noopener">wxWidgets-3.1.4.tar.bz2</a><br><a href="https://www.pgadmin.org/download/pgagent-source-code/" target="_blank" rel="noopener">pgAgent-4.0.0-Source.tar.gz</a></li>
+</ul>
+<pre><code class="bash"># step 0 Linux环境依赖安装(基于光盘yum安装即可)
+# wxWidgets组件依赖
+yum install gtk*    # wxWidgets
+# pgAgent组件依赖
+yum install boost*    # pgAgent
+
+# step 1 cmake
+cd cmake-3.18.0
+./bootstrap
+gmake &amp;&amp; gmake install
+# make &amp;&amp; make install
+# CentOS7下cmake默认不会在/usr/bin下生成软链接，记得手动添加
+ln -s /usr/local/bin/cmake /usr/bin/cmake</code></pre>
+<img src="pgAgent_cmake.png" srcset="/img/loading.gif"  width="300" title="cmake编译">
+<img src="pgAgent_cmake_gmake&&gmake install.png" srcset="/img/loading.gif"  width="300" title="cmake安装，可用make && make install">
+
+
+
+<pre><code class="bash"># step 2 wxWidgets
+# root用户私有环境变量修改
+# ~/.bash_profile
+PATH=$PATH:$HOME/bin:/usr/local/wxWidgets-xxx/bin
+export LD_LIBRARY_PATH=/usr/local/wxWidgets-3.1.1/lib:$LD_LIBRARY_PATH
+# 生效参数文件
+source .bash_profile
+# 命令报错时，记得检查Linux是否安装了bzip2，并基于光盘yum安装
+tar -jxvf wxWidgets-3.1.4.tar.bz2
+cd wxWidgets-3.1.4
+# 编译安装 wxWidgets 组件
+./configure --enable-shared=no --enable-unicode=yes --prefix=/db/pgAgent/wxWidgets-3.1.1
+make &amp;&amp; make install</code></pre>
+<img src="pgAgent_cmake.png" srcset="/img/loading.gif"  width="300" title="cmake编译">
+
+
+<pre><code class="bash"># stpe 3 pgAgent
+cd pgAgent-4.0.0-Source
+cmake ./
+make &amp;&amp; make install</code></pre>
+<img src="pgAgent_complie.png" srcset="/img/loading.gif"  width="300" title="pgAgent编译">
+<img src="pgAgent_done.png" srcset="/img/loading.gif"  width="300" title="pgAgent安装">
+
+
+<pre><code class="bash"># step 4 切换用户，修改数据共享库，不然会报*.so文件找不到的错误
+su - postgres
+vim ~/.bashrc
+# bashrc
+# User specific aliases and functions
+export LD_LIBRARY_PATH=/db/pgsql/lib/
+######
+
+# step 5 简单创建PG扩展
+su - postgres
+CREATE EXTENSION PGAGENT;</code></pre>
+<img src="pgAgent_extension_create.png" srcset="/img/loading.gif"  width="300" title="pgAgent扩展创建">
+
+<pre><code class="bash"># step 6 启动
+pgagent hostaddr=10.72.8.50 dbname=postgres user=postgres password=&#39;xxxxxx&#39;</code></pre>
+<p><code>Tips</code> CentOS7下cmake默认不会在/usr/bin下生成cmake的软链接，记得手动添加！！！<br><code>Tips</code> wxWidgets源码包为tar.bz2格式，tar -jxvf命令在线解压；命令报错时，记得检查Linux是否安装了bzip2，并基于光盘yum安装，yum -y install bzip2.</p>
 
             <hr>
           </div>

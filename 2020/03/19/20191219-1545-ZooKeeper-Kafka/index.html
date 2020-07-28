@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    597 字
+                    632 字
                   </span>&nbsp;
                 
 
@@ -286,6 +286,11 @@ kafka-console-consumer.sh --bootstrap-server master:9092 --topic test --offset 5
 <li>创建第一个Producer</li>
 </ul>
 <pre><code class="bash">kafka-console-producer.sh --broker-list master:9092 --topic test</code></pre>
+<ul>
+<li>查看日志</li>
+</ul>
+<pre><code class="bash"># Kafka日志需要利用其自带的工具才能查看
+../../bin/kafka-run-class.sh kafka.tools.DumpLogSegments --files xxx.index  --print-data-log</code></pre>
 
             <hr>
           </div>

@@ -305,19 +305,19 @@ SHA256:kKlNCwZJ24AKh9DN0tnvn7XdvawYSr9Lf10a1xIG2PA root@sh02-oscar-hapomc-prod-w
 </ul>
 <pre><code class="bash"># 分发镜像
 [root@sh02-oscar-hapomc-pp-web01 mnt] scp /mnt/CentOS-7-x86_64-DVD-1908.iso root@web25:/mnt
-[root@sh02-oscar-hapomc-pp-web01 mnt] mkdir -p /mnt/cdrom
+[root@sh02-oscar-hapomc-pp-web01 mnt] mkdir -p /mnt/yum
 [root@sh02-oscar-hapomc-pp-web01 mnt] cp /etc/yum.repo.d/CentOS-Base.repo /etc/yum.repo.d/CentOS-Base.repo.bak
 [root@sh02-oscar-hapomc-pp-web01 mnt] vim /etc/yum.repo.d/CentOS-Base.repo
 # CentOS-Base.repo
 [CentOS-7]
 name=CentOS
-baseurl=file:///mnt/cdrom
+baseurl=file:///mnt/yum
 enabled=1
 gpgcheck=0
-# gpgkey=file:///mnt/cdrom/RPM-GPG-KEY-CentOS-7
+# gpgkey=file:///mnt/yum/RPM-GPG-KEY-CentOS-7
 ######
 
-mount -o loop -t iso9660 /mnt/CentOS-7-x86_64-DVD-1908.iso /mnt/cdrom/
+mount -o loop -t iso9660 /mnt/CentOS-7-x86_64-DVD-1908.iso /mnt/yum/
 
 scp /etc/yum.repos.d/CentOS-Base.repo root@web25:/etc/yum.repos.d/
 # 并在其它节点执行光盘挂载

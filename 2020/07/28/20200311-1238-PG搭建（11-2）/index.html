@@ -497,7 +497,7 @@ psql -c &quot;VACUUM (VERBOSE, ANALYZE) postgres.rms.hap_info&quot;;
 --表分析，收集表的统计信息
 ANALYZE postgres.rms.hap_info;</code></pre>
 <hr>
-<h3 id="07-pgAgent"><a href="#07-pgAgent" class="headerlink" title="07. pgAgent"></a>07. pgAgent</h3><ul>
+<h3 id="07-pgAgent"><a href="#07-pgAgent" class="headerlink" title="07. pgAgent"></a>07. pgAgent</h3><h4 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h4><ul>
 <li>Repo Point (3个必要组件)<br><a href="http://cmake.org/download/" target="_blank" rel="noopener">cmake-3.18.0.tar.gz</a><br><a href="https://github.com/wxWidgets/wxWidgets/releases/tag/v3.1.4" target="_blank" rel="noopener">wxWidgets-3.1.4.tar.bz2</a><br><a href="https://www.pgadmin.org/download/pgagent-source-code/" target="_blank" rel="noopener">pgAgent-4.0.0-Source.tar.gz</a></li>
 </ul>
 <pre><code class="bash"># step 0 Linux环境依赖安装(基于光盘yum安装即可)
@@ -558,7 +558,8 @@ CREATE EXTENSION PGAGENT;</code></pre>
 <pre><code class="bash"># step 6 启动
 pgagent hostaddr=10.72.8.50 dbname=postgres user=postgres password=&#39;xxxxxx&#39;</code></pre>
 <p><code>Tips</code> CentOS7下cmake默认不会在 <strong>/usr/bin</strong> 下生成cmake的软链接，记得手动添加！！！<br><code>Tips</code> wxWidgets源码包为tar.bz2格式，<strong>tar -jxvf</strong>命令在线解压；命令报错时，记得检查Linux是否安装了<strong>bzip2</strong>，并基于光盘yum安装，<strong>yum -y install bzip2</strong>.</p>
-
+<hr>
+<h4 id="pgAgent任务配置"><a href="#pgAgent任务配置" class="headerlink" title="pgAgent任务配置"></a>pgAgent任务配置</h4>
             <hr>
           </div>
           <br>

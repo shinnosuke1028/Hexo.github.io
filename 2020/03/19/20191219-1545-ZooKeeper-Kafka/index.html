@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    632 字
+                    645 字
                   </span>&nbsp;
                 
 
@@ -281,7 +281,7 @@ kafka-console-consumer.sh --bootstrap-server 10.72.8.46:9092 --topic test --from
 kafka-console-consumer.sh --bootstrap-server 10.72.8.46:9092 10.72.8.30:9092 10.72.8.38:9092 --topic PREDATA
 
 # 从指定的offset开始消费，且指定偏移量时，需指定partition
-kafka-console-consumer.sh --bootstrap-server master:9092 --topic test --offset 523 --partition 0</code></pre>
+kafka-console-consumer.sh --bootstrap-server 10.72.8.46:9092 10.72.8.38:9092 10.72.8.30:9092 --topic PREDATA --offset 25087628 --partition PREDATA</code></pre>
 <ul>
 <li>创建第一个Producer</li>
 </ul>

@@ -8,7 +8,7 @@
     <link href="/2020/08/31/20200831_1200_%E6%95%B0%E4%BB%93%E9%9D%A2%E8%AF%95%EF%BC%88%E5%B0%8F%E8%AE%B0%EF%BC%89/"/>
     <url>/2020/08/31/20200831_1200_%E6%95%B0%E4%BB%93%E9%9D%A2%E8%AF%95%EF%BC%88%E5%B0%8F%E8%AE%B0%EF%BC%89/</url>
     
-    <content type="html"><![CDATA[<h2 id="数据仓库"><a href="#数据仓库" class="headerlink" title="数据仓库"></a>数据仓库</h2><h3 id="01-面试"><a href="#01-面试" class="headerlink" title="01. 面试"></a>01. 面试</h3><ul><li>Blog Point<br><a href="https://www.postgresql.org/download/" target="_blank" rel="noopener">Postgresql</a></li></ul><ol><li>DB数据扫描模式（行/列，别想太多算法，就是基本模式）</li><li>Join算法的区别和关联</li></ol><h3 id="02-理论"><a href="#02-理论" class="headerlink" title="02. 理论"></a>02. 理论</h3><ul><li>软件源码/几个基本底层组件包&amp;离线环境rpm安装</li></ul><pre><code class="bash">/db/install_pg/postgresql-11.2.tar.gzyum install ncurses* readline* zlib* -y</code></pre>]]></content>
+    <content type="html"><![CDATA[<h2 id="数据仓库"><a href="#数据仓库" class="headerlink" title="数据仓库"></a>数据仓库</h2><h3 id="01-面试"><a href="#01-面试" class="headerlink" title="01. 面试"></a>01. 面试</h3><ul><li>Blog Point<br><a href="https://www.postgresql.org/download/" target="_blank" rel="noopener">Postgresql</a></li></ul><ol><li>DB数据扫描模式（行/列，别想太多算法，就是基本模式）</li><li>Join算法的区别和关联</li><li>Hive存储文件的几种格式及其区别（ORC行集合做列式存储/Parquet列示数据存储/sequence file<strong>BLOCK&gt;NONE&gt;RECORD</strong>）</li></ol><h3 id="02-理论"><a href="#02-理论" class="headerlink" title="02. 理论"></a>02. 理论</h3><ul><li>软件源码/几个基本底层组件包&amp;离线环境rpm安装</li></ul><pre><code class="bash">/db/install_pg/postgresql-11.2.tar.gzyum install ncurses* readline* zlib* -y</code></pre>]]></content>
     
     
     

@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    3.3k 字
+                    3.4k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      15 分钟
+                      16 分钟
                   </span>&nbsp;
                 
 
@@ -270,7 +270,7 @@ ALTER INDEX IF EXISTS &lt;old_name&gt; RENAME TO &lt;new_index_name&gt;;
 ALTER TABLE NAME RENAME CONSTRAINT &lt;constraint_name&gt; TO &lt;new_constraint_name&gt;;
 ALTER TABLE rms.hap_shift_withflag ALTER COLUMN hap_code TYPE varchar(128) USING hap_code::varchar;
 ALTER TABLE public.t_fm_server_app_status ALTER COLUMN server_status TYPE NUMERIC USING server_status::varchar;
-ALTER TABLE &lt;tbname&gt; ADD COLUMN
+ALTER TABLE &lt;tbname&gt; ADD COLUMN x TEXT, ADD COLUMN y TEXT, ...
 </code></pre>
 <ul>
 <li>约束</li>
@@ -370,6 +370,25 @@ ALTER TABLE postgres.t_pm_o_self_monitor DETACH PARTITION postgres.t_pm_o_self_m
 --连接分区时需要指定分区上的约束
 ALTER TABLE postgres.t_pm_o_self_monitor ATTACH PARTITION postgres.t_pm_o_self_monitor_par_202101 FOR VALUES FROM (&#39;2021-01-01&#39;) TO (&#39;2021-02-01&#39;);
 </code></pre>
+<ul>
+<li>外键约束</li>
+</ul>
+<pre><code class="sql">--2.code是3的，关联至3.code
+CREATE TABLE public.hr_test_2 (
+    dt timestamp NULL,
+    code varchar(100) NULL,
+    explanation text NULL,
+    CONSTRAINT hr_test_2_code_fkey FOREIGN KEY (code) REFERENCES hr_test_3(code) ON UPDATE RESTRICT ON DELETE RESTRICT
+);
+
+CREATE TABLE public.hr_test_3 (
+    dt timestamp NULL,
+    code varchar(100) NOT NULL,
+    explanation text NULL,
+    explanation2 text NULL,
+    explanation3 text NULL,
+    CONSTRAINT hr_test_3_pkey PRIMARY KEY (code)
+);</code></pre>
 <ul>
 <li>锁<br>```sql<br>SELECT * FROM PG_STAT_ACTIVITY;<br>SELECT PG_TERMINATE_BACKEND(PID);</li>
 </ul>

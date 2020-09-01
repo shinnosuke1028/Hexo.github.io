@@ -145,6 +145,58 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/02/26/20191220-1940-Hive/" target="_self">
+          <img src="/img/Hive-1.png" srcset="/img/loading.gif" alt="20200226_1638_Hive（持续更新）" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/26/20191220-1940-Hive/">
+        <p class="h4 index-header">20200226_1638_Hive（持续更新）</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">移花接木-Hive01. Hive 1.x
+Repo Pointapache-hive-1.2.2-bin.tar.gzmysql-connector-java-5.1.44.tarapache-hive-1.2.2-src.tar.gz
+
+
+02. Beeline连接Hive（Review）
+这里使用的是Hive Metastore ➡ hiveserver2 ➡ beeline的连接方式（启动方式见下方）.
+
+也可以使用Hive Metastore ➡ hive（CLI）的连接方式
+
+后缀为重定向，需百度解决（已解决，详见 20191224_1414_Hive-1.x配置）
+
+
+# hive-site.xml中配置了hive.metastore.uris后，无论是HS2或是Hive CLI开启前，都需开启Metastore
+hive --service metastore  1&gt;/dev/null  2&gt;&amp;1  &amp;
+# beeline方式连接Hive，默认端口为10000
+hive --service hiveserver2 &amp;
+#beeline</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-26&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Hive">Hive</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/02/25/20200225-1220-Python3-Django%EF%BC%88%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C%E5%BA%94%E7%94%A8%EF%BC%89/" target="_self">
           <img src="/img/Django.png" srcset="/img/loading.gif" alt="20200225_1220_Python3-Django（一个简单的数据操作应用）" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -661,56 +713,11 @@ export HADOOP_HOME=/usr/local/src/hadoop-2.6</div>
     </div>
   </div>
 
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2019/12/02/20191202_2329_Hello%20World/" target="_self">
-          <img src="/img/650.gif" srcset="/img/loading.gif" alt="Hello World" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/12/02/20191202_2329_Hello%20World/">
-        <p class="h4 index-header">Hello World</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick StartCreate a new post$ hexo new &quot;My New Post&quot;
-More info: Writing
-Run server$ hexo server
-More info: Server
-Generate static files$ hexo generate
-More info: Generating
-Deploy to remote sites$ hexo deploy
-More info: Deployment
-</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-02&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Demo">Demo</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="index posts navigation">
     <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+      <a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-double-right"></i></a>
     </span>
   </nav>
   

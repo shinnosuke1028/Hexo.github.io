@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="Shinnosuke Guo">
   <meta name="keywords" content="">
-  <title>20191219_1545_ZooKeeper-Kafka ~ Shinnosuke</title>
+  <title>20200831_1200_数仓面试（小记） ~ Shinnosuke</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Thursday, March 19th 2020, 5:17 pm
+                  Monday, August 31st 2020, 7:45 pm
                 </p>
               
 
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    674 字
+                    76 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      3 分钟
+                      1 分钟
                   </span>&nbsp;
                 
 
@@ -172,125 +172,18 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <h2 id="ZooKeeper-amp-Kafka-配置"><a href="#ZooKeeper-amp-Kafka-配置" class="headerlink" title="ZooKeeper &amp; Kafka 配置"></a>ZooKeeper &amp; Kafka 配置</h2><h3 id="01-ZooKeeper-amp-Kafka"><a href="#01-ZooKeeper-amp-Kafka" class="headerlink" title="01. ZooKeeper &amp; Kafka"></a>01. ZooKeeper &amp; Kafka</h3><ul>
-<li>Repo Point<br><a href="http://mirrors.tuna.tsinghua.edu.cn/apache/kafka/0.10.2.1/kafka_2.11-0.10.2.1.tgz" target="_blank" rel="noopener">kafka_2.11-0.10.2.1.tgz</a><br><a href="http://archive.apache.org/dist/zookeeper/zookeeper-3.4.11/zookeeper-3.4.11.tar.gz" target="_blank" rel="noopener">ZooKeeper</a></li>
+            <h2 id="数据仓库"><a href="#数据仓库" class="headerlink" title="数据仓库"></a>数据仓库</h2><h3 id="01-面试"><a href="#01-面试" class="headerlink" title="01. 面试"></a>01. 面试</h3><ul>
+<li>Blog Point<br><a href="https://www.postgresql.org/download/" target="_blank" rel="noopener">Postgresql</a></li>
 </ul>
-<h3 id="02-环境配置"><a href="#02-环境配置" class="headerlink" title="02. 环境配置"></a>02. 环境配置</h3><h4 id="1-环境包-rz-至相关路径，分流至其它节点："><a href="#1-环境包-rz-至相关路径，分流至其它节点：" class="headerlink" title="1. 环境包 rz 至相关路径，分流至其它节点："></a>1. 环境包 rz 至相关路径，分流至其它节点：</h4><h5 id="源码分发"><a href="#源码分发" class="headerlink" title="源码分发"></a>源码分发</h5><pre><code class="bash">scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave1:/usr/local/src/
-scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave2:/usr/local/src/</code></pre>
-<h5 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h5><ul>
-<li>后续补充</li>
+<ol>
+<li>DB数据扫描模式（行/列，别想太多算法，就是基本模式）</li>
+<li>Join算法的区别和关联</li>
+</ol>
+<h3 id="02-理论"><a href="#02-理论" class="headerlink" title="02. 理论"></a>02. 理论</h3><ul>
+<li>软件源码/几个基本底层组件包&amp;离线环境rpm安装</li>
 </ul>
-<h5 id="启动Zookeeper"><a href="#启动Zookeeper" class="headerlink" title="启动Zookeeper"></a>启动Zookeeper</h5><pre><code class="bash">zkServer.sh start
-zkServer.sh stop
-zkServer.sh status</code></pre>
-<p><code>Tips</code>Zookeeper启停需在所有节点执行，可以自定义</p>
-<pre><code class="bash">(base) [root@master bin]# cat zkServer_start_all.sh
-# zkServer_start_all.sh
-zkServer.sh start
-ssh slave1 &lt;&lt;EOF
-    zkServer.sh start
-    exit
-EOF
-ssh slave2 &lt;&lt;EOF
-        zkServer.sh start
-    exit
-EOF
-sleep 3s
-zkServer.sh status
-######
-
-(base) [root@master bin]# cat zkServer_stop_all.sh 
-# zkServer_stop_all.sh
-zkServer.sh stop
-ssh slave1 &lt;&lt;EOF
-    zkServer.sh stop
-    exit
-EOF
-ssh slave2 &lt;&lt;EOF
-        zkServer.sh stop
-    exit
-EOF
-######</code></pre>
-<h5 id="启动Kafka"><a href="#启动Kafka" class="headerlink" title="启动Kafka"></a>启动Kafka</h5><pre><code class="bash">kafka-server-start.sh -daemon /usr/local/src/kafka_2.11-0.10.2.1/config/server.properties
-kafka-server-stop.sh
-jps</code></pre>
-<p><code>Tips</code>Kafka启停需在所有节点执行，可以自定义</p>
-<pre><code class="bash"># 首先是节点Kafka启动脚本
-# start-kafka.sh
-/usr/local/src/kafka_2.11-0.10.2.1/bin/kafka-server-start.sh -daemon /usr/local/src/kafka_2.11-0.10.2.1/config/server.properties
-######
-
-(base) [root@master bin]# cat kafka_start-all.sh 
-# kafka_start-all.sh
-start-kafka.sh
-ssh slave1 &lt;&lt;EOF
-    start-kafka.sh
-    exit
-EOF
-ssh slave2 &lt;&lt;EOF
-        start-kafka.sh
-        exit
-EOF
-sleep 2s
-jps
-######
-
-(base) [root@master bin]# cat kafka_stop-all.sh 
-# kafka_stop-all.sh 
-kafka-server-stop.sh
-ssh slave1 &lt;&lt;EOF
-    kafka-server-stop.sh
-    exit
-EOF
-ssh slave2 &lt;&lt;EOF
-    kafka-server-stop.sh
-        exit
-EOF
-sleep 2s
-jps
-######</code></pre>
-<h4 id="2-Topic"><a href="#2-Topic" class="headerlink" title="2. Topic"></a>2. Topic</h4><h5 id="命令行操作"><a href="#命令行操作" class="headerlink" title="命令行操作"></a>命令行操作</h5><ul>
-<li>创建第一个Topic，并查看</li>
-</ul>
-<pre><code class="bash">kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 2 --topic PREDATA
-# --replication-factor 2 // 复制两份
-# --partitions 1 // 创建1个分区
-# --topic // 主题为my-topic
-# --zookeeper // 此处为为zookeeper监听的地址
-
-
-kafka-topics.sh --list --zookeeper localhost:2181
-# 查看Topic状态
-kafka-topics.sh --describe --zookeeper localhost:2181 --topic notify_topic # PREDATA</code></pre>
-<img src="Topic.png" srcset="/img/loading.gif"  width="300" title="Topic test状态.">
-
-<ul>
-<li>删除第一个Topic</li>
-</ul>
-<pre><code class="bash">kafka-topics.sh --zookeeper localhost:2181 --delete --topic test</code></pre>
-<ul>
-<li>创建第一个Consumer</li>
-</ul>
-<pre><code class="bash">kafka-console-consumer.sh --zookeeper master:2181 --topic test --from-beginning
-# Using the ConsoleConsumer with old consumer is deprecated and will be removed in a future major release. Consider using the new consumer by passing [bootstrap-server] instead of [zookeeper].
-
-# --zookeeper参数在后续版本会被取消，这里使用下面的命令替代
-kafka-console-consumer.sh --bootstrap-server 10.72.8.46:9092 10.72.8.30:9092 10.72.8.38:9092 --topic notify_topic --from-beginning
-
-# 从最新的offset开始消费
-kafka-console-consumer.sh --bootstrap-server 10.72.8.46:9092 10.72.8.30:9092 10.72.8.38:9092 --topic PREDATA
-
-# 从指定的offset开始消费，且指定偏移量时，需指定partition
-kafka-console-consumer.sh --bootstrap-server 10.72.8.46:9092 10.72.8.38:9092 10.72.8.30:9092 --topic PREDATA --offset 25087628 --partition PREDATA</code></pre>
-<ul>
-<li>创建第一个Producer</li>
-</ul>
-<pre><code class="bash">kafka-console-producer.sh --broker-list 10.72.8.46:9092 10.72.8.38:9092 10.72.8.30:9092 --topic TESTTOPIC</code></pre>
-<ul>
-<li>查看日志</li>
-</ul>
-<pre><code class="bash"># Kafka日志需要利用其自带的工具才能查看
-../../bin/kafka-run-class.sh kafka.tools.DumpLogSegments --files xxx.index  --print-data-log</code></pre>
+<pre><code class="bash">/db/install_pg/postgresql-11.2.tar.gz
+yum install ncurses* readline* zlib* -y</code></pre>
 
             <hr>
           </div>
@@ -302,7 +195,7 @@ kafka-console-consumer.sh --bootstrap-server 10.72.8.46:9092 10.72.8.38:9092 10.
               <span>
                 <i class="iconfont icon-tag"></i>
                 
-                  <a class="hover-with-bg" href="/tags/ZooKeeper%20Kafka">ZooKeeper Kafka</a>
+                  <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93">数据仓库</a>
                 
               </span>
             
@@ -463,7 +356,7 @@ kafka-console-consumer.sh --bootstrap-server 10.72.8.46:9092 10.72.8.38:9092 10.
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "20191219_1545_ZooKeeper-Kafka&nbsp;",
+        "20200831_1200_数仓面试（小记）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    509 字
+                    571 字
                   </span>&nbsp;
                 
 
@@ -194,8 +194,9 @@ order_products_prior p
 on o.order_id = p.order_id
 limit 500;</code></pre>
 <p><code>Tips</code>到底是key的相同与否影响MR数量，还是同key情况下表连接方式影响MR数量，这一点有待商榷.</p>
-<h3 id="02-各种参数"><a href="#02-各种参数" class="headerlink" title="02. 各种参数"></a>02. 各种参数</h3><p><code>数据倾斜-万能参数</code>hive.groupby.skewindata=true;<br><code>并行执行</code>hive.exec.parallel=true;<br><code>JVM重用</code>mapred.job.reuse.jvm.num.tasks=10;</p>
-<h3 id="03-数据倾斜"><a href="#03-数据倾斜" class="headerlink" title="03. 数据倾斜"></a>03. 数据倾斜</h3><h4 id="key值不均导致"><a href="#key值不均导致" class="headerlink" title="key值不均导致"></a>key值不均导致</h4><h4 id="万能方法"><a href="#万能方法" class="headerlink" title="万能方法"></a>万能方法</h4><h4 id="大小表关联"><a href="#大小表关联" class="headerlink" title="大小表关联"></a>大小表关联</h4><h4 id="聚合操作时存在大量特殊值（NULL）"><a href="#聚合操作时存在大量特殊值（NULL）" class="headerlink" title="聚合操作时存在大量特殊值（NULL）"></a>聚合操作时存在大量特殊值（NULL）</h4><h4 id="空间换时间"><a href="#空间换时间" class="headerlink" title="空间换时间"></a>空间换时间</h4><h3 id="04"><a href="#04" class="headerlink" title="04."></a>04.</h3><h3 id="05"><a href="#05" class="headerlink" title="05."></a>05.</h3>
+<h3 id="02-大大表连接"><a href="#02-大大表连接" class="headerlink" title="02. 大大表连接"></a>02. 大大表连接</h3><p><code>Tips</code>大表分桶贮存，记得一定是为了使用<strong>SBM Join</strong>，即大表拆分，各通排序，join过程中可以回避掉不需要的数据抽取.</p>
+<h3 id="03-各种参数（应当按map-gt-join-gt-reduce分层理解）"><a href="#03-各种参数（应当按map-gt-join-gt-reduce分层理解）" class="headerlink" title="03. 各种参数（应当按map -&gt; join -&gt; reduce分层理解）"></a>03. 各种参数（应当按map -&gt; join -&gt; reduce分层理解）</h3><p><code>数据倾斜-万能参数</code>hive.groupby.skewindata=true;<br><code>并行执行</code>hive.exec.parallel=true;<br><code>JVM重用</code>mapred.job.reuse.jvm.num.tasks=10;</p>
+<h3 id="04-数据倾斜"><a href="#04-数据倾斜" class="headerlink" title="04. 数据倾斜"></a>04. 数据倾斜</h3><h4 id="key值不均导致"><a href="#key值不均导致" class="headerlink" title="key值不均导致"></a>key值不均导致</h4><h4 id="万能方法"><a href="#万能方法" class="headerlink" title="万能方法"></a>万能方法</h4><h4 id="大小表关联"><a href="#大小表关联" class="headerlink" title="大小表关联"></a>大小表关联</h4><h4 id="聚合操作时存在大量特殊值（NULL）"><a href="#聚合操作时存在大量特殊值（NULL）" class="headerlink" title="聚合操作时存在大量特殊值（NULL）"></a>聚合操作时存在大量特殊值（NULL）</h4><h4 id="空间换时间"><a href="#空间换时间" class="headerlink" title="空间换时间"></a>空间换时间</h4><h3 id="04"><a href="#04" class="headerlink" title="04."></a>04.</h3><h3 id="05"><a href="#05" class="headerlink" title="05."></a>05.</h3>
             <hr>
           </div>
           <br>

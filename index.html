@@ -161,12 +161,12 @@
           <div class="index-text mb-1">数据仓库01. 面试
 Blog Point
 
-
+OLAP
 DB数据扫描模式（行/列，别想太多算法，就是基本模式）.
-Join算法的区别和关联（Nested Loop Join/Hash Join/Sort-Merge Join），切记将此处的归并排序和MapReduce中的大大关联操作，联系起来理解.
 Hive存储文件的几种格式及其区别（ORC行集合做列式存储/Parquet列示数据存储/sequence fileBLOCK&gt;NONE&gt;RECORD）.
 Hive的关联算法和普通关系型数据库的区别（Hive特有的分桶使其支持Bucket join/Sort-Bucket-Merge Mapjoin），即分桶排序后的大表切片，是解决大表关联大表的关键！！！非常重要，两张分桶clustered（distrubute by sorted by）的表，join阶段的性能会表现得很优秀，也可以自主设置mapred.reduce.tasks去适配bucket个数，推荐使用’set hive.enforce.bucketing = true’.
-数据治理（除了完整性外，还需关注及时性&lt;inse</div>
+数据治理（除了完整性外，还需关注及时性&lt;insert_time，之前一直不理解多时间戳的意义&gt;，及时性&lt;数据到达/数据处理&gt;，有效性&lt;数据指标发生反转，如何监控和规避&gt;）.
+数据仓库主题（这部分一直</div>
         </div>
       </a>
 

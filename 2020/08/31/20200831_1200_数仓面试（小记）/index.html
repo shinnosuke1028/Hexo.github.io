@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    112 字
+                    243 字
                   </span>&nbsp;
                 
 
@@ -173,18 +173,17 @@
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
             <h2 id="数据仓库"><a href="#数据仓库" class="headerlink" title="数据仓库"></a>数据仓库</h2><h3 id="01-面试"><a href="#01-面试" class="headerlink" title="01. 面试"></a>01. 面试</h3><ul>
-<li>Blog Point<br><a href="https://www.postgresql.org/download/" target="_blank" rel="noopener">Postgresql</a></li>
+<li>Blog Point</li>
 </ul>
 <ol>
 <li>DB数据扫描模式（行/列，别想太多算法，就是基本模式）</li>
 <li>Join算法的区别和关联</li>
 <li>Hive存储文件的几种格式及其区别（ORC行集合做列式存储/Parquet列示数据存储/sequence file<strong>BLOCK&gt;NONE&gt;RECORD</strong>）</li>
+<li>Hive的关联算法和普通关系型数据库的区别（Hive特有的分桶使其支持Bucket join/Sort-Bucket-Merge Mapjoin），这是解决大表关联大表的关键！！！非常重要，两张分桶clustered（distrubute by sorted by）的表，join阶段的性能会表现得很优秀，<strong>也可以自主设置mapred.reduce.tasks去适配bucket个数，推荐使用’set hive.enforce.bucketing = true’</strong>.</li>
+<li>数据治理（除了完整性外，还需关注及时性&lt;<strong>insert_time，之前一直不理解多时间戳的意义</strong>&gt;，及时性&lt;<strong>数据到达/数据处理</strong>&gt;，有效性&lt;<strong>数据指标发生反转，如何监控和规避</strong>&gt;）</li>
 </ol>
-<h3 id="02-理论"><a href="#02-理论" class="headerlink" title="02. 理论"></a>02. 理论</h3><ul>
-<li>软件源码/几个基本底层组件包&amp;离线环境rpm安装</li>
-</ul>
-<pre><code class="bash">/db/install_pg/postgresql-11.2.tar.gz
-yum install ncurses* readline* zlib* -y</code></pre>
+<h3 id="02-理论"><a href="#02-理论" class="headerlink" title="02. 理论"></a>02. 理论</h3><p>*</p>
+<pre><code class="bash"></code></pre>
 
             <hr>
           </div>

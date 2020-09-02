@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    11.7k 字
+                    12.1k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      57 分钟
+                      59 分钟
                   </span>&nbsp;
                 
 
@@ -1725,8 +1725,62 @@ ALTER DATABASE OPEN RESETLOGS;</code></pre>
 </li>
 <li><p>RMAN恢复控制文件和SPFILE</p>
 <img src="RMAN_CONTROL_SPFILE.png" srcset="/img/loading.gif"  width="300" title="RMAN恢复控制文件和SPFILE">
+
+
 </li>
 </ul>
+<hr>
+<h3 id="12-静默安装（本次测试使用的是11-2-0，12c以上需另寻测试环境）"><a href="#12-静默安装（本次测试使用的是11-2-0，12c以上需另寻测试环境）" class="headerlink" title="12. 静默安装（本次测试使用的是11.2.0，12c以上需另寻测试环境）"></a>12. 静默安装（本次测试使用的是11.2.0，12c以上需另寻测试环境）</h3><h4 id="YUM源依赖-用户-路径-环境变量"><a href="#YUM源依赖-用户-路径-环境变量" class="headerlink" title="YUM源依赖/用户/路径/环境变量"></a>YUM源依赖/用户/路径/环境变量</h4><pre><code class="bash">yum install -y gcc libaio glibc compat-libstdc++-33 elfutils-libelf-devel gcc-c++ libaio-devel libgcc libstdc++ libstdc++-devel unixODBC unixODBC-devel
+oracle: vim ~/.bash_profile</code></pre>
+<h4 id="compat-libstdc-33-此包2003镜像缺失，手动安装"><a href="#compat-libstdc-33-此包2003镜像缺失，手动安装" class="headerlink" title="compat-libstdc++-33 此包2003镜像缺失，手动安装"></a>compat-libstdc++-33 此包2003镜像缺失，手动安装</h4><h4 id="注意大磁盘挂载点-home，database-lt-—-安装包解压缩后的文件夹"><a href="#注意大磁盘挂载点-home，database-lt-—-安装包解压缩后的文件夹" class="headerlink" title="注意大磁盘挂载点 /home，database &lt;— 安装包解压缩后的文件夹"></a>注意大磁盘挂载点 /home，database &lt;— 安装包解压缩后的文件夹</h4><h4 id="默认应答配置"><a href="#默认应答配置" class="headerlink" title="默认应答配置"></a>默认应答配置</h4><pre><code class="bash"># 备份
+cp /home/u01/database/response/db_install.rsp /home/u01/database/response/db_install.rsp.bak
+
+# 修改数据库软件应答（无库仅软件）
+/home/u01/database/response/db_install.rsp
+# 配置response文件
+/liangren/database/response/db_install.rsp这个文件需要更改的地方有：
+oracle.install.option=INSTALL_DB_SWONLY
+ORACLE_HOSTNAME=主机名
+UNIX_GROUP_NAME=oinstall
+INVENTORY_LOCATION=/home/u01/app/oraInventory
+SELECTED_LANGUAGES=en,zh_CN
+ORACLE_HOME=/home/u01/app/oracle/product/11.2.0/db_1
+ORACLE_BASE=/home/u01/app/oracle
+oracle.install.db.InstallEdition=EE
+oracle.install.db.DBA_GROUP=dba
+oracle.install.db.OPER_GROUP=dba
+DECLINE_SECURITY_UPDATES=true
+
+# 静默安装软体
+./runInstaller -silent  –ignoreSysPrereq -responseFile /home/u01/database/response/db_install.rsp
+
+# 执行俩root脚本
+
+# 监听
+netca /silent /responsefile /home/u01/database/response/netca.rsp
+
+# 修改静默建库应答
+vim /home/u01/database/response/dbca.rsp  # 主要修改全局库名/实例名/密码等[CREATEDATABASE]
+gdbName = &quot;SHGRNOP&quot; # 修改！！！
+sid = &quot;SHGRNOP&quot;     # 修改！！！
+templateName = &quot;General_Purpose.dbc&quot;   # 等会修改基本库模板
+characterSet = &quot;ZHS16GBK&quot; 
+memoryPercentage = &quot;60&quot;
+emConfiguration = &quot;LOCAL&quot;
+sysPassword = &quot;oracle&quot;
+systemPassword = &quot;oracle&quot;
+dbsnmpPassword = &quot;oracle&quot;
+sysmanPassword = &quot;oracle&quot;
+
+# 修改基本库模板 General_Purpose.dbc
+# 备份
+cp $ORACLE_HOME/assistants/dbca/templates/General_Purpose.dbc $ORACLE_HOME/assistants/dbca/templates/General_Purpose.dbc.bak
+$ORACLE_HOME/assistants/dbca/templates/General_Purpose.dbc    # 我仅修改了processes连接数至600
+
+# 静默建库
+dbca -silent -responseFile /home/u01/database/response/dbca.rsp
+
+lsnrctl status</code></pre>
 
             <hr>
           </div>

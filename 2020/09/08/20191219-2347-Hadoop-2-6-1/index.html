@@ -713,7 +713,7 @@ HDFS dfsadmin -report</code></pre>
 <p><strong><code>Map</code></strong></p>
 <ol>
 <li>数据切分: 大型数据载入HDFS，并以BLOCK（64/128）形式，冗余存储于HDFS磁盘内，这也是Map端输入的最小粒度文件（FileSplit）.</li>
-<li>数据块载入内存，达到溢写阈值（80%）时，进行磁盘写入，生成多个进行快排的分区数据（kv-&gt;pkv），写入磁盘，每个分区内的数据<strong>局部有序</strong>，按照pkv（partition, key, value）的顺序进行局部排序，同时，如果设置了<strong>combiner</strong>参数，则在Map阶段就进行Reduce操作，即mapjoin.</li>
+<li>数据块载入内存，达到溢写阈值（80%）时，进行磁盘写入，生成多个进行快排的分区数据（kv-&gt;pkv），写入磁盘，每个分区内的数据<strong>局部有序</strong>，按照pkv（partition, key, value）的顺序进行局部排序，同时，如果设置了<strong>Combiner</strong>参数，则在Map阶段就进行Reduce操作，即<strong>mapjoin</strong>.</li>
 <li>分区生成结束后，各个分区进行归并merge dump，由于局部有序，所以整个过程是归并排序的过程，非常快，并拼接成一个<strong>新的有序数据分区集合 =&gt; union == partition-0/1/2</strong>.</li>
 <li>每个Map均进行了上述Map操作，生成各自的<strong>有序数据分区集合</strong>，供后续shuffle后进行Reduce.</li>
 </ol>

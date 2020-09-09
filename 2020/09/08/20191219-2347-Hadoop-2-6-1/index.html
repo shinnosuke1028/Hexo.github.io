@@ -720,7 +720,7 @@ HDFS dfsadmin -report</code></pre>
 <p><strong><code>Reduce</code></strong></p>
 <ol>
 <li>每个Reduce节点仅处理一组hash(key)所对应的所有值，各个Map节点生成的有序数据分区集合，按照排序的结果各自切块，并shuffle至各自对应的Reduce节点下，Reduce-0/1/2.</li>
-<li>两两合并，最后进行Reduce合并，生成结果集.</li>
+<li>两两合并，最后进行Reduce合并，生成结果集，<strong>partition相同的数据进入同一个的Reduce</strong>，所以各Reduce间的数据key不会重复.</li>
 <li>多个Reduce节点下的结果集再进行最后的合并.</li>
 </ol>
 <p><code>MR任务调度</code> 详见上文<strong>4-3/4-4</strong>.</p>

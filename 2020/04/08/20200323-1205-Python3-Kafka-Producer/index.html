@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    2.6k 字
+                    2.7k 字
                   </span>&nbsp;
                 
 
@@ -184,11 +184,9 @@
 # @File: class_Kafka_producer.py
 # @Usage: Kafka producer for kafka_2.11-0.10.2.1
 
-
 from kafka import KafkaProducer
 import pymysql as pym
 # import psycopg2 as pg
-
 
 # Self Repo
 from src.func_demo.func_f import date_f
@@ -363,101 +361,147 @@ if __name__ == &#39;__main__&#39;:
     # prod.flush()</code></pre>
 <hr>
 <ul>
-<li>class_DB_demo.py<pre><code class="python"># -*- coding:utf-8 -*-
+<li>class_DB_demo.py</li>
+</ul>
+<pre><code class="python"># -*- coding:utf-8 -*-
 # @Author: Shin
 # @Date: 20/3/29 12:19
 # @File: class_DB_demo.py
 # @Usage: 
 
-</code></pre>
-</li>
-</ul>
-<p>import pymysql as pm<br>import psycopg2 as pg<br>from psycopg2.extras import execute_values</p>
-<h1 id="Self-Repo"><a href="#Self-Repo" class="headerlink" title="Self Repo"></a>Self Repo</h1><p>from src.func_demo.logging_f import *</p>
-<h1 id="下面的三行包其实是main函数中使用，有部分重复"><a href="#下面的三行包其实是main函数中使用，有部分重复" class="headerlink" title="下面的三行包其实是main函数中使用，有部分重复"></a>下面的三行包其实是main函数中使用，有部分重复</h1><h1 id="Self-Repo-1"><a href="#Self-Repo-1" class="headerlink" title="Self Repo"></a>Self Repo</h1><h1 id="from-src-class-DB-demo-import-UseMySQL-UsePostgreSQL-ExecutePostgreSQL"><a href="#from-src-class-DB-demo-import-UseMySQL-UsePostgreSQL-ExecutePostgreSQL" class="headerlink" title="from src.class_DB_demo import UseMySQL, UsePostgreSQL, ExecutePostgreSQL"></a>from src.class_DB_demo import UseMySQL, UsePostgreSQL, ExecutePostgreSQL</h1><p>from src.conf.kafka_conf import mysql_conn, pgsql_conn, pgsql_conn_pp, pgsql_conn_prod<br>from src.func_demo.logging_f import *</p>
-<p>class UseMySQL(object):<br>    def <strong>init</strong>(self, config:dict):<br>        self.configurantion = config</p>
-<pre><code>def __enter__(self):
-    self.conn = pm.connect(**self.configurantion)
-    self.cursor = self.conn.cursor()
-    return self.cursor
 
-def __exit__(self, exc_type, exc_val, exc_tb):
-    self.conn.commit()
-    self.cursor.close()
-    self.conn.close()</code></pre><p>class UsePostgreSQL(object):<br>    def <strong>init</strong>(self, config:dict):<br>        self.config = config</p>
-<pre><code>def __enter__(self):
-    self.conn = pg.connect(**self.config)
-    self.cursor = self.conn.cursor()
-    return self.cursor
+import pymysql as pm
+import psycopg2 as pg
+from psycopg2.extras import execute_values
 
-def __exit__(self, exc_type, exc_val, exc_tb):
-    self.conn.commit()
-    self.cursor.close()
-    self.conn.close()</code></pre><p>class ExecutePostgreSQL(object):<br>    def <strong>init</strong>(self, kwargs:dict):<br>        self.cur = kwargs[‘cur’]<br>        self.sql = kwargs[‘sql’]<br>        self.argslist = kwargs[‘argslist’]</p>
-<pre><code>def pg_insert(self):
-    # super(ExecutePostgreSQL, self).__enter__()
+
+# Self Repo
+from src.func_demo.logging_f import *
+
+
+# 下面的三行包其实是main函数中使用，有部分重复
+# Self Repo
+# from src.class_DB_demo import UseMySQL, UsePostgreSQL, ExecutePostgreSQL
+from src.conf.kafka_conf import mysql_conn, pgsql_conn, pgsql_conn_pp, pgsql_conn_prod
+from src.func_demo.logging_f import *
+
+
+class UseMySQL(object):
+    def __init__(self, config:dict):
+        self.configurantion = config
+
+    def __enter__(self):
+        self.conn = pm.connect(**self.configurantion)
+        self.cursor = self.conn.cursor()
+        return self.cursor
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.conn.commit()
+        self.cursor.close()
+        self.conn.close()
+
+
+class UsePostgreSQL(object):
+    def __init__(self, config:dict):
+        self.config = config
+
+    def __enter__(self):
+        self.conn = pg.connect(**self.config)
+        self.cursor = self.conn.cursor()
+        return self.cursor
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.conn.commit()
+        self.cursor.close()
+        self.conn.close()
+
+
+class ExecutePostgreSQL(object):
+    def __init__(self, kwargs:dict):
+        self.cur = kwargs[&#39;cur&#39;]
+        self.sql = kwargs[&#39;sql&#39;]
+        self.argslist = kwargs[&#39;argslist&#39;]
+
+    def pg_insert(self):
+        # super(ExecutePostgreSQL, self).__enter__()
+        try:
+            log.logger.warning(f&#39;UsePostgreSQL.pg_insert Begin.&#39;)
+            log.logger.info(f&#39;Total rows for current rollover: {len(self.argslist)}&#39;)
+            execute_values(cur=self.cur, sql=self.sql, argslist=self.argslist)
+            log.logger.warning(f&#39;UsePostgreSQL.pg_insert End.&#39;)
+        except Exception as e:
+            errlog.logger.error(f&#39;pg_insert: {e}&#39;)
+
+
+# Demo
+if __name__ == &#39;__main__&#39;:
+    # MySQL cursor
     try:
-        log.logger.warning(f&#39;UsePostgreSQL.pg_insert Begin.&#39;)
-        log.logger.info(f&#39;Total rows for current rollover: {len(self.argslist)}&#39;)
-        execute_values(cur=self.cur, sql=self.sql, argslist=self.argslist)
-        log.logger.warning(f&#39;UsePostgreSQL.pg_insert End.&#39;)
+        log.logger.warning(f&#39;MySQL Begin...&#39;)
+        with UseMySQL(mysql_conn) as cursor:
+            sql_1 = &quot;&quot;&quot;show tables&quot;&quot;&quot;
+            sql_1 = &quot;&quot;&quot;select * from MURA.t_pm_alarm_tst&quot;&quot;&quot;
+            cursor.execute(sql_1)
+            data = cursor.fetchall()
+            col0 = [x for x in data]    # [(),(),()]
+            k = 0
+            for rs in col0:
+                k += 1
+                print(f&#39;k:{k}   v:{rs}\nc1:{rs[0]} c2:{rs[1]} c3:{rs[2]} c4:{rs[3]} c5:{rs[4]} c6:{rs[5]} c7:{rs[6]}\n&#39;)
+
+     except Exception as e:
+        log.logger.error(f&#39;{e}\n&#39;)
+        errlog.logger.error(f&#39;{e}&#39;)
+
+
+    # PostgreSQL cursor
+     try:
+        log.logger.warning(f&#39;PostgreSQL Begin!!!&#39;)
+        with UsePostgreSQL(pgsql_conn_pp) as cursor:
+            sql_1 = &quot;&quot;&quot;SELECT * FROM public.t_fm_alarm_fields&quot;&quot;&quot;
+            # sql_2 = &quot;&quot;&quot;SELECT COUNT(1) FROM public.t_fm_alarm_fields&quot;&quot;&quot;
+            sql_3 = &quot;&quot;&quot;INSERT INTO public.t_fm_alarm_fields VALUES %s&quot;&quot;&quot;
+            sql_4 = &quot;&quot;&quot;TRUNCATE TABLE public.t_fm_alarm_fields&quot;&quot;&quot;
+            size = 100
+
+            log.logger.info(f&#39;Current execution &lt;{sql_1}&gt;&#39;)
+            cursor.execute(sql_1)
+
+            rowcnt = cursor.rowcount
+            log.logger.info(f&#39;Total rows for current execution &lt;{sql_1}&gt;: {rowcnt}&#39;)
+
+            limitcnt, limitlast = divmod(rowcnt, size)
+            log.logger.info(f&#39;Based on interval: {size}, total rows for rollover: {limitcnt}, ending number: {limitlast}&#39;)
+
+            with UsePostgreSQL(pgsql_conn_prod) as cursor2_1:
+                cursor2_1.execute(sql_4)  # 清理
+
+            with UsePostgreSQL(pgsql_conn_prod) as cursor2_2:
+                for rn in range(limitcnt + 1):
+                    data = cursor.fetchmany(size=size)
+                    exe_dict = {
+                                    &quot;cur&quot;: cursor2_2,
+                                    &quot;sql&quot;: sql_3,
+                                    &quot;argslist&quot;: data
+                    }
+                    pg_prod = ExecutePostgreSQL(exe_dict)
+                    pg_prod.pg_insert()
+
+            with UsePostgreSQL(pgsql_conn_prod) as cursor3:
+                cursor3.execute(sql_1)
+                # result = cursor3.fetchall()
+                log.logger.info(f&#39;Total rows for execution: {cursor3.rowcount}&#39;)
+
+        log.logger.warning(f&#39;PostgreSQL End!!!&#39;)
+
     except Exception as e:
-        errlog.logger.error(f&#39;pg_insert: {e}&#39;)</code></pre><h1 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h1><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    # MySQL cursor<br>    try:<br>        log.logger.warning(f’MySQL Begin…’)<br>        with UseMySQL(mysql_conn) as cursor:<br>            sql_1 = “””show tables”””<br>            sql_1 = “””select * from MURA.t_pm_alarm_tst”””<br>            cursor.execute(sql_1)<br>            data = cursor.fetchall()<br>            col0 = [x for x in data]    # [(),(),()]<br>            k = 0<br>            for rs in col0:<br>                k += 1<br>                print(f’k:{k}   v:{rs}\nc1:{rs[0]} c2:{rs[1]} c3:{rs[2]} c4:{rs[3]} c5:{rs[4]} c6:{rs[5]} c7:{rs[6]}\n’)</p>
-<pre><code> except Exception as e:
-    log.logger.error(f&#39;{e}\n&#39;)
-    errlog.logger.error(f&#39;{e}&#39;)
-
-
-# PostgreSQL cursor
- try:
-    log.logger.warning(f&#39;PostgreSQL Begin!!!&#39;)
-    with UsePostgreSQL(pgsql_conn_pp) as cursor:
-        sql_1 = &quot;&quot;&quot;SELECT * FROM public.t_fm_alarm_fields&quot;&quot;&quot;
-        # sql_2 = &quot;&quot;&quot;SELECT COUNT(1) FROM public.t_fm_alarm_fields&quot;&quot;&quot;
-        sql_3 = &quot;&quot;&quot;INSERT INTO public.t_fm_alarm_fields VALUES %s&quot;&quot;&quot;
-        sql_4 = &quot;&quot;&quot;TRUNCATE TABLE public.t_fm_alarm_fields&quot;&quot;&quot;
-        size = 100
-
-        log.logger.info(f&#39;Current execution &lt;{sql_1}&gt;&#39;)
-        cursor.execute(sql_1)
-
-        rowcnt = cursor.rowcount
-        log.logger.info(f&#39;Total rows for current execution &lt;{sql_1}&gt;: {rowcnt}&#39;)
-
-        limitcnt, limitlast = divmod(rowcnt, size)
-        log.logger.info(f&#39;Based on interval: {size}, total rows for rollover: {limitcnt}, ending number: {limitlast}&#39;)
-
-        with UsePostgreSQL(pgsql_conn_prod) as cursor2_1:
-            cursor2_1.execute(sql_4)  # 清理
-
-        with UsePostgreSQL(pgsql_conn_prod) as cursor2_2:
-            for rn in range(limitcnt + 1):
-                data = cursor.fetchmany(size=size)
-                exe_dict = {
-                                &quot;cur&quot;: cursor2_2,
-                                &quot;sql&quot;: sql_3,
-                                &quot;argslist&quot;: data
-                }
-                pg_prod = ExecutePostgreSQL(exe_dict)
-                pg_prod.pg_insert()
-
-        with UsePostgreSQL(pgsql_conn_prod) as cursor3:
-            cursor3.execute(sql_1)
-            # result = cursor3.fetchall()
-            log.logger.info(f&#39;Total rows for execution: {cursor3.rowcount}&#39;)
-
-    log.logger.warning(f&#39;PostgreSQL End!!!&#39;)
-
-except Exception as e:
-    log.logger.error(f&#39;{e}\n&#39;)
-    errlog.logger.error(f&#39;{e}&#39;)</code></pre><pre><code>
-
----
-
-* logging_f.py
-
-```python 
-# -*- coding:utf-8 -*-
+        log.logger.error(f&#39;{e}\n&#39;)
+        errlog.logger.error(f&#39;{e}&#39;)</code></pre>
+<hr>
+<ul>
+<li>logging_f.py</li>
+</ul>
+<pre><code class="python"># -*- coding:utf-8 -*-
 # @Author: Shin
 # @Date: 20/3/5 17:05
 # @File: logging_f.py
@@ -544,7 +588,8 @@ class Logger(object):
 
 current_path = f&#39;./logs/&#39;
 log = Logger(filename=current_path + f&#39;all_bokeh.log&#39;, level=&#39;info&#39;, when=&#39;H&#39;, fmt=&#39;%(asctime)s   [line:%(lineno)d][%(levelname)s]: %(message)s&#39;)
-errlog = Logger(filename=current_path + f&#39;err_bokeh.log&#39;, level=&#39;error&#39;, when=&#39;H&#39;, fmt=&#39;%(asctime)s   [line:%(lineno)d][%(levelname)s]: %(message)s&#39;)</code></pre><hr>
+errlog = Logger(filename=current_path + f&#39;err_bokeh.log&#39;, level=&#39;error&#39;, when=&#39;H&#39;, fmt=&#39;%(asctime)s   [line:%(lineno)d][%(levelname)s]: %(message)s&#39;)</code></pre>
+<hr>
 <ul>
 <li>func_f.py</li>
 </ul>
@@ -636,7 +681,7 @@ pgsql_conn = {
 pgsql_conn_pp = {
     &quot;host&quot;: &#39;10.73.8.28&#39;,
     &quot;user&quot;: &quot;postgres&quot;,
-    &quot;password&quot;: &#39;1qaz)P(O&#39;,
+    &quot;password&quot;: &#39;xxx&#39;,
     &quot;database&quot;: &quot;postgres&quot;,
     &quot;port&quot;: 5432
 }
@@ -644,7 +689,7 @@ pgsql_conn_pp = {
 pgsql_conn_prod = {
     &quot;host&quot;: &#39;10.72.8.50&#39;,
     &quot;user&quot;: &quot;postgres&quot;,
-    &quot;password&quot;: &#39;1qaz)P(O&#39;,
+    &quot;password&quot;: &#39;xxx&#39;,
     &quot;database&quot;: &quot;postgres&quot;,
     &quot;port&quot;: 5432
 }

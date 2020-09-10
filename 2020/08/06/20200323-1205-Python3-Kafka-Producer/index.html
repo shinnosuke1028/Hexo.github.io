@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    3k 字
+                    6.2k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      18 分钟
+                      37 分钟
                   </span>&nbsp;
                 
 
@@ -543,81 +543,369 @@ def date_f(daysdelta=0, hoursdelta=0):
 <pre><code class="python"># -*- coding:utf-8 -*-
 # @Author: Shin
 # @Date: 20/3/23 15:46
-# @File: kafka_conf.py
+# @File: kafka_cfg.py
 # @Usage: cfg for kafka &amp; MySQL &amp; PostgreSQL
 
 
 # Self Repo
 
 
-# Kafka configuration
+# kafka configuration
 kafka_cfg_dict = {
-    &#39;bootstrap_servers&#39;: &quot;192.168.73.10:9092&quot;,
-    &#39;topic&#39;: &quot;test&quot;
+    &#39;bootstrap_servers&#39;: [&quot;10.72.8.30:9092&quot;, &quot;10.72.8.46:9092&quot;, &quot;10.72.8.38:9092&quot;],# &quot;10.72.8.46:9092&quot;,
+    &#39;topic&#39;: &quot;PREDATA&quot;
 }
 
-# MySQL configuration
-mysql_conn = {
-    # oltp_mysql_matser = pymysql.connect(host=&#39;192.168.73.21&#39;, user=&#39;root&#39;, passwd=&#39;123456&#39;, db=&#39;MURA&#39;, port=3306)
-    &quot;host&quot;: &#39;192.168.73.21&#39;,
-    &quot;user&quot;: &quot;root&quot;,
-    &quot;password&quot;: &#39;123456&#39;,
-    &quot;database&quot;: &quot;MURA&quot;,
-    &quot;port&quot;: 3306
+
+kafka_cfg_dict_section2 = {
+    &#39;bootstrap_servers&#39;: [&quot;10.72.8.30:9092&quot;, &quot;10.72.8.46:9092&quot;, &quot;10.72.8.38:9092&quot;],# &quot;10.72.8.30:9092&quot;,
+    &#39;topic&#39;: &quot;PREDATA&quot;
 }
 
-# sqlmap for MySQL
-sql_map = {
-    &quot;sql1&quot;: &quot;select * from MURA.t_pm_alarm_tst&quot;,
-    &quot;sql2&quot;: &quot;select count(1) from MURA.t_pm_alarm_tst&quot;,
+kafka_cfg_dict_section3 = {
+    &#39;bootstrap_servers&#39;: [&quot;10.72.8.30:9092&quot;, &quot;10.72.8.46:9092&quot;, &quot;10.72.8.38:9092&quot;],# &quot;10.72.8.38:9092&quot;,
+    &#39;topic&#39;: &quot;PREDATA&quot;
 }
 
-# PostgreSQL configuration
-pgsql_conn = {
-    # oltp_mysql_matser = pymysql.connect(host=&#39;192.168.73.21&#39;, user=&#39;root&#39;, passwd=&#39;123456&#39;, db=&#39;MURA&#39;, port=3306)
-    &quot;host&quot;: &#39;192.168.73.21&#39;,
-    &quot;user&quot;: &quot;postgres&quot;,
-    &quot;password&quot;: &#39;ghr921028&#39;,
-    &quot;database&quot;: &quot;postgres&quot;,
-    &quot;port&quot;: 5432
+
+###################################################################################################################
+# postgres configuration
+# mysql_conn = {
+#     # oltp_mysql_matser = pymysql.connect(host=&#39;192.168.73.21&#39;, user=&#39;root&#39;, passwd=&#39;123456&#39;, db=&#39;MURA&#39;, port=3306)
+#     &quot;host&quot;: &#39;192.168.73.21&#39;,
+#     &quot;user&quot;: &quot;root&quot;,
+#     &quot;password&quot;: &#39;123456&#39;,
+#     &quot;database&quot;: &quot;MURA&quot;,
+#     &quot;port&quot;: 3306
+# }
+#
+# mysql_conn_pp = {
+#     # oltp_mysql_matser = pymysql.connect(host=&#39;192.168.73.21&#39;, user=&#39;root&#39;, passwd=&#39;123456&#39;, db=&#39;MURA&#39;, port=3306)
+#     &quot;host&quot;: &#39;192.168.62.74&#39;,
+#     &quot;user&quot;: &quot;root&quot;,
+#     &quot;password&quot;: &#39;Inspur*()890&#39;,
+#     &quot;database&quot;: &quot;wrnop&quot;,
+#     &quot;port&quot;: 5029
+# }
+
+# sqlmap_mysql = {
+#     &quot;sql1&quot;: &quot;select * from MURA.t_pm_alarm_tst&quot;,
+#     &quot;sql2&quot;: &quot;select count(1) from MURA.t_pm_alarm_tst&quot;,
+# }
+
+
+sqlmap_pgsql_section2 = {
+    &quot;v_alarm_06_0&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 0&quot;,
+    &quot;v_alarm_06_1&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 1&quot;,
+    &quot;v_alarm_06_2&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 2&quot;,
+    &quot;v_alarm_06_3&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 3&quot;,
+    &quot;v_alarm_06_4&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 4&quot;,
+    &quot;v_alarm_06_5&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 5&quot;,
+    &quot;v_alarm_06_6&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 6&quot;,
+    &quot;v_alarm_06_7&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 7&quot;,
+    &quot;v_alarm_06_8&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 8&quot;,
+    &quot;v_alarm_06_9&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 9&quot;,
+    #&quot;v_alarm_07_0&quot;: &quot;SELECT * FROM public.v_alarm_07 WHERE hash_value = 0&quot;,
+    #&quot;v_alarm_07_1&quot;: &quot;SELECT * FROM public.v_alarm_07 WHERE hash_value = 1&quot;,
+    #&quot;v_alarm_07_2&quot;: &quot;SELECT * FROM public.v_alarm_07 WHERE hash_value = 2&quot;,
+    #&quot;v_alarm_07_3&quot;: &quot;SELECT * FROM public.v_alarm_07 WHERE hash_value = 3&quot;,
+    #&quot;v_alarm_07_4&quot;: &quot;SELECT * FROM public.v_alarm_07 WHERE hash_value = 4&quot;,
+    #&quot;v_alarm_07_5&quot;: &quot;SELECT * FROM public.v_alarm_07 WHERE hash_value = 5&quot;,
+    #&quot;v_alarm_07_6&quot;: &quot;SELECT * FROM public.v_alarm_07 WHERE hash_value = 6&quot;,
+    #&quot;v_alarm_07_7&quot;: &quot;SELECT * FROM public.v_alarm_07 WHERE hash_value = 7&quot;,
+    #&quot;v_alarm_07_8&quot;: &quot;SELECT * FROM public.v_alarm_07 WHERE hash_value = 8&quot;,
+    #&quot;v_alarm_07_9&quot;: &quot;SELECT * FROM public.v_alarm_07 WHERE hash_value = 9&quot;,
 }
 
-pgsql_conn_pp = {
-    &quot;host&quot;: &#39;10.73.8.28&#39;,
-    &quot;user&quot;: &quot;postgres&quot;,
-    &quot;password&quot;: &#39;xxx&#39;,
-    &quot;database&quot;: &quot;postgres&quot;,
-    &quot;port&quot;: 5432
+sqlmap_pgsql = {
+    #&quot;v_alarm_13_1&quot;: &quot;SELECT * FROM public.v_alarm_13 WHERE vendor = &#39;中海达&#39;&quot;,
+    #&quot;v_alarm_13_2&quot;: &quot;SELECT * FROM public.v_alarm_13 WHERE vendor = &#39;南方测绘&#39;&quot;,
+    #&quot;v_alarm_13_3&quot;: &quot;SELECT * FROM public.v_alarm_13 WHERE vendor = &#39;司南&#39;&quot;,
+    #&quot;v_alarm_13_4&quot;: &quot;SELECT * FROM public.v_alarm_13 WHERE vendor = &#39;和芯&#39;&quot;,
+    #&quot;v_alarm_14_1&quot;: &quot;SELECT * FROM public.v_alarm_14 WHERE vendor = &#39;中海达&#39;&quot;,
+    #&quot;v_alarm_14_2&quot;: &quot;SELECT * FROM public.v_alarm_14 WHERE vendor = &#39;南方测绘&#39;&quot;,
+    #&quot;v_alarm_14_3&quot;: &quot;SELECT * FROM public.v_alarm_14 WHERE vendor = &#39;司南&#39;&quot;,
+    #&quot;v_alarm_14_4&quot;: &quot;SELECT * FROM public.v_alarm_14 WHERE vendor = &#39;和芯&#39;&quot;
+    &quot;v_alarm_13_0&quot;: &quot;SELECT * FROM public.m_v_alarm_13 WHERE hash_value = 0&quot;,
+    &quot;v_alarm_13_1&quot;: &quot;SELECT * FROM public.m_v_alarm_13 WHERE hash_value = 1&quot;,
+    &quot;v_alarm_13_2&quot;: &quot;SELECT * FROM public.m_v_alarm_13 WHERE hash_value = 2&quot;,
+    &quot;v_alarm_13_3&quot;: &quot;SELECT * FROM public.m_v_alarm_13 WHERE hash_value = 3&quot;,
+    &quot;v_alarm_13_4&quot;: &quot;SELECT * FROM public.m_v_alarm_13 WHERE hash_value = 4&quot;,
+    &quot;v_alarm_13_5&quot;: &quot;SELECT * FROM public.m_v_alarm_13 WHERE hash_value = 5&quot;,
+    &quot;v_alarm_13_6&quot;: &quot;SELECT * FROM public.m_v_alarm_13 WHERE hash_value = 6&quot;,
+    &quot;v_alarm_13_7&quot;: &quot;SELECT * FROM public.m_v_alarm_13 WHERE hash_value = 7&quot;,
+    &quot;v_alarm_13_8&quot;: &quot;SELECT * FROM public.m_v_alarm_13 WHERE hash_value = 8&quot;,
+    &quot;v_alarm_13_9&quot;: &quot;SELECT * FROM public.m_v_alarm_13 WHERE hash_value = 9&quot;,
+    &quot;v_alarm_14_0&quot;: &quot;SELECT * FROM public.m_v_alarm_14 WHERE hash_value = 0&quot;,
+    &quot;v_alarm_14_1&quot;: &quot;SELECT * FROM public.m_v_alarm_14 WHERE hash_value = 1&quot;,
+    &quot;v_alarm_14_2&quot;: &quot;SELECT * FROM public.m_v_alarm_14 WHERE hash_value = 2&quot;,
+    &quot;v_alarm_14_3&quot;: &quot;SELECT * FROM public.m_v_alarm_14 WHERE hash_value = 3&quot;,
+    &quot;v_alarm_14_4&quot;: &quot;SELECT * FROM public.m_v_alarm_14 WHERE hash_value = 4&quot;,
+    &quot;v_alarm_14_5&quot;: &quot;SELECT * FROM public.m_v_alarm_14 WHERE hash_value = 5&quot;,
+    &quot;v_alarm_14_6&quot;: &quot;SELECT * FROM public.m_v_alarm_14 WHERE hash_value = 6&quot;,
+    &quot;v_alarm_14_7&quot;: &quot;SELECT * FROM public.m_v_alarm_14 WHERE hash_value = 7&quot;,
+    &quot;v_alarm_14_8&quot;: &quot;SELECT * FROM public.m_v_alarm_14 WHERE hash_value = 8&quot;,
+    &quot;v_alarm_14_9&quot;: &quot;SELECT * FROM public.m_v_alarm_14 WHERE hash_value = 9&quot;,
 }
+
+sqlmap_pgsql_section3 = {
+    #&quot;v_alarm_12_1&quot;: &quot;SELECT * FROM public.v_alarm_12 WHERE vendor = &#39;中海达&#39;&quot;,
+    #&quot;v_alarm_12_2&quot;: &quot;SELECT * FROM public.v_alarm_12 WHERE vendor = &#39;南方测绘&#39;&quot;,
+    #&quot;v_alarm_12_3&quot;: &quot;SELECT * FROM public.v_alarm_12 WHERE vendor = &#39;司南&#39;&quot;,
+    #&quot;v_alarm_12_4&quot;: &quot;SELECT * FROM public.v_alarm_12 WHERE vendor = &#39;和芯&#39;&quot;,
+    #&quot;v_alarm_01_1&quot;: &quot;SELECT * FROM public.v_alarm_01 WHERE vendor = &#39;中海达&#39;&quot;,
+    #&quot;v_alarm_01_2&quot;: &quot;SELECT * FROM public.v_alarm_01 WHERE vendor = &#39;南方测绘&#39;&quot;,
+    #&quot;v_alarm_01_3&quot;: &quot;SELECT * FROM public.v_alarm_01 WHERE vendor = &#39;司南&#39;&quot;,
+    #&quot;v_alarm_01_4&quot;: &quot;SELECT * FROM public.v_alarm_01 WHERE vendor = &#39;和芯&#39;&quot;,
+    &quot;v_alarm_12_0&quot;: &quot;SELECT * FROM public.m_v_alarm_12 WHERE hash_value = 0&quot;,
+    &quot;v_alarm_12_1&quot;: &quot;SELECT * FROM public.m_v_alarm_12 WHERE hash_value = 1&quot;,
+    &quot;v_alarm_12_2&quot;: &quot;SELECT * FROM public.m_v_alarm_12 WHERE hash_value = 2&quot;,
+    &quot;v_alarm_12_3&quot;: &quot;SELECT * FROM public.m_v_alarm_12 WHERE hash_value = 3&quot;,
+    &quot;v_alarm_12_4&quot;: &quot;SELECT * FROM public.m_v_alarm_12 WHERE hash_value = 4&quot;,
+    &quot;v_alarm_12_5&quot;: &quot;SELECT * FROM public.m_v_alarm_12 WHERE hash_value = 5&quot;,
+    &quot;v_alarm_12_6&quot;: &quot;SELECT * FROM public.m_v_alarm_12 WHERE hash_value = 6&quot;,
+    &quot;v_alarm_12_7&quot;: &quot;SELECT * FROM public.m_v_alarm_12 WHERE hash_value = 7&quot;,
+    &quot;v_alarm_12_8&quot;: &quot;SELECT * FROM public.m_v_alarm_12 WHERE hash_value = 8&quot;,
+    &quot;v_alarm_12_9&quot;: &quot;SELECT * FROM public.m_v_alarm_12 WHERE hash_value = 9&quot;,
+    &quot;v_alarm_01_0&quot;: &quot;SELECT * FROM public.m_v_alarm_01 WHERE hash_value = 0&quot;,
+    &quot;v_alarm_01_1&quot;: &quot;SELECT * FROM public.m_v_alarm_01 WHERE hash_value = 1&quot;,
+    &quot;v_alarm_01_2&quot;: &quot;SELECT * FROM public.m_v_alarm_01 WHERE hash_value = 2&quot;,
+    &quot;v_alarm_01_3&quot;: &quot;SELECT * FROM public.m_v_alarm_01 WHERE hash_value = 3&quot;,
+    &quot;v_alarm_01_4&quot;: &quot;SELECT * FROM public.m_v_alarm_01 WHERE hash_value = 4&quot;,
+    &quot;v_alarm_01_5&quot;: &quot;SELECT * FROM public.m_v_alarm_01 WHERE hash_value = 5&quot;,
+    &quot;v_alarm_01_6&quot;: &quot;SELECT * FROM public.m_v_alarm_01 WHERE hash_value = 6&quot;,
+    &quot;v_alarm_01_7&quot;: &quot;SELECT * FROM public.m_v_alarm_01 WHERE hash_value = 7&quot;,
+    &quot;v_alarm_01_8&quot;: &quot;SELECT * FROM public.m_v_alarm_01 WHERE hash_value = 8&quot;,
+    &quot;v_alarm_01_9&quot;: &quot;SELECT * FROM public.m_v_alarm_01 WHERE hash_value = 9&quot;,
+}
+
+sqlmap_pgsql1_2 = {
+    #&quot;v_alarm_04_1&quot;: &quot;SELECT * FROM public.v_alarm_04 WHERE vendor = &#39;中海达&#39;&quot;,
+    #&quot;v_alarm_04_2&quot;: &quot;SELECT * FROM public.v_alarm_04 WHERE vendor = &#39;南方测绘&#39;&quot;,
+    #&quot;v_alarm_04_3&quot;: &quot;SELECT * FROM public.v_alarm_04 WHERE vendor = &#39;司南&#39;&quot;,
+    #&quot;v_alarm_04_4&quot;: &quot;SELECT * FROM public.v_alarm_04 WHERE vendor = &#39;和芯&#39;&quot;,
+    #&quot;v_alarm_05_1&quot;: &quot;SELECT * FROM public.v_alarm_05 WHERE vendor = &#39;中海达&#39;&quot;,
+    #&quot;v_alarm_05_2&quot;: &quot;SELECT * FROM public.v_alarm_05 WHERE vendor = &#39;南方测绘&#39;&quot;,
+    #&quot;v_alarm_05_3&quot;: &quot;SELECT * FROM public.v_alarm_05 WHERE vendor = &#39;司南&#39;&quot;,
+    #&quot;v_alarm_05_4&quot;: &quot;SELECT * FROM public.v_alarm_05 WHERE vendor = &#39;和芯&#39;&quot;
+    &quot;v_alarm_04_0&quot;: &quot;SELECT * FROM public.m_v_alarm_04 WHERE hash_value = 0&quot;,
+    &quot;v_alarm_04_1&quot;: &quot;SELECT * FROM public.m_v_alarm_04 WHERE hash_value = 1&quot;,
+    &quot;v_alarm_04_2&quot;: &quot;SELECT * FROM public.m_v_alarm_04 WHERE hash_value = 2&quot;,
+    &quot;v_alarm_04_3&quot;: &quot;SELECT * FROM public.m_v_alarm_04 WHERE hash_value = 3&quot;,
+    &quot;v_alarm_04_4&quot;: &quot;SELECT * FROM public.m_v_alarm_04 WHERE hash_value = 4&quot;,
+    &quot;v_alarm_04_5&quot;: &quot;SELECT * FROM public.m_v_alarm_04 WHERE hash_value = 5&quot;,
+    &quot;v_alarm_04_6&quot;: &quot;SELECT * FROM public.m_v_alarm_04 WHERE hash_value = 6&quot;,
+    &quot;v_alarm_04_7&quot;: &quot;SELECT * FROM public.m_v_alarm_04 WHERE hash_value = 7&quot;,
+    &quot;v_alarm_04_8&quot;: &quot;SELECT * FROM public.m_v_alarm_04 WHERE hash_value = 8&quot;,
+    &quot;v_alarm_04_9&quot;: &quot;SELECT * FROM public.m_v_alarm_04 WHERE hash_value = 9&quot;,
+    &quot;v_alarm_05_0&quot;: &quot;SELECT * FROM public.m_v_alarm_05 WHERE hash_value = 0&quot;,
+    &quot;v_alarm_05_1&quot;: &quot;SELECT * FROM public.m_v_alarm_05 WHERE hash_value = 1&quot;,
+    &quot;v_alarm_05_2&quot;: &quot;SELECT * FROM public.m_v_alarm_05 WHERE hash_value = 2&quot;,
+    &quot;v_alarm_05_3&quot;: &quot;SELECT * FROM public.m_v_alarm_05 WHERE hash_value = 3&quot;,
+    &quot;v_alarm_05_4&quot;: &quot;SELECT * FROM public.m_v_alarm_05 WHERE hash_value = 4&quot;,
+    &quot;v_alarm_05_5&quot;: &quot;SELECT * FROM public.m_v_alarm_05 WHERE hash_value = 5&quot;,
+    &quot;v_alarm_05_6&quot;: &quot;SELECT * FROM public.m_v_alarm_05 WHERE hash_value = 6&quot;,
+    &quot;v_alarm_05_7&quot;: &quot;SELECT * FROM public.m_v_alarm_05 WHERE hash_value = 7&quot;,
+    &quot;v_alarm_05_8&quot;: &quot;SELECT * FROM public.m_v_alarm_05 WHERE hash_value = 8&quot;,
+    &quot;v_alarm_05_9&quot;: &quot;SELECT * FROM public.m_v_alarm_05 WHERE hash_value = 9&quot;,
+}
+
+sqlmap_pgsql_section2_2 = {
+    #&quot;v_alarm_02_1&quot;: &quot;SELECT * FROM public.v_alarm_02 WHERE vendor = &#39;中海达&#39;&quot;,
+    #&quot;v_alarm_02_2&quot;: &quot;SELECT * FROM public.v_alarm_02 WHERE vendor = &#39;南方测绘&#39;&quot;,
+    #&quot;v_alarm_02_3&quot;: &quot;SELECT * FROM public.v_alarm_02 WHERE vendor = &#39;司南&#39;&quot;,
+    #&quot;v_alarm_02_4&quot;: &quot;SELECT * FROM public.v_alarm_02 WHERE vendor = &#39;和芯&#39;&quot;,
+    #&quot;v_alarm_03_1&quot;: &quot;SELECT * FROM public.v_alarm_03 WHERE vendor = &#39;中海达&#39;&quot;,
+    #&quot;v_alarm_03_2&quot;: &quot;SELECT * FROM public.v_alarm_03 WHERE vendor = &#39;南方测绘&#39;&quot;,
+    #&quot;v_alarm_03_3&quot;: &quot;SELECT * FROM public.v_alarm_03 WHERE vendor = &#39;司南&#39;&quot;,
+    #&quot;v_alarm_03_4&quot;: &quot;SELECT * FROM public.v_alarm_03 WHERE vendor = &#39;和芯&#39;&quot;,
+    &quot;v_alarm_02_0&quot;: &quot;SELECT * FROM public.m_v_alarm_02 WHERE hash_value = 0&quot;,
+    &quot;v_alarm_02_1&quot;: &quot;SELECT * FROM public.m_v_alarm_02 WHERE hash_value = 1&quot;,
+    &quot;v_alarm_02_2&quot;: &quot;SELECT * FROM public.m_v_alarm_02 WHERE hash_value = 2&quot;,
+    &quot;v_alarm_02_3&quot;: &quot;SELECT * FROM public.m_v_alarm_02 WHERE hash_value = 3&quot;,
+    &quot;v_alarm_02_4&quot;: &quot;SELECT * FROM public.m_v_alarm_02 WHERE hash_value = 4&quot;,
+    &quot;v_alarm_02_5&quot;: &quot;SELECT * FROM public.m_v_alarm_02 WHERE hash_value = 5&quot;,
+    &quot;v_alarm_02_6&quot;: &quot;SELECT * FROM public.m_v_alarm_02 WHERE hash_value = 6&quot;,
+    &quot;v_alarm_02_7&quot;: &quot;SELECT * FROM public.m_v_alarm_02 WHERE hash_value = 7&quot;,
+    &quot;v_alarm_02_8&quot;: &quot;SELECT * FROM public.m_v_alarm_02 WHERE hash_value = 8&quot;,
+    &quot;v_alarm_02_9&quot;: &quot;SELECT * FROM public.m_v_alarm_02 WHERE hash_value = 9&quot;,
+    &quot;v_alarm_03_0&quot;: &quot;SELECT * FROM public.m_v_alarm_03 WHERE hash_value = 0&quot;,
+    &quot;v_alarm_03_1&quot;: &quot;SELECT * FROM public.m_v_alarm_03 WHERE hash_value = 1&quot;,
+    &quot;v_alarm_03_2&quot;: &quot;SELECT * FROM public.m_v_alarm_03 WHERE hash_value = 2&quot;,
+    &quot;v_alarm_03_3&quot;: &quot;SELECT * FROM public.m_v_alarm_03 WHERE hash_value = 3&quot;,
+    &quot;v_alarm_03_4&quot;: &quot;SELECT * FROM public.m_v_alarm_03 WHERE hash_value = 4&quot;,
+    &quot;v_alarm_03_5&quot;: &quot;SELECT * FROM public.m_v_alarm_03 WHERE hash_value = 5&quot;,
+    &quot;v_alarm_03_6&quot;: &quot;SELECT * FROM public.m_v_alarm_03 WHERE hash_value = 6&quot;,
+    &quot;v_alarm_03_7&quot;: &quot;SELECT * FROM public.m_v_alarm_03 WHERE hash_value = 7&quot;,
+    &quot;v_alarm_03_8&quot;: &quot;SELECT * FROM public.m_v_alarm_03 WHERE hash_value = 8&quot;,
+    &quot;v_alarm_03_9&quot;: &quot;SELECT * FROM public.m_v_alarm_03 WHERE hash_value = 9&quot;,
+}
+
+sqlmap_pgsql_section3_2 = {
+    &quot;v_alarm_20_0&quot;: &quot;SELECT * FROM public.m_v_alarm_20 WHERE hash_value = 0&quot;,
+    &quot;v_alarm_20_1&quot;: &quot;SELECT * FROM public.m_v_alarm_20 WHERE hash_value = 1&quot;,
+    &quot;v_alarm_20_2&quot;: &quot;SELECT * FROM public.m_v_alarm_20 WHERE hash_value = 2&quot;,
+    &quot;v_alarm_20_3&quot;: &quot;SELECT * FROM public.m_v_alarm_20 WHERE hash_value = 3&quot;,
+    &quot;v_alarm_20_4&quot;: &quot;SELECT * FROM public.m_v_alarm_20 WHERE hash_value = 4&quot;,
+    &quot;v_alarm_20_5&quot;: &quot;SELECT * FROM public.m_v_alarm_20 WHERE hash_value = 5&quot;,
+    &quot;v_alarm_20_6&quot;: &quot;SELECT * FROM public.m_v_alarm_20 WHERE hash_value = 6&quot;,
+    &quot;v_alarm_20_7&quot;: &quot;SELECT * FROM public.m_v_alarm_20 WHERE hash_value = 7&quot;,
+    &quot;v_alarm_20_8&quot;: &quot;SELECT * FROM public.m_v_alarm_20 WHERE hash_value = 8&quot;,
+    &quot;v_alarm_20_9&quot;: &quot;SELECT * FROM public.m_v_alarm_20 WHERE hash_value = 9&quot;,
+    &quot;v_alarm_21_0&quot;: &quot;SELECT * FROM public.m_v_alarm_21 WHERE hash_value = 0&quot;,
+    &quot;v_alarm_21_1&quot;: &quot;SELECT * FROM public.m_v_alarm_21 WHERE hash_value = 1&quot;,
+    &quot;v_alarm_21_2&quot;: &quot;SELECT * FROM public.m_v_alarm_21 WHERE hash_value = 2&quot;,
+    &quot;v_alarm_21_3&quot;: &quot;SELECT * FROM public.m_v_alarm_21 WHERE hash_value = 3&quot;,
+    &quot;v_alarm_21_4&quot;: &quot;SELECT * FROM public.m_v_alarm_21 WHERE hash_value = 4&quot;,
+    &quot;v_alarm_21_5&quot;: &quot;SELECT * FROM public.m_v_alarm_21 WHERE hash_value = 5&quot;,
+    &quot;v_alarm_21_6&quot;: &quot;SELECT * FROM public.m_v_alarm_21 WHERE hash_value = 6&quot;,
+    &quot;v_alarm_21_7&quot;: &quot;SELECT * FROM public.m_v_alarm_21 WHERE hash_value = 7&quot;,
+    &quot;v_alarm_21_8&quot;: &quot;SELECT * FROM public.m_v_alarm_21 WHERE hash_value = 8&quot;,
+    &quot;v_alarm_21_9&quot;: &quot;SELECT * FROM public.m_v_alarm_21 WHERE hash_value = 9&quot;,
+    &quot;v_alarm_07_0&quot;: &quot;SELECT * FROM public.m_v_alarm_07 WHERE hash_value = 0&quot;,
+    &quot;v_alarm_07_1&quot;: &quot;SELECT * FROM public.m_v_alarm_07 WHERE hash_value = 1&quot;,
+    &quot;v_alarm_07_2&quot;: &quot;SELECT * FROM public.m_v_alarm_07 WHERE hash_value = 2&quot;,
+    &quot;v_alarm_07_3&quot;: &quot;SELECT * FROM public.m_v_alarm_07 WHERE hash_value = 3&quot;,
+    &quot;v_alarm_07_4&quot;: &quot;SELECT * FROM public.m_v_alarm_07 WHERE hash_value = 4&quot;,
+    &quot;v_alarm_07_5&quot;: &quot;SELECT * FROM public.m_v_alarm_07 WHERE hash_value = 5&quot;,
+    &quot;v_alarm_07_6&quot;: &quot;SELECT * FROM public.m_v_alarm_07 WHERE hash_value = 6&quot;,
+    &quot;v_alarm_07_7&quot;: &quot;SELECT * FROM public.m_v_alarm_07 WHERE hash_value = 7&quot;,
+    &quot;v_alarm_07_8&quot;: &quot;SELECT * FROM public.m_v_alarm_07 WHERE hash_value = 8&quot;,
+    &quot;v_alarm_07_9&quot;: &quot;SELECT * FROM public.m_v_alarm_07 WHERE hash_value = 9&quot;,
+}
+
+
+# 天级告警:8~11
+sqlmap_pgsql_section4 = {
+    #&quot;v_alarm_08_0&quot;: &quot;SELECT * FROM public.m_v_alarm_08 WHERE hash_value = 0&quot;,
+    #&quot;v_alarm_08_1&quot;: &quot;SELECT * FROM public.m_v_alarm_08 WHERE hash_value = 1&quot;,
+    #&quot;v_alarm_08_2&quot;: &quot;SELECT * FROM public.m_v_alarm_08 WHERE hash_value = 2&quot;,
+    #&quot;v_alarm_08_3&quot;: &quot;SELECT * FROM public.m_v_alarm_08 WHERE hash_value = 3&quot;,
+    #&quot;v_alarm_08_4&quot;: &quot;SELECT * FROM public.m_v_alarm_08 WHERE hash_value = 4&quot;,
+    #&quot;v_alarm_08_5&quot;: &quot;SELECT * FROM public.m_v_alarm_08 WHERE hash_value = 5&quot;,
+    #&quot;v_alarm_08_6&quot;: &quot;SELECT * FROM public.m_v_alarm_08 WHERE hash_value = 6&quot;,
+    #&quot;v_alarm_08_7&quot;: &quot;SELECT * FROM public.m_v_alarm_08 WHERE hash_value = 7&quot;,
+    #&quot;v_alarm_08_8&quot;: &quot;SELECT * FROM public.m_v_alarm_08 WHERE hash_value = 8&quot;,
+    #&quot;v_alarm_08_9&quot;: &quot;SELECT * FROM public.m_v_alarm_08 WHERE hash_value = 9&quot;,
+    #&quot;v_alarm_09_0&quot;: &quot;SELECT * FROM public.m_v_alarm_09 WHERE hash_value = 0&quot;,
+    #&quot;v_alarm_09_1&quot;: &quot;SELECT * FROM public.m_v_alarm_09 WHERE hash_value = 1&quot;,
+    #&quot;v_alarm_09_2&quot;: &quot;SELECT * FROM public.m_v_alarm_09 WHERE hash_value = 2&quot;,
+    #&quot;v_alarm_09_3&quot;: &quot;SELECT * FROM public.m_v_alarm_09 WHERE hash_value = 3&quot;,
+    #&quot;v_alarm_09_4&quot;: &quot;SELECT * FROM public.m_v_alarm_09 WHERE hash_value = 4&quot;,
+    #&quot;v_alarm_09_5&quot;: &quot;SELECT * FROM public.m_v_alarm_09 WHERE hash_value = 5&quot;,
+    #&quot;v_alarm_09_6&quot;: &quot;SELECT * FROM public.m_v_alarm_09 WHERE hash_value = 6&quot;,
+    #&quot;v_alarm_09_7&quot;: &quot;SELECT * FROM public.m_v_alarm_09 WHERE hash_value = 7&quot;,
+    #&quot;v_alarm_09_8&quot;: &quot;SELECT * FROM public.m_v_alarm_09 WHERE hash_value = 8&quot;,
+    #&quot;v_alarm_09_9&quot;: &quot;SELECT * FROM public.m_v_alarm_09 WHERE hash_value = 9&quot;,
+    #&quot;v_alarm_10_0&quot;: &quot;SELECT * FROM public.m_v_alarm_10 WHERE hash_value = 0&quot;,
+    #&quot;v_alarm_10_1&quot;: &quot;SELECT * FROM public.m_v_alarm_10 WHERE hash_value = 1&quot;,
+    #&quot;v_alarm_10_2&quot;: &quot;SELECT * FROM public.m_v_alarm_10 WHERE hash_value = 2&quot;,
+    #&quot;v_alarm_10_3&quot;: &quot;SELECT * FROM public.m_v_alarm_10 WHERE hash_value = 3&quot;,
+    #&quot;v_alarm_10_4&quot;: &quot;SELECT * FROM public.m_v_alarm_10 WHERE hash_value = 4&quot;,
+    #&quot;v_alarm_10_5&quot;: &quot;SELECT * FROM public.m_v_alarm_10 WHERE hash_value = 5&quot;,
+    #&quot;v_alarm_10_6&quot;: &quot;SELECT * FROM public.m_v_alarm_10 WHERE hash_value = 6&quot;,
+    #&quot;v_alarm_10_7&quot;: &quot;SELECT * FROM public.m_v_alarm_10 WHERE hash_value = 7&quot;,
+    #&quot;v_alarm_10_8&quot;: &quot;SELECT * FROM public.m_v_alarm_10 WHERE hash_value = 8&quot;,
+    #&quot;v_alarm_10_9&quot;: &quot;SELECT * FROM public.m_v_alarm_10 WHERE hash_value = 9&quot;
+    #&quot;v_alarm_11_0&quot;: &quot;SELECT * FROM public.m_v_alarm_11 WHERE hash_value = 0&quot;,
+    #&quot;v_alarm_11_1&quot;: &quot;SELECT * FROM public.m_v_alarm_11 WHERE hash_value = 1&quot;,
+    #&quot;v_alarm_11_2&quot;: &quot;SELECT * FROM public.m_v_alarm_11 WHERE hash_value = 2&quot;,
+    #&quot;v_alarm_11_3&quot;: &quot;SELECT * FROM public.m_v_alarm_11 WHERE hash_value = 3&quot;,
+    #&quot;v_alarm_11_4&quot;: &quot;SELECT * FROM public.m_v_alarm_11 WHERE hash_value = 4&quot;,
+    #&quot;v_alarm_11_5&quot;: &quot;SELECT * FROM public.m_v_alarm_11 WHERE hash_value = 5&quot;,
+    #&quot;v_alarm_11_6&quot;: &quot;SELECT * FROM public.m_v_alarm_11 WHERE hash_value = 6&quot;,
+    #&quot;v_alarm_11_7&quot;: &quot;SELECT * FROM public.m_v_alarm_11 WHERE hash_value = 7&quot;,
+    #&quot;v_alarm_11_8&quot;: &quot;SELECT * FROM public.m_v_alarm_11 WHERE hash_value = 8&quot;,
+    #&quot;v_alarm_11_9&quot;: &quot;SELECT * FROM public.m_v_alarm_11 WHERE hash_value = 9&quot;,
+}
+
+sqlmap_pgsql_section_check = {
+    &quot;v_alarm_06_0&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 0&quot;,
+    &quot;v_alarm_06_1&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 1&quot;,
+    &quot;v_alarm_06_2&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 2&quot;,
+    &quot;v_alarm_06_3&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 3&quot;,
+    &quot;v_alarm_06_4&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 4&quot;,
+    &quot;v_alarm_06_5&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 5&quot;,
+    &quot;v_alarm_06_6&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 6&quot;,
+    &quot;v_alarm_06_7&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 7&quot;,
+    &quot;v_alarm_06_8&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 8&quot;,
+    &quot;v_alarm_06_9&quot;: &quot;SELECT * FROM public.m_v_alarm_06 WHERE hash_value = 9&quot;,
+    #&quot;v_alarm_06_9&quot;: &quot;SELECT * FROM public.m_v_alarm_06&quot;,
+}
+
+# 天级告警:16~19
+sqlmap_pgsql_section5 = {
+    #&quot;v_alarm_16_0&quot;: &quot;SELECT * FROM public.m_v_alarm_16 WHERE hash_value = 0&quot;,
+    #&quot;v_alarm_16_1&quot;: &quot;SELECT * FROM public.m_v_alarm_16 WHERE hash_value = 1&quot;,
+    #&quot;v_alarm_16_2&quot;: &quot;SELECT * FROM public.m_v_alarm_16 WHERE hash_value = 2&quot;,
+    #&quot;v_alarm_16_3&quot;: &quot;SELECT * FROM public.m_v_alarm_16 WHERE hash_value = 3&quot;,
+    #&quot;v_alarm_16_4&quot;: &quot;SELECT * FROM public.m_v_alarm_16 WHERE hash_value = 4&quot;,
+    #&quot;v_alarm_16_5&quot;: &quot;SELECT * FROM public.m_v_alarm_16 WHERE hash_value = 5&quot;,
+    #&quot;v_alarm_16_6&quot;: &quot;SELECT * FROM public.m_v_alarm_16 WHERE hash_value = 6&quot;,
+    #&quot;v_alarm_16_7&quot;: &quot;SELECT * FROM public.m_v_alarm_16 WHERE hash_value = 7&quot;,
+    #&quot;v_alarm_16_8&quot;: &quot;SELECT * FROM public.m_v_alarm_16 WHERE hash_value = 8&quot;,
+    #&quot;v_alarm_16_9&quot;: &quot;SELECT * FROM public.m_v_alarm_16 WHERE hash_value = 9&quot;,
+    #&quot;v_alarm_17_0&quot;: &quot;SELECT * FROM public.m_v_alarm_17 WHERE hash_value = 0&quot;,
+    #&quot;v_alarm_17_1&quot;: &quot;SELECT * FROM public.m_v_alarm_17 WHERE hash_value = 1&quot;,
+    #&quot;v_alarm_17_2&quot;: &quot;SELECT * FROM public.m_v_alarm_17 WHERE hash_value = 2&quot;,
+    #&quot;v_alarm_17_3&quot;: &quot;SELECT * FROM public.m_v_alarm_17 WHERE hash_value = 3&quot;,
+    #&quot;v_alarm_17_4&quot;: &quot;SELECT * FROM public.m_v_alarm_17 WHERE hash_value = 4&quot;,
+    #&quot;v_alarm_17_5&quot;: &quot;SELECT * FROM public.m_v_alarm_17 WHERE hash_value = 5&quot;,
+    #&quot;v_alarm_17_6&quot;: &quot;SELECT * FROM public.m_v_alarm_17 WHERE hash_value = 6&quot;,
+    #&quot;v_alarm_17_7&quot;: &quot;SELECT * FROM public.m_v_alarm_17 WHERE hash_value = 7&quot;,
+    #&quot;v_alarm_17_8&quot;: &quot;SELECT * FROM public.m_v_alarm_17 WHERE hash_value = 8&quot;,
+    #&quot;v_alarm_17_9&quot;: &quot;SELECT * FROM public.m_v_alarm_17 WHERE hash_value = 9&quot;,
+    #&quot;v_alarm_18_0&quot;: &quot;SELECT * FROM public.m_v_alarm_18 WHERE hash_value = 0&quot;,
+    #&quot;v_alarm_18_1&quot;: &quot;SELECT * FROM public.m_v_alarm_18 WHERE hash_value = 1&quot;,
+    #&quot;v_alarm_18_2&quot;: &quot;SELECT * FROM public.m_v_alarm_18 WHERE hash_value = 2&quot;,
+    #&quot;v_alarm_18_3&quot;: &quot;SELECT * FROM public.m_v_alarm_18 WHERE hash_value = 3&quot;,
+    #&quot;v_alarm_18_4&quot;: &quot;SELECT * FROM public.m_v_alarm_18 WHERE hash_value = 4&quot;,
+    #&quot;v_alarm_18_5&quot;: &quot;SELECT * FROM public.m_v_alarm_18 WHERE hash_value = 5&quot;,
+    #&quot;v_alarm_18_6&quot;: &quot;SELECT * FROM public.m_v_alarm_18 WHERE hash_value = 6&quot;,
+    #&quot;v_alarm_18_7&quot;: &quot;SELECT * FROM public.m_v_alarm_18 WHERE hash_value = 7&quot;,
+    #&quot;v_alarm_18_8&quot;: &quot;SELECT * FROM public.m_v_alarm_18 WHERE hash_value = 8&quot;,
+    #&quot;v_alarm_18_9&quot;: &quot;SELECT * FROM public.m_v_alarm_18 WHERE hash_value = 9&quot;
+    #&quot;v_alarm_19_0&quot;: &quot;SELECT * FROM public.m_v_alarm_19 WHERE hash_value = 0&quot;,
+    #&quot;v_alarm_19_1&quot;: &quot;SELECT * FROM public.m_v_alarm_19 WHERE hash_value = 1&quot;,
+    #&quot;v_alarm_19_2&quot;: &quot;SELECT * FROM public.m_v_alarm_19 WHERE hash_value = 2&quot;,
+    #&quot;v_alarm_19_3&quot;: &quot;SELECT * FROM public.m_v_alarm_19 WHERE hash_value = 3&quot;,
+    #&quot;v_alarm_19_4&quot;: &quot;SELECT * FROM public.m_v_alarm_19 WHERE hash_value = 4&quot;,
+    #&quot;v_alarm_19_5&quot;: &quot;SELECT * FROM public.m_v_alarm_19 WHERE hash_value = 5&quot;,
+    #&quot;v_alarm_19_6&quot;: &quot;SELECT * FROM public.m_v_alarm_19 WHERE hash_value = 6&quot;,
+    #&quot;v_alarm_19_7&quot;: &quot;SELECT * FROM public.m_v_alarm_19 WHERE hash_value = 7&quot;,
+    #&quot;v_alarm_19_8&quot;: &quot;SELECT * FROM public.m_v_alarm_19 WHERE hash_value = 8&quot;,
+    #&quot;v_alarm_19_9&quot;: &quot;SELECT * FROM public.m_v_alarm_19 WHERE hash_value = 9&quot;,
+}
+
+#pgsql_conn_pp = {
+#    &quot;host&quot;: &#39;10.73.8.28&#39;,
+#    &quot;user&quot;: &quot;postgres&quot;,
+#    &quot;password&quot;: &#39;1qaz)P(O&#39;,
+#    &quot;database&quot;: &quot;postgres&quot;,
+#    &quot;port&quot;: 5432
+#}
 
 pgsql_conn_prod = {
     &quot;host&quot;: &#39;10.72.8.50&#39;,
     &quot;user&quot;: &quot;postgres&quot;,
-    &quot;password&quot;: &#39;xxx&#39;,
+    &quot;password&quot;: &#39;1qaz)P(O&#39;,
     &quot;database&quot;: &quot;postgres&quot;,
     &quot;port&quot;: 5432
 }
 
 
-# MySQL table demo
-drop table if exists MURA.t_pm_alarm_tst;
-create table MURA.`t_pm_alarm_tst` (
-  `res_type` int(11) not null,
-  `res_key` varchar(20) default null,
-  `kpi_id` BIGINT not null AUTO_INCREMENT,
-  `time` date default null,
-  `value` int(5) default null,
-  `vendor` varchar(5) default null,
-  `city` varchar(5) default null,
-  primary key (`kpi_id`)
-)AUTO_INCREMENT = 5000200010001 ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+# sqlmap_pgsql = {
+#     &quot;p_cna_hap_maint_user&quot;: &quot;CALL p_cna_hap_maint_user()&quot;,
+#     # &quot;p_fm_app_exception_detail_info&quot;: &quot;CALL p_fm_app_exception_detail_info()&quot;,
+#     # &quot;p_fm_server_performence_info&quot;: &quot;CALL p_fm_server_performence_info()&quot;,
+#     # &quot;p_fm_server_runnning_info&quot;: &quot;CALL p_fm_server_runnning_info()&quot;,
+#     # &quot;p_fm_system_general_info&quot;: &quot;CALL p_fm_system_general_info()&quot;
+# }
 
-# MySQL data insert
-insert into MURA.t_pm_alarm_tst (res_type, res_key, time, value, vendor, city)
-values(&#39;1&#39;, &#39;10001&#39;, now() + 0, &#39;60&#39;, &#39;华为&#39;, &#39;531&#39;),
-(&#39;1&#39;, &#39;10001&#39;, now() + 0, &#39;60&#39;, &#39;华为&#39;, &#39;531&#39;),
-(&#39;1&#39;, &#39;10001&#39;, now() + 0, &#39;61&#39;, &#39;诺基亚&#39;, &#39;531&#39;),
-(&#39;2&#39;, &#39;10001&#39;, now() + 100000, &#39;62&#39;, &#39;华为&#39;, &#39;531&#39;)</code></pre>
+if __name__ == &#39;__main__&#39;:
+    # partition_lst = [k for k in sqlmap_pgsql_section3_2.keys()]
+    # print(len(partition_lst))
+    pass</code></pre>
 <ul>
 <li>main_kafka_section2.py</li>
 </ul>

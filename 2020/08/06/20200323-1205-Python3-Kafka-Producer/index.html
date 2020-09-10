@@ -233,8 +233,9 @@ class KafkaProducerPython(object):
         clog2.logger.info(f&#39;future_record_metadata.offset: {future_record_metadata.offset}&#39;)
         # clog2.logger.info(f&#39;future_record_metadata.partition: {future_record_metadata.partition}&#39;)
         # clog2.logger.warning(f&#39;Kafka Producer End: {self.producer}\n&#39;)
-        # def on_send_err(self):
-        # clog2.logger.info(&#39;I am an errback&#39;, exc_info=excp)
+
+    # def on_send_err(self):
+    # clog2.logger.info(&#39;I am an errback&#39;, exc_info=excp)
 
     def producer_send_log(self, info):
         &quot;&quot;&quot;

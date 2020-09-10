@@ -367,6 +367,8 @@ chmod -R 755 /db/install_pg
 Repo Point  kafka-python  psycopg2
 
 class_Kafka_producer.py
+
+
 # -*- coding:utf-8 -*-
 # @Author: Shin
 # @Date: 20/3/23 10:13
@@ -374,11 +376,16 @@ class_Kafka_producer.py
 # @Usage: Kafka producer for kafka_2.11-0.10.2.1
 
 
+from kafka import KafkaProducer
+import pymysql as pym
+# import psycopg2 as pg
 
 
-from kafka import KafkaProducerimport pymysql as pym
-import psycopg2 as pgSelf Repofrom src.func_demo.func_f import date_ffrom src.func_demo.logging_f import *from src.conf import kafka_conf as cfg
-from func_demo.func_f import date_ffro</div>
+# Self Repo
+from src.func_demo.func_f import date_f
+from src.func_demo.logging_f import *
+from src.conf import kafka_conf as cfg
+# from func_demo.func_f imp</div>
         </div>
       </a>
 

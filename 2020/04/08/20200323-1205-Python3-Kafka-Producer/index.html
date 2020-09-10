@@ -176,307 +176,288 @@
 <li><p>Repo Point<br>  kafka-python<br>  psycopg2</p>
 </li>
 <li><p>class_Kafka_producer.py</p>
+</li>
+</ul>
 <pre><code class="python"># -*- coding:utf-8 -*-
 # @Author: Shin
 # @Date: 20/3/23 10:13
 # @File: class_Kafka_producer.py
 # @Usage: Kafka producer for kafka_2.11-0.10.2.1
 
-</code></pre>
-</li>
-</ul>
-<p>from kafka import KafkaProducer<br>import pymysql as pym</p>
-<h1 id="import-psycopg2-as-pg"><a href="#import-psycopg2-as-pg" class="headerlink" title="import psycopg2 as pg"></a>import psycopg2 as pg</h1><h1 id="Self-Repo"><a href="#Self-Repo" class="headerlink" title="Self Repo"></a>Self Repo</h1><p>from src.func_demo.func_f import date_f<br>from src.func_demo.logging_f import *<br>from src.conf import kafka_conf as cfg</p>
-<h1 id="from-func-demo-func-f-import-date-f"><a href="#from-func-demo-func-f-import-date-f" class="headerlink" title="from func_demo.func_f import date_f"></a>from func_demo.func_f import date_f</h1><h1 id="from-func-demo-logging-f-import"><a href="#from-func-demo-logging-f-import" class="headerlink" title="from func_demo.logging_f import *"></a>from func_demo.logging_f import *</h1><h1 id="from-conf-import-kafka-conf-as-cfg"><a href="#from-conf-import-kafka-conf-as-cfg" class="headerlink" title="from conf import kafka_conf as cfg"></a>from conf import kafka_conf as cfg</h1><p>class KafkaProducerPython(object):</p>
-<pre><code>def __init__(self, topic, bootstrap_servers=&#39;localhost:9092&#39;):
-    &quot;&quot;&quot;
-    :param bootstrap_servers:   host:port for Kafka
-    :param topic:   Kafka topic
-    &quot;&quot;&quot;
-    self.bootstrap_servers = bootstrap_servers
-    self.topic = topic
-    self.producer = None
-    self.future_record_metadata = None
 
-def producer_send(self, value_byte):
-    &quot;&quot;&quot;
-    :param value_byte:  str or json_str in bytes
-    :return:    &lt;class &#39;kafka.producer.future.FutureRecordMetadata&#39;&gt;
-    &quot;&quot;&quot;
-    try:
-        self.producer = KafkaProducer(bootstrap_servers=self.bootstrap_servers)
-        log.logger.warning(f&#39;Kafka Producer Begin: {self.producer}&#39;)
-
-        self.future_record_metadata = self.producer.send(self.topic, value_byte)   # &lt;class &#39;kafka.producer.future.FutureRecordMetadata&#39;&gt;
-        # print(type(self.future_record_metadata))
-        return self.future_record_metadata
-
-    except Exception as e:
-        log.logger.error(f&#39;Kafka producer send error... {e}&#39;)
-    finally:
-        self.producer.flush()
-
-def producer_send_callback(self, future_record_metadata):
-    &quot;&quot;&quot;
-    :param future_record_metadata: &lt;class &#39;kafka.producer.future.FutureRecordMetadata&#39;&gt; producer.send 返回
-    :return:
-    &quot;&quot;&quot;
-    # log = Logger(filename = f&#39;./logs/all_bokeh.log&#39;, level=&#39;info&#39;, when=&#39;H&#39;)
-    log.logger.info(f&#39;future_record_metadata.topic: {future_record_metadata.topic}&#39;)
-    log.logger.info(f&#39;future_record_metadata.offset: {future_record_metadata.offset}&#39;)
-    log.logger.info(f&#39;future_record_metadata.partition: {future_record_metadata.partition}&#39;)
-    log.logger.warning(f&#39;Kafka Producer End: {self.producer}\n&#39;)
+from kafka import KafkaProducer
+import pymysql as pym
+# import psycopg2 as pg
 
 
-    # def on_send_err(self):
-    # log.logger.info(&#39;I am an errback&#39;, exc_info=excp)
+# Self Repo
+from src.func_demo.func_f import date_f
+from src.func_demo.logging_f import *
+from src.conf import kafka_conf as cfg
+# from func_demo.func_f import date_f
+# from func_demo.logging_f import *
+# from conf import kafka_conf as cfg
 
-def to_bytes(self, v):
-    v_byte = bytes(str(v), encoding=&#39;utf-8&#39;)
-    return v_byte
-    # return str(v)
+
+class KafkaProducerPython(object):
+
+    def __init__(self, topic, bootstrap_servers=&#39;localhost:9092&#39;):
+        &quot;&quot;&quot;
+        :param bootstrap_servers:   host:port for Kafka
+        :param topic:   Kafka topic
+        &quot;&quot;&quot;
+        self.bootstrap_servers = bootstrap_servers
+        self.topic = topic
+        self.producer = None
+        self.future_record_metadata = None
+
+    def producer_send(self, value_byte):
+        &quot;&quot;&quot;
+        :param value_byte:  str or json_str in bytes
+        :return:    &lt;class &#39;kafka.producer.future.FutureRecordMetadata&#39;&gt;
+        &quot;&quot;&quot;
+        try:
+            self.producer = KafkaProducer(bootstrap_servers=self.bootstrap_servers)
+            log.logger.warning(f&#39;Kafka Producer Begin: {self.producer}&#39;)
+
+            self.future_record_metadata = self.producer.send(self.topic, value_byte)   # &lt;class &#39;kafka.producer.future.FutureRecordMetadata&#39;&gt;
+            # print(type(self.future_record_metadata))
+            return self.future_record_metadata
+
+        except Exception as e:
+            log.logger.error(f&#39;Kafka producer send error... {e}&#39;)
+        finally:
+            self.producer.flush()
+
+    def producer_send_callback(self, future_record_metadata):
+        &quot;&quot;&quot;
+        :param future_record_metadata: &lt;class &#39;kafka.producer.future.FutureRecordMetadata&#39;&gt; producer.send 返回
+        :return:
+        &quot;&quot;&quot;
+        # log = Logger(filename = f&#39;./logs/all_bokeh.log&#39;, level=&#39;info&#39;, when=&#39;H&#39;)
+        log.logger.info(f&#39;future_record_metadata.topic: {future_record_metadata.topic}&#39;)
+        log.logger.info(f&#39;future_record_metadata.offset: {future_record_metadata.offset}&#39;)
+        log.logger.info(f&#39;future_record_metadata.partition: {future_record_metadata.partition}&#39;)
+        log.logger.warning(f&#39;Kafka Producer End: {self.producer}\n&#39;)
 
 
-def to_str(self, v):
-    return str(v)</code></pre><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    # 类模式<br>    data_dict = {“res_type”:”24”,<br>                 “res_key”:”10001”,<br>                 “kpi_id”:”5000200010001”,<br>                 “time”:”2020-01-14 10:24:00”,<br>                 “value”:”60”,<br>                 “vendor”:”华为”,<br>                 “city”:”531”<br>    }<br>    # print(f’{data_dict[“res_key”]} {type(data_dict[“res_key”])}\n’)</p>
-<pre><code># # Demo
-# try:
-prod = KafkaProducerPython(topic=cfg.kafka_cfg_dict[&#39;topic&#39;],
-                           bootstrap_servers=cfg.kafka_cfg_dict[&#39;bootstrap_servers&#39;])
-#
-# dict ---&gt; bytes # ✔✔✔✔✔✔
-# kafka_str2bytes = prod.to_bytes(f&#39;\n{date_f()[2]}    This is from Python project class_Kafka_producer...\n{data_dict}&#39;)
-kafka_str2bytes = prod.to_bytes(f&#39;\n{date_f()[2]}    This is from Python project class_Kafka_producer...&#39;)
+        # def on_send_err(self):
+        # log.logger.info(&#39;I am an errback&#39;, exc_info=excp)
 
-#
-#     # dict ---&gt; json ---&gt; bytes
-#     # Chinese in Consumer need to be decoded  # ××××××
-#     data_json2bytes = json.dumps(data_dict).encode(&#39;utf-8&#39;)
-#
-#
-x = prod.producer_send(kafka_str2bytes)
-x.add_callback(prod.producer_send_callback)
+    def to_bytes(self, v):
+        v_byte = bytes(str(v), encoding=&#39;utf-8&#39;)
+        return v_byte
+        # return str(v)
 
-# oltp_mysql_matser = None
-sql1 = cfg.sql_map[&quot;sql1&quot;]
-sql2 = cfg.sql_map[&quot;sql2&quot;]
 
-try:
-    # 3. Kafka producer
+    def to_str(self, v):
+        return str(v)
+
+
+if __name__ == &#39;__main__&#39;:
+    # 类模式
+    data_dict = {&quot;res_type&quot;:&quot;24&quot;,
+                 &quot;res_key&quot;:&quot;10001&quot;,
+                 &quot;kpi_id&quot;:&quot;5000200010001&quot;,
+                 &quot;time&quot;:&quot;2020-01-14 10:24:00&quot;,
+                 &quot;value&quot;:&quot;60&quot;,
+                 &quot;vendor&quot;:&quot;华为&quot;,
+                 &quot;city&quot;:&quot;531&quot;
+    }
+    # print(f&#39;{data_dict[&quot;res_key&quot;]} {type(data_dict[&quot;res_key&quot;])}\n&#39;)
+
+    # # Demo
+    # try:
     prod = KafkaProducerPython(topic=cfg.kafka_cfg_dict[&#39;topic&#39;],
                                bootstrap_servers=cfg.kafka_cfg_dict[&#39;bootstrap_servers&#39;])
+    #
+    # dict ---&gt; bytes # ✔✔✔✔✔✔
+    # kafka_str2bytes = prod.to_bytes(f&#39;\n{date_f()[2]}    This is from Python project class_Kafka_producer...\n{data_dict}&#39;)
+    kafka_str2bytes = prod.to_bytes(f&#39;\n{date_f()[2]}    This is from Python project class_Kafka_producer...&#39;)
 
-    # 1. MySQL execution
-    # MySQL结果转json
-    global oltp_mysql_matser
-    # oltp_mysql_matser = pym.connect(host=&#39;192.168.73.21&#39;, user=&#39;root&#39;, passwd=&#39;123456&#39;, db=&#39;MURA&#39;, port=3306)
+    #
+    #     # dict ---&gt; json ---&gt; bytes
+    #     # Chinese in Consumer need to be decoded  # ××××××
+    #     data_json2bytes = json.dumps(data_dict).encode(&#39;utf-8&#39;)
+    #
+    #
+    x = prod.producer_send(kafka_str2bytes)
+    x.add_callback(prod.producer_send_callback)
 
-    oltp_mysql_matser = pym.connect(host=cfg.mysql_conn[&quot;host&quot;], user=cfg.mysql_conn[&quot;user&quot;],
-                                        passwd=cfg.mysql_conn[&quot;passwd&quot;], db=cfg.mysql_conn[&quot;db&quot;],
-                                        port=cfg.mysql_conn[&quot;port&quot;])
+    # oltp_mysql_matser = None
+    sql1 = cfg.sql_map[&quot;sql1&quot;]
+    sql2 = cfg.sql_map[&quot;sql2&quot;]
 
+    try:
+        # 3. Kafka producer
+        prod = KafkaProducerPython(topic=cfg.kafka_cfg_dict[&#39;topic&#39;],
+                                   bootstrap_servers=cfg.kafka_cfg_dict[&#39;bootstrap_servers&#39;])
 
-    log.logger.warning(f&#39;MySQL Begin: {oltp_mysql_matser}&#39;)
+        # 1. MySQL execution
+        # MySQL结果转json
+        global oltp_mysql_matser
+        # oltp_mysql_matser = pym.connect(host=&#39;192.168.73.21&#39;, user=&#39;root&#39;, passwd=&#39;123456&#39;, db=&#39;MURA&#39;, port=3306)
 
-    cursor1 = oltp_mysql_matser.cursor()
-    cursor2 = oltp_mysql_matser.cursor()
-
-    cursor1.execute(sql1)
-    rowcnt = cursor1.rowcount   # cursor2.execute(sql2)
-
-    # 2. 分批，不知是否合理
-    rows = cursor2.fetchone()
-    # log.logger.info(f&#39;Total rows for current execution &lt;{sql2}&gt;: {[x for x in rows]}&#39;)
-    log.logger.info(f&#39;Total rows for current execution &lt;{sql1}&gt;: {rowcnt}&#39;)
-
-    execute_result_1 = cursor1.fetchmany(rows[0]) # &lt;class &#39;tuple&#39;&gt;
-    execute_result_2 = cursor1.fetchall()
-
-    cursor1.close()
-    cursor2.close()
-
-    # print(type(execute_result_1))
-    mysql_dict_list =[]
-    mysql_dict_list_2 = []
-    for rn in execute_result_1:
-        mysql_dict = {}
-        mysql_dict[&quot;res_type&quot;] = str(rn[0])
-        mysql_dict[&quot;res_key&quot;] = rn[1]
-        mysql_dict[&quot;kpi_id&quot;] = rn[2]
-        mysql_dict[&quot;time&quot;] = str(rn[3])
-        mysql_dict[&quot;value&quot;] = str(rn[4])
-        mysql_dict[&quot;vendor&quot;] = rn[5]
-        mysql_dict[&quot;city&quot;] = str(rn[6])
-
-        mysql_dict_list.append(prod.to_bytes([mysql_dict]))
-    # dict ---&gt; bytes
-    for rb in mysql_dict_list:
-        prod.producer_send(rb).add_callback(prod.producer_send_callback)
-        # print(f&#39;rb: {rb} {type(rb)}\n&#39;)
-
-except Exception as e:
-    log.logger.error(f&#39;{e}\n&#39;)
-    errlog.logger.error(f&#39;{e}&#39;)
-finally:
-    oltp_mysql_matser.close()
-    log.logger.warning(f&#39;MySQL End: {oltp_mysql_matser}&#39;)
+        oltp_mysql_matser = pym.connect(host=cfg.mysql_conn[&quot;host&quot;], user=cfg.mysql_conn[&quot;user&quot;],
+                                            passwd=cfg.mysql_conn[&quot;passwd&quot;], db=cfg.mysql_conn[&quot;db&quot;],
+                                            port=cfg.mysql_conn[&quot;port&quot;])
 
 
-# # 手动模式
-# prod = KafkaProducer(bootstrap_servers=&#39;192.168.73.10:9092&#39;)
-# for _ in range(3):
-#     prod.send(topic=&#39;test&#39;, value=b&#39;This is from Python project class_Kafka_producer...&#39;)
-# # prod = KafkaProducer(value_serializer=lambda x: json.dumps(x).encode(&#39;utf-8&#39;))
-# prod.send(&#39;test&#39;, data_json)
+        log.logger.warning(f&#39;MySQL Begin: {oltp_mysql_matser}&#39;)
+
+        cursor1 = oltp_mysql_matser.cursor()
+        cursor2 = oltp_mysql_matser.cursor()
+
+        cursor1.execute(sql1)
+        rowcnt = cursor1.rowcount   # cursor2.execute(sql2)
+
+        # 2. 分批，不知是否合理
+        rows = cursor2.fetchone()
+        # log.logger.info(f&#39;Total rows for current execution &lt;{sql2}&gt;: {[x for x in rows]}&#39;)
+        log.logger.info(f&#39;Total rows for current execution &lt;{sql1}&gt;: {rowcnt}&#39;)
+
+        execute_result_1 = cursor1.fetchmany(rows[0]) # &lt;class &#39;tuple&#39;&gt;
+        execute_result_2 = cursor1.fetchall()
+
+        cursor1.close()
+        cursor2.close()
+
+        # print(type(execute_result_1))
+        mysql_dict_list =[]
+        mysql_dict_list_2 = []
+        for rn in execute_result_1:
+            mysql_dict = {}
+            mysql_dict[&quot;res_type&quot;] = str(rn[0])
+            mysql_dict[&quot;res_key&quot;] = rn[1]
+            mysql_dict[&quot;kpi_id&quot;] = rn[2]
+            mysql_dict[&quot;time&quot;] = str(rn[3])
+            mysql_dict[&quot;value&quot;] = str(rn[4])
+            mysql_dict[&quot;vendor&quot;] = rn[5]
+            mysql_dict[&quot;city&quot;] = str(rn[6])
+
+            mysql_dict_list.append(prod.to_bytes([mysql_dict]))
+        # dict ---&gt; bytes
+        for rb in mysql_dict_list:
+            prod.producer_send(rb).add_callback(prod.producer_send_callback)
+            # print(f&#39;rb: {rb} {type(rb)}\n&#39;)
+
+    except Exception as e:
+        log.logger.error(f&#39;{e}\n&#39;)
+        errlog.logger.error(f&#39;{e}&#39;)
+    finally:
+        oltp_mysql_matser.close()
+        log.logger.warning(f&#39;MySQL End: {oltp_mysql_matser}&#39;)
 
 
-# # Block until all pending messages are at least put on the network
-# # NOTE: This does not guarantee delivery or success! It is really
-# # only useful if you configure internal batching using linger_ms
-# prod.flush()</code></pre><pre><code>
+    # # 手动模式
+    # prod = KafkaProducer(bootstrap_servers=&#39;192.168.73.10:9092&#39;)
+    # for _ in range(3):
+    #     prod.send(topic=&#39;test&#39;, value=b&#39;This is from Python project class_Kafka_producer...&#39;)
+    # # prod = KafkaProducer(value_serializer=lambda x: json.dumps(x).encode(&#39;utf-8&#39;))
+    # prod.send(&#39;test&#39;, data_json)
 
----
 
-* class_DB_demo.py
-```python
-# -*- coding:utf-8 -*-
+    # # Block until all pending messages are at least put on the network
+    # # NOTE: This does not guarantee delivery or success! It is really
+    # # only useful if you configure internal batching using linger_ms
+    # prod.flush()</code></pre>
+<hr>
+<ul>
+<li>class_DB_demo.py<pre><code class="python"># -*- coding:utf-8 -*-
 # @Author: Shin
 # @Date: 20/3/29 12:19
 # @File: class_DB_demo.py
 # @Usage: 
 
-
-import pymysql as pm
-import psycopg2 as pg
-from psycopg2.extras import execute_values
-
-
-# Self Repo
-from src.func_demo.logging_f import *
-
-
-# 下面的三行包其实是main函数中使用，有部分重复
-# Self Repo
-# from src.class_DB_demo import UseMySQL, UsePostgreSQL, ExecutePostgreSQL
-from src.conf.kafka_conf import mysql_conn, pgsql_conn, pgsql_conn_pp, pgsql_conn_prod
-from src.func_demo.logging_f import *
-
-
-class UseMySQL(object):
-    def __init__(self, config:dict):
-        self.configurantion = config
-
-    def __enter__(self):
-        self.conn = pm.connect(**self.configurantion)
-        self.cursor = self.conn.cursor()
-        return self.cursor
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.conn.commit()
-        self.cursor.close()
-        self.conn.close()
-
-
-class UsePostgreSQL(object):
-    def __init__(self, config:dict):
-        self.config = config
-
-    def __enter__(self):
-        self.conn = pg.connect(**self.config)
-        self.cursor = self.conn.cursor()
-        return self.cursor
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.conn.commit()
-        self.cursor.close()
-        self.conn.close()
-
-
-class ExecutePostgreSQL(object):
-    def __init__(self, kwargs:dict):
-        self.cur = kwargs[&#39;cur&#39;]
-        self.sql = kwargs[&#39;sql&#39;]
-        self.argslist = kwargs[&#39;argslist&#39;]
-
-    def pg_insert(self):
-        # super(ExecutePostgreSQL, self).__enter__()
-        try:
-            log.logger.warning(f&#39;UsePostgreSQL.pg_insert Begin.&#39;)
-            log.logger.info(f&#39;Total rows for current rollover: {len(self.argslist)}&#39;)
-            execute_values(cur=self.cur, sql=self.sql, argslist=self.argslist)
-            log.logger.warning(f&#39;UsePostgreSQL.pg_insert End.&#39;)
-        except Exception as e:
-            errlog.logger.error(f&#39;pg_insert: {e}&#39;)
-
-
-# Demo
-if __name__ == &#39;__main__&#39;:
-    # MySQL cursor
-    try:
-        log.logger.warning(f&#39;MySQL Begin...&#39;)
-        with UseMySQL(mysql_conn) as cursor:
-            sql_1 = &quot;&quot;&quot;show tables&quot;&quot;&quot;
-            sql_1 = &quot;&quot;&quot;select * from MURA.t_pm_alarm_tst&quot;&quot;&quot;
-            cursor.execute(sql_1)
-            data = cursor.fetchall()
-            col0 = [x for x in data]    # [(),(),()]
-            k = 0
-            for rs in col0:
-                k += 1
-                print(f&#39;k:{k}   v:{rs}\nc1:{rs[0]} c2:{rs[1]} c3:{rs[2]} c4:{rs[3]} c5:{rs[4]} c6:{rs[5]} c7:{rs[6]}\n&#39;)
-
-     except Exception as e:
-        log.logger.error(f&#39;{e}\n&#39;)
-        errlog.logger.error(f&#39;{e}&#39;)
-
-
-    # PostgreSQL cursor
-     try:
-        log.logger.warning(f&#39;PostgreSQL Begin!!!&#39;)
-        with UsePostgreSQL(pgsql_conn_pp) as cursor:
-            sql_1 = &quot;&quot;&quot;SELECT * FROM public.t_fm_alarm_fields&quot;&quot;&quot;
-            # sql_2 = &quot;&quot;&quot;SELECT COUNT(1) FROM public.t_fm_alarm_fields&quot;&quot;&quot;
-            sql_3 = &quot;&quot;&quot;INSERT INTO public.t_fm_alarm_fields VALUES %s&quot;&quot;&quot;
-            sql_4 = &quot;&quot;&quot;TRUNCATE TABLE public.t_fm_alarm_fields&quot;&quot;&quot;
-            size = 100
-
-            log.logger.info(f&#39;Current execution &lt;{sql_1}&gt;&#39;)
-            cursor.execute(sql_1)
-
-            rowcnt = cursor.rowcount
-            log.logger.info(f&#39;Total rows for current execution &lt;{sql_1}&gt;: {rowcnt}&#39;)
-
-            limitcnt, limitlast = divmod(rowcnt, size)
-            log.logger.info(f&#39;Based on interval: {size}, total rows for rollover: {limitcnt}, ending number: {limitlast}&#39;)
-
-            with UsePostgreSQL(pgsql_conn_prod) as cursor2_1:
-                cursor2_1.execute(sql_4)  # 清理
-
-            with UsePostgreSQL(pgsql_conn_prod) as cursor2_2:
-                for rn in range(limitcnt + 1):
-                    data = cursor.fetchmany(size=size)
-                    exe_dict = {
-                                    &quot;cur&quot;: cursor2_2,
-                                    &quot;sql&quot;: sql_3,
-                                    &quot;argslist&quot;: data
-                    }
-                    pg_prod = ExecutePostgreSQL(exe_dict)
-                    pg_prod.pg_insert()
-
-            with UsePostgreSQL(pgsql_conn_prod) as cursor3:
-                cursor3.execute(sql_1)
-                # result = cursor3.fetchall()
-                log.logger.info(f&#39;Total rows for execution: {cursor3.rowcount}&#39;)
-
-        log.logger.warning(f&#39;PostgreSQL End!!!&#39;)
-
-    except Exception as e:
-        log.logger.error(f&#39;{e}\n&#39;)
-        errlog.logger.error(f&#39;{e}&#39;)</code></pre><hr>
-<ul>
-<li>logging_f.py</li>
+</code></pre>
+</li>
 </ul>
-<pre><code class="python"># -*- coding:utf-8 -*-
+<p>import pymysql as pm<br>import psycopg2 as pg<br>from psycopg2.extras import execute_values</p>
+<h1 id="Self-Repo"><a href="#Self-Repo" class="headerlink" title="Self Repo"></a>Self Repo</h1><p>from src.func_demo.logging_f import *</p>
+<h1 id="下面的三行包其实是main函数中使用，有部分重复"><a href="#下面的三行包其实是main函数中使用，有部分重复" class="headerlink" title="下面的三行包其实是main函数中使用，有部分重复"></a>下面的三行包其实是main函数中使用，有部分重复</h1><h1 id="Self-Repo-1"><a href="#Self-Repo-1" class="headerlink" title="Self Repo"></a>Self Repo</h1><h1 id="from-src-class-DB-demo-import-UseMySQL-UsePostgreSQL-ExecutePostgreSQL"><a href="#from-src-class-DB-demo-import-UseMySQL-UsePostgreSQL-ExecutePostgreSQL" class="headerlink" title="from src.class_DB_demo import UseMySQL, UsePostgreSQL, ExecutePostgreSQL"></a>from src.class_DB_demo import UseMySQL, UsePostgreSQL, ExecutePostgreSQL</h1><p>from src.conf.kafka_conf import mysql_conn, pgsql_conn, pgsql_conn_pp, pgsql_conn_prod<br>from src.func_demo.logging_f import *</p>
+<p>class UseMySQL(object):<br>    def <strong>init</strong>(self, config:dict):<br>        self.configurantion = config</p>
+<pre><code>def __enter__(self):
+    self.conn = pm.connect(**self.configurantion)
+    self.cursor = self.conn.cursor()
+    return self.cursor
+
+def __exit__(self, exc_type, exc_val, exc_tb):
+    self.conn.commit()
+    self.cursor.close()
+    self.conn.close()</code></pre><p>class UsePostgreSQL(object):<br>    def <strong>init</strong>(self, config:dict):<br>        self.config = config</p>
+<pre><code>def __enter__(self):
+    self.conn = pg.connect(**self.config)
+    self.cursor = self.conn.cursor()
+    return self.cursor
+
+def __exit__(self, exc_type, exc_val, exc_tb):
+    self.conn.commit()
+    self.cursor.close()
+    self.conn.close()</code></pre><p>class ExecutePostgreSQL(object):<br>    def <strong>init</strong>(self, kwargs:dict):<br>        self.cur = kwargs[‘cur’]<br>        self.sql = kwargs[‘sql’]<br>        self.argslist = kwargs[‘argslist’]</p>
+<pre><code>def pg_insert(self):
+    # super(ExecutePostgreSQL, self).__enter__()
+    try:
+        log.logger.warning(f&#39;UsePostgreSQL.pg_insert Begin.&#39;)
+        log.logger.info(f&#39;Total rows for current rollover: {len(self.argslist)}&#39;)
+        execute_values(cur=self.cur, sql=self.sql, argslist=self.argslist)
+        log.logger.warning(f&#39;UsePostgreSQL.pg_insert End.&#39;)
+    except Exception as e:
+        errlog.logger.error(f&#39;pg_insert: {e}&#39;)</code></pre><h1 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h1><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    # MySQL cursor<br>    try:<br>        log.logger.warning(f’MySQL Begin…’)<br>        with UseMySQL(mysql_conn) as cursor:<br>            sql_1 = “””show tables”””<br>            sql_1 = “””select * from MURA.t_pm_alarm_tst”””<br>            cursor.execute(sql_1)<br>            data = cursor.fetchall()<br>            col0 = [x for x in data]    # [(),(),()]<br>            k = 0<br>            for rs in col0:<br>                k += 1<br>                print(f’k:{k}   v:{rs}\nc1:{rs[0]} c2:{rs[1]} c3:{rs[2]} c4:{rs[3]} c5:{rs[4]} c6:{rs[5]} c7:{rs[6]}\n’)</p>
+<pre><code> except Exception as e:
+    log.logger.error(f&#39;{e}\n&#39;)
+    errlog.logger.error(f&#39;{e}&#39;)
+
+
+# PostgreSQL cursor
+ try:
+    log.logger.warning(f&#39;PostgreSQL Begin!!!&#39;)
+    with UsePostgreSQL(pgsql_conn_pp) as cursor:
+        sql_1 = &quot;&quot;&quot;SELECT * FROM public.t_fm_alarm_fields&quot;&quot;&quot;
+        # sql_2 = &quot;&quot;&quot;SELECT COUNT(1) FROM public.t_fm_alarm_fields&quot;&quot;&quot;
+        sql_3 = &quot;&quot;&quot;INSERT INTO public.t_fm_alarm_fields VALUES %s&quot;&quot;&quot;
+        sql_4 = &quot;&quot;&quot;TRUNCATE TABLE public.t_fm_alarm_fields&quot;&quot;&quot;
+        size = 100
+
+        log.logger.info(f&#39;Current execution &lt;{sql_1}&gt;&#39;)
+        cursor.execute(sql_1)
+
+        rowcnt = cursor.rowcount
+        log.logger.info(f&#39;Total rows for current execution &lt;{sql_1}&gt;: {rowcnt}&#39;)
+
+        limitcnt, limitlast = divmod(rowcnt, size)
+        log.logger.info(f&#39;Based on interval: {size}, total rows for rollover: {limitcnt}, ending number: {limitlast}&#39;)
+
+        with UsePostgreSQL(pgsql_conn_prod) as cursor2_1:
+            cursor2_1.execute(sql_4)  # 清理
+
+        with UsePostgreSQL(pgsql_conn_prod) as cursor2_2:
+            for rn in range(limitcnt + 1):
+                data = cursor.fetchmany(size=size)
+                exe_dict = {
+                                &quot;cur&quot;: cursor2_2,
+                                &quot;sql&quot;: sql_3,
+                                &quot;argslist&quot;: data
+                }
+                pg_prod = ExecutePostgreSQL(exe_dict)
+                pg_prod.pg_insert()
+
+        with UsePostgreSQL(pgsql_conn_prod) as cursor3:
+            cursor3.execute(sql_1)
+            # result = cursor3.fetchall()
+            log.logger.info(f&#39;Total rows for execution: {cursor3.rowcount}&#39;)
+
+    log.logger.warning(f&#39;PostgreSQL End!!!&#39;)
+
+except Exception as e:
+    log.logger.error(f&#39;{e}\n&#39;)
+    errlog.logger.error(f&#39;{e}&#39;)</code></pre><pre><code>
+
+---
+
+* logging_f.py
+
+```python 
+# -*- coding:utf-8 -*-
 # @Author: Shin
 # @Date: 20/3/5 17:05
 # @File: logging_f.py
@@ -563,8 +544,7 @@ class Logger(object):
 
 current_path = f&#39;./logs/&#39;
 log = Logger(filename=current_path + f&#39;all_bokeh.log&#39;, level=&#39;info&#39;, when=&#39;H&#39;, fmt=&#39;%(asctime)s   [line:%(lineno)d][%(levelname)s]: %(message)s&#39;)
-errlog = Logger(filename=current_path + f&#39;err_bokeh.log&#39;, level=&#39;error&#39;, when=&#39;H&#39;, fmt=&#39;%(asctime)s   [line:%(lineno)d][%(levelname)s]: %(message)s&#39;)</code></pre>
-<hr>
+errlog = Logger(filename=current_path + f&#39;err_bokeh.log&#39;, level=&#39;error&#39;, when=&#39;H&#39;, fmt=&#39;%(asctime)s   [line:%(lineno)d][%(levelname)s]: %(message)s&#39;)</code></pre><hr>
 <ul>
 <li>func_f.py</li>
 </ul>

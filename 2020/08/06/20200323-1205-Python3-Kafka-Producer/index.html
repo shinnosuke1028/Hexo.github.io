@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="Shinnosuke Guo">
   <meta name="keywords" content="">
-  <title>20200323_1205_Python3-Kafka-Producer ~ Shinnosuke</title>
+  <title>20200806_1205_Python3-Kafka-Producer ~ Shinnosuke</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Wednesday, April 8th 2020, 1:16 pm
+                  Thursday, August 6th 2020, 1:21 pm
                 </p>
               
 
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    2.7k 字
+                    3k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      15 分钟
+                      18 分钟
                   </span>&nbsp;
                 
 
@@ -175,26 +175,22 @@
             <h2 id="Python3-KafkaProducer-with-PostgreSQL"><a href="#Python3-KafkaProducer-with-PostgreSQL" class="headerlink" title="Python3 KafkaProducer_with_PostgreSQL"></a>Python3 KafkaProducer_with_PostgreSQL</h2><h3 id="01-数据库数据采集-amp-监控"><a href="#01-数据库数据采集-amp-监控" class="headerlink" title="01. 数据库数据采集&amp;监控"></a>01. 数据库数据采集&amp;监控</h3><ul>
 <li><p>Repo Point<br>  kafka-python<br>  psycopg2</p>
 </li>
-<li><p>class_Kafka_producer.py</p>
+<li><p>class_Kafka_producer_linux_section2.py</p>
 </li>
 </ul>
 <pre><code class="python"># -*- coding:utf-8 -*-
 # @Author: Shin
 # @Date: 20/3/23 10:13
-# @File: class_Kafka_producer.py
+# @File: class_Kafka_producer_linux_section2.py
 # @Usage: Kafka producer for kafka_2.11-0.10.2.1
 
+
 from kafka import KafkaProducer
-import pymysql as pym
-# import psycopg2 as pg
+import threading
 
 # Self Repo
-from src.func_demo.func_f import date_f
-from src.func_demo.logging_f import *
-from src.conf import kafka_conf as cfg
-# from func_demo.func_f import date_f
-# from func_demo.logging_f import *
-# from conf import kafka_conf as cfg
+# from src.func_demo.func_f import clog2, errclog2
+from func_demo.func_f import clog2, errclog2
 
 
 class KafkaProducerPython(object):
@@ -216,149 +212,60 @@ class KafkaProducerPython(object):
         &quot;&quot;&quot;
         try:
             self.producer = KafkaProducer(bootstrap_servers=self.bootstrap_servers)
-            log.logger.warning(f&#39;Kafka Producer Begin: {self.producer}&#39;)
+            # clog2.logger.warning(f&#39;Kafka Producer Begin: {self.producer}&#39;)
 
             self.future_record_metadata = self.producer.send(self.topic, value_byte)   # &lt;class &#39;kafka.producer.future.FutureRecordMetadata&#39;&gt;
             # print(type(self.future_record_metadata))
             return self.future_record_metadata
 
         except Exception as e:
-            log.logger.error(f&#39;Kafka producer send error... {e}&#39;)
+            clog2.logger.error(f&#39;Kafka producer send error... {e}&#39;)
         finally:
             self.producer.flush()
 
     def producer_send_callback(self, future_record_metadata):
         &quot;&quot;&quot;
         :param future_record_metadata: &lt;class &#39;kafka.producer.future.FutureRecordMetadata&#39;&gt; producer.send 返回
-        :return:
+        :return: 
         &quot;&quot;&quot;
         # log = Logger(filename = f&#39;./logs/all_bokeh.log&#39;, level=&#39;info&#39;, when=&#39;H&#39;)
-        log.logger.info(f&#39;future_record_metadata.topic: {future_record_metadata.topic}&#39;)
-        log.logger.info(f&#39;future_record_metadata.offset: {future_record_metadata.offset}&#39;)
-        log.logger.info(f&#39;future_record_metadata.partition: {future_record_metadata.partition}&#39;)
-        log.logger.warning(f&#39;Kafka Producer End: {self.producer}\n&#39;)
-
-
+        # clog2.logger.info(f&#39;future_record_metadata.topic: {future_record_metadata.topic}&#39;)
+        clog2.logger.info(f&#39;future_record_metadata.offset: {future_record_metadata.offset}&#39;)
+        # clog2.logger.info(f&#39;future_record_metadata.partition: {future_record_metadata.partition}&#39;)
+        # clog2.logger.warning(f&#39;Kafka Producer End: {self.producer}\n&#39;)
         # def on_send_err(self):
-        # log.logger.info(&#39;I am an errback&#39;, exc_info=excp)
+        # clog2.logger.info(&#39;I am an errback&#39;, exc_info=excp)
+
+    def producer_send_log(self, info):
+        &quot;&quot;&quot;
+        :param info: &lt;class json2byte&#39;&gt;
+        :return: 
+        &quot;&quot;&quot;
+        clog2.logger.info(f&#39;future_record_metadata.info: {info}&#39;)
 
     def to_bytes(self, v):
-        v_byte = bytes(str(v), encoding=&#39;utf-8&#39;)
+        v_byte = bytes(str(v).strip(), encoding=&#39;utf-8&#39;)
         return v_byte
         # return str(v)
 
 
-    def to_str(self, v):
-        return str(v)
+class MyThread(threading.Thread):
+    def __init__(self, func=None, args=()):
+        super().__init__()
+        self.func = func
+        self.args = args
+        self.result = []
 
+    def run(self):
+        self.result = self.func(*self.args)
 
-if __name__ == &#39;__main__&#39;:
-    # 类模式
-    data_dict = {&quot;res_type&quot;:&quot;24&quot;,
-                 &quot;res_key&quot;:&quot;10001&quot;,
-                 &quot;kpi_id&quot;:&quot;5000200010001&quot;,
-                 &quot;time&quot;:&quot;2020-01-14 10:24:00&quot;,
-                 &quot;value&quot;:&quot;60&quot;,
-                 &quot;vendor&quot;:&quot;华为&quot;,
-                 &quot;city&quot;:&quot;531&quot;
-    }
-    # print(f&#39;{data_dict[&quot;res_key&quot;]} {type(data_dict[&quot;res_key&quot;])}\n&#39;)
-
-    # # Demo
-    # try:
-    prod = KafkaProducerPython(topic=cfg.kafka_cfg_dict[&#39;topic&#39;],
-                               bootstrap_servers=cfg.kafka_cfg_dict[&#39;bootstrap_servers&#39;])
-    #
-    # dict ---&gt; bytes # ✔✔✔✔✔✔
-    # kafka_str2bytes = prod.to_bytes(f&#39;\n{date_f()[2]}    This is from Python project class_Kafka_producer...\n{data_dict}&#39;)
-    kafka_str2bytes = prod.to_bytes(f&#39;\n{date_f()[2]}    This is from Python project class_Kafka_producer...&#39;)
-
-    #
-    #     # dict ---&gt; json ---&gt; bytes
-    #     # Chinese in Consumer need to be decoded  # ××××××
-    #     data_json2bytes = json.dumps(data_dict).encode(&#39;utf-8&#39;)
-    #
-    #
-    x = prod.producer_send(kafka_str2bytes)
-    x.add_callback(prod.producer_send_callback)
-
-    # oltp_mysql_matser = None
-    sql1 = cfg.sql_map[&quot;sql1&quot;]
-    sql2 = cfg.sql_map[&quot;sql2&quot;]
-
-    try:
-        # 3. Kafka producer
-        prod = KafkaProducerPython(topic=cfg.kafka_cfg_dict[&#39;topic&#39;],
-                                   bootstrap_servers=cfg.kafka_cfg_dict[&#39;bootstrap_servers&#39;])
-
-        # 1. MySQL execution
-        # MySQL结果转json
-        global oltp_mysql_matser
-        # oltp_mysql_matser = pym.connect(host=&#39;192.168.73.21&#39;, user=&#39;root&#39;, passwd=&#39;123456&#39;, db=&#39;MURA&#39;, port=3306)
-
-        oltp_mysql_matser = pym.connect(host=cfg.mysql_conn[&quot;host&quot;], user=cfg.mysql_conn[&quot;user&quot;],
-                                            passwd=cfg.mysql_conn[&quot;passwd&quot;], db=cfg.mysql_conn[&quot;db&quot;],
-                                            port=cfg.mysql_conn[&quot;port&quot;])
-
-
-        log.logger.warning(f&#39;MySQL Begin: {oltp_mysql_matser}&#39;)
-
-        cursor1 = oltp_mysql_matser.cursor()
-        cursor2 = oltp_mysql_matser.cursor()
-
-        cursor1.execute(sql1)
-        rowcnt = cursor1.rowcount   # cursor2.execute(sql2)
-
-        # 2. 分批，不知是否合理
-        rows = cursor2.fetchone()
-        # log.logger.info(f&#39;Total rows for current execution &lt;{sql2}&gt;: {[x for x in rows]}&#39;)
-        log.logger.info(f&#39;Total rows for current execution &lt;{sql1}&gt;: {rowcnt}&#39;)
-
-        execute_result_1 = cursor1.fetchmany(rows[0]) # &lt;class &#39;tuple&#39;&gt;
-        execute_result_2 = cursor1.fetchall()
-
-        cursor1.close()
-        cursor2.close()
-
-        # print(type(execute_result_1))
-        mysql_dict_list =[]
-        mysql_dict_list_2 = []
-        for rn in execute_result_1:
-            mysql_dict = {}
-            mysql_dict[&quot;res_type&quot;] = str(rn[0])
-            mysql_dict[&quot;res_key&quot;] = rn[1]
-            mysql_dict[&quot;kpi_id&quot;] = rn[2]
-            mysql_dict[&quot;time&quot;] = str(rn[3])
-            mysql_dict[&quot;value&quot;] = str(rn[4])
-            mysql_dict[&quot;vendor&quot;] = rn[5]
-            mysql_dict[&quot;city&quot;] = str(rn[6])
-
-            mysql_dict_list.append(prod.to_bytes([mysql_dict]))
-        # dict ---&gt; bytes
-        for rb in mysql_dict_list:
-            prod.producer_send(rb).add_callback(prod.producer_send_callback)
-            # print(f&#39;rb: {rb} {type(rb)}\n&#39;)
-
-    except Exception as e:
-        log.logger.error(f&#39;{e}\n&#39;)
-        errlog.logger.error(f&#39;{e}&#39;)
-    finally:
-        oltp_mysql_matser.close()
-        log.logger.warning(f&#39;MySQL End: {oltp_mysql_matser}&#39;)
-
-
-    # # 手动模式
-    # prod = KafkaProducer(bootstrap_servers=&#39;192.168.73.10:9092&#39;)
-    # for _ in range(3):
-    #     prod.send(topic=&#39;test&#39;, value=b&#39;This is from Python project class_Kafka_producer...&#39;)
-    # # prod = KafkaProducer(value_serializer=lambda x: json.dumps(x).encode(&#39;utf-8&#39;))
-    # prod.send(&#39;test&#39;, data_json)
-
-
-    # # Block until all pending messages are at least put on the network
-    # # NOTE: This does not guarantee delivery or success! It is really
-    # # only useful if you configure internal batching using linger_ms
-    # prod.flush()</code></pre>
+    def get_result(self):
+        # noinspection PyBroadException
+        try:
+            return self.result
+        except Exception as e:
+            errclog2.logger.error(f&#39;Results within threading. {e}&#39;)
+            return 1</code></pre>
 <hr>
 <ul>
 <li>class_DB_demo.py</li>
@@ -369,22 +276,18 @@ if __name__ == &#39;__main__&#39;:
 # @File: class_DB_demo.py
 # @Usage: 
 
-
 import pymysql as pm
 import psycopg2 as pg
 from psycopg2.extras import execute_values
 
-
 # Self Repo
 from src.func_demo.logging_f import *
-
 
 # 下面的三行包其实是main函数中使用，有部分重复
 # Self Repo
 # from src.class_DB_demo import UseMySQL, UsePostgreSQL, ExecutePostgreSQL
 from src.conf.kafka_conf import mysql_conn, pgsql_conn, pgsql_conn_pp, pgsql_conn_prod
 from src.func_demo.logging_f import *
-
 
 class UseMySQL(object):
     def __init__(self, config:dict):
@@ -714,6 +617,189 @@ values(&#39;1&#39;, &#39;10001&#39;, now() + 0, &#39;60&#39;, &#39;华为&#39;, 
 (&#39;1&#39;, &#39;10001&#39;, now() + 0, &#39;60&#39;, &#39;华为&#39;, &#39;531&#39;),
 (&#39;1&#39;, &#39;10001&#39;, now() + 0, &#39;61&#39;, &#39;诺基亚&#39;, &#39;531&#39;),
 (&#39;2&#39;, &#39;10001&#39;, now() + 100000, &#39;62&#39;, &#39;华为&#39;, &#39;531&#39;)</code></pre>
+<ul>
+<li>main_kafka_section2.py</li>
+</ul>
+<pre><code class="python"># -*- coding:utf-8 -*-
+# @Author: Shinnosuke
+# @Date: 20/5/12 16:32
+# @File: main_kafka_section2.py
+# @Usage: main_kafka_section2
+
+
+import json
+import psycopg2 as pg
+from time import ctime, time
+from multiprocessing.dummy import Pool as ThreadPool
+from tqdm import tqdm
+
+# Self Repo
+# from src.class_Kafka_producer_linux_section2 import *
+# from src.cfg import kafka_cfg as cfg
+
+from class_Kafka_producer_linux_section2 import *
+from cfg import kafka_cfg as cfg
+from func_demo.func_f import date_f
+
+
+# global balance
+
+def lock_f(lock_flag=&#39;N&#39;):
+    def threading_f(f):
+        def inner_f(*value):
+            clog2.logger.warning(f&#39;decorator job begin!&#39;)
+            if lock_flag == &#39;Y&#39;:
+                # i += 1
+                lock = threading.RLock()
+                with lock:
+                    # r_lock.acquire()
+                    clog2.logger.info(f&#39;Thread {threading.current_thread().getName()} is running. Time: {ctime()}&#39;)
+                    dt_start = int(time())
+                    result = f(*value)
+                    # print(type(results))    # &lt;class &#39;tuple&#39;&gt;
+                    # balance.append(result)
+                    # r_lock.release()
+                    clog2.logger.info(f&#39;Thread {threading.current_thread().getName()} end. Time: {ctime()}&#39;)
+                    clog2.logger.warning(f&#39;job: &lt;{result}&gt; closed. time consume：{int(time()) - dt_start}s.\n&#39;)
+            else:
+                clog2.logger.warning(f&#39;decorator job not chosen&#39;)
+                clog2.logger.info(f&#39;Thread {threading.current_thread().getName()} is running. Time: {ctime()}&#39;)
+                f(*value)
+                # balance.append(result)
+                clog2.logger.info(f&#39;Thread {threading.current_thread().getName()} end. Time: {ctime()}&#39;)
+            # return balance
+        return inner_f
+    return threading_f
+
+@lock_f(&#39;Y&#39;)  # RLock
+def kafka_job(sql, pg_connect_dict=cfg.pgsql_conn_prod, kafka_cfg_dict=cfg.kafka_cfg_dict_section2):
+    global oltp_pgsql_master
+    sql_return = sql
+    # global cursor
+    try:
+        # PostgreSQL结果转json
+        # step2 PostgreSQL execute
+        oltp_pgsql_master = pg.connect(
+            host=pg_connect_dict[&quot;host&quot;], user=pg_connect_dict[&quot;user&quot;],
+            password=pg_connect_dict[&quot;password&quot;], database=pg_connect_dict[&quot;database&quot;],
+            port=pg_connect_dict[&quot;port&quot;]
+        )
+
+        # clog2.logger.warning(f&#39;PostgreSQL Begin...&#39;)
+        cursor = oltp_pgsql_master.cursor()
+        cursor.execute(sql)
+
+        # 可分批，不知是否合理
+        # rows = cursor2.fetchone()
+        rowcnt = cursor.rowcount
+        clog2.logger.info(f&#39;Total rows for current execution &lt;{sql}&gt;: {rowcnt}&#39;)
+        execute_result = cursor.fetchmany(rowcnt)    # &lt;class &#39;tuple&#39;&gt;
+        #cursor.close()
+        #oltp_pgsql_master.close()
+        # clog2.logger.warning(f&#39;PostgreSQL End: {oltp_pgsql_master}&#39;)
+
+        # step3 Kafka json
+        clog2.logger.warning(f&#39;Kafka Python Begin...&#39;)
+        prod = KafkaProducerPython(
+            topic=kafka_cfg_dict[&#39;topic&#39;],
+            bootstrap_servers=kafka_cfg_dict[&#39;bootstrap_servers&#39;]
+        )
+
+        dict2byte_jsonlist = []     # dict ---&gt; json ---&gt; byte ---&gt; list.append
+        # i = 0
+        for rn in execute_result:
+            pgsql_dict = {}
+            pgsql_dict[&quot;res_type&quot;] = str(rn[0])
+            pgsql_dict[&quot;res_key&quot;] = rn[1]
+            pgsql_dict[&quot;kpi_id&quot;] = rn[2]
+            pgsql_dict[&quot;time&quot;] = str(rn[3])
+            pgsql_dict[&quot;value&quot;] = str(rn[4])
+            pgsql_dict[&quot;vendor&quot;] = rn[5]
+            pgsql_dict[&quot;specialty&quot;] = rn[6]
+            pgsql_dict[&quot;province&quot;] = str(rn[7])
+            pgsql_dict[&quot;city&quot;] = str(rn[8])
+            # pgsql_dict[&quot;value_1&quot;] = str(rn[9])
+            # pgsql_dict[&quot;clear&quot;] = str(rn[10])
+
+
+            # dict append
+            # dict ---&gt; json ---&gt; byte ---&gt; list.append
+            # json序列化时关闭中文的ascii编码
+            dict2byte_jsonlist.append(prod.to_bytes(json.dumps([pgsql_dict], ensure_ascii=False)))
+            # clog2.logger.info(f&#39;sql: {sql}, pgsql_dict: {pgsql_dict}&#39;)
+            # if i == 0:
+            #     current_dt = rn[3]
+            #     i += 1
+        # clog2.logger.info(f&#39;dt for current round: {current_dt}&#39;)
+
+
+        # clog2.logger.info(f&#39;round time: {}&#39;)
+        # step4 Kakfa sender
+        #pbar = tqdm(dict2byte_jsonlist, ncols=200)
+        #for rb in pbar:
+        #    prod.producer_send(rb)
+        #    # pbar.set_description(f&#39;{json.loads(bytes.decode(rb))[0][&quot;kpi_id&quot;]}: {json.loads(bytes.decode(rb))[0][&quot;res_key&quot;]}&#39;)
+        #    pbar.set_description(f&#39;{sql_return}: {json.loads(bytes.decode(rb))[0][&quot;res_key&quot;]}&#39;)
+
+        for rb in dict2byte_jsonlist:
+            prod.producer_send(rb).add_callback(prod.producer_send_callback)
+            rj = json.loads(rb)[0]
+            # print(rj)
+            tmp = {}
+            tmp[&quot;res_key&quot;] = rj[&quot;res_key&quot;]
+            tmp[&quot;kpi_id&quot;] = rj[&quot;kpi_id&quot;]
+            tmp[&quot;dt&quot;] = rj[&quot;time&quot;]
+            prod.producer_send_log(tmp)
+        clog2.logger.warning(f&#39;Kafka Python End...&#39;)
+
+        # # dict ---&gt; json ---&gt; bytes
+        # # Chinese in Consumer need to be decoded  # ××××××
+        # for rj in mysql_dict_list_2:
+        #     rj_json2bytes = json.dumps(rj).encode(&#39;utf-8&#39;)
+        #     prod.producer_send(rj_json2bytes).add_callback(prod.producer_send_callback)
+        #     print(f&#39;rj: {rj} {type(rj)}\n&#39;)
+    except Exception as e:
+        # cursor.close()
+        errclog2.logger.error(f&#39;{e}&#39;)
+    finally:
+    #    # oltp_pgsql_master.close()
+        return sql_return
+
+
+@lock_f(&#39;Y&#39;)  # RLock
+def threading_job():
+    # threads initial
+    threads = []
+    for rv in cfg.sqlmap_pgsql_section2.values():
+        t = MyThread(kafka_job, (rv, cfg.pgsql_conn_prod, cfg.kafka_cfg_dict))
+        # clog2.logger.info(f&#39;Current sql: {rv}&#39;)
+        threads.append(t)
+
+    # 线程批量启动
+    # rt = None
+    for rt in threads:
+        rt.start()
+        clog2.logger.warning(f&#39;PostgreSQL Begin: {rt}&#39;)
+
+        # rt.join()
+    for rt in threads:
+        rt.join()
+        # clog2.logger.warning(f&#39;PostgreSQL join: {rt}&#39;)
+
+
+if __name__ == &#39;__main__&#39;:
+    cutline = &#39;--------------------------------------------------------------&#39;
+    clog2.logger.info(cutline)
+    # Make the Pool of workers
+    partition_lst = [v for v in cfg.sqlmap_pgsql_section2.values()]
+    pool = ThreadPool(len(partition_lst))
+    # print(partition_lst, len(partition_lst))
+    # Open the urls in their own threads and return the results
+    results = pool.map(kafka_job, partition_lst)
+    # close the pool and wait for the work to finish
+    pool.close()
+    pool.join()
+    clog2.logger.info(f&#39;{cutline}\n&#39;)</code></pre>
 
             <hr>
           </div>
@@ -886,7 +972,7 @@ values(&#39;1&#39;, &#39;10001&#39;, now() + 0, &#39;60&#39;, &#39;华为&#39;, 
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "20200323_1205_Python3-Kafka-Producer&nbsp;",
+        "20200806_1205_Python3-Kafka-Producer&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

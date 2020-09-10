@@ -388,7 +388,7 @@ if __name__ == &#39;__main__&#39;:
                                     &quot;sql&quot;: sql_3,
                                     &quot;argslist&quot;: data
                     }
-                    pg_prod = ExecutePostgreSQL(exe_dict)
+                    pg_prod = ExecutePostgreSQL(exe_dict)   # 批插入，更效率
                     pg_prod.pg_insert()
 
             with UsePostgreSQL(pgsql_conn_prod) as cursor3:

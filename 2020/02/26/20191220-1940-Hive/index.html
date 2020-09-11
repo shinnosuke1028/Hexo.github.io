@@ -334,7 +334,7 @@ load data local inpath &quot;xx&quot; into table xxx (column=&quot;xx&quot;) par
 <li>数据根据分区字段，自动进行分区的创建和数据导入，<code>作为分区的字段在查询中需要按顺序放在最后</code>！</li>
 <li>两个重要参数：<ol>
 <li>set hive.exec.dynamic.partition=true;</li>
-<li>set hive.exec.dynamic.partition.mode=nonstrict;  ⬅非严格动态分区模式，严格动态分区模式需要给分区表至少配置一个静态分区</li>
+<li>set hive.exec.dynamic.partition.mode=nonstrict;  ⬅非严格动态分区模式，严格动态分区模式需要给分区表至少配置一个静态分区（避免用户误操作，导致无数个partition生成）</li>
 <li>动态分区的一些限制：<br> set hive.exec.max.dynamic.partitions.pernode=100;   ⬅每个节点生成动态分区最大个数<br> set hive.exec.max.dynamic.partitions=1000;  ⬅生成动态分区最大个数，如果自动分区数大于这个参数，将会报错</li>
 </ol>
 </li>
@@ -372,7 +372,7 @@ distribute by age sort by age == cluster by age</code></pre>
 <li>支持UDF/UDAF/UDTF</li>
 <li>支持in/exists，但是Hive推荐使用semi join（半连接）</li>
 <li>支持case when</li>
-<li>支持truncate，和Oracle类似，只清数据，不清分区</li>
+<li>支持truncate，和Oracle类似，只清数据，不删分区</li>
 <li>不支持update/delete</li>
 <li>不支持or条件</li>
 <li>不支持非等值连接</li>
@@ -703,7 +703,7 @@ lateral view explode(split(favors,&#39;-&#39;)) e as favors_new; --这里和字�
 </li>
 </ul>
 <hr>
-<h3 id="0x-分桶"><a href="#0x-分桶" class="headerlink" title="0x. 分桶"></a>0x. 分桶</h3><h4 id="有点绕的概念（还未弄懂，单独拎出来操作）"><a href="#有点绕的概念（还未弄懂，单独拎出来操作）" class="headerlink" title="有点绕的概念（还未弄懂，单独拎出来操作）"></a>有点绕的概念（还未弄懂，单独拎出来操作）</h4><p><code>语法</code> tablesample(bucket x out of y on id)</p>
+<h3 id="0x-分桶"><a href="#0x-分桶" class="headerlink" title="0x. 分桶"></a>0x. 分桶</h3><h4 id="有点绕的概念（处理大表和大表的关联时很有用）"><a href="#有点绕的概念（处理大表和大表的关联时很有用）" class="headerlink" title="有点绕的概念（处理大表和大表的关联时很有用）"></a>有点绕的概念（处理大表和大表的关联时很有用）</h4><p><code>语法</code> tablesample(bucket x out of y on id)</p>
 <pre><code class="SQL">TABLESAMPLE (BUCKET x OUT OF y [ON colname])</code></pre>
 
             <hr>

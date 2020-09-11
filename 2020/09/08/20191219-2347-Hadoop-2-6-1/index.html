@@ -716,7 +716,7 @@ HDFS dfsadmin -report</code></pre>
 <li>数据块载入内存，达到溢写阈值（80%）时，进行磁盘写入，生成多个进行快排的分区数据（kv-&gt;pkv），写入磁盘，每个分区内的数据<strong>局部有序</strong>，按照pkv（partition, key, value）的顺序进行局部排序，同时，如果设置了<strong>Combiner</strong>参数，则在Map阶段就进行Reduce操作，即<strong>mapjoin</strong>，减少shuffler阶段，各Map节点间的数据传递I/O.</li>
 <li>分区生成结束后，各个分区进行归并merge dump，由于局部有序，所以整个过程是归并排序的过程，非常快，并拼接成一个<strong>新的有序数据分区集合 =&gt; union == partition-0/1/2</strong>.</li>
 <li>每个Map均进行了上述Map操作，生成各自的<strong>有序数据分区集合</strong>，供后续shuffle后进行Reduce.</li>
-<li>压缩: 通过参数对Map的结果进行压缩，可以较少shuffle过程中数据I/O.   <pre><code class="bash">mapred.compress.map.output=true
+<li>压缩: 通过参数对Map的结果进行压缩，可以较少shuffle过程中数据I/O.   <pre><code class="bash">mapred.compress.map.output=true    # map stage compression
 mapred.map.output.compression.codec=org.apache.hadoop.io.compress.GzipCodec</code></pre>
 </li>
 </ol>
@@ -725,10 +725,14 @@ mapred.map.output.compression.codec=org.apache.hadoop.io.compress.GzipCodec</cod
 <li>每个Reduce节点仅处理一组hash(key)所对应的所有值，各个Map节点生成的有序数据分区集合，按照排序的结果各自切块，并shuffle至各自对应的Reduce节点下，Reduce-0/1/2.</li>
 <li>两两合并，最后进行Reduce合并，生成结果集，<strong>partition相同的数据进入同一个的Reduce</strong>，所以各Reduce间的数据key不会重复.</li>
 <li>多个Reduce节点下的结果集再进行最后的合并.</li>
-<li>压缩: 通过参数对Reduce的结果进行压缩，可以较少输出结果占用HDFS存储.<pre><code class="bash">mapred.output.compress=true
+<li>压缩: 通过参数对Reduce的结果进行压缩，可以较少输出结果占用HDFS存储.<pre><code class="bash">mapred.output.compress=true    # reduce output compression
 mapred.output.compression.codec=org.apache.hadoop.io.compress.GzipCodec</code></pre>
-<code>MR任务调度</code> 详见上文<strong>4-3/4-4</strong>.</li>
+<img src="MapReduce4.png" srcset="/img/loading.gif" title="MapReduce（八斗教材）">
+
+
+</li>
 </ol>
+<p><code>MR任务调度</code> 详见上文<strong>4-3/4-4</strong>.</p>
 <h5 id="5-2-Hadoop-Streaming"><a href="#5-2-Hadoop-Streaming" class="headerlink" title="5-2 Hadoop Streaming"></a>5-2 Hadoop Streaming</h5><p><code>Tips</code> hadoop fs -text /xxx</p>
 
             <hr>

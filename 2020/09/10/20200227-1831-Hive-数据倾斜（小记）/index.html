@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Thursday, February 27th 2020, 6:32 pm
+                  Thursday, September 10th 2020, 1:32 pm
                 </p>
               
 
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    957 字
+                    996 字
                   </span>&nbsp;
                 
 
@@ -172,7 +172,7 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <h2 id="Hive优化"><a href="#Hive优化" class="headerlink" title="Hive优化"></a>Hive优化</h2><h3 id="01-大小表连接"><a href="#01-大小表连接" class="headerlink" title="01. 大小表连接"></a>01. 大小表连接</h3><ul>
+            <h2 id="Hive关联优化"><a href="#Hive关联优化" class="headerlink" title="Hive关联优化"></a>Hive关联优化</h2><h3 id="01-大小表连接"><a href="#01-大小表连接" class="headerlink" title="01. 大小表连接"></a>01. 大小表连接</h3><ul>
 <li>使用HINT在关联时完成大小表的指定</li>
 </ul>
 <p><code>/*+ STREAMTABLE(bigtable) */</code>join顺序中最后一张表应是大表，小表在前可以读入buffer，在关联时可直接从内存中获取小表的key值与大表的key值关联；下面有两种关联写法，若a是小表，那后续join关联字段始终用a的关联key，原则上是谁小用谁.</p>
@@ -211,9 +211,13 @@ row format delimited fields terminated by &#39;,&#39;;
 --设置环境变量： 
 set hive.enforce.bucketing = true;  
 
+--join时需要打开的参数：
+--set hive.optimize.bucketmapjoin = true;
+--set hive.optimize.bucketmapjoin.sortedmerge = true;
+--set hive.input.format=org.apache.hadoop.hive.ql.io.BucketizedHiveInputFormat;     --这个参数不懂
+
 --插入数据： 
 cat bucket.txt
-
 1,20,zxm
 2,21,ljz
 3,19,cds

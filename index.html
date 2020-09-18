@@ -145,6 +145,55 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/09/10/20200227-1831-Hive-%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C%EF%BC%88%E5%B0%8F%E8%AE%B0%EF%BC%89/" target="_self">
+          <img src="/img/Hive-1.png" srcset="/img/loading.gif" alt="20200227_1831_Hive-数据倾斜（小记）" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/09/10/20200227-1831-Hive-%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C%EF%BC%88%E5%B0%8F%E8%AE%B0%EF%BC%89/">
+        <p class="h4 index-header">20200227_1831_Hive-数据倾斜（小记）</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Hive关联优化01. 大小表连接
+使用HINT在关联时完成大小表的指定
+
+/*+ STREAMTABLE(bigtable) */join顺序中最后一张表应是大表，小表在前可以读入buffer，在关联时可直接从内存中获取小表的key值与大表的key值关联；下面有两种关联写法，若a是小表，那后续join关联字段始终用a的关联key，原则上是谁小用谁.
+--
+select /*+ STREAMTABLE(a) */ a.x, b.x from a 
+join b on (a.id = b.id)
+join c on (a.id = c.id);    ⬅ 这边始终用a中的key去关联其余表
+
+--这种写法，a表为大表，不入内存，且生成多个MR
+select /*+ STREAMTABLE(a) */ a.x, b.x from a 
+join b on (a.id = b.id)
+join c on (b.id = c.id);    ⬅ 这边依次用每轮join的左表中的key去关联其余表
+/*+ MAPJOIN(smalltable) */MAPJOIN会将小表全部读入内存，并在MAP</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-09-10&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Hive">Hive</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/09/08/20191219-2347-Hadoop-2-6-1/" target="_self">
           <img src="/img/Hadoop.png" srcset="/img/loading.gif" alt="20201219_2347_Hadoop-2.6.1（持续更新）" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -609,55 +658,6 @@ ssh slave1 &lt;&lt</div>
     </div>
   </div>
 
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2020/02/27/20200227-1831-Hive-%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C%EF%BC%88%E5%B0%8F%E8%AE%B0%EF%BC%89/" target="_self">
-          <img src="/img/Hive-1.png" srcset="/img/loading.gif" alt="20200227_1831_Hive-数据倾斜（小记）" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/27/20200227-1831-Hive-%E6%95%B0%E6%8D%AE%E5%80%BE%E6%96%9C%EF%BC%88%E5%B0%8F%E8%AE%B0%EF%BC%89/">
-        <p class="h4 index-header">20200227_1831_Hive-数据倾斜（小记）</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">Hive优化01. 大小表连接
-使用HINT在关联时完成大小表的指定
-
-/*+ STREAMTABLE(bigtable) */join顺序中最后一张表应是大表，小表在前可以读入buffer，在关联时可直接从内存中获取小表的key值与大表的key值关联；下面有两种关联写法，若a是小表，那后续join关联字段始终用a的关联key，原则上是谁小用谁.
---
-select /*+ STREAMTABLE(a) */ a.x, b.x from a 
-join b on (a.id = b.id)
-join c on (a.id = c.id);    ⬅ 这边始终用a中的key去关联其余表
-
---这种写法，a表为大表，不入内存，且生成多个MR
-select /*+ STREAMTABLE(a) */ a.x, b.x from a 
-join b on (a.id = b.id)
-join c on (b.id = c.id);    ⬅ 这边依次用每轮join的左表中的key去关联其余表
-/*+ MAPJOIN(smalltable) */MAPJOIN会将小表全部读入内存，并在MAP阶段</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-27&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Hive">Hive</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="index posts navigation">
@@ -797,7 +797,7 @@ join c on (b.id = c.id);    ⬅ 这边依次用每轮join的左表中的key去�
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "熬通宵(2/7)&nbsp;",
+        "熬通宵(5/7)&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

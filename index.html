@@ -158,7 +158,7 @@
           
         
         <div class="index-excerpt" >
-          <div class="index-text mb-1">Hive关联优化01. 大小表连接
+          <div class="index-text mb-1">Hive关联优化01. 大小连接
 使用HINT在关联时完成大小表的指定
 
 /*+ STREAMTABLE(bigtable) */join顺序中最后一张表应是大表，小表在前可以读入buffer，在关联时可直接从内存中获取小表的key值与大表的key值关联；下面有两种关联写法，若a是小表，那后续join关联字段始终用a的关联key，原则上是谁小用谁.
@@ -171,7 +171,7 @@ join c on (a.id = c.id);    ⬅ 这边始终用a中的key去关联其余表
 select /*+ STREAMTABLE(a) */ a.x, b.x from a 
 join b on (a.id = b.id)
 join c on (b.id = c.id);    ⬅ 这边依次用每轮join的左表中的key去关联其余表
-/*+ MAPJOIN(smalltable) */MAPJOIN会将小表全部读入内存，并在MAP</div>
+/*+ MAPJOIN(smalltable) */MAPJOIN会将小表全部读入内存，并在MAP阶</div>
         </div>
       </a>
 

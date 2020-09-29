@@ -145,6 +145,57 @@
     
     
       <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/03/19/20191219-1545-ZooKeeper-Kafka/" target="_self">
+          <img src="/img/kafka-python.png" srcset="/img/loading.gif" alt="20191219_1545_ZooKeeper-Kafka" class="img-fluid rounded z-depth-3 index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/03/19/20191219-1545-ZooKeeper-Kafka/">
+        <p class="h4 index-header">20191219_1545_ZooKeeper-Kafka</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">ZooKeeper &amp; Kafka 配置01. ZooKeeper &amp; Kafka
+Repo Pointkafka_2.11-0.10.2.1.tgzZooKeeper
+
+02. 环境配置1. 环境包 rz 至相关路径，分流至其它节点：源码分发scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave1:/usr/local/src/
+scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave2:/usr/local/src/
+环境配置
+后续补充
+
+启动ZookeeperzkServer.sh start
+zkServer.sh stop
+zkServer.sh status
+TipsZookeeper启停需在所有节点执行，可以自定义
+(base) [root@master bin]# cat zkServer_start_all.sh
+# zkServer_start_all.sh
+zkServer.sh start
+ssh slave1 &lt;&lt</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-03-19&nbsp;&nbsp;
+        
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/ZooKeeper%20Kafka">ZooKeeper Kafka</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
         <a href="/2020/02/26/20191220-1940-Hive/" target="_self">
           <img src="/img/Hive-1.png" srcset="/img/loading.gif" alt="20200226_1638_Hive（持续更新）" class="img-fluid rounded z-depth-3 index-thumbnails">
         </a>
@@ -660,53 +711,6 @@ Select the hard d</div>
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/OS">OS</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-      <div class="col-12 col-md-4 m-auto">
-        <a href="/2019/12/19/20191219-1545-Spark/" target="_self">
-          <img src="/img/640.gif" srcset="/img/loading.gif" alt="20191219_1545_SPARK" class="img-fluid rounded z-depth-3 index-thumbnails">
-        </a>
-      </div>
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/12/19/20191219-1545-Spark/">
-        <p class="h4 index-header">20191219_1545_SPARK</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">Spark 配置01. Spark
-Repo Pointspark-2.0.2-bin-hadoop2.6.tgz
-
-02. 环境配置1. 环境包 rz 至相关路径，分流至其它节点源码分发scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave1:/usr/local/src/
-scp -r /usr/local/src/spark-2.0.2-bin-hadoop2.6 root@slave2:/usr/local/src/
-2. 用户环境变量配置# SET JAVA PATH
-export JAVA_HOME=/usr/local/src/jdk1.8.0_201
-export JRE_HOME=${JAVA_HOME}/jre
-export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
-export PATH=${JAVA_HOME}/bin:$PATH
-# SET HADOOP PATH
-export HADOOP_HOME=/usr/local/src/hadoop-2.6</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-19&nbsp;&nbsp;
-        
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Spark">Spark</a>&nbsp;
           
         
       </div>

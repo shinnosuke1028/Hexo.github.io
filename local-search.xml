@@ -5,8 +5,8 @@
   
   <entry>
     <title>20200929_1030_Python3-SMTP-CMCC</title>
-    <link href="/2020/09/29/20200929-1030-Python3-Mail-CMCC/"/>
-    <url>/2020/09/29/20200929-1030-Python3-Mail-CMCC/</url>
+    <link href="/2020/09/29/20200929-1030-Python3-SMTP-CMCC/"/>
+    <url>/2020/09/29/20200929-1030-Python3-SMTP-CMCC/</url>
     
     <content type="html"><![CDATA[<h2 id="Python3-SMTP"><a href="#Python3-SMTP" class="headerlink" title="Python3 SMTP"></a>Python3 SMTP</h2><h3 id="01-API"><a href="#01-API" class="headerlink" title="01. API"></a>01. API</h3><ul><li>Repo Point<br>  smtplib<br>  threading<br>  email.mime.base.MIMEBase<br>  email.mime.text.MIMEText<br>  email.header.Header<br>  email.utils.formataddr<br>  email.mime.multipart.MIMEMultipart</li></ul><h3 id="02-Kafka类"><a href="#02-Kafka类" class="headerlink" title="02. Kafka类"></a>02. Kafka类</h3><ul><li>class_mail_demo.py</li></ul>]]></content>
     

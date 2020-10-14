@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    5.6k 字
+                    5.5k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      32 分钟
+                      31 分钟
                   </span>&nbsp;
                 
 
@@ -357,7 +357,8 @@ class MailSender(object):
             encoders.encode_base64(base)
             return base
 </code></pre>
-<ul>
+<hr>
+<h3 id="03-Database类"><a href="#03-Database类" class="headerlink" title="03. Database类"></a>03. Database类</h3><ul>
 <li>class_DB_demo.py</li>
 </ul>
 <pre><code class="python"># -*- coding:utf-8 -*-
@@ -445,273 +446,114 @@ class MyThread(Thread):
             errclog.looger.error(f&#39;{e}&#39;)
             return 1
 </code></pre>
-<ul>
-<li>mail_app_main.py</li>
-</ul>
-<pre><code class="python"># -*- coding:utf-8 -*-
+<hr>
+<h3 id="04-主函数"><a href="#04-主函数" class="headerlink" title="04. 主函数"></a>04. 主函数</h3><ul>
+<li>mail_app_main.py<pre><code class="python"># -*- coding:utf-8 -*-
 # @Author: Shinnosuke
 # @Date: 20/8/21 10:44
 # @File: mail_app_main.py
 # @Usage: mail_app_main
 
+</code></pre>
+</li>
+</ul>
+<p>import pandas as pd</p>
+<h1 id="import-numpy-as-np"><a href="#import-numpy-as-np" class="headerlink" title="import numpy as np"></a>import numpy as np</h1><h1 id="from-time-import-ctime"><a href="#from-time-import-ctime" class="headerlink" title="from time import ctime"></a>from time import ctime</h1><h1 id="Self-Repo"><a href="#Self-Repo" class="headerlink" title="Self Repo"></a>Self Repo</h1><h1 id="CMD模式运行配置"><a href="#CMD模式运行配置" class="headerlink" title="CMD模式运行配置"></a>CMD模式运行配置</h1><h1 id="from-func-demo-class-mail-demo-import"><a href="#from-func-demo-class-mail-demo-import" class="headerlink" title="from func_demo.class_mail_demo import *"></a>from func_demo.class_mail_demo import *</h1><h1 id="from-func-demo-class-DB-demo-import"><a href="#from-func-demo-class-DB-demo-import" class="headerlink" title="from func_demo.class_DB_demo import *"></a>from func_demo.class_DB_demo import *</h1><h1 id="from-func-demo-func-f-import-date-f"><a href="#from-func-demo-func-f-import-date-f" class="headerlink" title="from func_demo.func_f import date_f"></a>from func_demo.func_f import date_f</h1><h1 id="from-cfg-cfg-mail-app-import-receivers-sender-pgsql-conn-prod-rename-dict-mail-file-path-SQL-DIM"><a href="#from-cfg-cfg-mail-app-import-receivers-sender-pgsql-conn-prod-rename-dict-mail-file-path-SQL-DIM" class="headerlink" title="from cfg.cfg_mail_app import receivers, sender, pgsql_conn_prod, rename_dict, mail_file_path, SQL, DIM"></a>from cfg.cfg_mail_app import receivers, sender, pgsql_conn_prod, rename_dict, mail_file_path, SQL, DIM</h1><h1 id="from-cfg-cfg-mail-app-import-PACKED-THRESHOLD-SPLIT-PARA-MAIL-BITE-LIMIT"><a href="#from-cfg-cfg-mail-app-import-PACKED-THRESHOLD-SPLIT-PARA-MAIL-BITE-LIMIT" class="headerlink" title="from cfg.cfg_mail_app import PACKED_THRESHOLD, SPLIT_PARA, MAIL_BITE_LIMIT"></a>from cfg.cfg_mail_app import PACKED_THRESHOLD, SPLIT_PARA, MAIL_BITE_LIMIT</h1><h1 id="非CMD模式运行配置"><a href="#非CMD模式运行配置" class="headerlink" title="非CMD模式运行配置"></a>非CMD模式运行配置</h1><p>from src.func_demo.class_mail_demo import *<br>from src.func_demo.class_DB_demo import *<br>from src.func_demo.func_f import date_f<br>from src.cfg.cfg_mail_app import receivers, sender, pgsql_conn_prod, rename_dict, mail_file_path, SQL, DIM<br>from src.cfg.cfg_mail_app import PACKED_THRESHOLD, SPLIT_PARA, MAIL_BITE_LIMIT</p>
+<p>pd_df = lambda x: pd.DataFrame(x)<br>pd.set_option(‘display.max_columns’, None, ‘display.max_rows’, None, ‘display.max_colwidth’, 100, ‘display.width’, 1000)<br>f = ‘-‘<em>80<br>f2 = ‘</em>‘*80</p>
+<p>def email_decorator(email_flag=’N’):<br>    def mail_post_f(f):<br>        def inner_f(<em>value, *</em>kwargs):<br>            clog.logger.warning(f’decorator job &lt;@email_f&gt; begin!’)<br>            if email_flag == ‘Y’:<br>                clog.logger.info(f’Thread {threading.current_thread().getName()} is running. Time: {ctime()}’)<br>                # step1<br>                results = f(<em>value, *</em>kwargs)</p>
+<pre><code>            # step2 message formatting
+            # do something...
+            if results:
+                body = f&#39;{f2}\n{results[0]}{f2}&#39;
+                recv = results[1]
+                # del results
+                clog.logger.info(f&#39;\n{body}&#39;)
+                clog.logger.info(f&#39;receiver: {recv}&#39;)
+                clog.logger.info(f&#39;user: {sender[&quot;user&quot;]}&#39;)
 
-import pandas as pd
-# import numpy as np
-# from time import ctime
+                # step4 load/send
+                if len(results) &gt; 2:  # if attach existed
+                    attach = results[2]
+                    clog.logger.info(f&#39;~~~Mail attachments {attach}~~~&#39;)
+                    # print(attach)
 
-# Self Repo
-# CMD模式运行配置
-# from func_demo.class_mail_demo import *
-# from func_demo.class_DB_demo import *
-# from func_demo.func_f import date_f
-# from cfg.cfg_mail_app import receivers, sender, pgsql_conn_prod, rename_dict, mail_file_path, SQL, DIM
-# from cfg.cfg_mail_app import PACKED_THRESHOLD, SPLIT_PARA, MAIL_BITE_LIMIT
-
-
-
-# 非CMD模式运行配置
-from src.func_demo.class_mail_demo import *
-from src.func_demo.class_DB_demo import *
-from src.func_demo.func_f import date_f
-from src.cfg.cfg_mail_app import receivers, sender, pgsql_conn_prod, rename_dict, mail_file_path, SQL, DIM
-from src.cfg.cfg_mail_app import PACKED_THRESHOLD, SPLIT_PARA, MAIL_BITE_LIMIT
-
-
-pd_df = lambda x: pd.DataFrame(x)
-pd.set_option(&#39;display.max_columns&#39;, None, &#39;display.max_rows&#39;, None, &#39;display.max_colwidth&#39;, 100, &#39;display.width&#39;, 1000)
-f = &#39;-&#39;*80
-f2 = &#39;*&#39;*80
-
-
-def email_decorator(email_flag=&#39;N&#39;):
-    def mail_post_f(f):
-        def inner_f(*value, **kwargs):
-            clog.logger.warning(f&#39;decorator job &lt;@email_f&gt; begin!&#39;)
-            if email_flag == &#39;Y&#39;:
-                clog.logger.info(f&#39;Thread {threading.current_thread().getName()} is running. Time: {ctime()}&#39;)
-                # step1
-                results = f(*value, **kwargs)
-
-                # step2 message formatting
-                # do something...
-                if results:
-                    body = f&#39;{f2}\n{results[0]}{f2}&#39;
-                    recv = results[1]
-                    # del results
-                    clog.logger.info(f&#39;\n{body}&#39;)
-                    clog.logger.info(f&#39;receiver: {recv}&#39;)
-                    clog.logger.info(f&#39;user: {sender[&quot;user&quot;]}&#39;)
-
-                    # step4 load/send
-                    if len(results) &gt; 2:  # if attach existed
-                        attach = results[2]
-                        clog.logger.info(f&#39;~~~Mail attachments {attach}~~~&#39;)
-                        # print(attach)
-
-                        if isinstance(attach, list):
-                            for fn in attach:
-                                mail = MailSender()
-                                mail.mail_mime_action(recv, body, mail_server=sender[&quot;mail_server&quot;], sender=sender[&quot;user&quot;], password=sender[&quot;password&quot;], port=sender[&quot;port&quot;], attach=f&#39;{fn}&#39;)
-                        else:
+                    if isinstance(attach, list):
+                        for fn in attach:
                             mail = MailSender()
-                            mail.mail_mime_action(recv, body, mail_server=sender[&quot;mail_server&quot;], sender=sender[&quot;user&quot;], password=sender[&quot;password&quot;], port=sender[&quot;port&quot;], attach=f&#39;{attach}&#39;)
+                            mail.mail_mime_action(recv, body, mail_server=sender[&quot;mail_server&quot;], sender=sender[&quot;user&quot;], password=sender[&quot;password&quot;], port=sender[&quot;port&quot;], attach=f&#39;{fn}&#39;)
                     else:
                         mail = MailSender()
-                        mail.mail_mime_action(recv, body, mail_server=sender[&quot;mail_server&quot;], sender=sender[&quot;user&quot;], password=sender[&quot;password&quot;], port=sender[&quot;port&quot;],)
-
-                    clog.logger.info(f&#39;Thread {threading.current_thread().getName()} end. Time: {ctime()}&#39;)
-                    clog.logger.warning(f&#39;decorator job &lt;@email_f&gt; closed!\n&#39;)
-            else:
-                clog.logger.warning(f&#39;decorator job &lt;@email_f&gt; skip!&#39;)
-                results = f(*value, **kwargs)
-                if results:
-                    body = f&#39;{f2}\n{results[0]}{f2}&#39;
-                    del results
-                    clog.logger.info(f&#39;message body:\n{body}&#39;)
-                    # clog.logger.info(f&#39;receiver: {recv}&#39;)
-                    # clog.logger.info(f&#39;user: {sender[&quot;user&quot;]}&#39;)
-                clog.logger.warning(&#39;~~~hahaha decorator job &lt;@email_f&gt; closed!\n&#39;)
-                # return results
-        return inner_f
-    return mail_post_f
-
-
-@email_decorator(&#39;Y&#39;)
-def email_split(SQL, k, v):
-    &quot;&quot;&quot;
-    :param receiver:   &lt;class: dict&gt;
-                        Ex:
-                            recv = {
-                                &quot;province&quot;: {
-                                    &quot;四川省&quot;: &quot;717648387@qq.com&quot;,  # 对应省份接口人
-                                    &quot;上海市&quot;: &quot;717648387@qq.com&quot;,
-                                },
-                                &quot;city&quot;: {
-                                &quot;甘孜藏族自治州&quot;: &quot;717648387@qq.com&quot;,  # 对应地市接口人
-                                &quot;阿里地区&quot;: &quot;717648387@qq.com&quot;
-                                }
-                            }
-    :return: message, v     &lt;class: tuple(str, str)&gt;
-    &quot;&quot;&quot;
-    try:
-        message = &#39;&#39;
-        message_offline = &#39;&#39;
-        with UsePostgreSQL(pgsql_conn_prod) as cursor:
-            cursor.execute(SQL, )   # execution
-            rowcnt = cursor.rowcount
-            clog.logger.info(f&#39;cnt for current execution：{rowcnt}&#39;)
-            res = cursor.fetchall()     # fetch
-            if not rowcnt:     # None =&gt; pass
-                clog.logger.warning(f&#39;cnt for current province &lt;{k}&gt; is null, job pass&#39;)
-                message = f&#39;当前省份&lt;{k}&gt;，当前时刻无告警，请知晓.\n&#39;
-                return message, v
-            elif rowcnt &gt;= PACKED_THRESHOLD:       # packing + mail body
-                clog.logger.warning(&#39;~~~dark time~~~&#39;)
-                clog.logger.warning(f&#39;cnt for current province &lt;{k}&gt; is more than PACKED_THRESHOLD {PACKED_THRESHOLD}, results packing.&#39;)
-                df = pd_df(res)
-                df_columns = [rk for rk in rename_dict.keys()]
-                df.columns = df_columns                     # 为了重命名，先给编号
-                # del df_columns
-                if rowcnt &gt; MAIL_BITE_LIMIT:                            # 受客户邮箱限制，40条以上发送会失败，故超过拆分发送
-                    message = f&#39;当前时刻告警量大于{MAIL_BITE_LIMIT}条, 邮件内容已拆分，请留意多封接收，详情请见附件.\n&#39;
-                    quotient, remainder = divmod(rowcnt, SPLIT_PARA)    # 按照切分阈值，进行邮件切割:    107 = 3*30 + 17
-                    # print(quotient, remainder)
-                    # 当前时刻告警数量: 107, 切分参数: 30, 发送合计: 4, 最后一封邮件含告警: 17.
-                    clog.logger.warning(f&#39;当前时刻告警数量: {rowcnt}, 切片参数: {SPLIT_PARA}, 发送合计: {quotient + 1}, 最后一封邮件含告警: {remainder}.&#39;)
-                    index_begin = 0
-                    index_end = 0
-                    mail_attach_name_list = []
-                    for rs in range(1, quotient + 1):
-                        if rs == 1:
-                            index_begin = 0
-                            index_end = 0 + SPLIT_PARA
-                        elif rs == quotient:
-                            index_begin += SPLIT_PARA
-                            index_end = rowcnt
-                        else:
-                            index_begin += SPLIT_PARA
-                            index_end += SPLIT_PARA
-                        clog.logger.info(f&#39;current index distribution: {index_begin} ~ {index_end}&#39;)
-                        df_tmp = df.iloc[index_begin:index_end]
-                        df_tmp.columns = df_columns                     # 为了重命名，先给编号
-                        mail_attach_name = f&#39;{date_f()[2]}_alarm_service_{k}_{index_begin}_{index_end}.csv&#39;
-                        df_tmp.rename(columns=rename_dict, inplace=True)
-                        # df_tmp.to_csv(path_or_buf=f&#39;./data_output/{index_begin}_{index_end}.csv&#39;, header=True, mode=&#39;w&#39;, index=False, encoding=&#39;utf_8_sig&#39;)
-                        df_tmp.to_csv(path_or_buf=f&#39;{mail_file_path}{mail_attach_name}&#39;, header=True, mode=&#39;w&#39;, index=False, encoding=&#39;utf_8_sig&#39;)
-                        clog.logger.info(f&#39;generated file path: {mail_file_path}{mail_attach_name}&#39;)
-                        mail_attach_name_list.append(mail_attach_name)
-                    # print(mail_attach_name_list)
-                    return message, v, mail_attach_name_list            # 告警量最高的，以多邮件单附件方式送出
+                        mail.mail_mime_action(recv, body, mail_server=sender[&quot;mail_server&quot;], sender=sender[&quot;user&quot;], password=sender[&quot;password&quot;], port=sender[&quot;port&quot;], attach=f&#39;{attach}&#39;)
                 else:
-                    message = f&#39;当前时刻告警量大于{PACKED_THRESHOLD}条, 详情请见附件.\n&#39;
-                    mail_attach_name = f&#39;{date_f()[2]}_alarm_service_{k}.csv&#39;
-                    df.rename(columns=rename_dict, inplace=True)
-                    df.to_csv(path_or_buf=f&#39;{mail_file_path}{mail_attach_name}&#39;, header=True, mode=&#39;w&#39;, index=False, encoding=&#39;utf_8_sig&#39;)
-                    clog.logger.info(f&#39;generated file path: {mail_file_path}{mail_attach_name}&#39;)
-                    return message, v, mail_attach_name                 # 告警量次高的，以单邮件单附件方式送出
-            else:                                           # no packing + mail body
-                clog.logger.warning(&#39;~~~good time~~~&#39;)
-                string = &#39;&#39;
-                # message = &#39;&#39;
-                # message_offline = &#39;&#39;
-                flag_6 = 0
-                # print(f&#39;res: {res}&#39;)  # test
-                for rs in res:
-                    num = 0
-                    tmp = list(rs)
-                    for rx in tmp:
-                        if num == 0:
-                            string = f&#39;{rx}&#39;
-                        elif num == 1:
-                            string = f&#39;{string}: {rx}&#39;
-                        else:
-                            string = f&#39;{string}-{rx}&#39;
-                            if rx == &#39;006&#39;:  # offline alarm label determination
-                                flag_6 = 1
-                        num += 1
-                    # save separately
-                    if flag_6 == 1:
-                        message_offline = f&#39;{string}\n{message_offline}&#39;    # message for offline
-                    else:
-                        message = f&#39;{string}\n{message}&#39;        # message for fault
-                    flag_6 = 0
-                if message_offline and message:
-                    message = f&#39;{message_offline}{f}\n{message}&#39;
-                elif message_offline and not message:
-                    message = f&#39;{message_offline}&#39;
-                else:
-                   pass
-                # print(f&#39;message final: {message}&#39;)
-            return message, v
-            # clog.logger.info(f&#39;\n{f2}\n{message}{f2}&#39;)
-    except Exception as e:
-        errclog.logger.error(e)
+                    mail = MailSender()
+                    mail.mail_mime_action(recv, body, mail_server=sender[&quot;mail_server&quot;], sender=sender[&quot;user&quot;], password=sender[&quot;password&quot;], port=sender[&quot;port&quot;],)
 
+                clog.logger.info(f&#39;Thread {threading.current_thread().getName()} end. Time: {ctime()}&#39;)
+                clog.logger.warning(f&#39;decorator job &lt;@email_f&gt; closed!\n&#39;)
+        else:
+            clog.logger.warning(f&#39;decorator job &lt;@email_f&gt; skip!&#39;)
+            results = f(*value, **kwargs)
+            if results:
+                body = f&#39;{f2}\n{results[0]}{f2}&#39;
+                del results
+                clog.logger.info(f&#39;message body:\n{body}&#39;)
+                # clog.logger.info(f&#39;receiver: {recv}&#39;)
+                # clog.logger.info(f&#39;user: {sender[&quot;user&quot;]}&#39;)
+            clog.logger.warning(&#39;~~~hahaha decorator job &lt;@email_f&gt; closed!\n&#39;)
+            # return results
+    return inner_f
+return mail_post_f</code></pre><p>@email_decorator(‘Y’)<br>def email_split(SQL, k, v):<br>    “””<br>    :param receiver:   &lt;class: dict&gt;<br>                        Ex:<br>                            recv = {<br>                                “province”: {<br>                                    “四川省”: “<a href="mailto:717648387@qq.com">717648387@qq.com</a>“,  # 对应省份接口人<br>                                    “上海市”: “<a href="mailto:717648387@qq.com">717648387@qq.com</a>“,<br>                                },<br>                                “city”: {<br>                                “甘孜藏族自治州”: “<a href="mailto:717648387@qq.com">717648387@qq.com</a>“,  # 对应地市接口人<br>                                “阿里地区”: “<a href="mailto:717648387@qq.com">717648387@qq.com</a>“<br>                                }<br>                            }<br>    :return: message, v     &lt;class: tuple(str, str)&gt;<br>    “””<br>    try:<br>        message = ‘’<br>        message_offline = ‘’<br>        with UsePostgreSQL(pgsql_conn_prod) as cursor:<br>            cursor.execute(SQL, )   # execution<br>            rowcnt = cursor.rowcount<br>            clog.logger.info(f’cnt for current execution：{rowcnt}’)<br>            res = cursor.fetchall()     # fetch<br>            if not rowcnt:     # None =&gt; pass<br>                clog.logger.warning(f’cnt for current province &lt;{k}&gt; is null, job pass’)<br>                message = f’当前省份&lt;{k}&gt;，当前时刻无告警，请知晓.\n’<br>                return message, v<br>            elif rowcnt &gt;= PACKED_THRESHOLD:       # packing + mail body<br>                clog.logger.warning(‘<del>dark time</del>‘)<br>                clog.logger.warning(f’cnt for current province &lt;{k}&gt; is more than PACKED_THRESHOLD {PACKED_THRESHOLD}, results packing.’)<br>                df = pd_df(res)<br>                df_columns = [rk for rk in rename_dict.keys()]<br>                df.columns = df_columns                     # 为了重命名，先给编号<br>                # del df_columns<br>                if rowcnt &gt; MAIL_BITE_LIMIT:                            # 受客户邮箱限制，40条以上发送会失败，故超过拆分发送<br>                    message = f’当前时刻告警量大于{MAIL_BITE_LIMIT}条, 邮件内容已拆分，请留意多封接收，详情请见附件.\n’<br>                    quotient, remainder = divmod(rowcnt, SPLIT_PARA)    # 按照切分阈值，进行邮件切割:    107 = 3*30 + 17<br>                    # print(quotient, remainder)<br>                    # 当前时刻告警数量: 107, 切分参数: 30, 发送合计: 4, 最后一封邮件含告警: 17.<br>                    clog.logger.warning(f’当前时刻告警数量: {rowcnt}, 切片参数: {SPLIT_PARA}, 发送合计: {quotient + 1}, 最后一封邮件含告警: {remainder}.’)<br>                    index_begin = 0<br>                    index_end = 0<br>                    mail_attach_name_list = []<br>                    for rs in range(1, quotient + 1):<br>                        if rs == 1:<br>                            index_begin = 0<br>                            index_end = 0 + SPLIT_PARA<br>                        elif rs == quotient:<br>                            index_begin += SPLIT_PARA<br>                            index_end = rowcnt<br>                        else:<br>                            index_begin += SPLIT_PARA<br>                            index_end += SPLIT_PARA<br>                        clog.logger.info(f’current index distribution: {index_begin} ~ {index_end}’)<br>                        df_tmp = df.iloc[index_begin:index_end]<br>                        df_tmp.columns = df_columns                     # 为了重命名，先给编号<br>                        mail_attach_name = f’{date_f()[2]}<em>alarm_service</em>{k}<em>{index_begin}</em>{index_end}.csv’<br>                        df_tmp.rename(columns=rename_dict, inplace=True)<br>                        # df_tmp.to_csv(path_or_buf=f’./data_output/{index_begin}<em>{index_end}.csv’, header=True, mode=’w’, index=False, encoding=’utf_8_sig’)<br>                        df_tmp.to_csv(path_or_buf=f’{mail_file_path}{mail_attach_name}’, header=True, mode=’w’, index=False, encoding=’utf_8_sig’)<br>                        clog.logger.info(f’generated file path: {mail_file_path}{mail_attach_name}’)<br>                        mail_attach_name_list.append(mail_attach_name)<br>                    # print(mail_attach_name_list)<br>                    return message, v, mail_attach_name_list            # 告警量最高的，以多邮件单附件方式送出<br>                else:<br>                    message = f’当前时刻告警量大于{PACKED_THRESHOLD}条, 详情请见附件.\n’<br>                    mail_attach_name = f’{date_f()[2]}_alarm_service</em>{k}.csv’<br>                    df.rename(columns=rename_dict, inplace=True)<br>                    df.to_csv(path_or_buf=f’{mail_file_path}{mail_attach_name}’, header=True, mode=’w’, index=False, encoding=’utf_8_sig’)<br>                    clog.logger.info(f’generated file path: {mail_file_path}{mail_attach_name}’)<br>                    return message, v, mail_attach_name                 # 告警量次高的，以单邮件单附件方式送出<br>            else:                                           # no packing + mail body<br>                clog.logger.warning(‘<del>good time</del>‘)<br>                string = ‘’<br>                # message = ‘’<br>                # message_offline = ‘’<br>                flag_6 = 0<br>                # print(f’res: {res}’)  # test<br>                for rs in res:<br>                    num = 0<br>                    tmp = list(rs)<br>                    for rx in tmp:<br>                        if num == 0:<br>                            string = f’{rx}’<br>                        elif num == 1:<br>                            string = f’{string}: {rx}’<br>                        else:<br>                            string = f’{string}-{rx}’<br>                            if rx == ‘006’:  # offline alarm label determination<br>                                flag_6 = 1<br>                        num += 1<br>                    # save separately<br>                    if flag_6 == 1:<br>                        message_offline = f’{string}\n{message_offline}’    # message for offline<br>                    else:<br>                        message = f’{string}\n{message}’        # message for fault<br>                    flag_6 = 0<br>                if message_offline and message:<br>                    message = f’{message_offline}{f}\n{message}’<br>                elif message_offline and not message:<br>                    message = f’{message_offline}’<br>                else:<br>                   pass<br>                # print(f’message final: {message}’)<br>            return message, v<br>            # clog.logger.info(f’\n{f2}\n{message}{f2}’)<br>    except Exception as e:<br>        errclog.logger.error(e)</p>
+<p>@lock_f(‘Y’)<br>def mail_job(recv, dim=1):<br>    “””<br>    :param recv:   &lt;class: dict&gt;<br>    :param dim:   &lt;class: int&gt;<br>                        2: vendor<br>                        1: province<br>                        0: city<br>    :return:<br>    “””</p>
+<pre><code>try:
+    if dim == 1:     # province dimension
+        if not recv[&quot;province&quot;]:   # None
+            clog.logger.error(f&#39;province configuration for receiver is null, please check!!!&#39;)
+            errclog.logger.error(f&#39;province configuration for receiver is null, please check!!!&#39;)
+        else:
+            cur_recv = recv[&quot;province&quot;]
+            for k, v in cur_recv.items():   # city: address
+                # clog.logger.info(f&#39;\n{f}&#39;)
+                clog.logger.warning(&#39;~~~hahaha SMTP~~~&#39;)
+                clog.logger.info(f&#39;current province: {k}, mail_address: {v}&#39;)
+                k1 = &#39;\&#39;&#39; + k + &#39;\&#39;&#39;    # city: 上海市 -&gt; &#39;上海市&#39;
+                _SQL = SQL%(&#39;province&#39;, k1)     # SELECT * FROM v_alarm_all WHERE province = &#39;上海市&#39;
+                email_split(SQL=_SQL, k=k, v=v)
+    elif dim == 2:
+        pass
+        if not recv[&quot;vendor&quot;]:   # None
+            clog.logger.error(f&#39;vendor configuration for receiver is null, please check!!!&#39;)
+            errclog.logger.error(f&#39;vendor configuration for receiver is null, please check!!!&#39;)
+        else:
+            cur_recv = recv[&quot;vendor&quot;]
+            for k, v in cur_recv.items():   # city: address
+                # clog.logger.info(f&#39;\n{f}&#39;)
+                clog.logger.warning(&#39;~~~hahaha SMTP~~~&#39;)
+                clog.logger.info(f&#39;current vendor: {k}, mail_address: {v}&#39;)
+                k1 = &#39;\&#39;&#39; + k + &#39;\&#39;&#39;
+                _SQL = SQL%(&#39;vendor&#39;, k1)     # SELECT * FROM v_alarm_all WHERE vendor = &#39;中海达&#39;
+                email_split(SQL=_SQL, k=k, v=v)
+    else:       # city dimension
+        if not recv[&quot;city&quot;]:       # None
+            clog.logger.error(f&#39;city configuration for receiver is null, please check!!!&#39;)
+            errclog.logger.error(f&#39;city configuration for receiver is null, please check!!!&#39;)
+        else:
+            cur_recv = recv[&quot;city&quot;]
+            for k, v in cur_recv.items():   # city: address
+                # clog.logger.info(f&#39;\n{f}&#39;)
+                clog.logger.warning(&#39;~~~hahaha SMTP~~~&#39;)
+                clog.logger.info(f&#39;current city: {k}, mail_address: {v}&#39;)
+                k1 = &#39;\&#39;&#39; + k + &#39;\&#39;&#39;    # city: 上海市 -&gt; &#39;上海市&#39;
+                _SQL = SQL%(&#39;city&#39;, k1)     # SELECT * FROM v_alarm_all WHERE city = &#39;上海市&#39;
+                email_split(SQL=_SQL, k=k, v=v)
+except Exception as e:
+    errclog.logger.error(f&#39;{e}&#39;)</code></pre><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    mail_job(recv=receivers, dim=DIM)<br>    # mail_job(recv=receivers, dim=2)</p>
+<pre><code>
+---
+### 05. 配置文件
+* cfg_mail_app.py
 
-@lock_f(&#39;Y&#39;)
-def mail_job(recv, dim=1):
-    &quot;&quot;&quot;
-    :param recv:   &lt;class: dict&gt;
-    :param dim:   &lt;class: int&gt;
-                        2: vendor
-                        1: province
-                        0: city
-    :return:
-    &quot;&quot;&quot;
-
-    try:
-        if dim == 1:     # province dimension
-            if not recv[&quot;province&quot;]:   # None
-                clog.logger.error(f&#39;province configuration for receiver is null, please check!!!&#39;)
-                errclog.logger.error(f&#39;province configuration for receiver is null, please check!!!&#39;)
-            else:
-                cur_recv = recv[&quot;province&quot;]
-                for k, v in cur_recv.items():   # city: address
-                    # clog.logger.info(f&#39;\n{f}&#39;)
-                    clog.logger.warning(&#39;~~~hahaha SMTP~~~&#39;)
-                    clog.logger.info(f&#39;current province: {k}, mail_address: {v}&#39;)
-                    k1 = &#39;\&#39;&#39; + k + &#39;\&#39;&#39;    # city: 上海市 -&gt; &#39;上海市&#39;
-                    _SQL = SQL%(&#39;province&#39;, k1)     # SELECT * FROM v_alarm_all WHERE province = &#39;上海市&#39;
-                    email_split(SQL=_SQL, k=k, v=v)
-        elif dim == 2:
-            pass
-            if not recv[&quot;vendor&quot;]:   # None
-                clog.logger.error(f&#39;vendor configuration for receiver is null, please check!!!&#39;)
-                errclog.logger.error(f&#39;vendor configuration for receiver is null, please check!!!&#39;)
-            else:
-                cur_recv = recv[&quot;vendor&quot;]
-                for k, v in cur_recv.items():   # city: address
-                    # clog.logger.info(f&#39;\n{f}&#39;)
-                    clog.logger.warning(&#39;~~~hahaha SMTP~~~&#39;)
-                    clog.logger.info(f&#39;current vendor: {k}, mail_address: {v}&#39;)
-                    k1 = &#39;\&#39;&#39; + k + &#39;\&#39;&#39;
-                    _SQL = SQL%(&#39;vendor&#39;, k1)     # SELECT * FROM v_alarm_all WHERE vendor = &#39;中海达&#39;
-                    email_split(SQL=_SQL, k=k, v=v)
-        else:       # city dimension
-            if not recv[&quot;city&quot;]:       # None
-                clog.logger.error(f&#39;city configuration for receiver is null, please check!!!&#39;)
-                errclog.logger.error(f&#39;city configuration for receiver is null, please check!!!&#39;)
-            else:
-                cur_recv = recv[&quot;city&quot;]
-                for k, v in cur_recv.items():   # city: address
-                    # clog.logger.info(f&#39;\n{f}&#39;)
-                    clog.logger.warning(&#39;~~~hahaha SMTP~~~&#39;)
-                    clog.logger.info(f&#39;current city: {k}, mail_address: {v}&#39;)
-                    k1 = &#39;\&#39;&#39; + k + &#39;\&#39;&#39;    # city: 上海市 -&gt; &#39;上海市&#39;
-                    _SQL = SQL%(&#39;city&#39;, k1)     # SELECT * FROM v_alarm_all WHERE city = &#39;上海市&#39;
-                    email_split(SQL=_SQL, k=k, v=v)
-    except Exception as e:
-        errclog.logger.error(f&#39;{e}&#39;)
-
-
-if __name__ == &#39;__main__&#39;:
-    mail_job(recv=receivers, dim=DIM)
-    # mail_job(recv=receivers, dim=2)
-</code></pre>
-<ul>
-<li>cfg_mail_app.py</li>
-</ul>
-<pre><code class="python"># -*- coding:utf-8 -*-
+```python
+# -*- coding:utf-8 -*-
 # @Author: Shinnosuke
 # @Date: 20/7/17 10:54
 # @File: cfg_mail_app.py
@@ -835,8 +677,8 @@ pgsql_conn_prod = {
 
 # SQL
 SQL = f&quot;&quot;&quot;SELECT * FROM v_alarm_all WHERE %s = %s &quot;&quot;&quot;
-</code></pre>
-<ul>
+</code></pre><hr>
+<h3 id="06-function工具函数"><a href="#06-function工具函数" class="headerlink" title="06. function工具函数"></a>06. function工具函数</h3><ul>
 <li>func_f.py</li>
 </ul>
 <pre><code class="python"># -*- coding:utf-8 -*-

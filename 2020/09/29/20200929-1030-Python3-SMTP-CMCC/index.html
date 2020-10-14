@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    4k 字
+                    5.6k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      22 分钟
+                      32 分钟
                   </span>&nbsp;
                 
 
@@ -763,10 +763,10 @@ DIM = 1
 receivers_default = [&quot;###@cmsr.chinamobile.com&quot;]
 receivers = {
     &quot;province&quot;: {
-        # &quot;海南省&quot;: [&quot;yaohaimin@cmsr.chinamobile.com&quot;],
-        # &quot;福建省&quot;: [&quot;yaohaimin@cmsr.chinamobile.com&quot;],          # 1
-        # &quot;黑龙江省&quot;: [&quot;zuojia@cmsr.chinamobile.com&quot;],
-        # &quot;广西壮族自治区&quot;: [&quot;zuojia@cmsr.chinamobile.com&quot;],     # 2
+        # &quot;海南省&quot;: [&quot;###@cmsr.chinamobile.com&quot;],
+        # &quot;福建省&quot;: [&quot;###@cmsr.chinamobile.com&quot;],          # 1
+        # &quot;黑龙江省&quot;: [&quot;###@cmsr.chinamobile.com&quot;],
+        # &quot;广西壮族自治区&quot;: [&quot;###@cmsr.chinamobile.com&quot;],     # 2
         &quot;浙江省&quot;: [&quot;717648387@qq.com&quot;],
         &quot;上海市&quot;: [&quot;717648387@qq.com&quot;],       # 3
         &quot;河北省&quot;: [&quot;717648387@qq.com&quot;],
@@ -796,9 +796,9 @@ receivers = {
         &quot;山东省&quot;: [&quot;717648387@qq.com&quot;],           # 17
     },
     &quot;city&quot;: {
-        &quot;乐山市&quot;: [&quot;D@qq.com&quot;],                  # 地市维度
-        &quot;凉山彝族自治州&quot;: [&quot;E@qq.com&quot;],
-        &quot;上饶市&quot;: [&quot;F@qq.com&quot;],
+        &quot;乐山市&quot;: [&quot;###@qq.com&quot;],                  # 地市维度
+        &quot;凉山彝族自治州&quot;: [&quot;###@qq.com&quot;],
+        &quot;上饶市&quot;: [&quot;###@qq.com&quot;],
     },
     &quot;vendor&quot;: {
         &quot;司南&quot;: [&quot;###@163.com&quot;],
@@ -835,6 +835,307 @@ pgsql_conn_prod = {
 
 # SQL
 SQL = f&quot;&quot;&quot;SELECT * FROM v_alarm_all WHERE %s = %s &quot;&quot;&quot;
+</code></pre>
+<ul>
+<li>func_f.py</li>
+</ul>
+<pre><code class="python"># -*- coding:utf-8 -*-
+# @Author: Shin
+# @Date: 20/7/23 15:19
+# @File: func_f.py
+
+
+import datetime
+import os
+import re
+import shutil
+import logging
+from logging import handlers
+from sys import exc_info
+# from time import sleep
+
+
+# Self Repo
+
+
+def date_f(daysdelta=0, hoursdelta=0):
+    &quot;&quot;&quot;
+    :param timedelta: Day Intervals
+    :param hoursdelta: Hour Intervals
+    :return: date &lt;class:tuple&gt;
+            Ex: (&#39;20191205&#39;, &#39;2019120522&#39;, &#39;20191205 22:40:51&#39;,
+                 {&#39;year&#39;: &#39;2019&#39;, &#39;month&#39;: &#39;12&#39;, &#39;day&#39;: &#39;05&#39;, &#39;hour&#39;: &#39;22&#39;}, &#39;src.func_demo.func_f&#39;)
+    &quot;&quot;&quot;
+    date_str = (datetime.datetime.now() + datetime.timedelta(days=daysdelta, hours=hoursdelta)).strftime(&#39;%Y%m%d&#39;)
+    date_str_h = (datetime.datetime.now() + datetime.timedelta(days=daysdelta, hours=hoursdelta)).strftime(&#39;%Y%m%d%H&#39;)
+    date_str_mi = (datetime.datetime.now() + datetime.timedelta(days=daysdelta, hours=hoursdelta)).strftime(&#39;%Y%m%d_%H%M&#39;)
+    date_str_s = (datetime.datetime.now() + datetime.timedelta(days=daysdelta, hours=hoursdelta)).strftime(&#39;%Y%m%d %H:%M:%S&#39;)
+
+    # 各维度时间戳段拆分
+    year = (datetime.datetime.now() + datetime.timedelta(days=daysdelta, hours=hoursdelta)).strftime(&#39;%Y&#39;)
+    month = (datetime.datetime.now() + datetime.timedelta(days=daysdelta, hours=hoursdelta)).strftime(&#39;%m&#39;)
+    day = (datetime.datetime.now() + datetime.timedelta(days=daysdelta, hours=hoursdelta)).strftime(&#39;%d&#39;)
+    hour = (datetime.datetime.now() + datetime.timedelta(days=daysdelta, hours=hoursdelta)).strftime(&#39;%H&#39;)
+    minute = (datetime.datetime.now() + datetime.timedelta(days=daysdelta, hours=hoursdelta)).strftime(&#39;%M&#39;)
+    date_dict = dict(year=year, month=month, day=day, hour=hour, minute=minute)
+
+    # 所有已知时间格式组合
+    date = (date_str, date_str_h, date_str_mi, date_str_s, date_dict, __name__)
+    return date
+
+
+def callback(funcname, *args, **kwargs):
+    &quot;&quot;&quot;
+    :param funcname:    name for function
+    :param args:
+    :param kwargs:
+    :return:            None: judgement for function operation results
+    &quot;&quot;&quot;
+    try:
+        result = funcname(*args, **kwargs)
+        if not result:
+            selflog.logger.info(f&#39;Execute successfully: &lt;{funcname.__name__}&gt;&#39;)
+        else:
+            selflog.logger.info(f&#39;Callback: &lt;{funcname.__name__}&gt; return {result}.\n&#39;)
+            return result
+    except Exception as e:
+        errselflog.logger.error(f&#39;{e}\n&#39;)
+
+
+def file_mkdir(path, dir):
+    &quot;&quot;&quot;
+    :param path:    Target file path    Ex: r&#39;D:\Hadoop\PyFloder\bokeh_test\src\data&#39;
+    :param dir:     Target dir name     Ex: 20200412
+    :return:        0: regular
+                    1: exception
+                    2: redundant
+    &quot;&quot;&quot;
+    try:
+        for rw in os.walk(path):
+            for rs in rw:
+                if len(rs) &gt; 0 and rs == rw[1]:  # 跳过文件夹名列表，os.walk会直接遍历所有子文件夹
+                    try:
+                        if dir not in rw[1]:
+                            clog.logger.info(f&#39;Directory {dir} not existed, generated.&#39;)
+                            os.chdir(path)
+                            os.mkdir(dir)
+                            return 0
+                        else:
+                            clog.logger.info(f&#39;Directory already existed: {path}/{dir}&#39;)
+                            return 2
+                    except FileExistsError as e:
+                        clog.logger.error(f&#39;Directory generated error: {e}&#39;)
+                        errclog.logger.error(f&#39;Directory generated error: {e}&#39;)
+                        continue
+                else:
+                    continue
+    except Exception as e:
+        errclog.logger.error(f&#39;{e}&#39;)
+        return 1
+
+
+def file_rm_dir(path, pattern):
+    &quot;&quot;&quot;
+    :param path:        path contained the directory needed to be droped.
+    :param pattern:     pattern expression
+    :return:            0: regular
+                        1: exception
+    &quot;&quot;&quot;
+    # try:
+    #     for rw in os.walk(path):
+    #         for rs in rw:
+    #             if len(rs) &lt; 1:
+    #                 continue
+    #             elif isinstance(rs, str):
+    #                 # clog.logger.info(f&#39;Current path: {rs}&#39;)
+    #                 p = re.compile(pattern=pattern)
+    #                 match_result = &#39;&#39;.join(p.findall(rs))   # &lt;class &#39;list&#39;&gt; ---&gt; &lt;class &#39;str&#39;&gt;
+    #                 if match_result:
+    #                     # os.chdir(path)
+    #                     shutil.rmtree(match_result)
+    #                     clog.logger.info(f&#39;Path dropped: {match_result}&#39;)
+    #             elif isinstance(rs, list):
+    #                 pass
+    #
+    # except Exception as e:
+    #     errlog.logger.error(f&#39;{e}&#39;)
+    try:
+        for rs, _, _ in os.walk(path):
+            p = re.compile(pattern=pattern)
+            match_result = &#39;&#39;.join(p.findall(rs))   # &lt;class &#39;list&#39;&gt; ---&gt; &lt;class &#39;str&#39;&gt;
+            if match_result:
+                shutil.rmtree(match_result)
+                clog.logger.info(f&#39;Path has been dropped: {match_result}&#39;)
+            else:
+                clog.logger.info(f&#39;Targer path not existed in {rs}&#39;)
+        return 0
+    except Exception as e:
+        errclog.logger.error(f&#39;{e}&#39;)
+        return 1
+
+
+def file_rm_file(path, pattern):
+    &quot;&quot;&quot;
+    :param path:        path contained the files needed to be droped.
+    :param pattern:     pattern expression
+    :return:            match_result &lt;class list&gt;: regular
+                        1: no match
+                        2: exception
+    &quot;&quot;&quot;
+    try:
+        match_result = []
+        for _, _, file in os.walk(path):
+            for rs in file:
+                p = re.compile(pattern=pattern)
+                # print(rs, p.findall(rs))
+                result = p.findall(rs)  # class list
+                if result:
+                    # print(f&quot;{path}/{&#39;&#39;.join(result)}&quot;)
+                    match_result.append(f&quot;{path}/{&#39;&#39;.join(result)}&quot;)
+                else:
+                    continue
+                    # del result
+            # print(match_result)
+            if match_result:
+                for rm in match_result:
+                    selflog.logger.info(f&#39;{rm}&#39;)
+                    os.remove(rm)
+                # clog.logger.info(f&#39;Match results droped: {match_result}&#39;)
+                return 0
+            else:
+                selflog.logger.info(f&#39;Nothing matched.&#39;)
+                return 1
+    except Exception as e:
+        errselflog.logger.error(f&#39;{e}&#39;)
+        return 2
+
+
+def file_copy(src, dst, flag):
+    &quot;&quot;&quot;
+    :param src:         src(including file name)
+    :param dst:         destination(path name)
+    :param flag:        f: file
+                        d: directory
+    :return:            0: regular
+                        1: I/O error
+                        2: exception
+    &quot;&quot;&quot;
+    try:
+        if flag == &#39;f&#39;: # file type
+            shutil.copy(src, dst)
+            clog.logger.info(f&#39;File copy done. {src} -&gt; {dst}&#39;)
+            return 0
+        else:   # path type
+            shutil.copytree(src, dst)
+            clog.logger.info(f&#39;Path copy done. {src} -&gt; {dst}&#39;)
+    except IOError as e:
+        errclog.logger.info(f&#39;Unable to copy file. {e}&#39;)   # print(&#39;Unable to copy file. %s&#39; % e)
+        return 1
+    except:
+        errclog.logger.error(f&#39;Unexpected errors. {exc_info()}&#39;)
+        return 2
+
+
+def re_match(list_input, re_pattern):
+    &quot;&quot;&quot;
+    :param list_input:  &lt;class: list&gt;
+    :param re_pattern:  RE
+    :return:            返回正则匹配结果集 re.compile(re_pattern).findall() &lt;class: list&gt;
+                        1: exception
+    &quot;&quot;&quot;
+    clog.logger.info(f&#39;***RE***&#39;)
+    try:
+        p = re.compile(re_pattern)
+        match_result = [rs for rs in list_input if p.findall(rs)]  # 别忘了，findall返回的是 &lt;class &#39;list&#39;&gt;
+        clog.logger.info(f&#39;{match_result}&#39;)
+        return match_result
+
+    except Exception as e:
+        errclog.logger.error(f&#39;{e}&#39;)
+        return 1
+
+
+class Logger(object):
+    # 日志级别关系映射，这种定义类的变量x，并使用self.x运用于类方法内，还是第一次见    ---&gt;
+    level_relations = {
+        &#39;debug&#39;: logging.DEBUG,
+        &#39;info&#39;: logging.INFO,
+        &#39;warning&#39;: logging.WARNING,
+        &#39;error&#39;: logging.ERROR,
+        &#39;critical&#39;: logging.CRITICAL
+    }
+
+    def __init__(self, filename, level=&#39;warning&#39;, when=&#39;D&#39;, backup_count=7, interval=1,
+                 fmt=&#39;%(asctime)s %(module)s.%(funcName)s -&gt; %(threadName)s -&gt; [line:%(lineno)d][%(levelname)s] ⬇⬇⬇\n&#39;
+                     &#39;%(asctime)s ⬆⬆⬆ [%(levelname)s]: %(message)s&#39;):
+        &quot;&quot;&quot;
+        :param filename:        log file name with absolute path
+        :param level:           log level:  debug/info/warning/error/critical
+        :param when:            interval unit:
+                                S - Seconds
+                                M - Minutes
+                                H - Hours
+                                D - Days
+                                midnight - roll over at midnight
+                                W{0-6} - roll over on a certain day; 0 - Monday
+        :param backup_count:    interval backup num
+        :param interval:        interval value with @param when
+        :param fmt:             formation
+        &quot;&quot;&quot;
+
+        # 1.最低级别logging对象设置
+        self.logger = logging.getLogger(filename)
+        self.format_str = logging.Formatter(fmt, datefmt=&#39;%Y-%m-%d %H:%M:%S&#39;) # 设置日志格式
+        self.logger.setLevel(self.level_relations.get(level))   # 设置日志级别    &lt;---
+
+        # 2.声明不同类型的Handler对象：sh &amp; th
+        sh = logging.StreamHandler()  # 控制台流式输出
+        sh.setFormatter(self.format_str)   # 设置屏幕上显示的格式
+        # logging.handlers.RotatingFileHandler  # 按大小切分
+        # logging.FileHandler # 文件输出
+
+        # 声明间隔时间自动生成文件的对象
+        th = handlers.TimedRotatingFileHandler(filename=filename,
+                                               when=when,                   # 间隔的时间单位: S/M/H/D/W/midnight
+                                               backupCount=backup_count,    # 冗余备份文件数
+                                               encoding=&#39;utf-8&#39;,
+                                               interval=interval,           # 时间间隔
+                                               delay=True                   # Flask线程问题，需开启读写时延
+                                               )    # 文件写入
+        th.setFormatter(self.format_str)    # 设置文件写入格式
+
+        # 3.从对象处理器内添加
+        self.logger.addHandler(sh)          # 把对象加到logger里
+        self.logger.addHandler(th)
+        # self.logger.removeHandler(sh)
+
+    # def test(self):
+    #     print(self.level_relations)
+
+    def err_log_test(self):
+        print(1 + &#39;_2&#39;)
+
+
+current_path = f&#39;./logs/&#39;
+clog = Logger(filename=current_path + f&#39;all_bokeh.log&#39;, level=&#39;info&#39;, when=&#39;D&#39;,
+              fmt=&#39;%(asctime)s %(module)s.%(funcName)s -&gt; %(threadName)s -&gt; [line:%(lineno)d][%(levelname)s]: %(message)s&#39;)
+
+errclog = Logger(filename=current_path + f&#39;err_bokeh.log&#39;, level=&#39;error&#39;, when=&#39;D&#39;,
+                 fmt=&#39;%(asctime)s %(module)s.%(funcName)s -&gt; %(threadName)s -&gt; [line:%(lineno)d][%(levelname)s]: %(message)s&#39;)
+
+selflog = Logger(filename=current_path + f&#39;func_log.log&#39;, level=&#39;info&#39;, when=&#39;H&#39;,
+                 fmt=&#39;%(asctime)s %(module)s.%(funcName)s -&gt; %(threadName)s -&gt; [line:%(lineno)d][%(levelname)s]: %(message)s&#39;)
+
+errselflog = Logger(filename=current_path + f&#39;func_err.log&#39;, level=&#39;info&#39;, when=&#39;H&#39;,
+                    fmt=&#39;%(asctime)s %(module)s.%(funcName)s -&gt; %(threadName)s -&gt; [line:%(lineno)d][%(levelname)s]: %(message)s&#39;)
+
+# if __name__ == &#39;__main__&#39;:
+#     from time import time, sleep
+#
+#     dt_start = int(time())
+#     for rs in os.walk(&#39;D:\Hadoop\PyFloder\kafka_test\src&#39;):
+#         print(rs)
+#     print(f&#39;consume: {int(time()) - dt_start}s&#39;)
 </code></pre>
 
             <hr>
